@@ -151,6 +151,79 @@ or send them to
 <li>others?</li>
 </ul>
 </section>
+
+<section>
+<h2>Example</h2>
+
+<pre class="example nohighlight" title="Example curl call to a DID resolver">
+curl -X GET https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8pw
+</pre>
+
+<pre class="example nohighlight" title="Example response from a DID resolver">
+{
+	"didReference": {
+		"didReference": "did:sov:WRfXPg8dantKVubE3HX8pw",
+		"did": "did:sov:WRfXPg8dantKVubE3HX8pw",
+		"method": "sov",
+		"specificId": "WRfXPg8dantKVubE3HX8pw",
+		"service": null,
+		"path": null,
+		"query": null,
+		"fragment": null
+	},
+	"didDocument": {
+		"id": "did:sov:WRfXPg8dantKVubE3HX8pw",
+		"service": {
+			"type": "xdi",
+			"serviceEndpoint": "http://127.0.0.1:8080/xdi"
+		},
+		"authentication": {
+			"type": "Ed25519SignatureAuthentication2018",
+			"publicKey": ["did:sov:WRfXPg8dantKVubE3HX8pw#key-1"]
+		},
+		"publicKey": [{
+			"id": "did:sov:WRfXPg8dantKVubE3HX8pw#key-1",
+			"type": "Ed25519VerificationKey2018",
+			"publicKeyBase58": "H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV"
+		}],
+		"@context": "https://w3id.org/did/v1"
+	},
+	"methodMetadata": {
+		"nymResponse": {
+			"result": {
+				"data": "{\"dest\":\"WRfXPg8dantKVubE3HX8pw\",\"identifier\":\"V4SGRU86Z58d6TV7PBUe6f\",\"role\":\"0\",\"seqNo\":11,\"txnTime\":1524055264,\"verkey\":\"H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV\"}",
+				"type": "105",
+				"txnTime": 1.524055264E9,
+				"seqNo": 11.0,
+				"reqId": 1.52725687080231475E18,
+				"identifier": "HixkhyA4dXGz9yxmLQC4PU",
+				"dest": "WRfXPg8dantKVubE3HX8pw"
+			},
+			"op": "REPLY"
+		},
+		"attrResponse": {
+			"result": {
+				"identifier": "HixkhyA4dXGz9yxmLQC4PU",
+				"seqNo": 12.0,
+				"raw": "endpoint",
+				"dest": "WRfXPg8dantKVubE3HX8pw",
+				"data": "{\"endpoint\":{\"xdi\":\"http://127.0.0.1:8080/xdi\"}}",
+				"txnTime": 1.524055265E9,
+				"type": "104",
+				"reqId": 1.52725687092557056E18
+			},
+			"op": "REPLY"
+		}
+	},
+	"resolverMetadata": {
+		"driverId": "did:sov",
+		"driver": "HttpDriver",
+		"retrieved": "2018-01-01T19:73:24Z",
+		"duration": 1015
+	}
+}
+</pre>
+</section>
 </section>
 
 <section class="appendix">
