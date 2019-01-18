@@ -126,66 +126,323 @@ resolution process.
     </section>
 
 <section>
-<h1>Existing Work</h1>
-
-<ol>
-<li><a href="https://w3c-ccg.github.io/did-spec/#did-resolvers">DID Resolvers in DID spec</a></li>
-<li><a href="https://github.com/decentralized-identity/universal-resolver/blob/master/docs/design-goals.md">Universal Resolver - Design Goals</a></li>
-<li><a href="https://github.com/decentralized-identity/universal-resolver/blob/master/docs/api-definition.md">Universal Resolver - API Definition</a></li>
-<li><a href="https://github.com/decentralized-identity/universal-resolver/blob/master/docs/architecture-drivers.md">Universal Resolver - Architecture and Drivers</a></li>
-<li><a href="https://github.com/digitalbazaar/did-client">did-client</a></li>
-<li><a href="https://github.com/uport-project/uport-did-resolver">uPort DID Resolver</a></li>
-</ol>
-
-</section>
-
-<section>
 <h1>Introduction</h1>
 
-<section>
-<h2>Topics</h2>
+	<p>DID Resolution is the process of obtaining a DID Document for a given DID. This is one of four required operations
+	a client can perform on any DID ("Read/Resolve"; the other ones being "Create", "Update", and "Delete/Revoke").
+	A client that is able to perform this operation is called a DID Resolver. This specification defines common
+	requirements, input parameters and output data, architectural options, and various considerations for the
+	DID Resolution process.</p>
 
-<ul>
-<li>DID resolver interface definition (input, output)</li>
-<li>HTTP interface binding</li>
-<li>DID resolver metadata</li>
-<li>Validating DIDs and DID documents</li>
-<li>Implementation considerations (e.g. full nodes vs light clients, etc.)</li>
-<li>Versioning and caching</li>
-<li>Security and privacy concerns</li>
-<li>others?</li>
-</ul>
+	<p>DID Resolution does not involve any authentication or authorization functionality. Anybody can perform the process,
+	without requiring any credentials or non-public knowledge.</p>
+
+	<p>Note that while some base-level functionality for DID Resolution can be defined, the actual steps required to
+	communicate with a DID's target system are defined by the applicable DID method specification and can vary
+	considerable between DID methods. For example, no assumption should be made that:</p>
+
+	<ul>
+	<li>... an actual DID Document is stored in plain-text on a DID's target system. While some DID methods may do this and
+	support DID Resolution by simply downloading a DID Document over HTTP(S) or other protocols, other DID methods may
+	define more complex multi-step procedures that involve on-the-fly construction of a DID Document.</li>
+	<li>... an immutable blockchain is used as (part of) the DID's target system.</li>
+	<li>... interaction with a remote network is required during the DID Resolution process.</li>
+	</ul>
+
+</section>
+
+<section id="did-resolution-architectures">
+	<h1>DID Resolution Architectures</h1>
+	<p class="issue">TODO: Describe how DID Resolvers are implemented and used, describe the concept of drivers.</p>
+
+	<section id="did-resolver-architectures">
+		<h2>DID Resolver Architectures</h1>
+		<p class="issue">TODO: Describe local DID Resolvers vs. remote DID Resolvers, and trade-offs.</p>
+		<p class="issue">TODO: Discuss DID Resolution in constrained user agents such as mobile apps and browsers.</p>
+
+	</section>
+
+	<section id="did-driver-architectures">
+		<h2>Driver Architectures</h2>
+		<p class="issue">TODO: Describe full nodes vs. light clients, blockchain explorers, state proofs, etc.</p>
+
+	</section>
+
 </section>
 
 <section>
-<h2>Out of Scope</h2>
+	<h1>Input Parameters</h1>
+	<p class="issue">TODO: Describe DID Resolution input parameters, besides just DID (reference).</p>
 
-<ul>
-<li>DID registration</li>
-<li>Authentication or authorization</li>
-<li>others?</li>
-</ul>
+	<section id="input-didreference">
+		<h2>DID Reference</h2>
+		<p>A <a href="https://w3c-ccg.github.io/did-spec/#the-generic-did-scheme">DID Reference</a> according to
+		the DID specification is the primary (and only required) input parameter to the DID Resolution process:</p>
+		<pre class="nohighlight">
+did-reference      = did [";" did-service ] [ "/" did-path ] ["?" did-query ] [ "#" did-fragment ]
+</pre>
+		<p>For the purpose of the DID Resolution process, it is called the <dfn>input DID Reference</dfn>. Its
+		DID part is called the <dfn>input DID</dfn>.</p>
+
+		<p class="issue">
+		The syntax of a DID Reference is still <a href="https://github.com/w3c-ccg/did-spec/issues/90">
+		under discussion</a>, including how parameters such as service name and service type are specified.
+		</p>
+
+	</section>
+
+	<section id="input-servicetype">
+		<h2><code>serviceType</code></h2>
+		<p>(OPTIONAL) The <code>serviceType</code> input parameter can be supplied by a client to select a specific
+		service from the DID Document.</p>
+		<p>See Section <a href="#service-selection"></a>.</p>
+
+	</section>
+
+	<section id="input-version">
+		<h2><code>version</code></h2>
+		<p>(OPTIONAL) The <code>version</code> input parameter can be supplied by a client to retrieve a specific
+		version of a DID Document.</p>
+		<p>See Section <a href="#versioning"></a>.</p>
+		<p class="issue">Decide the format of version identifiers (method-specific? could be sequential number, UUID, etc.).</p> 
+		<p class="issue">There can also be a timestamp input parameter that requests a version of the DID Document at a given time.</p>
+
+	</section>
+
+	<section id="input-cache">
+		<h2><code>cache</code></h2>
+		<p>(OPTIONAL) The <code>cache</code> input parameter can be supplied by a client as a hint to 
+		instruct what kind of caching behavior is requested/acceptable by the client.</p>
+		<p>See Section <a href="#caching"></a>.</p>
+
+	</section>
+
+	<section id="input-followredirect">
+		<h2><code>followRedirect</code></h2>
+		<p>(OPTIONAL) The <code>followRedirect</code> input parameter can be supplied by a client as a hint to 
+		instruct whether redirects should be followed.</p>
+		<p>See Section <a href="#redirects"></a>.</p>
+
+	</section>
+
 </section>
 
 <section>
-<h2>Example</h2>
+	<h1>Output Data</h1>
+	<p class="issue">TODO: Describe DID Resolution output data, besides just DID Document.</p>
 
-<pre class="example nohighlight" title="Example curl call to a DID resolver">
+	<section id="output-diddocument">
+		<h2>DID Document</h2>
+		<p>The DID Document associated with the DID, as defined by the DID specification, retrieved according
+		to the applicable DID method specification.</p>
+		<p>If input parameters of the DID Resolution process lead to a certain part of the DID Document being
+		selected (e.g. <a href="#service-selection">service selection</a> by name or type), then only that part of
+		the DID Document is returned.</p>
+		<p class="issue">Need to define how that works exactly, and whether the original DID Document may still
+		be returned, alongside the selected part.</p>
+		<p class="issue">Several ways of selecting parts of a DID Document are being discussed, including the use
+		of the <a href="https://w3c-ccg.github.io/did-spec/#fragments">DID fragment</a> or 
+		<a href="https://github.com/w3c-ccg/did-spec/pull/107/files">JSON pointer</a> to locate a certain resource
+		in the DID Document.</p>
+
+	</section>
+
+	<section id="output-resolvermetadata">
+		<h2>Resolver Metadata</h2>
+		<p class="issue">TODO: Describe DID Resolution metadata that is not method-specific, e.g.:</p>
+		<ul>
+		<li>Duration of the DID Resolution process.</li>
+		<li>Versioning information about the DID Document (see Section <a href="#versioning"></a>).</li>
+		<li>Caching information about the DID Document (see Section <a href="#caching"></a>).</li>
+		</ul>
+
+	</section>
+
+	<section id="output-methodmetadata">
+		<h2>Method Metadata</h2>
+		<p class="issue">TODO: Describe DID Resolution metadata that is method-specific, e.g.:</p>
+		<ul>
+		<li>State proofs from the target system.</li>
+		<li>Block number, index, transaction hash, number of confirmations, etc. of a record in the blockchain or other target system.</li>
+		<li>Various URLs, IP addresses or other network information that was used during the DID Resolution process.</li>
+		</ul>
+
+	</section>
+
+	<p class="issue">For certain data, it may be debatable whether it should be part of the DID Document
+	(i.e. data that describes the DID Subject), or whether it is metadata (i.e. data about the DID Document or about
+	the DID Resolution process). For example the URL of the "Continuation DID Document" in the BTCR method.
+	</p>
+	
+	<p class="issue"> Should we include metadata in a special place inside the DID Document, or should we
+	define a higher-level data structure that includes both the DID Document and the DID Resolution metadata
+	separately?
+	</p>
+
+</section>
+
+<section>
+	<h1>HTTP Binding</h1>
+	<p>A <a href="#did-resolver-architectures">remote DID Resolver</a> exposes the DID Resolution process (including all input parameters and output data) via an HTTP endpoint.</p>
+	<p class="issue">TODO: Describe HTTP binding for DID Resolution process.</p>
+	<p class="issue">TODO: How are DID Resolution input parameters passed via HTTP (query string? HTTP headers?).</p>
+	<p class="issue">TODO: How is the output data (DID Document, metadata) returned via HTTP.</p>
+
+</section>
+
+<section id="did-resolution-process">
+	<h1>The DID Resolution Process</h1>
+
+<section id="document-retrieval">
+	<h2>DID Document Retrieval</h2>
+	<p>The DID Document is retrieved from the target system according to the applicable DID method specification.</p>
+
+</section>
+
+<section id="document-validation">
+	<h2>DID Document Validation</h2>
+	<p class="issue">TODO.</p>
+
+</section>
+
+<section id="service-selection">
+	<h2>Service Selection</h2>
+	<p class="issue">TODO.</p>
+
+	<section>
+		<h2>By Name</h2>
+		<p class="issue">TODO.</p>
+
+	</section>
+
+	<section>
+		<h2>By Type</h2>
+		<p class="issue">TODO.</p>
+
+	</section>
+
+</section>
+
+<section id="redirects">
+	<h2>Redirects</h2>
+	<p>A <a href="https://w3c-ccg.github.io/did-spec/#dfn-service-endpoints">service endpoint</a> may itself
+	be a DID. This is interpreted as a "DID redirect" from the input DID to another. In this case, a nested "child"
+	DID Resolution can be launched to get to a "final" service endpoint.</p>
+
+	<p class="issue" data-number="7">The exact semantics and logic of DID redirects are still being discussed.
+	</p>
+
+	<pre class="example nohighlight">
+{
+   "id": "did:example:123456789abcdefghi;hub1",
+   "type": "HubService",
+   "serviceEndpoint": "did:example:xyz"
+}
+</pre>
+
+</section>
+
+<section id="final-endpoint-construction">
+	<h2>Final Endpoint Construction</h2>
+	<p>If a certain service endpoint is <a href="#service-selection">selected</a>, then a final service endpoint may
+	be constructed during the DID Resolution process, using the input DID reference and selected service endpoint.</p>
+
+	<h3>Example</h3>
+	<p>Given the following (partial) DID Document:<p>
+	<pre class="example nohighlight">
+{
+  "service": [{
+    "id": "did:example:123456789abcdefghi;agent",
+    "type": "AgentService",
+    "serviceEndpoint": "https://agent.example.com/8377464"
+  }, {
+    "id": "did:example:123456789abcdefghi;hub",
+    "type": "HubService",
+    "serviceEndpoint": "https://hub.example.com/.identity/did:example:0123456789abcdef/"
+  }, {
+    "id": "did:example:123456789abcdefghi;messages",
+    "type": "MessagingService",
+    "serviceEndpoint": "https://example.com/messages/8377464"
+  }]
+}
+</pre>
+	<p>And given the following input DID Reference:</p>
+	<pre class="example nohighlight">
+did:example:123456789abcdefghi;agent/some/path?query#frag
+</pre>
+	<p>The final service endpoint is:</p>
+	<pre class="example nohighlight">
+https://agent.example.com/8377464/some/path?query#frag
+</pre>
+
+</section>
+
+</section>
+
+<section id="caching">
+	<h1>Caching</h1>
+	<p>A DID Resolver may maintain a generic cache of DID Documents. It may also maintain caches specific
+	to certain DID methods.</p>
+	<p>Caching behavior can be controlled by configuration of the DID Resolver,
+	by the <a href="#input-cache"><code>cache</code></a> input parameter, or by contents of the DID Document
+	(e.g. a "time-to-live" field), or by a combination of these options.</p>
+	<p class="issue">TODO.</p>
+	<p class="issue" data-number="10">There is discussion on whether there should be a TTL construct.
+	</p>
+
+</section>
+
+<section id="versioning">
+	<h1>Versioning</h1>
+	<p>If a <code>version</code> input parameter is provided, the DID Resolution process returns the DID Document
+	with a certain version identifier.</p>
+	<p>A DID Document MAY contain a version identifier that changes with each 
+	<a href="https://w3c-ccg.github.io/did-spec/#update">Update</a>f operation that is performed
+	on a DID.</p>
+	<p class="issue">TODO.</p>
+	<p class="note">While all DID methods MUST support the <a href="https://w3c-ccg.github.io/did-spec/#update">Update</a>
+	operation, there is no requirement for DID methods to keep all previous DID Document versions, therefore
+	versioning is a method-specific feature.
+	</p>
+
+</section>
+
+<section id="revocation">
+	<h1>Revocation</h1>
+	<p class="issue" data-number="5">There is discussion how a DID that has been
+	<a href="https://w3c-ccg.github.io/did-spec/#delete-revoke">revoked</a> should be treated during the DID Resolution
+	process.</p>
+
+</section>
+
+<section id="non-did-identifiers">
+	<h1>Non-DID Identifiers</h1>
+	<p class="issue" data-number="8">There is discussion on the relationship between DID Resolution and
+	resolution of non-DID identifiers such as domain names or e-mail addresses.</p>
+
+</section>
+
+<section id="security-privacy-considerations">
+	<h1>Security and Privacy Considerations</h1>
+	<p class="issue">TODO.</p>
+
+<section id="did-method-governance">
+	<h1>DID Method Governance</h1>
+	<p class="issue" data-number="6">Describe which methods a DID Resolver should support, and potential implications.</p>
+
+</section>
+
+</section>
+
+<section class="appendix">
+<h1>Example</h1>
+
+<pre class="example nohighlight" title="Example curl call to a DID Resolver">
 curl -X GET https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8pw
 </pre>
 
-<pre class="example nohighlight" title="Example response from a DID resolver">
+<pre class="example nohighlight" title="Example response from a DID Desolver">
 {
-	"didReference": {
-		"didReference": "did:sov:WRfXPg8dantKVubE3HX8pw",
-		"did": "did:sov:WRfXPg8dantKVubE3HX8pw",
-		"method": "sov",
-		"specificId": "WRfXPg8dantKVubE3HX8pw",
-		"service": null,
-		"path": null,
-		"query": null,
-		"fragment": null
-	},
 	"didDocument": {
 		"id": "did:sov:WRfXPg8dantKVubE3HX8pw",
 		"service": {
@@ -234,19 +491,33 @@ curl -X GET https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8p
 		"driverId": "did:sov",
 		"driver": "HttpDriver",
 		"retrieved": "2018-01-01T19:73:24Z",
-		"duration": 1015
+		"duration": 1015,
+		"didReference": {
+			"didReference": "did:sov:WRfXPg8dantKVubE3HX8pw",
+			"did": "did:sov:WRfXPg8dantKVubE3HX8pw",
+			"method": "sov",
+			"specificId": "WRfXPg8dantKVubE3HX8pw",
+			"service": null,
+			"path": null,
+			"query": null,
+			"fragment": null
+		}
 	}
 }
 </pre>
 </section>
-</section>
 
 <section class="appendix">
-<h1>Appendix</h1>
+<h1>DID Resolution Resources</h1>
 
-<p>
-This is an appendix.
-</p>
+	<ol>
+	<li><a href="https://w3c-ccg.github.io/did-spec/#did-resolvers">DID Resolvers in DID spec</a></li>
+	<li><a href="https://github.com/decentralized-identity/universal-resolver/blob/master/docs/design-goals.md">Universal Resolver - Design Goals</a></li>
+	<li><a href="https://github.com/decentralized-identity/universal-resolver/blob/master/docs/api-definition.md">Universal Resolver - API Definition</a></li>
+	<li><a href="https://github.com/decentralized-identity/universal-resolver/blob/master/docs/architecture-drivers.md">Universal Resolver - Architecture and Drivers</a></li>
+	<li><a href="https://github.com/digitalbazaar/did-client">did-client</a></li>
+	<li><a href="https://github.com/uport-project/uport-did-resolver">uPort DID Resolver</a></li>
+	</ol>
 
 </section>
 
