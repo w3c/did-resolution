@@ -200,6 +200,16 @@ did-reference      = did [";" did-service ] [ "/" did-path ] ["?" did-query ] [ 
 
 	</section>
 
+	<section id="input-resulttype">
+		<h2><code>resultType</code></h2>
+		<p>(OPTIONAL) The <code>resultType</code> input parameter can be supplied by a client to request a certain
+		type of result, e.g. full "DID Resolution Result" or just "DID Document".</p>
+		<p>See Section <a href="#output-didresolutionresult"></a> and <a href="#output-diddocument"></a>.</p>
+		<p class="issue">Discuss if this is what we want, what the values of the parameter could be, and what it
+		means for certain bindings (such as HTTP).</p>
+
+	</section>
+
 	<section id="input-servicetype">
 		<h2><code>serviceType</code></h2>
 		<p>(OPTIONAL) The <code>serviceType</code> input parameter can be supplied by a client to select a specific
@@ -241,10 +251,22 @@ did-reference      = did [";" did-service ] [ "/" did-path ] ["?" did-query ] [ 
 	<h1>Output Data</h1>
 	<p class="issue">TODO: Describe DID Resolution output data, besides just DID Document.</p>
 
+	<section id="output-didresolutionresult">
+		<h2>DID Resolution Result</h2>
+		<p>The result of DID Resolution, containing the DID Document as well as metadata about the DID
+		Document and the resolution process.</p>
+
+	<p class="issue"> Should we define such a higher-level data structure that includes both the
+	DID Document and the DID Resolution metadata separately?
+	</p>
+
+	</section>
+
 	<section id="output-diddocument">
 		<h2>DID Document</h2>
-		<p>The DID Document associated with the DID, as defined by the DID specification, retrieved according
-		to the applicable DID method specification.</p>
+		<p>The DID Document associated with the DID, <a href="https://w3c-ccg.github.io/did-spec/#did-documents">as
+		defined by the DID specification</a>, retrieved according
+		to the applicable <a href="https://w3c-ccg.github.io/did-spec/#did-methods">DID method specification</a>.</p>
 		<p>If input parameters of the DID Resolution process lead to a certain part of the DID Document being
 		selected (e.g. <a href="#service-selection">service selection</a> by name or type), then only that part of
 		the DID Document is returned.</p>
@@ -282,11 +304,6 @@ did-reference      = did [";" did-service ] [ "/" did-path ] ["?" did-query ] [ 
 	<p class="issue">For certain data, it may be debatable whether it should be part of the DID Document
 	(i.e. data that describes the DID Subject), or whether it is metadata (i.e. data about the DID Document or about
 	the DID Resolution process). For example the URL of the "Continuation DID Document" in the BTCR method.
-	</p>
-	
-	<p class="issue"> Should we include metadata in a special place inside the DID Document, or should we
-	define a higher-level data structure that includes both the DID Document and the DID Resolution metadata
-	separately?
 	</p>
 
 </section>
