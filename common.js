@@ -14,47 +14,49 @@ var ccg = {
       ],
       publisher: "University of California, Irvine."
     },
-    "VC-USECASES": {
-      title: "Verifiable Claims Use Cases",
-      href: "https://www.w3.org/TR/verifiable-claims-use-cases/",
+    "DECENTRALIZED-IDENTIFIERS": {
+      title: "Decentralized Identifiers (DIDs)",
+      href: "https://w3c-ccg.github.io/did-spec/",
       authors: [
-      	"Shane McCarron",
-        "Daniel Burnett",
-        "Gregg Kellogg",
-        "Brian Sletten",
-        "Manu Sporny"
+        "Drummond Reed",
+        "Manu Sporny",
+        "Dave Longley",
+        "Christopher Allen",
+        "Ryan Grant",
+        "Markus Sabadello"
       ],
-      status: "FPWD",
-      publisher: "Verifiable Claims Working Group"
+      status: "Draft Community Group Report",
+      publisher: "Credentials Community Group"
     },
-    // aliases to known references
-    "HTTP-SIGNATURES": {
-      aliasOf: "http-signatures"
+    "DID-METHOD-REGISTRY": {
+      title: "The Decentralized Identifier Method Registry",
+      href: "https://w3c-ccg.github.io/did-method-registry/",
+      authors: [
+        "Manu Sporny",
+        "Drummond Reed"
+      ],
+      status: "CG-DRAFT",
+      publisher: "Digital Verification Community Group"
     },
-    "MACAROONS": {
-      title: 'Macaroons',
-      // TODO: create spec
-      href: 'http://macaroons.io/',
-      authors: ['Arnar Birgisson', 'Joe Gibbs Politz', 'Úlfar Erlingsson',
-        'Ankur Taly', 'Michael Vrable', 'Mark Lentczner'],
-      status: 'unofficial',
-      publisher: 'Credentials Community Group'
+    "MATRIX-URIS": {
+      title: "Matrix URIs - Ideas about Web Architecture",
+      date: "December 1996",
+      href: "https://www.w3.org/DesignIssues/MatrixURIs.html",
+      authors: [
+        "Tim Berners-Lee"
+      ],
+      status: "Personal View"
     },
-    'OPEN-BADGES': {
-      title: 'Open Badges',
-      href: 'https://github.com/openbadges/openbadges-specification',
-      authors: ['Brian Brennan', 'Mike Larsson', 'Chris McAvoy',
-        'Nate Otto', 'Kerri Lemoie'],
-      status:   'BA-DRAFT',
-      publisher:  'Badge Alliance Standard Working Group'
-    },
-    'RDF-NORMALIZATION': {
-      title: 'RDF Dataset Normalization',
-      href: 'http://json-ld.github.io/normalization/spec/',
-      authors: ['Dave Longley', 'Manu Sporny'],
-      status:   'CG-DRAFT',
-      publisher:  'Credentials W3C Community Group'
-    },
+    "COOL-URIS": {
+      title: "Cool URIs for the Semantic Web",
+      date: "December 2008",
+      href: "https://www.w3.org/TR/cooluris/",
+      authors: [
+        "Leo Sauermann",
+        "Richard Cyganiak"
+      ],
+      status: "Interest Group Note"
+    }
   }
 };
 
