@@ -204,7 +204,7 @@ and dereferencing DID URLs.
     </dl>
     <dl>
       <dt><dfn data-lt="">DID Resolution</dt>
-      <dd>An algorithm that takes a <a>DID</a> plus additional parameters as input and produces a <a>DID Document</a>
+      <dd>An algorithm that takes a <a>DID</a> plus additional options as input and produces a <a>DID Document</a>
       or a <a>DID Resolution Result</a> as output. This algorithm relies on the "Read" operation of the applicable
       <a>DID method</a>.</dd>
     </dl>
@@ -224,7 +224,7 @@ and dereferencing DID URLs.
     </dl>
     <dl>
       <dt><dfn data-lt="">DID URL Dereferencing</dfn></dt>
-      <dd>An algorithm that takes a <a>DID URL</a> plus additional parameters as input and produces a <a>DID Document</a>,
+      <dd>An algorithm that takes a <a>DID URL</a> plus additional options as input and produces a <a>DID Document</a>,
       a <a>DID Resolution Result</a>, or various other types of resources as output. This algorithm relies
       on <a>DID Resolution</a>.</dd>
     </dl>
@@ -265,7 +265,7 @@ and dereferencing DID URLs.
 
 	<p>The abstract interface to this algorithm is:</p>
 
-	<code>resolve ( did, input-parameters )</code>
+	<code>resolve ( did, input-options )</code>
 
 	<div class="note">
 	<p>The mechanics of the "Read" operation can vary considerably between
@@ -292,7 +292,7 @@ and dereferencing DID URLs.
 	<section id="resolving-input">
 		<h2>Input</h2>
 		<p>The inputs of the <a>DID Resolution</a> algorithm are an <var>input <a>DID</a></var> and
-		additional <var>input parameters</var>.</p>
+		additional <var>input options</var>.</p>
 
 		<section id="resolving-input-did">
 			<h3>DID</h3>
@@ -303,10 +303,10 @@ and dereferencing DID URLs.
 
 		<section id="resolving-input-result-type">
 			<h3><code>result-type</code></h3>
-			<p>The <code>result-type</code> <var>input parameter</var> can be used to request a certain
+			<p>The <code>result-type</code> <var>input option</var> can be used to request a certain
 			type of result.</p>
-			<p>This <var>input parameter</var> is OPTIONAL.</p>
-			<p>Possible values of this parameter are:</p>
+			<p>This <var>input option</var> is OPTIONAL.</p>
+			<p>Possible values of this option are:</p>
 			<ul>
 			<li>`"did-document"` (default value): Request a <a>DID Document</a> as output.</li>
 			<li>`"resolution-result"`: Request a <a>DID Resolution Result</a> as output (see <a href="#did-resolution-result"></a>).</li>
@@ -317,11 +317,11 @@ and dereferencing DID URLs.
 
 		<section id="resolving-input-version-id">
 			<h3><code>version-id</code></h3>
-			<p>The <code>version-id</code> input parameter can be used to request a specific
+			<p>The <code>version-id</code> input option can be used to request a specific
 			version of a <a>DID Document</a>.</p>
-			<p>This <var>input parameter</var> is OPTIONAL. It is mutually exclusive with <a href="#resolving-input-version-time"></a>.</p>
+			<p>This <var>input option</var> is OPTIONAL. It is mutually exclusive with <a href="#resolving-input-version-time"></a>.</p>
 			<p>See Section <a href="#versioning"></a> for additional considerations.</p>
-			<p>The possible values of this parameter are specific to the <var>input <a>DID method</a></var>.</p>
+			<p>The possible values of this option are specific to the <var>input <a>DID method</a></var>.</p>
 			<p class="note">
 			Possible values may include sequential numbers, random UUIDs, content hashes, etc.
 			</p>
@@ -330,11 +330,11 @@ and dereferencing DID URLs.
 
 		<section id="resolving-input-version-time">
 			<h3><code>version-time</code></h3>
-			<p>The <code>version-time</code> input parameter can used to request a specific
+			<p>The <code>version-time</code> input option can used to request a specific
 			version of a <a>DID Document</a>.</p>
-			<p>This <var>input parameter</var> is OPTIONAL. It is mutually exclusive with <a href="#resolving-input-version-id"></a>.</p>
+			<p>This <var>input option</var> is OPTIONAL. It is mutually exclusive with <a href="#resolving-input-version-id"></a>.</p>
 			<p>See Section <a href="#versioning"></a> for additional considerations.</p>
-			<p>The value of this parameter MUST be a string value of an [[!RFC3339]] combined date and time string representing
+			<p>The value of this option MUST be a string value of an [[!RFC3339]] combined date and time string representing
 			the date and time the <a>DID Document</a> was current for the <var>input <a>DID</a></var>.</p>
 
 			<p class="issue">
@@ -345,10 +345,10 @@ and dereferencing DID URLs.
 
 		<section id="resolving-input-no-cache">
 			<h3><code>no-cache</code></h3>
-			<p>The <code>no-cache</code> input parameter can be used to 
+			<p>The <code>no-cache</code> input option can be used to 
 			request a certain kind of caching behavior.</p>
-			<p>This <var>input parameter</var> is OPTIONAL.</p>
-			<p>Possible values of this parameter are:</p>
+			<p>This <var>input option</var> is OPTIONAL.</p>
+			<p>Possible values of this option are:</p>
 			<ul>
 			<li>`"false"` (default value): Caching of <a>DID Documents</a> is allowed.</li>
 			<li>`"true"`: Request that caching is disabled and a fresh <a>DID Document</a> is retrieved from
@@ -373,7 +373,7 @@ and dereferencing DID URLs.
 			<a href="https://w3c-ccg.github.io/did-spec/#read-verify">Read</a> operation against the
 			<var>input <a>DID</a>'s</var> <a>Decentralized Identifier Registry</a>, as defined by the <var>input <a>DID method</a></var>:
 			<ol class="algorithm">
-				<li>Besides the <var>input <a>DID</a></var>, all additional <var>input parameters</var> of
+				<li>Besides the <var>input <a>DID</a></var>, all additional <var>input options</var> of
 				this algorithm MUST be passed to the
 				<a href="https://w3c-ccg.github.io/did-spec/#read-verify">Read</a> operation of the
 				<var>input <a>DID method</a></var>.</li>
@@ -387,13 +387,13 @@ and dereferencing DID URLs.
 			<a href="https://w3c-ccg.github.io/did-spec/#data-model">data model</a>. If not,
 			the <a>DID Resolver</a> MUST raise an error.</li>
 			<li>If the value of <a href="#resolving-input-result-type"><code>result-type</code></a> <var>input
-			parameter</var> is <code>null</code> or <code>"did-document"</code>:
+			option</var> is <code>null</code> or <code>"did-document"</code>:
 			<ol class="algorithm">
 				<li>Return the <var>output <a>DID Document</a></var>.</li>
 			</ol>
 			</li>
 			<li>If the value to of <a href="#resolving-input-result-type"><code>result-type</code></a> <var>input
-			parameter</var> is <code>"resolution-result"</code>:
+			option</var> is <code>"resolution-result"</code>:
 			<ol class="algorithm">
 				<li>Construct a <a>DID Resolution Result</a> and populate it with the <var>output <a>DID Document</a></var>
 				as well as metadata about the processes that produced the result (see <a href="#did-resolution-result"></a>.
@@ -423,12 +423,12 @@ and dereferencing DID URLs.
 
 	<p>The abstract interface to this algorithm is:</p>
 
-	<code>dereference ( did-url, input-parameters )</code>
+	<code>dereference ( did-url, input-options )</code>
 
 	<section id="dereferencing-input">
 		<h2>Input</h2>
 		<p>The inputs of the <a>DID URL Dereferencing</a> algorithm are an <var>input <a>DID URL</a></var> and
-		additional <var>input parameters</var>.</p>
+		additional <var>input options</var>.</p>
 
 		<section id="dereferencing-input-did-url">
 			<h3>DID URL</h3>
@@ -439,10 +439,10 @@ and dereferencing DID URLs.
 
 		<section id="dereferencing-input-result-type">
 			<h3><code>result-type</code></h3>
-			<p>The <code>result-type</code> <var>input parameter</var> can be used to request a certain
+			<p>The <code>result-type</code> <var>input option</var> can be used to request a certain
 			type of result.</p>
-			<p>This <var>input parameter</var> is OPTIONAL.</p>
-			<p>Possible values of this parameter are:</p>
+			<p>This <var>input option</var> is OPTIONAL.</p>
+			<p>Possible values of this option are:</p>
 			<ul>
 			<li>`"did-document"` (default value): Request a <a>DID Document</a> as output.</li>
 			<li>`"resolution-result"`: Request a <a>DID Resolution Result</a> as output (see <a href="#did-resolution-result"></a>).</li>
@@ -455,17 +455,17 @@ and dereferencing DID URLs.
 
 		<section id="dereferencing-input-service-type">
 			<h3><code>service-type</code></h3>
-			<p>The <code>service-type</code> input parameter can be supplied by a client to select a specific
+			<p>The <code>service-type</code> input option can be supplied by a client to select a specific
 			service from the DID Document.</p>
-			<p>This <var>input parameter</var> is OPTIONAL.</p>
+			<p>This <var>input option</var> is OPTIONAL.</p>
 
 		</section>
 
 		<section id="dereferencing-input-follow-redirect">
 			<h3><code>follow-redirect</code></h3>
-			<p>The <code>follow-redirect</code> input parameter can be supplied by a client as a hint to 
+			<p>The <code>follow-redirect</code> input option can be supplied by a client as a hint to 
 			instruct whether redirects should be followed.</p>
-			<p>This <var>input parameter</var> is OPTIONAL.</p>
+			<p>This <var>input option</var> is OPTIONAL.</p>
 			<p>See Section <a href="#redirect"></a>.</p>
 
 		</section>
@@ -480,11 +480,11 @@ and dereferencing DID URLs.
 			<a>DID Resolution</a> algorithm as defined in <a href="#resolving"></a>:
 			<ol class="algorithm">
 				<li>If the <var>input <a>DID URL</a></var> contains the matrix parameters <code>version-id</code> or
-				<code>version-time</code>, then they MUST be passed as <var>input parameters</var> to the
+				<code>version-time</code>, then they MUST be passed as <var>input options</var> to the
 				<a>DID Resolution</a> algorithm.</li>
 				<li>If the <var>input <a>DID URL</a></var> contains
 				<a href="https://w3c-ccg.github.io/did-spec/#method-specific-did-parameter-names"> method-specific
-				matrix parameters</a>, then they MUST be passed as <var>input parameters</var> to the <a>DID
+				matrix parameters</a>, then they MUST be passed as <var>input options</var> to the <a>DID
 				Resolution</a> algorithm.</li>
 				<li>If the <var>input <a>DID</a></var> does not exist, return a null result.</li>
 				<li>The result is called the <var>resolved <a>DID Document</a></var>.</li>
@@ -822,9 +822,9 @@ https://example.com/messages/8377464/some/path?query#frag
 
 	<section id="bindings-https">
 		<h2>HTTP(S) Binding</h2>
-		<p>A <a href="#did-resolver-architectures">remote DID Resolver</a> exposes the DID Resolution process (including all input parameters and output data) via an HTTP endpoint.</p>
+		<p>A <a href="#did-resolver-architectures">remote DID Resolver</a> exposes the DID Resolution process (including all input options and output data) via an HTTP endpoint.</p>
 		<p class="issue">TODO: Describe HTTP binding for DID Resolution process.</p>
-		<p class="issue">TODO: How are DID Resolution input parameters passed via HTTP (query string? HTTP headers?).</p>
+		<p class="issue">TODO: How are DID Resolution <var>input options</var passed via HTTP (query string? HTTP headers?).</p>
 		<p class="issue">TODO: How is the output data (DID Document, metadata) returned via HTTP.</p>
 		<p class="issue">TODO: What is the <a href="https://github.com/w3c-ccg/did-spec/issues/82">MIME type of a DID Document</a>?</p>
 
@@ -850,7 +850,7 @@ curl -X GET https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8p
 		<p>A <a>DID Resolver</a> may maintain a generic cache of <a>DID Documents</a>. It may also maintain caches specific
 		to certain <a>DID methods</a>.</p>
 		<p>Caching behavior can be controlled by configuration of the <a>DID Resolver</a>,
-		by the <a href="#resolving-input-no-cache">`no-cache`</a> input parameter, or by contents of the DID Document
+		by the <a href="#resolving-input-no-cache">`no-cache`</a> input option, or by contents of the DID Document
 		(e.g. a `time-to-live` field), or by a combination of these options.</p>
 		<p class="issue" data-number="10">See corresponding open issue.</p>
 		<p class="issue">Perhaps we can re-use caching mechanisms of other protocols such as HTTP.</p>
@@ -860,7 +860,7 @@ curl -X GET https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8p
 	<section id="versioning">
 		<h2>Versioning</h2>
 		<p>If a <a href="#resolving-input-version-id">`version-id`</a> or
-		<a href="#resolving-input-version-time">`version-time`</a> input parameter is provided, the <a>DID Resolution</a>
+		<a href="#resolving-input-version-time">`version-time`</a> input option is provided, the <a>DID Resolution</a>
 		algorithm returns a certain version of the <a>DID Document</a>.</p>
 		<p>A DID Document MAY contain a version identifier that changes with each 
 		<a href="https://w3c-ccg.github.io/did-spec/#update">Update</a> operation that is performed
