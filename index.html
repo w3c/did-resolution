@@ -191,7 +191,7 @@ and dereferencing DID URLs.
       <dd>As defined in [[DECENTRALIZED-IDENTIFIERS]].</dd>
     </dl>
     <dl>
-      <dt><dfn data-lt="">DID Method</dfn></dt>
+      <dt><dfn data-lt="method">DID Method</dfn></dt>
       <dd>As defined in [[DECENTRALIZED-IDENTIFIERS]].</dd>
     </dl>
     <dl>
@@ -237,20 +237,89 @@ and dereferencing DID URLs.
 
 <section id="architectures">
 	<h1>DID Resolver Architectures</h1>
-	<p class="issue">TODO: Describe how <a>DID Resolvers</a> are implemented and used, describe the concept of methods.</p>
+	<p class="issue">TODO: Describe how <a>DID Resolvers</a> are implemented and used, describe the relevance
+	of <a>DID Methods</a>.
+	Explain the difference between "method architectures" and "binding architectures".</p>
 
-	<section id="did-resolver-architectures">
-		<h2>Resolver Architectures</h1>
-		<p class="issue" data-number="28">TODO: Describe local DID Resolvers vs. remote DID Resolvers, and implications for privacy, security and trust.</p>
-		<p class="issue">TODO: A DID Resolver can add a <a href="https://w3c-ccg.github.io/did-spec/#proof-optional">proof</a> to a DID Document, discuss what this does and doesn't achieve.</p>
-		<p class="issue">TODO: Discuss DID Resolution in constrained user agents such as mobile apps and browsers.</p>
-		<p class="issue">TODO: A client could query multiple remote DID Resolvers and compare results.</p>
+	<section id="method-architectures">
+		<h2>Method Architectures</h2>
+		<p>The <a>DID Resolution</a> algorithm involves executing the <a href="https://w3c-ccg.github.io/did-spec/#read-verify">Read</a>
+		operation on a <a>DID</a> according to the DID's <a>method</a>.</p>
+
+		<div class="note">
+		<p>The mechanics of the "Read" operation can vary considerably between
+		<a>DID methods</a>.</p>
+		<p>In particular, no assumption should be made that:</p>
+		<ul>
+		<li>... an immutable blockchain is used as (part of) the <a>Decentralized Identifier Registry</a>.</li>
+		<li>... interaction with a remote network is required during execution of the "Read" operation.</li>
+		<li>... an actual <a>DID Document</a> is stored in plain-text on a <a>Decentralized Identifier Registry</a>,
+		or that the <a>DID Document</a> can simply be retrieved via a standard protocol such as HTTP(S).
+		While some <a>DID methods</a> may define their "Read" operation this way, others may
+		define more complex multi-step processes that involve on-the-fly construction of a "virtual" <a>DID Document</a>.</li>
+		</ul>
+		</div>
+
+		<figure id="figure-method-local">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/method-local.png"
+			alt="Diagram showing a DID method that is 'local'.">
+			<figcaption style="text-align: center;">
+				A "local" </a>DID method</a> implementation.
+			</figcaption>
+		</figure>
+		<figure id="figure-method-remote">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/method-remote.png"
+			alt="Diagram showing a DID method that is 'remote'.">
+			<figcaption style="text-align: center;">
+				A "remote" </a>DID method</a> implementation.
+			</figcaption>
+		</figure>
+
+		<p class="issue">TODO: Describe full nodes vs. light clients, blockchain explorer APIs, state proofs, etc.</p>
+		<p class="issue">TODO: Explain that "local" and "remote" are not absolute categories, but only an approximation
+		with many different variations.</p>
+		<p class="issue">TODO: Explain that even within a single <a>DID method</a>, different method architectures may be
+		possible. For example, the "btcr" DID method could be implemented with "local" access to a full node, or with
+		calls to a "remote" blockchain explorer API.</p>
+
+		<p class="issue">As an example, mention what it means to "resolve" peer/off-ledger/microledger/edgechain DIDs (e.g. see
+		<a href="https://lists.hyperledger.org/g/indy/topic/28597813">here</a> and 
+		<a href="https://docs.google.com/presentation/d/1UnC_nfOUK40WS5TD_EhyDuFe5cStX-u0Z7wjoae_PqQ/">here</a>.</p>
+
+		<p class="issue">As an example, mention what it means to "resolve" DIDs that are simply wrapped public keys (e.g. see
+		<a href="https://github.com/uport-project/secp256k1-did-resolver">here</a> and
+		<a href="https://github.com/w3c-ccg/did-spec/pull/55">here</a>).</p>
 
 	</section>
 
-	<section id="did-method-architectures">
-		<h2>Method Architectures</h2>
-		<p class="issue">TODO: Describe full nodes vs. light clients, blockchain explorer APIs, state proofs, etc.</p>
+	<section id="binding-architectures">
+		<h2>Binding Architectures</h1>
+		<p>The algorithms for <a>DID Resolution</a> and <a>DID URL Dereferencing</a> are defined as abstract functions
+		(see <a href="#resolving"></a> and <a href="#dereferencing"></a>.</p>
+		Those algorithms are implemented by <a>DID Resolvers</a>. A <a>DID Resolver</a> is used by an application or
+		service via a <a>Binding</a>. Bindings define how the abstract functions are realized using concrete
+		transport or communication interfaces. For example, Bindings could include SDK calls, APIs, command line
+		tools, or the <a href="#bindings-https">HTTP(S) Binding</a>.</p>
+
+		<figure id="figure-binding-local">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/binding-local.png"
+			alt="Diagram showing a DID Resolver with a binding that is 'local'.">
+			<figcaption style="text-align: center;">
+				A "local" binding for a </a>DID Resolver</a>.
+			</figcaption>
+		</figure>
+		<figure id="figure-binding-remote">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/binding-remote.png"
+			alt="Diagram showing a DID Resolver with a binding that is 'remote'.">
+			<figcaption style="text-align: center;">
+				A "remote" binding for a </a>DID Resolver</a>.
+			</figcaption>
+		</figure>
+
+		<p class="issue" data-number="28">TODO: Describe "local" bindings vs. "remote" bindings, and implications for privacy, security and trust.</p>
+		<p class="issue">TODO: Discuss DID Resolution in constrained user agents such as mobile apps and browsers.</p>
+		<p class="issue">TODO: A DID Resolver can add a <a href="https://w3c-ccg.github.io/did-spec/#proof-optional">proof</a> to a DID Document, discuss what this does and doesn't achieve.</p>
+		<p class="issue">TODO: A client could query multiple remote DID Resolvers and compare results.</p>
 
 	</section>
 
@@ -266,28 +335,6 @@ and dereferencing DID URLs.
 	<p>The abstract interface to this algorithm is:</p>
 
 	<code>resolve ( did, input-options )</code>
-
-	<div class="note">
-	<p>The mechanics of the "Read" operation can vary considerably between
-	<a>DID methods</a>.</p>
-	<p>In particular, no assumption should be made that:</p>
-	<ul>
-	<li>... an immutable blockchain is used as (part of) the <a>Decentralized Identifier Registry</a>.</li>
-	<li>... interaction with a remote network is required during execution of the "Read" operation.</li>
-	<li>... an actual <a>DID Document</a> is stored in plain-text on a <a>Decentralized Identifier Registry</a>,
-	or that the <a>DID Document</a> can simply be retrieved via a standard protocol such as HTTP(S).
-	While some <a>DID methods</a> may define their "Read" operation this way, others may
-	define more complex multi-step processes that involve on-the-fly construction of a "virtual" <a>DID Document</a>.</li>
-	</ul>
-	</div>
-
-	<p class="issue">Maybe mention "resolution" of peer/off-ledger/microledger/edgechain DIDs (e.g. see
-	<a href="https://lists.hyperledger.org/g/indy/topic/28597813">here</a> and 
-	<a href="https://docs.google.com/presentation/d/1UnC_nfOUK40WS5TD_EhyDuFe5cStX-u0Z7wjoae_PqQ/">here</a>.</p>
-
-	<p class="issue">Maybe mention "resolution" of DIDs that are simply wrapped public keys (e.g. see
-	<a href="https://github.com/uport-project/secp256k1-did-resolver">here</a> and
-	<a href="https://github.com/w3c-ccg/did-spec/pull/55">here</a>).</p>
 
 	<section id="resolving-input">
 		<h2>Input</h2>
@@ -610,7 +657,7 @@ and dereferencing DID URLs.
 	</section>
 
 	<section>
-		<h3>Example</h3>
+		<h2>Example</h2>
 		<p>Given the following <a>DID Document</a>:<p>
 		<pre class="example nohighlight">
 {
@@ -639,6 +686,13 @@ did:example:123456789abcdefghi;service=messages/some/path?query#frag
 		<pre class="example nohighlight">
 https://example.com/messages/8377464/some/path?query#frag
 </pre>
+		<figure id="figure-dereferencing">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/did-url-dereferencing.png"
+			alt="Diagram showing how a DID URL can be dereferencing to a service endpoint URL">
+			<figcaption style="text-align: center;">
+				Dereferencing a DID URL to a service endpoint URL.
+			</figcaption>
+		</figure>
 
 	</section>
 
@@ -654,7 +708,10 @@ https://example.com/messages/8377464/some/path?query#frag
 	<p class="issue">Need to define how this data structure works exactly, and whether it always contains
 	a <a>DID Document</a> or can also contain other results.</p>
 
-<pre class="example nohighlight" title="Example DID Resolution Result">
+	<section>
+		<h2>Example</h2>
+
+		<pre class="example nohighlight" title="Example DID Resolution Result">
 {
 	"didDocument": {
 		"id": "did:sov:WRfXPg8dantKVubE3HX8pw",
@@ -708,6 +765,8 @@ https://example.com/messages/8377464/some/path?query#frag
 	}
 }
 </pre>
+
+	</section>
 
 	<section id="output-diddocument">
 		<h2>DID Document</h2>
@@ -825,10 +884,12 @@ https://example.com/messages/8377464/some/path?query#frag
 
 	<section id="bindings-https">
 		<h2>HTTP(S) Binding</h2>
-		<p>A <a href="#did-resolver-architectures">remote DID Resolver</a> exposes the DID Resolution process (including all input options and output data) via an HTTP endpoint.</p>
-		<p class="issue">TODO: Describe HTTP binding for DID Resolution process.</p>
-		<p class="issue">TODO: How are DID Resolution <var>input options</var passed via HTTP (query string? HTTP headers?).</p>
-		<p class="issue">TODO: How is the output data (DID Document, metadata) returned via HTTP.</p>
+		<p>This section defines a <a>DID Resolver</a> <a>Binding</a> which exposes the
+		<a>DID Resolution</a> and/or <a>DID URL Dereferencing</a> functions (including all
+		input options and output data) via an HTTP(S) endpoint. See <a href="#binding-architectures"></a>.</p>
+		<p class="issue">TODO: Define HTTP(S) Binding for DID Resolution and DID URL Dereferencing.</p>
+		<p class="issue">TODO: How are <var>input options</var> passed via HTTP(S) (query string? HTTP headers?).</p>
+		<p class="issue">TODO: How is the output data (<a>DID Document</a>, <a>DID Resolution Result</a>) returned via HTTP(S).</p>
 		<p class="issue">TODO: What is the <a href="https://github.com/w3c-ccg/did-spec/issues/82">MIME type of a DID Document</a>?</p>
 
 <pre class="example nohighlight" title="Example curl call to a DID Resolver via HTTP(S) Binding">
@@ -889,69 +950,6 @@ curl -X GET https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8p
 
 	</section>
 
-</section>
-
-<section class="appendix">
-	<h1>Example</h1>
-
-	<pre class="example nohighlight" title="Example curl call to a DID Resolver via HTTP(S) Binding">
-curl -X GET https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8pw
-</pre>
-
-	<pre class="example nohighlight" title="Example DID Resolution Result">
-{
-	"didDocument": {
-		"id": "did:sov:WRfXPg8dantKVubE3HX8pw",
-		"service": {
-			"type": "xdi",
-			"serviceEndpoint": "http://127.0.0.1:8080/xdi"
-		},
-		"authentication": {
-			"type": "Ed25519SignatureAuthentication2018",
-			"publicKey": ["did:sov:WRfXPg8dantKVubE3HX8pw#key-1"]
-		},
-		"publicKey": [{
-			"id": "did:sov:WRfXPg8dantKVubE3HX8pw#key-1",
-			"type": "Ed25519VerificationKey2018",
-			"publicKeyBase58": "H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV"
-		}],
-		"@context": "https://w3id.org/did/v1"
-	},
-	"methodMetadata": {
-		"nymResponse": {
-			"result": {
-				"data": "{\"dest\":\"WRfXPg8dantKVubE3HX8pw\",\"identifier\":\"V4SGRU86Z58d6TV7PBUe6f\",\"role\":\"0\",\"seqNo\":11,\"txnTime\":1524055264,\"verkey\":\"H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV\"}",
-				"type": "105",
-				"txnTime": 1.524055264E9,
-				"seqNo": 11.0,
-				"reqId": 1.52725687080231475E18,
-				"identifier": "HixkhyA4dXGz9yxmLQC4PU",
-				"dest": "WRfXPg8dantKVubE3HX8pw"
-			},
-			"op": "REPLY"
-		},
-		"attrResponse": {
-			"result": {
-				"identifier": "HixkhyA4dXGz9yxmLQC4PU",
-				"seqNo": 12.0,
-				"raw": "endpoint",
-				"dest": "WRfXPg8dantKVubE3HX8pw",
-				"data": "{\"endpoint\":{\"xdi\":\"http://127.0.0.1:8080/xdi\"}}",
-				"txnTime": 1.524055265E9,
-				"type": "104",
-				"reqId": 1.52725687092557056E18
-			},
-			"op": "REPLY"
-		}
-	},
-	"resolverMetadata": {
-		"driverId": "did:sov",
-		"driver": "HttpDriver",
-		"retrieved": "2019-06-01T19:73:24Z",
-		"duration": 1015
-	}
-}
-</pre>
 </section>
 
 <section class="appendix">
