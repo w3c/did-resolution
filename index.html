@@ -609,9 +609,10 @@ and dereferencing DID URLs.
 
 	</section>
 
-	<h3>Example</h3>
-	<p>Given the following <a>DID Document</a>:<p>
-	<pre class="example nohighlight">
+	<section>
+		<h3>Example</h3>
+		<p>Given the following <a>DID Document</a>:<p>
+		<pre class="example nohighlight">
 {
   "@context": ["https://w3id.org/did/v1", "https://w3id.org/security/v1"],
   "id": "did:example:123456789abcdefghi",
@@ -630,14 +631,16 @@ and dereferencing DID URLs.
   }]
 }
 </pre>
-	<p>And given the following <var>input <a>DID URL</a></var>:</p>
-	<pre class="example nohighlight">
+		<p>And given the following <var>input <a>DID URL</a></var>:</p>
+		<pre class="example nohighlight">
 did:example:123456789abcdefghi;service=messages/some/path?query#frag
 </pre>
-	<p>Then the final service endpoint is:</p>
-	<pre class="example nohighlight">
+		<p>Then the result of the <a href="#dereferencing"></a> algorithm is the following <var>output <a>service endpoint</a> URL</var>:</p>
+		<pre class="example nohighlight">
 https://example.com/messages/8377464/some/path?query#frag
 </pre>
+
+	</section>
 
 </section>
 
