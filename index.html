@@ -143,20 +143,20 @@ and dereferencing DID URLs.
 <h1>Introduction</h1>
 
 	<p><a>DID Resolution</a> is the process of obtaining a <a>DID Document</a> for a given <a>DID</a>. This is one
-	of four required operations
-	that can be performed on any DID ("Read"; the other ones being "Create", "Update", and "Deactivate") and defined
-	by a <a>DID method</a>.
-	Building on top of this, <a>DID URL Dereferencing</a> is the process of obtaining a resource for a given
-	<a>DID URL</a>.
-	Software and/or hardware that is able to execute these processes is called a <a>DID Resolver</a>.
+	of four required operations that can be performed on any DID ("Read"; the other ones being "Create", "Update",
+	and "Deactivate"). The details of these operations differ depending on the <a>DID method</a>.
+	Building on top of <a>DID Resolution</a>, <a>DID URL Dereferencing</a> is the process of obtaining a resource
+	for a given <a>DID URL</a>. Software and/or hardware that is able to execute these processes is called
+	a <a>DID Resolver</a>.
 	
 	<p>This
 	specification defines common
 	requirements, algorithms including their inputs and results, architectural options, and various considerations for the
 	<a>DID Resolution</a> and <a>DID URL Dereferencing</a> processes.</p>
 
-	<p>Note that while this specification defines some base-level functionality for DID Resolution, the actual steps required
-	to communicate with a DID's <a>Decentralized Identifier Registry</a> are defined by the applicable DID method specification.</p>
+	<p>Note that while this specification defines some base-level functionality for DID Resolution, the actual steps
+	required to communicate with a DID's <a>Decentralized Identifier Registry</a> are defined by the applicable
+	<a>DID method</a> specification.</p>
 
 	<p><a>DID Resolution</a> and <a>DID URL Dereferencing</a> do not involve any authentication or authorization
 	functionality. Anybody can perform the process, without requiring any credentials or non-public knowledge.</p>
@@ -191,7 +191,7 @@ and dereferencing DID URLs.
       <dd>As defined in [[DECENTRALIZED-IDENTIFIERS]].</dd>
     </dl>
     <dl>
-      <dt><dfn data-lt="method">DID Method</dfn></dt>
+      <dt><dfn data-lt="method|DID method's">DID Method</dfn></dt>
       <dd>As defined in [[DECENTRALIZED-IDENTIFIERS]].</dd>
     </dl>
     <dl>
@@ -209,7 +209,7 @@ and dereferencing DID URLs.
       <a>DID method</a>.</dd>
     </dl>
     <dl>
-      <dt><dfn data-lt="">DID Resolver</dt>
+      <dt><dfn data-lt="DID Resolver's">DID Resolver</dt>
       <dd>Software and/or hardware that is capable of <a>DID Resolution</a> and optionally
       <a>DID URL Dereferencing</a> for at least one <a>DID method</a>.</dd>
     </dl>
@@ -238,18 +238,18 @@ and dereferencing DID URLs.
 <section id="architectures">
 	<h1>DID Resolver Architectures</h1>
 	<p class="issue">TODO: Describe how <a>DID Resolvers</a> are implemented and used, describe the relevance
-	of <a>DID Methods</a>.
+	of <a>DID methods</a>.
 	Explain the difference between "method architectures" and "binding architectures".</p>
 
 	<section id="method-architectures">
 		<h2>Method Architectures</h2>
 		<p>The <a>DID Resolution</a> algorithm involves executing the <a href="https://w3c-ccg.github.io/did-spec/#read-verify">Read</a>
-		operation on a <a>DID</a> according to the DID's <a>method</a>.</p>
+		operation on a <a>DID</a> according to the DID's <a>method</a> (see <a href="#resolving"></a>).</p>
 
 		<div class="note">
 		<p>The mechanics of the "Read" operation can vary considerably between
 		<a>DID methods</a>.</p>
-		<p>In particular, no assumption should be made that:</p>
+		<p>No assumption should be made that:</p>
 		<ul>
 		<li>... an immutable blockchain is used as (part of) the <a>Decentralized Identifier Registry</a>.</li>
 		<li>... interaction with a remote network is required during execution of the "Read" operation.</li>
@@ -260,66 +260,103 @@ and dereferencing DID URLs.
 		</ul>
 		</div>
 
+		<p>Depending on the exact nature of the <a>DID method's</a> "Read" operation, the interaction between a
+		<a>DID Resolver</a> and the <a>Decentralized Identifier Registry</a> may be described as "local" or "remote":</p>
+
 		<figure id="figure-method-local">
 			<img style="margin: auto; display: block; width: 100%;" src="diagrams/method-local.png"
 			alt="Diagram showing a DID method that is 'local'.">
 			<figcaption style="text-align: center;">
-				A "local" </a>DID method</a> implementation.
+				A "local" <a>DID method</a> implementation.
 			</figcaption>
 		</figure>
 		<figure id="figure-method-remote">
 			<img style="margin: auto; display: block; width: 100%;" src="diagrams/method-remote.png"
 			alt="Diagram showing a DID method that is 'remote'.">
 			<figcaption style="text-align: center;">
-				A "remote" </a>DID method</a> implementation.
+				A "remote" <a>DID method</a> implementation.
 			</figcaption>
 		</figure>
 
+		<p class="note">The terms "local" and "remote" are not absolute categories when describing DID methods
+		and their implementations, but only an approximation with many possible variations.</p>
 		<p class="issue">TODO: Describe full nodes vs. light clients, blockchain explorer APIs, state proofs, etc.</p>
-		<p class="issue">TODO: Explain that "local" and "remote" are not absolute categories, but only an approximation
-		with many different variations.</p>
 		<p class="issue">TODO: Explain that even within a single <a>DID method</a>, different method architectures may be
 		possible. For example, the "btcr" DID method could be implemented with "local" access to a full node, or with
 		calls to a "remote" blockchain explorer API.</p>
 
 		<p class="issue">As an example, mention what it means to "resolve" peer/off-ledger/microledger/edgechain DIDs (e.g. see
 		<a href="https://lists.hyperledger.org/g/indy/topic/28597813">here</a> and 
-		<a href="https://docs.google.com/presentation/d/1UnC_nfOUK40WS5TD_EhyDuFe5cStX-u0Z7wjoae_PqQ/">here</a>.</p>
+		<a href="https://docs.google.com/presentation/d/1UnC_nfOUK40WS5TD_EhyDuFe5cStX-u0Z7wjoae_PqQ/">here</a>).</p>
 
 		<p class="issue">As an example, mention what it means to "resolve" DIDs that are simply wrapped public keys (e.g. see
 		<a href="https://github.com/uport-project/secp256k1-did-resolver">here</a> and
 		<a href="https://github.com/w3c-ccg/did-spec/pull/55">here</a>).</p>
+
+		<p>A <a>DID Resolver</a> MUST support the <a>DID Resolution</a> algorithm for at least one <a>DID method</a> and
+		MAY support it for multiple <a>DID methods</a>:</p>
+		<figure id="figure-method-multiple">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/method-multiple.png"
+			alt="Diagram showing a DID Resolver that supports multiple DID methods.">
+			<figcaption style="text-align: center;">
+				A <a>DID Resolver</a> that supports multiple <a>DID methods</a>.
+			</figcaption>
+		</figure>
+
+		<p>In this case, the above considerations about "local" and "remote" <a>DID method</a> implementations apply
+		to each supported <a>DID method</a> individually.</p>
 
 	</section>
 
 	<section id="binding-architectures">
 		<h2>Binding Architectures</h1>
 		<p>The algorithms for <a>DID Resolution</a> and <a>DID URL Dereferencing</a> are defined as abstract functions
-		(see <a href="#resolving"></a> and <a href="#dereferencing"></a>.</p>
+		(see <a href="#resolving"></a> and <a href="#dereferencing"></a>).</p>
 		Those algorithms are implemented by <a>DID Resolvers</a>. A <a>DID Resolver</a> is used by an application or
 		service via a <a>Binding</a>. Bindings define how the abstract functions are realized using concrete
-		transport or communication interfaces. For example, Bindings could include SDK calls, APIs, command line
+		programming or communication interfaces. For example, Bindings could include SDK calls, APIs, command line
 		tools, or the <a href="#bindings-https">HTTP(S) Binding</a>.</p>
 
 		<figure id="figure-binding-local">
 			<img style="margin: auto; display: block; width: 100%;" src="diagrams/binding-local.png"
 			alt="Diagram showing a DID Resolver with a binding that is 'local'.">
 			<figcaption style="text-align: center;">
-				A "local" binding for a </a>DID Resolver</a>.
+				A "local" binding for a <a>DID Resolver</a>.
 			</figcaption>
 		</figure>
 		<figure id="figure-binding-remote">
 			<img style="margin: auto; display: block; width: 100%;" src="diagrams/binding-remote.png"
 			alt="Diagram showing a DID Resolver with a binding that is 'remote'.">
 			<figcaption style="text-align: center;">
-				A "remote" binding for a </a>DID Resolver</a>.
+				A "remote" binding for a <a>DID Resolver</a>.
 			</figcaption>
 		</figure>
 
-		<p class="issue" data-number="28">TODO: Describe "local" bindings vs. "remote" bindings, and implications for privacy, security and trust.</p>
+		<div class="issue" data-number="28">
+			<p>TODO: Describe "local" bindings vs. "remote" bindings, and implications for privacy, security and trust.</p>
+			<p>Also describe mitigations against potential downsides of "remote" bindings, e.g.:</p>
+			<ul>
+				<li>A <a>DID Resolver's</a> "remote" binding can use a trusted channel such as VPN or TLS with mutual authentication.</li>
+				<li>A <a>DID Resolver</a> can add a <a href="https://w3c-ccg.github.io/did-spec/#proof-optional">proof</a>
+				to a <a>DID Document</a>. Discuss what this does and doesn't achieve. Also see
+				<a href="https://w3c-ccg.github.io/did-spec/#binding-of-identity">Binding of Identity</a>.</li>
+				<li>A client could query multiple "remote" <a>DID Resolvers</a> and compare results.</li>
+			</ul>
+		</div>
 		<p class="issue">TODO: Discuss DID Resolution in constrained user agents such as mobile apps and browsers.</p>
-		<p class="issue">TODO: A DID Resolver can add a <a href="https://w3c-ccg.github.io/did-spec/#proof-optional">proof</a> to a DID Document, discuss what this does and doesn't achieve.</p>
-		<p class="issue">TODO: A client could query multiple remote DID Resolvers and compare results.</p>
+
+		<p>A <a>DID Resolver</a> MAY invoke another <a>DID Resolver</a> in order to delegate (part of)
+		the <a>DID Resolution</a> and <a>DID URL Dereferencing</a> algorithms. For example, a <a>DID Resolver</a> may be
+		invoked via a "local" binding (such as a command line tool), which in turn invokes another DID Resolver
+		via a "remote" binding (such as the <a href="#bindings-https">HTTP(S) Binding</a>).</p>
+		<figure id="figure-binding-chained">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/binding-chained.png"
+			alt="Diagram showing a "local" DID Resolver that invokes a "remote" DID Resolver.">
+			<figcaption style="text-align: center;">
+				A "local" <a>DID Resolver</a> that invokes a "remote" <a>DID Resolver</a>, which in turn supports
+				multiple <a>DID methods</a>.
+			</figcaption>
+		</figure>
 
 	</section>
 
@@ -547,7 +584,8 @@ and dereferencing DID URLs.
 			optionally a <a>DID Path</a>, <a>DID Query</a>, and/or <a>DID Fragment</a>:
 			<pre class="example nohighlight">did:example:1234;service=agent/profile?query#frag</pre>
 			<ol class="algorithm">
-				<li>From the <var>resolved <a>DID Document</a></var>, select the <a>service endpoint</a> whose <code>id</code>
+				<li>From the <var>resolved <a>DID Document</a></var>, select the
+				<a href="#service-endpoint-construction">service endpoint</a> whose <code>id</code>
 				property contains a fragment which matches the value of the <code>service</code> matrix parameter of the
 				<var>input <a>DID URL</a></var>. This is called the <var>input <a>service endpoint</a></var>.</li>
 				<li>Execute the <a href="#service-endpoint-construction">Service Endpoint Construction</a> algorithm:
@@ -860,7 +898,7 @@ https://example.com/messages/8377464/some/path?query#frag
 	</section>
 
 	<section>
-		<h3>Example</h3>
+		<h2>Example</h2>
 		<p>Given the following <var>input <a>service endpoint</a> URL</var>:<p>
 		<p><code>
 https://example.com/messages/8377464</code></p>
@@ -887,14 +925,43 @@ https://example.com/messages/8377464/some/path?query#frag
 		<p>This section defines a <a>DID Resolver</a> <a>Binding</a> which exposes the
 		<a>DID Resolution</a> and/or <a>DID URL Dereferencing</a> functions (including all
 		input options and output data) via an HTTP(S) endpoint. See <a href="#binding-architectures"></a>.</p>
-		<p class="issue">TODO: Define HTTP(S) Binding for DID Resolution and DID URL Dereferencing.</p>
-		<p class="issue">TODO: How are <var>input options</var> passed via HTTP(S) (query string? HTTP headers?).</p>
-		<p class="issue">TODO: How is the output data (<a>DID Document</a>, <a>DID Resolution Result</a>) returned via HTTP(S).</p>
-		<p class="issue">TODO: What is the <a href="https://github.com/w3c-ccg/did-spec/issues/82">MIME type of a DID Document</a>?</p>
+		<div class="issue">
+			<p>TODO: Define HTTP(S) Binding for <a>DID Resolution</a> and <a>DID URL Dereferencing</a>,
+			including the following topics:</p>
+			<ul>
+				<li>How are <var>input options</var> passed via HTTP(S)? Using the query string and/or HTTP headers?</li>
+				<li>How is the output data (<a>DID Document</a>, <a>DID Resolution Result</a>) returned via HTTP(S)</li>
+				<li>What is the <a href="https://github.com/w3c-ccg/did-spec/issues/82">MIME type of a DID Document</a>?
+				How should <code>Accept</code> and <code>Content-Type</code> HTTP headers be used?</li>
+				<li>Are two separate HTTP(S) endpoints required/allowed for the <code>resolve()</code> and
+				<code>dereference()</code> functions, or can/must a single HTTP(S) endpoint be used?</li>
+			</ul>
+		</div>
 
-<pre class="example nohighlight" title="Example curl call to a DID Resolver via HTTP(S) Binding">
-curl -X GET https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8pw
-</pre>
+		<p>The HTTP(S) Binding for <a>DID Resolvers</a> requires a known HTTP(S) URL called the
+		<var><a>DID Resolver</a> HTTP(S) endpoint</var>. Using this binding, the <a>DID Resolution</a> and/or
+		<a>DID URL Dereferencing</a> function can be executed as follows:</p>
+		<ol class="algorithm">
+			<li>Construct a <var>request HTTP(S) URL</var> by appending the <var>input <a>DID</a></var> or
+			<var>input <a>DID URL</a></var> to the <var><a>DID Resolver</a> HTTP(S) endpoint</var>.</li>
+			<li>Execute an HTTP <code>GET</code> request on the <var>request HTTP(S) URL</var>.</li>
+			<li>The HTTP response body contains the output of the <a>DID Resolution</a> or
+			<a>DID URL Dereferencing</a> function.</li>
+		</ol>
+
+	</section>
+
+	<section>
+		<h2>Example</h2>
+		<p>Given the following <var><a>DID Resolver</a> HTTP(S) endpoint</var>:<p>
+		<p><code>
+https://uniresolver.io/1.0/identifiers/</code></p>
+		<p>And given the following <var>input <a>DID</a></var>:</p>
+		<p><code>
+did:sov:WRfXPg8dantKVubE3HX8pw</code></p>
+		<p>Then the <var>HTTP(S) Binding</var> can be invoked as follows:</p>
+		<pre class="example nohighlight" title="Example curl call to a DID Resolver via HTTP(S) Binding">
+curl -X GET https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8pw</pre>
 
 	</section>
 
@@ -930,23 +997,23 @@ curl -X GET https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8p
 		<a href="https://w3c-ccg.github.io/did-spec/#update">Update</a> operation that is performed
 		on a DID.</p>
 		<p class="issue" data-number="12">See corresponding open issue.</p>
-		<p class="note">While all DID methods MUST support the <a href="https://w3c-ccg.github.io/did-spec/#update">Update</a>
-		operation, there is no requirement for DID methods to keep all previous DID Document versions, therefore
-		not all DID methods support versioning.
+		<p class="note">While all <a>DID methods</a> MUST support the <a href="https://w3c-ccg.github.io/did-spec/#update">Update</a>
+		operation, there is no requirement for <a>DID methods</a> to keep all previous <a>DID Document</a> versions, therefore
+		not all <a>DID methods</a> support versioning.
 		</p>
 	
 	</section>
 	
 	<section id="non-did-identifiers">
 		<h2>Non-DID Identifiers</h2>
-		<p class="issue" data-number="8">There is discussion on the relationship between DID Resolution and
+		<p class="issue" data-number="8">There is discussion on the relationship between <a>DID Resolution</a> and
 		resolution of non-DID identifiers such as domain names, HTTP URIs, or e-mail addresses.</p>
 	
 	</section>
 
 	<section id="did-method-governance">
 		<h2>DID Method Governance</h2>
-		<p class="issue" data-number="6">Describe which methods a DID Resolver should support, and potential implications.</p>
+		<p class="issue" data-number="6">Describe which methods a <a>DID Resolver</a> should support, and potential implications.</p>
 
 	</section>
 
