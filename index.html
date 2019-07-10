@@ -945,8 +945,28 @@ https://example.com/messages/8377464/some/path?query#frag
 			<li>Construct a <var>request HTTP(S) URL</var> by appending the <var>input <a>DID</a></var> or
 			<var>input <a>DID URL</a></var> to the <var><a>DID Resolver</a> HTTP(S) endpoint</var>.</li>
 			<li>Execute an HTTP <code>GET</code> request on the <var>request HTTP(S) URL</var>.</li>
-			<li>The HTTP response body contains the output of the <a>DID Resolution</a> or
-			<a>DID URL Dereferencing</a> function.</li>
+			<li>If the <var>input <a>DID</a></var> does not exist:
+			<ol class="algorithm">
+				<li>The HTTP response status code MUST be <code>404</code>.</li>
+			</ol>
+			</li>
+			<li>If the <var>input <a>DID</a></var> exists and the result is (part of) a <a>DID Document</a>:
+			<ol class="algorithm">
+				<li>The HTTP response status code MUST be <code>200</code>.</li>
+				<li>The HTTP response MUST contain a <code>Content-Type</code> header. The
+				value of this header MUST be <code>application/did+ld+json</code>.</li>
+				<li>The HTTP response body MUST contain the <var>resolved <a>DID Document</a></var> or other
+				<var>output resources</var> that is the reult of the <a>DID Resolution</a> or
+				<a>DID URL Dereferencing</a> function.</li>
+			</ol>
+			</li>
+			<li>If the <var>input <a>DID</a></var> exists and the result is a <a>service endpoint</a> URL:
+			<ol class="algorithm">
+				<li>The HTTP response status code MUST be <code>303</code>.</li>
+				<li>The HTTP response MUST contain an <code>Location</code> header. The value of this header
+				MUST be the <var>output <a>service endpoint</a> URL</a>.</li>
+			</ol>
+			</li>
 		</ol>
 
 	</section>
