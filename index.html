@@ -158,11 +158,8 @@ and dereferencing DID URLs.
 	required to communicate with a DID's <a>Decentralized Identifier Registry</a> are defined by the applicable
 	<a>DID method</a> specification.</p>
 
-	<p><a>DID Resolution</a> and <a>DID URL Dereferencing</a> do not involve any authentication or authorization
-	functionality. Anybody can perform the process, without requiring any credentials or non-public knowledge.</p>
-
 	<p class="note">The difference between "resolving" a <a>DID</a> and "dereferencing" a <a>DID URL</a>
-	is being thoroughly discussed by the community. E.g. see 
+	is being thoroughly discussed by the community. E.g. see
 	<a href="https://github.com/w3c-ccg/did-spec/issues/166#issuecomment-464502719">this comment</a>.</p>
 
 	<section id="conformance">
@@ -204,7 +201,7 @@ and dereferencing DID URLs.
     </dl>
     <dl>
       <dt><dfn data-lt="">DID Resolution</dt>
-      <dd>An algorithm that takes a <a>DID</a> plus additional options as input and produces a <a>DID Document</a>
+      <dd>An algorithm that takes a <a>DID</a> plus additional options as input and returns a <a>DID Document</a>
       or a <a>DID Resolution Result</a> as output. This algorithm relies on the "Read" operation of the applicable
       <a>DID method</a>.</dd>
     </dl>
@@ -224,7 +221,7 @@ and dereferencing DID URLs.
     </dl>
     <dl>
       <dt><dfn data-lt="">DID URL Dereferencing</dfn></dt>
-      <dd>An algorithm that takes a <a>DID URL</a> plus additional options as input and produces a <a>DID Document</a>,
+      <dd>An algorithm that takes a <a>DID URL</a> plus additional options as input and returns a <a>DID Document</a>,
       a <a>DID Resolution Result</a>, or various other types of resources as output. This algorithm relies
       on <a>DID Resolution</a>.</dd>
     </dl>
@@ -357,6 +354,11 @@ and dereferencing DID URLs.
 				multiple <a>DID methods</a>.
 			</figcaption>
 		</figure>
+		<p class="issue">TODO: Explain that different parts of the <a href="#derefernecing">DID URL Dereferencing</a>
+		function can be performed by different components of an architecture. E.g. if a <a>DID URL</a> contains a fragment
+		such as <code>did:example:1234#keys-1</code>, then a "remote" <a>DID Resolver</a> could be
+		used to resolve a <a>DID</a> to its <a>DID Document</a>, but the remaining steps of DID URL Dereferencing (in this case,
+		processing of the fragment) would be done by a "local" <a>DID Resolver</a> or a client.</p>
 
 	</section>
 
@@ -365,7 +367,7 @@ and dereferencing DID URLs.
 <section id="resolving">
 	<h1>Resolving a DID</h1>
 
-	<p>This section defines the inputs and the algorithm of <a>DID Resolution</a>, which produces
+	<p>This section defines the inputs and the algorithm of <a>DID Resolution</a>, which returns
 	a <a>DID Document</a> or a <a>DID Resolution Result</a> as output.
 	This algorithm relies on the "Read" operation of the applicable <a>DID method</a>.</p>
 
@@ -494,6 +496,11 @@ and dereferencing DID URLs.
 		<p class="issue" data-number="13">Specify how signatures/proofs on a DID Document should be verified during the
 		DID Resolution process.</p>
 
+		<p class="issue">Should we define functionality that enables discovery of the list of <a>DID methods</a> or other
+		capabilities that are supported by a <a>DID Resolver</a>? Or is this implementation-specific and out-of-scope
+		for this spec? E.g. see <a href="https://github.com/w3c-ccg/did-resolution/issues/26">here</a> and
+		<a href="https://github.com/w3c-ccg/did-resolution/issues/25">here</a>.</p>
+
 	</section>
 
 </section>
@@ -501,7 +508,7 @@ and dereferencing DID URLs.
 <section id="dereferencing">
 	<h1>Dereferencing a DID URL</h1>
 
-	<p>This section defines the inputs and the algorithm of <a>DID URL Dereferencing</a>, which produces
+	<p>This section defines the inputs and the algorithm of <a>DID URL Dereferencing</a>, which returns
 	a <a>DID Document</a>, a <a>DID Resolution Result</a>, or various other types of resources as output.
 	This algorithm relies on <a>DID Resolution</a>.</p>
 
@@ -849,7 +856,7 @@ https://example.com/messages/8377464/some/path?query#frag
 	<h1>Service Endpoint Construction</h1>
 
 	<p>This section defines the inputs and the algorithm of <a>Service Endpoint Construction</a>,
-	which produces a <a>service endpoint</a> URL as output. This algorithm is used when service endpoints
+	which returns a <a>service endpoint</a> URL as output. This algorithm is used when service endpoints
 	are selected during <a>DID URL Dereferencing</a> (see <a href="#dereferencing"></a>).</p>
 
 	<p>In this section, <code>path</code>, <code>query</code>, and <code>fragment</code> are understood as defined in [[RFC3986]].</p>
@@ -939,13 +946,16 @@ https://example.com/messages/8377464/some/path?query#frag
 		</div>
 
 		<p>The HTTP(S) Binding for <a>DID Resolvers</a> requires a known HTTP(S) URL called the
-		<var><a>DID Resolver</a> HTTP(S) endpoint</var>. Using this binding, the <a>DID Resolution</a> and/or
-		<a>DID URL Dereferencing</a> function can be executed as follows:</p>
+		<var><a>DID Resolver</a> HTTP(S) endpoint</var>.</p>
+		<p>Using this binding, the <a>DID Resolution</a> function (see
+		<a href="#resolving"></a>) and/or <a>DID URL Dereferencing</a> function (see <a href="#dereferencing"></a>)
+		can be executed as follows:</p>
 		<ol class="algorithm">
 			<li>Construct a <var>request HTTP(S) URL</var> by appending the <var>input <a>DID</a></var> or
 			<var>input <a>DID URL</a></var> to the <var><a>DID Resolver</a> HTTP(S) endpoint</var>.</li>
 			<li>Execute an HTTP <code>GET</code> request on the <var>request HTTP(S) URL</var>.</li>
-			<li>If the <var>input <a>DID</a></var> does not exist:
+			<li>If the <var>input <a>DID</a></var> does not exist (i.e. the <a>DID Resolution</a> function
+			returns a null result):
 			<ol class="algorithm">
 				<li>The HTTP response status code MUST be <code>404</code>.</li>
 			</ol>
@@ -998,7 +1008,32 @@ curl -X GET https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8p
 
 <section id="security-privacy-considerations">
 	<h1>Security and Privacy Considerations</h1>
-	
+
+	<section id="authentication">
+		<h2>Authentication/Authorization</h2>
+		<p><a>DID Resolution</a> and <a>DID URL Dereferencing</a> do not involve any authentication or authorization
+		functionality. Similar to DNS resolution, anybody can perform the process, without requiring any credentials
+		or non-public knowledge.</p>
+
+		<p class="issue" data-number="38"></p>
+
+		<div class="issue">
+		<p>Explain that DIDs are not necessarily <em>globally</em> resolvable, such as pairwise or N-wise
+		"peer" DIDs.</p>
+		<p>See [[RFC3339]]:
+		<em> URIs have a global scope and are interpreted consistently regardless of context, though the
+		result of that interpretation may be in relation to the end-user's context.</em>
+		</p>
+		<p>An advanced idea is that the result of DID Resolution could be contextual or depend on policies,
+		see <a href="https://github.com/w3c-ccg/did-resolution/issues/28#issuecomment-510592199">this comment</a>.</p>
+		</div>
+
+		<p class="issue">A related topic is whether (parts of) DID Document could be encrypted, e.g. see
+		<a href="https://github.com/w3c-ccg/did-spec/issues/172">w3c-ccg/did-spec/issues/172</a>. Also see the use
+		of the fragment in the <a href="https://did-ipid.github.io/ipid-did-method/">IPID</a> DID method.</p>
+
+	</section>
+
 	<section id="caching">
 		<h2>Caching</h2>
 		<p>A <a>DID Resolver</a> may maintain a generic cache of <a>DID Documents</a>. It may also maintain caches specific
