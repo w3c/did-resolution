@@ -277,7 +277,9 @@ and dereferencing DID URLs.
 		</div>
 
 		<p>Depending on the exact nature of the <a>DID method's</a> "Read" operation, the interaction between a
-		<a>DID Resolver</a> and the <a>Decentralized Identifier Registry</a> may be described as "local" or "remote":</p>
+		<a>DID Resolver</a> and the <a>Decentralized Identifier Registry</a> may be described as <a>Verifiable Read</a> or <a>Unverifiable Read</a>:</p>
+
+		<p class="note">A <a>Verifiable Read</a> can occur in a variety of ways. In some cases a read may be classified as "Verifiable" because a node of the decentralized identifier registry is ran on a local network host. In other cases the resolver may be remotely connected to the <a>decentralized identifier registry</a> and has some method to verify the contents of the response. In other implementations, a remote network host may be trusted because it's run on a personal device in the home.</p>
 
 		<figure id="figure-method-local">
 			<img style="margin: auto; display: block; width: 100%;" src="diagrams/method-local.png"
@@ -294,8 +296,10 @@ and dereferencing DID URLs.
 			</figcaption>
 		</figure>
 
-		<p class="note">The terms "local" and "remote" are not absolute categories when describing DID methods
+		<p class="note">The terms <a>local binding</a> and <a>remote binding</a> are not absolute categories when describing DID methods
 		and their implementations, but only an approximation with many possible variations.</p>
+		<p> A client which has a <a>local binding</a> to a resolver MUST be capable of performing all communication to resolve
+			a <a>DID</a> via direct communication with a <a>DID registry</a>.</p>
 		<p class="issue">TODO: Describe full nodes vs. light clients, blockchain explorer APIs, state proofs, etc.</p>
 		<p class="issue">TODO: Explain that even within a single <a>DID method</a>, different method architectures may be
 		possible. For example, the "btcr" DID method could be implemented with "local" access to a full node, or with
