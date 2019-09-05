@@ -224,11 +224,30 @@ and dereferencing DID URLs.
       <dd>An algorithm that takes a <a>DID URL</a> plus additional options as input and returns a <a>DID Document</a>,
       a <a>DID Resolution Result</a>, or various other types of resources as output. This algorithm relies
       on <a>DID Resolution</a>.</dd>
-    </dl>
+	</dl>
+	<dl>
+		<dt><dfn data-lt="">Local Binding</dfn></dt>
+		<dd> A method of describing the connection between the client and the resolver in such a way that the client and resolver run on the same network host.</dd>
+	</dl>
     <dl>
       <dt><dfn data-lt="">Service Endpoint</dfn></dt>
       <dd>As defined in [[DECENTRALIZED-IDENTIFIERS]].</dd>
-    </dl>
+	</dl>
+	<dl>
+		<dt><dfn data-lt="remote">Remote Binding</dfn></dt>
+		<dd> A method of describing the connection between the client and the resolver in such a way that the client and
+			resolver run on different network hosts.</dd>
+	</dl>
+	<dl>
+		<dt><dfn data-lt="">Unverifiable Read</dfn></dt>
+		<dd> A low confidence response of the DID Document or data necessary to produce a DID Document between the
+			resolver and the <a>decentralized identifier registry</a>. There's no guarantees about the response. </dd>
+	</dl>
+	<dl>
+		<dt><dfn data-lt="">Verifiable Read</dfn></dt>
+		<dd> A highly confident response of the DID Document or data necessary to produce a DID Document between the resolver and the <a>decentralized identifier registry</a>.</dd>
+	</dl>
+	
 
 </section>
 
