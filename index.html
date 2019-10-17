@@ -567,14 +567,30 @@ and dereferencing DID URLs.
 
 	<section id="dereferencing-algorithm">
 		<h2>Algorithm</h2>
-		<p>The following <a>DID URL Dereferencing</a> algorithm MUST be implemented by a conformant <a>DID Resolver</a>.</p>
+		<p>The following <a>DID URL Dereferencing</a> algorithm MUST be implemented by a conformant <a>DID Resolver</a>. It consists
+		of two parts: Dereferencing the primary resource, and dereferencing the secondary resource (only if the <var>input <a>DID URL</a></var>
+		contains a <a>DID Fragment</a>.</p>
+
+		<ol class="algorithm">
+			<li>If present, separate the <a>DID Fragment</a> from the <var>input <a>DID URL</a></var>. Execute the algorithm for
+			<a href="#dereferencing-algorithm-primary"></a>, with the <var>input <a>DID URL</a></var> adjusted
+			accordingly.</li>
+			<li>If the original <var>input <a>DID URL</a></var> contained a <a>DID Fragment</a>, execute the algorithm for
+			<a href="#dereferencing-algorithm-secondary"></a>.</li>
+		</ol>
+
+	</section>
+
+	<section id="dereferencing-algorithm-primary">
+		<h2>Dereferencing the Primary Resource</h2>
 		<ol class="algorithm">
 			<li>Obtain the <a>DID Document</a> for the <var>input <a>DID</a></var> by executing the
 			<a>DID Resolution</a> algorithm as defined in <a href="#resolving"></a>:
 			<ol class="algorithm">
-				<li>If the <var>input <a>DID URL</a></var> contains the matrix parameters <code>version-id</code> or
-				<code>version-time</code>, then they MUST be passed as <var>input options</var> to the
-				<a>DID Resolution</a> algorithm.</li>
+				<li>If the <var>input <a>DID URL</a></var> contains
+				<a href="https://w3c-ccg.github.io/did-spec/#generic-did-parameter-names"> generic
+				matrix parameters</a>, then they MUST be passed as <var>input options</var> to the <a>DID
+				Resolution</a> algorithm.</li>
 				<li>If the <var>input <a>DID URL</a></var> contains
 				<a href="https://w3c-ccg.github.io/did-spec/#method-specific-did-parameter-names"> method-specific
 				matrix parameters</a>, then they MUST be passed as <var>input options</var> to the <a>DID
@@ -583,15 +599,10 @@ and dereferencing DID URLs.
 				<li>The result is called the <var>resolved <a>DID Document</a></var>.</li>
 			</ol>
 			</li>
-			<li>If the <var>input <a>DID URL</a></var> is equal to the <var>input <a>DID</a></var> itself:
-			<pre class="example nohighlight">did:example:1234</pre>
-			<ol class="algorithm">
-				<li>Return the <var>resolved <a>DID Document</a></var>.</li>
-			</ol>
-			</li>
-			<li>If the <var>input <a>DID URL</a></var> contains the matrix parameter <code>service</code> and
-			optionally a <a>DID Path</a>, <a>DID Query</a>, and/or <a>DID Fragment</a>:
-			<pre class="example nohighlight">did:example:1234;service=agent/profile?query#frag</pre>
+			<li>If the <var>input <a>DID URL</a></var> contains the
+			<a href="https://w3c-ccg.github.io/did-spec/#generic-did-parameter-names"> generic
+			matrix parameter</a> <code>service</code> and optionally a <a>DID Path</a> and/or <a>DID Query</a>:
+			<pre class="example nohighlight">did:example:1234;service=agent/profile?query</pre>
 			<ol class="algorithm">
 				<li>From the <var>resolved <a>DID Document</a></var>, select the
 				<a href="#service-endpoint-construction">service endpoint</a> whose <code>id</code>
@@ -609,11 +620,53 @@ and dereferencing DID URLs.
 				<li>Return the <var>output <a>service endpoint</a> URL</var>.</li>
 			</ol>
 			</li>
-			<li>If the <var>input <a>DID URL</a></var> contains a <a>DID Fragment</a>:
+			<li>Otherwise, if the <var>input <a>DID URL</a></var> contains
+			<a href="https://w3c-ccg.github.io/did-spec/#method-specific-did-parameter-names"> method-specific
+			matrix parameters</a>:</a>
+			<pre class="example nohighlight">did:example:1234;example:object=myprofile</pre>
+			<ol class="algorithm">
+				<li>Defer to the applicable <a>DID Method</a> specification to determine how to dereference the
+				<var>input <a>DID URL</a></var>.</li>
+			</ol>
+			<li>Otherwise, if the <var>input <a>DID URL</a></var> contains no <a>DID Path</a> and no <a>DID Query</a>:
+			<pre class="example nohighlight">did:example:1234</pre>
+			<ol class="algorithm">
+				<li>Return the <var>resolved <a>DID Document</a></var>.</li>
+			</ol>
+			</li>
+			<li>Otherwise, if the <var>input <a>DID URL</a></var> contains a <a>DID Path</a> and/or <a>DID Query</a>:
+			<pre class="example nohighlight">did:example:1234/custom/path?customquery</pre>
+			<ol class="algorithm">
+				<li>The applicable <a>DID Method</a> MAY specify how to dereference
+				the <var>input <a>DID URL</a></var>.</li>
+				<li>The client MAY be able to dereference the <var>input <a>DID URL</a></var>
+				in an application-specific way.</li>
+			</ol>
+			</li>
+			<li>If neither this algorithm, nor the applicable <a>DID Method</a>, nor the client
+			is able to dereference the <var>input <a>DID URL</a></var>:
+			<ol class="algorithm">
+				<li>Return a null result.</li>
+			</ol>
+			</li>
+		</ol>
+
+	</section>
+
+	<section id="dereferencing-algorithm-secondary">
+		<h2>Dereferencing the Secondary Resource</h2>
+		<p>In accordance with [[RFC3986]], if the <var>input <a>DID URL</a></var> contains a <a>DID Fragment</a>,
+		then dereferencing of the secondary resource identified by the URL is dependent not on the URI scheme, but
+		on the media type ([[RFC2046]]) of the primary resource, i.e. on the result of
+		<a href="#dereferencing-algorithm-primary"></a>.</p> 
+		<ol class="algorithm">
+			<li>If the result of <a href="#dereferencing-algorithm-primary"></a> is a <var>resolved <a>DID Document</a></var>,
+			and the <var>input <a>DID URL</a></var> contains a <a>DID Fragment</a>:
 			<pre class="example nohighlight">did:example:1234#keys-1</pre>
 			<ol class="algorithm">
 				<li>From the <var>resolved <a>DID Document</a></var>, select the JSON-LD object whose <code>id</code>
-				property matches the <var>input <a>DID URL</a></var>. This is called the <var>output resource</var>.
+				property matches the <var>input <a>DID URL</a></var>, e.g. a public key or service endpoint in the
+				<a>DID Document</a>. This is called the <var>output resource</var>.
 				Selecting the JSON-LD object from the <a>DID Document</a> MUST take into account relative IRIs and
 				the base IRI of the <var>resolved <a>DID Document</a></var>.</li>
 				<li>Return the <var>output resource</var>.
@@ -639,6 +692,24 @@ and dereferencing DID URLs.
 				</p>
 				</li>
 			</ol>
+			</li>
+			<li>Otherwise, if the result of <a href="#dereferencing-algorithm-primary"></a> is an <var>output <a>service endpoint</a> URL</var>,
+			and the <var>input <a>DID URL</a></var> contains a <a>DID Fragment</a>:
+			<pre class="example nohighlight">did:example:1234;service=agent/profile?query#frag</pre>
+			<ol class="algorithm">
+				<li>Append the <a>DID Fragment</a> to the <var>output <a>service endpoint</a> URL</var>. In other words,
+				the <var>output <a>service endpoint</a> URL</var> "inherits" the <a>DID Fragment</a> of the
+				<var>input <a>DID URL</a></var>.</li>
+				<li>Return the <var>output <a>service endpoint</a> URL</var>.</li>
+				<p class="note">
+				This behavior of the <a>DID Fragment</a> is analogous to the handling of a fragment in an HTTP URL in the
+				case when dereferencing it returns an HTTP <code>3xx</code> (Redirection) response with a
+				<code>Location</code> header (see section 7.1.2 of [[RFC7231]].
+				</p>
+				</li>
+			</ol>
+			<li>Otherwise, dereference the secondary resource as defined by the media type ([[RFC2046]]) of the primary resource.
+			</li>
 			</li>
 		</ol>
 
@@ -704,12 +775,17 @@ and dereferencing DID URLs.
 	</section>
 
 	<section>
-		<h2>Example</h2>
-		<p>Given the following <a>DID Document</a>:<p>
+		<h2>Examples</h2>
+		<p>Given the following <var>resolved <a>DID Document</a></var>:<p>
 		<pre class="example nohighlight">
 {
   "@context": ["https://w3id.org/did/v1", "https://w3id.org/security/v1"],
   "id": "did:example:123456789abcdefghi",
+  "publicKey": [{
+    "id": "did:example:123456789abcdefghi#keys-1",
+    "type": "RsaVerificationKey2018",
+    "publicKeyPem": "-----BEGIN PUB...0101010..END PUB -----\r\n"
+  }],
   "service": [{
     "id": "did:example:123456789abcdefghi#agent",
     "type": "AgentService",
@@ -725,7 +801,20 @@ and dereferencing DID URLs.
   }]
 }
 </pre>
-		<p>And given the following <var>input <a>DID URL</a></var>:</p>
+		<p>Given the following <var>input <a>DID URL</a></var> and the <var>resolved <a>DID Document</a></var> above:</p>
+		<pre class="example nohighlight">
+did:example:123456789abcdefghi#keys-1
+</pre>
+		<p>Then the result of the <a href="#dereferencing"></a> algorithm is the following <var>output resource</var>:</p>
+		<pre class="example nohighlight">
+{
+  "@context": ["https://w3id.org/did/v1", "https://w3id.org/security/v1"],
+  "id": "did:example:123456789abcdefghi#keys-1",
+  "type": "RsaVerificationKey2018",
+  "publicKeyPem": "-----BEGIN PUB...0101010..END PUB -----\r\n"
+}
+</pre>
+		<p>Given the following <var>input <a>DID URL</a></var> and the <var>resolved <a>DID Document</a></var> above:</p>
 		<pre class="example nohighlight">
 did:example:123456789abcdefghi;service=messages/some/path?query#frag
 </pre>
@@ -740,6 +829,7 @@ https://example.com/messages/8377464/some/path?query#frag
 				Dereferencing a DID URL to a service endpoint URL.
 			</figcaption>
 		</figure>
+		<p class="issue">Change the diagram and/or examples to make them consistent.</p>
 
 	</section>
 
