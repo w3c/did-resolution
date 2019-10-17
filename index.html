@@ -660,8 +660,9 @@ and dereferencing DID URLs.
 		on the media type ([[RFC2046]]) of the primary resource, i.e. on the result of
 		<a href="#dereferencing-algorithm-primary"></a>.</p> 
 		<ol class="algorithm">
-			<li>If the result of <a href="#dereferencing-algorithm-primary"></a> is a <var>resolved <a>DID Document</a></var>,
-			and the <var>input <a>DID URL</a></var> contains a <a>DID Fragment</a>:
+			<li>If the result of <a href="#dereferencing-algorithm-primary"></a> is a <var>resolved <a>DID Document</a></var>
+			with MIME type <code>application/did+ld+json</code>, and the <var>input <a>DID URL</a></var> contains a
+			<a>DID Fragment</a>:
 			<pre class="example nohighlight">did:example:1234#keys-1</pre>
 			<ol class="algorithm">
 				<li>From the <var>resolved <a>DID Document</a></var>, select the JSON-LD object whose <code>id</code>
