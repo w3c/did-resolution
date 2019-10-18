@@ -567,11 +567,20 @@ and dereferencing DID URLs.
 
 	<section id="dereferencing-algorithm">
 		<h2>Algorithm</h2>
-		<p>The following <a>DID URL Dereferencing</a> algorithm MUST be implemented by a conformant <a>DID Resolver</a>. It consists
-		of two parts: Dereferencing the primary resource, and dereferencing the secondary resource (only if the <var>input <a>DID URL</a></var>
-		contains a <a>DID Fragment</a>.</p>
+		<p>The following <a>DID URL Dereferencing</a> algorithm MUST be implemented by a conformant <a>DID Resolver</a>.
+		In accordance with [[RFC3986]], in consists of the following steps: Resolving the DID, dereferencing the primary
+		resource, and dereferencing the secondary resource (only if the <var>input <a>DID URL</a></var> contains a <a>DID Fragment</a>:</p>
 
 		<ol class="algorithm">
+			<li>Obtain the <a>DID Document</a> for the <var>input <a>DID</a></var> by executing the
+			<a>DID Resolution</a> algorithm as defined in <a href="#resolving"></a>. All
+				<a href="https://w3c-ccg.github.io/did-spec/#generic-did-parameter-names"> generic
+				matrix parameters</a> as well as
+				<a href="https://w3c-ccg.github.io/did-spec/#method-specific-did-parameter-names"> method-specific
+				matrix parameters</a> MUST be passed as <var>input options</var> to the <a>DID
+				Resolution</a> algorithm. If the <var>input <a>DID</a></var> does not exist, return a null result.
+				The result is called the <var>resolved <a>DID Document</a></var>.</li>
+			</li>
 			<li>If present, separate the <a>DID Fragment</a> from the <var>input <a>DID URL</a></var>. Execute the algorithm for
 			<a href="#dereferencing-algorithm-primary"></a>, with the <var>input <a>DID URL</a></var> adjusted
 			accordingly.</li>
@@ -584,21 +593,6 @@ and dereferencing DID URLs.
 	<section id="dereferencing-algorithm-primary">
 		<h2>Dereferencing the Primary Resource</h2>
 		<ol class="algorithm">
-			<li>Obtain the <a>DID Document</a> for the <var>input <a>DID</a></var> by executing the
-			<a>DID Resolution</a> algorithm as defined in <a href="#resolving"></a>:
-			<ol class="algorithm">
-				<li>If the <var>input <a>DID URL</a></var> contains
-				<a href="https://w3c-ccg.github.io/did-spec/#generic-did-parameter-names"> generic
-				matrix parameters</a>, then they MUST be passed as <var>input options</var> to the <a>DID
-				Resolution</a> algorithm.</li>
-				<li>If the <var>input <a>DID URL</a></var> contains
-				<a href="https://w3c-ccg.github.io/did-spec/#method-specific-did-parameter-names"> method-specific
-				matrix parameters</a>, then they MUST be passed as <var>input options</var> to the <a>DID
-				Resolution</a> algorithm.</li>
-				<li>If the <var>input <a>DID</a></var> does not exist, return a null result.</li>
-				<li>The result is called the <var>resolved <a>DID Document</a></var>.</li>
-			</ol>
-			</li>
 			<li>If the <var>input <a>DID URL</a></var> contains the
 			<a href="https://w3c-ccg.github.io/did-spec/#generic-did-parameter-names"> generic
 			matrix parameter</a> <code>service</code> and optionally a <a>DID Path</a> and/or <a>DID Query</a>:
@@ -655,7 +649,7 @@ and dereferencing DID URLs.
 
 	<section id="dereferencing-algorithm-secondary">
 		<h2>Dereferencing the Secondary Resource</h2>
-		<p>In accordance with [[RFC3986]], if the <var>input <a>DID URL</a></var> contains a <a>DID Fragment</a>,
+		<p>If the <var>input <a>DID URL</a></var> contains a <a>DID Fragment</a>,
 		then dereferencing of the secondary resource identified by the URL is dependent not on the URI scheme, but
 		on the media type ([[RFC2046]]) of the primary resource, i.e. on the result of
 		<a href="#dereferencing-algorithm-primary"></a>.</p> 
