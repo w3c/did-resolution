@@ -172,6 +172,14 @@ and dereferencing DID URLs.
 	<h1>Terminology</h1>
 
     <dl>
+      <dt><dfn>Binding</dfn></dt>
+      <dd>A concrete mechanism through which a <a>Client</a> invokes a <a>DID Resolver</a>. This could be a <a>Local Binding</a> such as a local command line tool or library API, or a <a>Remote Binding</a> such as the <a href="#bindings-https">HTTP(S) Binding</a>. See Section <a href="#binding-architectures"></a>.</dd>
+    </dl>
+    <dl>
+      <dt><dfn>Client</dfn></dt>
+      <dd>Software and/or hardware that invokes a <a>DID Resolver</a> in order to execute the <a>DID Resolution</a> and/or <a>DID URL Dereferencing</a> algorithms. This invocation is done via a <a>Binding</a>. The term <a>Client</a> does not imply any specific network topology.</dd>
+    </dl>
+    <dl>
       <dt><dfn data-lt="DID|DIDs|decentralized identifiers">Decentralized Identifier</dfn> (DID)</dt>
       <dd>As defined in [[DECENTRALIZED-IDENTIFIERS]].</dd>
     </dl>
