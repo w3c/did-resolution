@@ -56,6 +56,58 @@ var ccg = {
         "Richard Cyganiak"
       ],
       status: "Interest Group Note"
+    },
+    "KERI": {
+      title: "Key Event Receipt Infrastructure (KERI)",
+      date: "July 2019",
+      href: "https://arxiv.org/abs/1907.02143",
+      authors: [
+        "Samuel M. Smith"
+      ]
+    },
+    "DID-PEER": {
+      title: "Peer DID Method Specification",
+      subtitle: "blockchain-independent decentralized identifiers",
+      date: "16 October 2019",
+      href: "https://openssi.github.io/peer-did-method-spec/index.html",
+      editors: [
+        "Daniel Hardman",
+      ],
+      authors: [
+        "Oskar Deventer",
+        "Christian Lundkvist",
+        "Márton Csernai",
+        "Kyle Den Hartog",
+        "Markus Sabadello",
+        "Sam Curren",
+        "Dan Gisolfi",
+        "Mike Varley",
+        "Sven Hammann",
+        "John Jordan",
+        "Lovesh Harchandani",
+        "Devin Fisher",
+        "Tobias Looker",
+        "Brent Zundel",
+        "Stephen Curran"
+      ],
+      status: "ED"
+    },
+    "DID-KEY": {
+      title: "The did:key Method",
+      subtitle: "A DID Method for Static Cryptographic Keys",
+      date: "18 November 2019",
+      href: "https://digitalbazaar.github.io/did-method-key/",
+      editors: [
+        "Manu Sporny",
+        "Dmitri Zagidulin",
+        "Dave Longley"
+      ],
+      authors: [
+        "Manu Sporny",
+        "Dmitri Zagidulin",
+        "Dave Longley"
+      ],
+      status: "unofficial"
     }
   }
 };
