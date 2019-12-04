@@ -173,7 +173,7 @@ and dereferencing DID URLs.
 
     <dl>
       <dt><dfn>Binding</dfn></dt>
-      <dd>A concrete mechanism through which a <a>Client</a> invokes a <a>DID Resolver</a>. This could be a <a>Local Binding</a> such as a local command line tool or library API, or a <a>Remote Binding</a> such as the <a href="#bindings-https">HTTP(S) Binding</a>. See Section <a href="#binding-architectures"></a>.</dd>
+      <dd>A concrete mechanism through which a <a>Client</a> invokes a <a>DID Resolver</a>. This could be a <a>Local Binding</a> such as a local command line tool or library API, or a <a>Remote Binding</a> such as the <a href="#bindings-https">HTTP(S) Binding</a>. See Section <a href="#resolver-architectures"></a>.</dd>
     </dl>
     <dl>
       <dt><dfn>Client</dfn></dt>
@@ -235,11 +235,15 @@ and dereferencing DID URLs.
 	</dl>
 	<dl>
 		<dt><dfn data-lt="">Local Binding</dfn></dt>
-		<dd>A <a>Binding</a> where the <a>Client</a> invokes a <a>DID Resolver</a> that runs on the same network host, e.g. via a local command line tool or library API. See Section <a href="#binding-architectures"></a>.</dd>
+		<dd>A <a>Binding</a> where the <a>Client</a> invokes a <a>DID Resolver</a> that runs on the same network host, e.g. via a local command line tool or library API.
+		In this case, the <a>DID Resolver</a> is sometimes also called a "local <a>DID Resolver</a>".
+		See Section <a href="#resolver-architectures"></a>.</dd>
 	</dl>
 	<dl>
 		<dt><dfn data-lt="remote">Remote Binding</dfn></dt>
-		<dd>A <a>Binding</a> where the <a>Client</a> invokes a <a>DID Resolver</a> that runs on a different network host, e.g. via the <a href="#bindings-https">HTTP(S) Binding</a>. See Section <a href="#binding-architectures"></a>.</dd>
+		<dd>A <a>Binding</a> where the <a>Client</a> invokes a <a>DID Resolver</a> that runs on a different network host, e.g. via the <a href="#bindings-https">HTTP(S) Binding</a>.
+		In this case, the <a>DID Resolver</a> is sometimes also called a "remote <a>DID Resolver</a>".
+		See Section <a href="#resolver-architectures"></a>.</dd>
 	</dl>
     <dl>
       <dt><dfn data-lt="">Service Endpoint</dfn></dt>
@@ -259,177 +263,6 @@ and dereferencing DID URLs.
 		See Section <a href="#method-architectures"></a>.</dd>
 	</dl>
 	
-
-</section>
-
-<section id="architectures">
-	<h1>DID Resolver Architectures</h1>
-	<p class="issue">TODO: Describe how <a>DID Resolvers</a> are implemented and used, describe the relevance
-	of <a>DID methods</a>.
-	Explain the difference between "method architectures" and "binding architectures".</p>
-
-	<section id="method-architectures">
-		<h2>Method Architectures</h2>
-		<p>The <a>DID Resolution</a> algorithm involves executing the <a href="https://w3c-ccg.github.io/did-spec/#read-verify">Read</a>
-		operation on a <a>DID</a> according to its <a>DID method</a> (see <a href="#resolving"></a>).</p>
-
-		<div class="note">
-		<p>The mechanics of the "Read" operation can vary considerably between
-		<a>DID methods</a>. In particular, no assumption should be made that:</p>
-		<ul>
-		<li>... an immutable blockchain is used as (part of) the <a>Decentralized Identifier Registry</a>.</li>
-		<li>... interaction with a remote network is required during execution of the "Read" operation.</li>
-		<li>... an actual <a>DID Document</a> is stored in plain-text on a <a>Decentralized Identifier Registry</a>,
-		or that the <a>DID Document</a> can simply be retrieved via a standard protocol such as HTTP(S).
-		While some <a>DID methods</a> may define their "Read" operation this way, others may
-		define more complex multi-step processes that involve on-the-fly construction of a "virtual" <a>DID Document</a>.</li>
-		</ul>
-		</div>
-
-		<p class="issue">As an example, mention what it means to "resolve" peer/off-ledger/microledger/edgechain DIDs (e.g. see
-		[[DID-PEER]] and
-		<a href="https://docs.google.com/presentation/d/1UnC_nfOUK40WS5TD_EhyDuFe5cStX-u0Z7wjoae_PqQ/">here</a>).</p>
-
-		<p class="issue">As an example, mention what it means to "resolve" DIDs that are simply wrapped public keys (e.g. see
-		[[DID-KEY]] and
-		<a href="https://github.com/w3c-ccg/did-spec/pull/55">here</a>).</p>
-
-		<p>Depending on the exact nature of the <a>DID method's</a> "Read" operation, the interaction between a
-		<a>DID Resolver</a> and the <a>Decentralized Identifier Registry</a> may be implemented as a <a>Verifiable Read</a>
-		or <a>Unverifiable Read</a>:</p>
-
-		<figure id="figure-method-verifiable">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/method-verifiable.png"
-			alt="Diagram showing a 'Verifiable Read' implementation of a DID method.">
-			<figcaption style="text-align: center;">
-				A <a>Verifiable Read</a> implementation of a <a>DID method</a>.
-			</figcaption>
-		</figure>
-		<figure id="figure-method-unverifiable">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/method-unverifiable.png"
-			alt="Diagram showing an 'Unverifiable Read' implementation of a DID method.">
-			<figcaption style="text-align: center;">
-				An <a>Unverifiable Read</a> implementation of a <a>DID method</a>.
-			</figcaption>
-		</figure>
-
-		<p>
-			A <a>Verifiable Read</a> maximizes confidence in the integrity and correctness of the result of the "Read" operation ‐ to the extent
-			possible under the applicable <a>DID method</a>. It can be implemented in a variety of ways, for example:
-		</p>
-
-		<ul>
-		<li>A "Read" operation may be considered "Verifiable" if access to the <a>Decentralized Identifier Registry</a> is
-			possible via a local, trusted network host. In the case of blockchain-based <a>DID methods</a>, a blockchain full node
-			may be run on a local network host in order to implement a <a>Verifiable Read</a>.</li>
-		<li>The <a>DID Resolver</a> may be remotely connected to the <a>Decentralized Identifier Registry</a> but have some method
-			to verify the contents of the response of the "Read" operation. In the case of blockchain-based <a>DID methods</a>, even if
-			direct access to a blockchain full node is not available, a <a>Verifiable Read</a> may still be possible by running a light client that
-			processes metadata to verify that the result of the "Read" operation hasn't been tampered with.</li>
-		<li>A <a>Verifiable Read</a> may be implemented if access to the <a>Decentralized Identifier Registry</a> happens via a remote
-			network host that is considered trusted because it is run on a personal device in the home and accessed via
-			a secure channel.</li>
-		</ul>
-
-		<p>
-			An <a>Unverifiable Read</a> does not have such guarantees and is therefore less desirable, for example:
-		</p>
-
-		<ul>
-		<li>A "Read" operation may be considered "Unverifiable" if access to the <a>Decentralized Identifier Registry</a> happens
-			via a remote, untrusted intermediary. In the case of blockchain-based <a>DID methods</a>, a remote blockchain explorer API
-			operated by an third party may be used to look up data from the blockchain.</li>
-		</ul>
-
-		<p>
-			Whether or not a <a>Verifiable Read</a> is possible depends not only on a <a>DID method</a> itself, but also on the way how
-			a <a>DID Resolver</a> implements it. <a>DID methods</a> MAY define multiple different ways of implementing their "Read"
-			operation(s) and SHOULD offer guidance on how to implement a <a>Verifiable Read</a> in at least one way.
-		</p>
-
-		<p class="note">
-			The guarantees associated with a <a>Verifiable Read</a> are still always limited by the architectures, protocols, cryptography,
-			and other aspects of the underlying <a>Decentralized Identifier Registry</a>. The strongest forms of <a>Verifiable Read</a>
-			implementations are considered those that do not require any interaction with a remote network at all (for example, see
-			[[DID-KEY]]), or that minimize dependencies on specific network infrastructure and reduce the "root of trust"
-			to proven entropy and cryptography alone (for example, see [[KERI]]).
-		</p>
-
-		<p class="issue">TODO: Describe how a client can potentially verify the result of a "Read" operation independently even if it does
-		not trust the DID resolver (e.g. using state proofs).</p>
-
-		<p>A <a>DID Resolver</a> MUST support the <a>DID Resolution</a> algorithm for at least one <a>DID method</a> and
-		MAY support it for multiple <a>DID methods</a>:</p>
-		<figure id="figure-method-multiple">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/method-multiple.png"
-			alt="Diagram showing a DID Resolver that supports multiple DID methods.">
-			<figcaption style="text-align: center;">
-				A <a>DID Resolver</a> that supports multiple <a>DID methods</a>.
-			</figcaption>
-		</figure>
-
-		<p>In this case, the above considerations about <a>Verifiable Read</a> and <a>Unverifiable Read</a>
-		implementations apply to each supported <a>DID method</a> individually.</p>
-
-	</section>
-
-	<section id="binding-architectures">
-		<h2>Binding Architectures</h1>
-		<p>The algorithms for <a>DID Resolution</a> and <a>DID URL Dereferencing</a> are defined as abstract functions
-		(see <a href="#resolving"></a> and <a href="#dereferencing"></a>).</p>
-		Those algorithms are implemented by <a>DID Resolvers</a>. A <a>DID Resolver</a> is invoked by a <a>Client</a>
-		via a <a>Binding</a>. Bindings define how the abstract functions are realized using concrete
-		programming or communication interfaces. It is possible to distinguish between <a>Local Bindings</a>
-		(such as a local command line tool or library API) and <a>Remote Bindings</a> (such as the
-		<a href="#bindings-https">HTTP(S) Binding</a>).</p>
-
-		<figure id="figure-binding-local">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/binding-local.png"
-			alt="Diagram showing a DID Resolver with a 'Local Binding'.">
-			<figcaption style="text-align: center;">
-				A <a>Local Binding</a> for a <a>DID Resolver</a>.
-			</figcaption>
-		</figure>
-		<figure id="figure-binding-remote">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/binding-remote.png"
-			alt="Diagram showing a DID Resolver with a 'Remote Binding'.">
-			<figcaption style="text-align: center;">
-				A <a>Remote Binding</a> for a <a>DID Resolver</a>.
-			</figcaption>
-		</figure>
-
-		<div class="issue" data-number="28">
-			<p>TODO: Describe "local" bindings vs. "remote" bindings, and implications for privacy, security and trust.</p>
-			<p>Also describe mitigations against potential downsides of "remote" bindings, e.g.:</p>
-			<ul>
-				<li>A <a>DID Resolver's</a> "remote" binding can use a trusted channel such as VPN or TLS with mutual authentication.</li>
-				<li>A <a>DID Resolver</a> can add a <a href="https://w3c-ccg.github.io/did-spec/#proof-optional">proof</a>
-				to a <a>DID Document</a>. Discuss what this does and doesn't achieve. Also see
-				<a href="https://w3c-ccg.github.io/did-spec/#binding-of-identity">Binding of Identity</a>.</li>
-				<li>A client could query multiple "remote" <a>DID Resolvers</a> and compare results.</li>
-			</ul>
-		</div>
-		<p class="issue">TODO: Discuss DID Resolution in constrained user agents such as mobile apps and browsers.</p>
-
-		<p>A <a>DID Resolver</a> MAY invoke another <a>DID Resolver</a> in order to delegate (part of)
-		the <a>DID Resolution</a> and <a>DID URL Dereferencing</a> algorithms. For example, a <a>DID Resolver</a> may be
-		invoked via a "local" binding (such as a command line tool), which in turn invokes another DID Resolver
-		via a "remote" binding (such as the <a href="#bindings-https">HTTP(S) Binding</a>).</p>
-		<figure id="figure-binding-chained">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/binding-chained.png"
-			alt="Diagram showing a "local" DID Resolver that invokes a "remote" DID Resolver.">
-			<figcaption style="text-align: center;">
-				A "local" <a>DID Resolver</a> that invokes a "remote" <a>DID Resolver</a>, which in turn supports
-				multiple <a>DID methods</a>.
-			</figcaption>
-		</figure>
-		<p class="issue">TODO: Explain that different parts of the <a href="#dereferencing">DID URL Dereferencing</a>
-		function can be performed by different components of an architecture. E.g. if a <a>DID URL</a> contains a fragment
-		such as <code>did:example:1234#keys-1</code>, then a "remote" <a>DID Resolver</a> could be
-		used to resolve a <a>DID</a> to its <a>DID Document</a>, but the remaining steps of DID URL Dereferencing (in this case,
-		processing of the fragment) would be done by a "local" <a>DID Resolver</a> or a client.</p>
-
-	</section>
 
 </section>
 
@@ -774,7 +607,7 @@ and dereferencing DID URLs.
 		</ol>
 
 	</section>
-	
+
 	<section>
 		<h2>Additional Features</h2>
 		<p class="note">This section lists additional <a>DID URL Dereferencing</a> features that are under discussion and
@@ -890,6 +723,231 @@ https://example.com/messages/8377464/some/path?query#frag
 			</figcaption>
 		</figure>
 		<p class="issue">Change the diagram and/or examples to make them consistent.</p>
+
+	</section>
+
+</section>
+
+<section id="architectures">
+	<h1>DID Resolution Architectures</h1>
+	<p class="issue">TODO: Describe how <a>DID Resolvers</a> are implemented and used, describe the relevance
+	of <a>DID methods</a>.
+	Explain the difference between "method architectures" and "resolver architectures".</p>
+
+	<section id="method-architectures">
+		<h2>Method Architectures</h2>
+		<p>The <a>DID Resolution</a> algorithm involves executing the <a href="https://w3c-ccg.github.io/did-spec/#read-verify">Read</a>
+		operation on a <a>DID</a> according to its <a>DID method</a> (see <a href="#resolving"></a>).</p>
+
+		<div class="note">
+		<p>The mechanics of the "Read" operation can vary considerably between
+		<a>DID methods</a>. In particular, no assumption should be made that:</p>
+		<ul>
+		<li>... an immutable blockchain is used as (part of) the <a>Decentralized Identifier Registry</a>.</li>
+		<li>... interaction with a remote network is required during execution of the "Read" operation.</li>
+		<li>... an actual <a>DID Document</a> is stored in plain-text on a <a>Decentralized Identifier Registry</a>,
+		or that the <a>DID Document</a> can simply be retrieved via a standard protocol such as HTTP(S).
+		While some <a>DID methods</a> may define their "Read" operation this way, others may
+		define more complex multi-step processes that involve on-the-fly construction of a "virtual" <a>DID Document</a>.</li>
+		</ul>
+		</div>
+
+		<p class="issue">As an example, mention what it means to "resolve" peer/off-ledger/microledger/edgechain DIDs (e.g. see
+		[[DID-PEER]] and
+		<a href="https://docs.google.com/presentation/d/1UnC_nfOUK40WS5TD_EhyDuFe5cStX-u0Z7wjoae_PqQ/">here</a>).</p>
+
+		<p class="issue">As an example, mention what it means to "resolve" DIDs that are simply wrapped public keys (e.g. see
+		[[DID-KEY]] and
+		<a href="https://github.com/w3c-ccg/did-spec/pull/55">here</a>).</p>
+
+		<p>Depending on the exact nature of the <a>DID method's</a> "Read" operation, the interaction between a
+		<a>DID Resolver</a> and the <a>Decentralized Identifier Registry</a> may be implemented as a <a>Verifiable Read</a>
+		or <a>Unverifiable Read</a>:</p>
+
+		<figure id="figure-method-verifiable">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/method-verifiable.png"
+			alt="Diagram showing a 'Verifiable Read' implementation of a DID method.">
+			<figcaption style="text-align: center;">
+				A <a>Verifiable Read</a> implementation of a <a>DID method</a>.
+			</figcaption>
+		</figure>
+		<figure id="figure-method-unverifiable">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/method-unverifiable.png"
+			alt="Diagram showing an 'Unverifiable Read' implementation of a DID method.">
+			<figcaption style="text-align: center;">
+				An <a>Unverifiable Read</a> implementation of a <a>DID method</a>.
+			</figcaption>
+		</figure>
+
+		<p>
+			A <a>Verifiable Read</a> maximizes confidence in the integrity and correctness of the result of the "Read" operation ‐ to the extent
+			possible under the applicable <a>DID method</a>. It can be implemented in a variety of ways, for example:
+		</p>
+
+		<ul>
+		<li>A "Read" operation may be considered "Verifiable" if access to the <a>Decentralized Identifier Registry</a> is
+			possible via a local, trusted network host. In the case of blockchain-based <a>DID methods</a>, a blockchain full node
+			may be run on a local network host in order to implement a <a>Verifiable Read</a>.</li>
+		<li>The <a>DID Resolver</a> may be remotely connected to the <a>Decentralized Identifier Registry</a> but have some method
+			to verify the contents of the response of the "Read" operation. In the case of blockchain-based <a>DID methods</a>, even if
+			direct access to a blockchain full node is not available, a <a>Verifiable Read</a> may still be possible by running a light client that
+			processes metadata to verify that the result of the "Read" operation hasn't been tampered with.</li>
+		<li>A <a>Verifiable Read</a> may be implemented if access to the <a>Decentralized Identifier Registry</a> happens via a remote
+			network host that is considered trusted because it is run on a personal device in the home and accessed via
+			a secure channel.</li>
+		</ul>
+
+		<p>
+			An <a>Unverifiable Read</a> does not have such guarantees and is therefore less desirable, for example:
+		</p>
+
+		<ul>
+		<li>A "Read" operation may be considered "Unverifiable" if access to the <a>Decentralized Identifier Registry</a> happens
+			via a remote, untrusted intermediary. In the case of blockchain-based <a>DID methods</a>, a remote blockchain explorer API
+			operated by an third party may be used to look up data from the blockchain.</li>
+		</ul>
+
+		<p>
+			Whether or not a <a>Verifiable Read</a> is possible depends not only on a <a>DID method</a> itself, but also on the way how
+			a <a>DID Resolver</a> implements it. <a>DID methods</a> MAY define multiple different ways of implementing their "Read"
+			operation(s) and SHOULD offer guidance on how to implement a <a>Verifiable Read</a> in at least one way.
+		</p>
+
+		<p class="note">
+			The guarantees associated with a <a>Verifiable Read</a> are still always limited by the architectures, protocols, cryptography,
+			and other aspects of the underlying <a>Decentralized Identifier Registry</a>. The strongest forms of <a>Verifiable Read</a>
+			implementations are considered those that do not require any interaction with a remote network at all (for example, see
+			[[DID-KEY]]), or that minimize dependencies on specific network infrastructure and reduce the "root of trust"
+			to proven entropy and cryptography alone (for example, see [[KERI]]).
+		</p>
+
+		<p class="issue">TODO: Describe how a client can potentially verify the result of a "Read" operation independently even if it does
+		not trust the DID resolver (e.g. using state proofs).</p>
+
+		<p>A <a>DID Resolver</a> MUST support the <a>DID Resolution</a> algorithm for at least one <a>DID method</a> and
+		MAY support it for multiple <a>DID methods</a>:</p>
+		<figure id="figure-method-multiple">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/method-multiple.png"
+			alt="Diagram showing a DID Resolver that supports multiple DID methods.">
+			<figcaption style="text-align: center;">
+				A <a>DID Resolver</a> that supports multiple <a>DID methods</a>.
+			</figcaption>
+		</figure>
+
+		<p>In this case, the above considerations about <a>Verifiable Read</a> and <a>Unverifiable Read</a>
+		implementations apply to each supported <a>DID method</a> individually.</p>
+
+	</section>
+
+	<section id="resolver-architectures">
+		<h2>Resolver Architectures</h2>
+		<p>The algorithms for <a>DID Resolution</a> and <a>DID URL Dereferencing</a> are defined as abstract functions
+		(see <a href="#resolving"></a> and <a href="#dereferencing"></a>).</p>
+		Those algorithms are implemented by <a>DID Resolvers</a>. A <a>DID Resolver</a> is invoked by a <a>Client</a>
+		via a <a>Binding</a>. Bindings define how the abstract functions are realized using concrete
+		programming or communication interfaces. It is possible to distinguish between <a>Local Bindings</a>
+		(such as a local command line tool or library API) and <a>Remote Bindings</a> (such as the
+		<a href="#bindings-https">HTTP(S) Binding</a>).</p>
+
+		<figure id="figure-binding-local">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/binding-local.png"
+			alt="Diagram showing a DID Resolver with a 'Local Binding'.">
+			<figcaption style="text-align: center;">
+				A <a>Local Binding</a> for a <a>DID Resolver</a>.
+			</figcaption>
+		</figure>
+		<figure id="figure-binding-remote">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/binding-remote.png"
+			alt="Diagram showing a DID Resolver with a 'Remote Binding'.">
+			<figcaption style="text-align: center;">
+				A <a>Remote Binding</a> for a <a>DID Resolver</a>.
+			</figcaption>
+		</figure>
+
+		<div class="issue" data-number="28">
+			<p>TODO: Describe <a>Local Bindings</a> vs. <a>Remote Bindings</a>, and implications for privacy, security and trust.</p>
+			<p>Also describe mitigations against potential downsides of <a>Remote Bindings</a>, e.g.:</p>
+			<ul>
+				<li>A <a>DID Resolver's</a> <a>Remote Binding</a> can use a trusted channel such as VPN or TLS with mutual authentication.</li>
+				<li>A <a>DID Resolver</a> can add a <a href="https://w3c-ccg.github.io/did-spec/#proof-optional">proof</a>
+				to a <a>DID Document</a> and/or the <a>DID Resolution Result</a>. Discuss what this does and doesn't achieve. Also see
+				<a href="https://w3c-ccg.github.io/did-spec/#binding-of-identity">Binding of Identity</a>.</li>
+				<li>A client could query multiple <a>DID Resolvers</a> over a <a>Remote Binding</a> and compare results.</li>
+			</ul>
+		</div>
+		<p class="issue">TODO: Discuss DID Resolution in constrained user agents such as mobile apps and browsers.</p>
+
+	<section id="resolver-architectures-delegated">
+		<h2>Delegated Dereferencing</h2>
+
+		<p>A <a>DID Resolver</a> MAY invoke another <a>DID Resolver</a> in order to delegate (part of)
+		the <a>DID Resolution</a> and/or <a>DID URL Dereferencing</a> algorithms. The first <a>DID Resolver</a> then acts
+		as a <a>Client</a> and chooses a suitable <a>Binding</a> for invoking the second <a>DID Resolver</a>. For example, a <a>DID Resolver</a> may be
+		invoked via a <a>Local Binding</a> (such as a command line tool), which in turn invokes another <a>DID Resolver</a>
+		via a <a>Remote Binding</a> (such as the <a href="#bindings-https">HTTP(S) Binding</a>).</p>
+		<figure id="figure-binding-chained">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/binding-chained.png"
+			alt="Diagram showing two DID Resolvers, one invoked via 'Local Binding', the other invoked via 'Remote Binding'.">
+			<figcaption style="text-align: center;">
+				A client invokes a <a>DID Resolver</a> via <a>Local Binding</a> which invokes another <a>DID Resolver</a> via
+				<a>Remote Binding</a>, which in turn supports resolving multiple <a>DID methods</a>.
+			</figcaption>
+		</figure>
+
+		<p class="note">This is similar to a "stub resolver" invoking a "recursive resolver" in DNS architecture, although
+		the concepts are not entirely comparable.</p>
+
+	</section>
+
+	<section id="resolver-architectures-partial">
+		<h2>Partial Dereferencing</h2>
+
+		<p>Different parts of the <a href="#dereferencing">DID URL Dereferencing</a>
+		algorithm may be performed by different components of a <a href="#resolver-architectures">Resolver Architecture</a>,
+		especially in combination with <a href="#resolver-architectures-delegated">Delegated Dereferencing</a>.</p>
+
+		<p>Example: Given the <a>DID URL</a> <code>did:xyz:1234#keys-1</code>, a <a>DID Resolver</a> could be invoked
+		via <a>Local Binding</a>
+		for <a href="#dereferencing-algorithm-primary">Dereferencing the Primary Resource</a> (i.e. the <a>DID Document</a>),
+		and the <a>Client</a> could complete the <a>DID URL Dereferencing</a> algorithm by
+		<a href="#dereferencing-algorithm-secondary">Dereferencing the Secondary Resource</a> (i.e. a part of the <a>DID Document</a>).</p>
+
+		<figure id="figure-partial-dereferencing-1">
+			<img style="display: block; width: 100%;" src="diagrams/partial-dereferencing-1.png"
+			alt="Diagram showing partial dereferencing of a DID URL by a DID Resolver and a Client">
+			<figcaption style="text-align: center;">
+				Partial dereferencing of a <a>DID URL</a> by a <a>DID Resolver</a> and a <a>Client</a>.
+			</figcaption>
+		</figure>
+
+		<p>Example: Given the <a>DID URL</a> <code>did:xyz:1234#keys-1</code>, a <a>DID Resolver</a> could be invoked via
+		<a>Local Binding</a> which invokes another <a>DID Resolver</a> via <a>Remote Binding</a>
+		for <a href="#dereferencing-algorithm-primary">Dereferencing the Primary Resource</a> (i.e. the <a>DID Document</a>),
+		and the <a>Client</a> could complete the <a>DID URL Dereferencing</a> algorithm by
+		<a href="#dereferencing-algorithm-secondary">Dereferencing the Secondary Resource</a> (i.e. a part of the <a>DID Document</a>).</p>
+
+		<figure id="figure-partial-dereferencing-3">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/partial-dereferencing-3.png"
+			alt="Diagram showing partial dereferencing of a DID URL by two DID Resolvers and a Client">
+			<figcaption style="text-align: center;">
+				Partial dereferencing (in combination with delegated dereferencing) of a <a>DID URL</a> by two <a>DID Resolvers</a> and a <a>Client</a>.
+			</figcaption>
+		</figure>
+
+		<p>Example: Given the <a>DID URL</a> <code>did:xyz:1234;service=agent/path?query#frag</code>, a <a>DID Resolver</a> could be invoked
+		for <a href="#dereferencing-algorithm-primary">Dereferencing the Primary Resource</a> (i.e. a <a>service endpoint</a> URL),
+		and the <a>Client</a> could complete the <a>DID URL Dereferencing</a> algorithm by
+		<a href="#dereferencing-algorithm-secondary">Dereferencing the Secondary Resource</a> (i.e. a <a>service endpoint</a> URL with a fragment).</p>
+
+		<figure id="figure-partial-dereferencing-2">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/partial-dereferencing-2.png"
+			alt="Diagram showing partial dereferencing of a DID URL by a DID Resolver and a Client">
+			<figcaption style="text-align: center;">
+				Partial dereferencing of a <a>DID URL</a> by a <a>DID Resolver</a> and a <a>Client</a>.
+			</figcaption>
+		</figure>
+
+	</section>
 
 	</section>
 
@@ -1084,7 +1142,7 @@ https://example.com/messages/8377464/some/path?query#frag
 		<h2>HTTP(S) Binding</h2>
 		<p>This section defines a <a>DID Resolver</a> <a>Binding</a> which exposes the
 		<a>DID Resolution</a> and/or <a>DID URL Dereferencing</a> functions (including all
-		input options and output data) via an HTTP(S) endpoint. See <a href="#binding-architectures"></a>.</p>
+		input options and output data) via an HTTP(S) endpoint. See <a href="#resolver-architectures"></a>.</p>
 		<div class="issue">
 			<p>TODO: Define HTTP(S) Binding for <a>DID Resolution</a> and <a>DID URL Dereferencing</a>,
 			including the following topics:</p>
