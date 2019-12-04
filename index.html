@@ -207,13 +207,13 @@ and dereferencing DID URLs.
     </dl>
     <dl>
       <dt><dfn data-lt="DID Resolver's">DID Resolver</dt>
-      <dd>Software and/or hardware that is capable of <a>DID Resolution</a> and optionally
-      <a>DID URL Dereferencing</a> for at least one <a>DID method</a>.</dd>
+      <dd>Software and/or hardware that is capable of executing the <a>DID Resolution</a> and optionally
+      <a>DID URL Dereferencing</a> algorithms for at least one <a>DID method</a>.</dd>
     </dl>
     <dl>
       <dt><dfn data-lt="">DID Resolution Result</dt>
       <dd>A data structure that represents the result of the <a>DID Resolution</a> or <a>DID URL Dereferencing</a> algorithm.
-      May contain a <a>DID Document</a>. See Section <a href="#did-resolution-result"></a>.</dd>
+      May contain a <a>DID Document</a> or other content. See Section <a href="#did-resolution-result"></a>.</dd>
     </dl>
     <dl>
       <dt><dfn data-lt="">DID URL</dfn></dt>
@@ -227,25 +227,27 @@ and dereferencing DID URLs.
 	</dl>
 	<dl>
 		<dt><dfn data-lt="">Local Binding</dfn></dt>
-		<dd> A method of describing the connection between the client and the resolver in such a way that the client and resolver run on the same network host.</dd>
+		<dd>A <a>Binding</a> where the <a>Client</a> invokes a <a>DID Resolver</a> that runs on the same network host, e.g. via a local command line tool or library API. See Section <a href="#binding-architectures"></a>.</dd>
+	</dl>
+	<dl>
+		<dt><dfn data-lt="remote">Remote Binding</dfn></dt>
+		<dd>A <a>Binding</a> where the <a>Client</a> invokes a <a>DID Resolver</a> that runs on a different network host, e.g. via the <a href="#bindings-https">HTTP(S) Binding</a>. See Section <a href="#binding-architectures"></a>.</dd>
 	</dl>
     <dl>
       <dt><dfn data-lt="">Service Endpoint</dfn></dt>
       <dd>As defined in [[DECENTRALIZED-IDENTIFIERS]].</dd>
 	</dl>
 	<dl>
-		<dt><dfn data-lt="remote">Remote Binding</dfn></dt>
-		<dd> A method of describing the connection between the client and the resolver in such a way that the client and
-			resolver run on different network hosts.</dd>
-	</dl>
-	<dl>
 		<dt><dfn data-lt="">Unverifiable Read</dfn></dt>
-		<dd> A low confidence response of the DID Document or data necessary to produce a DID Document between the
-			resolver and the <a>decentralized identifier registry</a>. There's no guarantees about the response. </dd>
+		<dd> A low confidence implementation of a <a>DID method's</a> "Read" operation between the
+		<a>DID Resolver</a> and the <a>Decentralized Identifier Registry</a>, to obtain the <a>DID Document</a>.
+		There is no guarantee about the integrity and correctness of the result. See Section <a href="#method-architectures"></a>.</dd>
 	</dl>
 	<dl>
 		<dt><dfn data-lt="">Verifiable Read</dfn></dt>
-		<dd> A highly confident response of the DID Document or data necessary to produce a DID Document between the resolver and the <a>decentralized identifier registry</a>.</dd>
+		<dd> A high confidence implementation of a <a>DID method's</a> "Read" operation between the
+		<a>DID Resolver</a> and the <a>Decentralized Identifier Registry</a>, to obtain the <a>DID Document</a>.
+		There is guarantee about the result to the extent possible under the applicable <a>DID method</a>. See Section <a href="#method-architectures"></a>.</dd>
 	</dl>
 	
 
@@ -277,36 +279,65 @@ and dereferencing DID URLs.
 		</div>
 
 		<p>Depending on the exact nature of the <a>DID method's</a> "Read" operation, the interaction between a
-		<a>DID Resolver</a> and the <a>Decentralized Identifier Registry</a> may be described as <a>Verifiable Read</a> or <a>Unverifiable Read</a>:</p>
+		<a>DID Resolver</a> and the <a>Decentralized Identifier Registry</a> may be implemented as a <a>Verifiable Read</a>
+		or <a>Unverifiable Read</a>:</p>
 
-		<p class="note">A <a>Verifiable Read</a> can occur in a variety of ways. In some cases a read may be classified as "Verifiable" because a node of the decentralized identifier registry is ran on a local network host. In other cases the resolver may be remotely connected to the <a>decentralized identifier registry</a> and has some method to verify the contents of the response. In other implementations, a remote network host may be trusted because it's run on a personal device in the home.</p>
-
-		<figure id="figure-method-local">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/method-local.png"
-			alt="Diagram showing a DID method that is 'local'.">
+		<figure id="figure-method-verifiable">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/method-verifiable.png"
+			alt="Diagram showing a "Verifiable Read" implementation of a DID method.">
 			<figcaption style="text-align: center;">
-				A "local" <a>DID method</a> implementation.
+				A <a>Verifiable Read</a> implementation of a <a>DID method</a>.
 			</figcaption>
 		</figure>
-		<figure id="figure-method-remote">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/method-remote.png"
-			alt="Diagram showing a DID method that is 'remote'.">
+		<figure id="figure-method-unverifiable">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/method-unverifiable.png"
+			alt="Diagram showing an "Unverifiable Read" implementation of a DID method.">
 			<figcaption style="text-align: center;">
-				A "remote" <a>DID method</a> implementation.
+				An <a>Unverifiable Read</a> implementation of a <a>DID method</a>.
 			</figcaption>
 		</figure>
 
-		<p class="note">The terms <a>local binding</a> and <a>remote binding</a> are not absolute categories when describing DID methods
-		and their implementations, but only an approximation with many possible variations.</p>
-		<p> A client which has a <a>local binding</a> to a resolver MUST be capable of performing all communication to resolve
-			a <a>DID</a> via direct communication with a <a>DID registry</a>.</p>
-		<p class="issue">TODO: Describe full nodes vs. light clients, blockchain explorer APIs, state proofs, etc.</p>
 		<p>
-			For example, it may be necessary to run a full node of a blockchain on a local network host of the resolver in order to perform a <a>Verifiable Read</a> of a <a>DID</a>. In other cases, a <a>Verifiable Read</a> may be possible by running a light client by processing metadata to verify a read hasn't been tampered with.
+			A <a>Verifiable Read</a> can be implemented in a variety of ways, for example:
 		</p>
-		<p class="issue">TODO: Explain that even within a single <a>DID method</a>, different method architectures may be
-		possible. For example, the "btcr" DID method could be implemented with "local" access to a full node, or with
-		calls to a "remote" blockchain explorer API.</p>
+
+		<ul>
+		<li>A "Read" operation may be classified as "Verifiable" if access to the <a>Decentralized Identifier Registry</a> is
+			possible via a local, trusted network host. In the case of blockchain-based <a>DID methods</a>, a full node of a blockchain
+			may be run on a local network host in order to implement a <a>Verifiable Read</a>.</li>
+		<li>The <a>DID Resolver</a> may be remotely connected to the <a>Decentralized Identifier Registry</a> but have some method
+			to verify the contents of the response of the "Read" operation. In the case of blockchain-based <a>DID methods</a>, even if
+			direct access to a blockchain is not possible, a <a>Verifiable Read</a> may still be possible by running a light client that
+			processes metadata to verify that the result of the "Read" operation hasn't been tampered with.</li>
+		<li>A <a>Verifiable Read</a> may be implemented if access to the <a>Decentralized Identifier Registry</a> happens via a remote
+			network host may be trusted that is considered trusted because it is run on a personal device in the home and accessed via
+			a secure channel.</li>
+		</ul>
+
+		<p>
+			An <a>Unverifiable Read</a> is less desirable, for example:
+		</p>
+
+		<ul>
+		<li>A "Read" operation may be classified as "Unverifiable" if access to the <a>Decentralized Identifier Registry</a> happens
+			via a remote, untrusted intermediary. In the case of blockchain-based <a>DID methods</a>, a remote blockchain explorer API
+			may be used to look up data from the blockchain.</li>
+		</ul>
+
+		<p>
+			Whether or not a <a>Verifiable Read</a> is possible depends not only on a <a>DID method</a> itself, but also on the way how
+			a <a>DID Resolver</a> implements it. There MAY be multiple ways of executing the "Read" operation for a given <a>DID method</a>.
+			In the case of blockchain-based <a>DID methods</a>, the "Read" operation could be executed via direct access to a local
+			full node (therefore implementing a <a>Verifiable Read</a>) or via a remote blockchain explorer API (therefore implementing
+			an <a>Unverifiable Read</a>).
+		</p>
+
+		<p>
+			<a>DID methods</a> MAY define different ways of implementing their "Read" operations and SHOULD offer guidance on how
+			to implement a <a>Verifiable Read</a>.
+		</p>
+
+		<p class="issue">TODO: Describe full nodes vs. light clients, blockchain explorer APIs, state proofs, etc.</p>
 
 		<p class="issue">As an example, mention what it means to "resolve" peer/off-ledger/microledger/edgechain DIDs (e.g. see
 		<a href="https://lists.hyperledger.org/g/indy/topic/28597813">here</a> and 
@@ -326,8 +357,8 @@ and dereferencing DID URLs.
 			</figcaption>
 		</figure>
 
-		<p>In this case, the above considerations about "local" and "remote" <a>DID method</a> implementations apply
-		to each supported <a>DID method</a> individually.</p>
+		<p>In this case, the above considerations about <a>Verifiable Read</a> and <a>Unverifiable Read</a>
+		implementations apply to each supported <a>DID method</a> individually.</p>
 
 	</section>
 
