@@ -839,7 +839,7 @@ and dereferencing DID URLs.
 		<p>Given the following <var>resolved <a>DID Document</a></var>:<p>
 		<pre class="example nohighlight">
 {
-  "@context": ["https://w3id.org/did/v1", "https://w3id.org/security/v1"],
+  "@context": "https://www.w3.org/ns/did/v1",
   "id": "did:example:123456789abcdefghi",
   "publicKey": [{
     "id": "did:example:123456789abcdefghi#keys-1",
@@ -868,7 +868,7 @@ did:example:123456789abcdefghi#keys-1
 		<p>Then the result of the <a href="#dereferencing"></a> algorithm is the following <var>output resource</var>:</p>
 		<pre class="example nohighlight">
 {
-  "@context": ["https://w3id.org/did/v1", "https://w3id.org/security/v1"],
+  "@context": "https://www.w3.org/ns/did/v1",
   "id": "did:example:123456789abcdefghi#keys-1",
   "type": "RsaVerificationKey2018",
   "publicKeyPem": "-----BEGIN PUB...0101010..END PUB -----\r\n"
@@ -910,7 +910,9 @@ https://example.com/messages/8377464/some/path?query#frag
 
 		<pre class="example nohighlight" title="Example DID Resolution Result">
 {
+	"@context": "https://www.w3.org/ns/did-resolution/v1",
 	"didDocument": {
+		"@context": "https://www.w3.org/ns/did/v1",
 		"id": "did:sov:WRfXPg8dantKVubE3HX8pw",
 		"service": {
 			"type": "xdi",
@@ -924,8 +926,7 @@ https://example.com/messages/8377464/some/path?query#frag
 			"id": "did:sov:WRfXPg8dantKVubE3HX8pw#key-1",
 			"type": "Ed25519VerificationKey2018",
 			"publicKeyBase58": "H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV"
-		}],
-		"@context": "https://w3id.org/did/v1"
+		}]
 	},
 	"resolverMetadata": {
 		"driverId": "did:sov",
