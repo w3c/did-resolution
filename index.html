@@ -877,16 +877,19 @@ https://example.com/messages/8377464/some/path?query#frag
 		</div>
 		<p class="issue">TODO: Discuss DID Resolution in constrained user agents such as mobile apps and browsers.</p>
 
-	<section id="resolver-architectures-delegated">
-		<h2>Delegated Dereferencing</h2>
+	<section id="resolver-architectures-proxied">
+		<h2>Proxied Resolution</h2>
 
-		<p>A <a>DID Resolver</a> MAY invoke another <a>DID Resolver</a> in order to delegate (part of)
-		the <a>DID Resolution</a> and/or <a>DID URL Dereferencing</a> algorithms. The first <a>DID Resolver</a> then acts
+		<p>A <a>DID Resolver</a> MAY invoke another <a>DID Resolver</a>, which serves as a proxy that executes
+		the <a>DID Resolution</a> algorithm as defined in <a href="#resolving"></a>.</p>
+
+		<p>The first <a>DID Resolver</a> then acts
 		as a <a>Client</a> and chooses a suitable <a>Binding</a> for invoking the second <a>DID Resolver</a>. For example, a <a>DID Resolver</a> may be
 		invoked via a <a>Local Binding</a> (such as a command line tool), which in turn invokes another <a>DID Resolver</a>
 		via a <a>Remote Binding</a> (such as the <a href="#bindings-https">HTTP(S) Binding</a>).</p>
-		<figure id="figure-binding-chained">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/binding-chained.png"
+
+		<figure id="figure-proxied-dereferencing">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/proxied-dereferencing.png"
 			alt="Diagram showing two DID Resolvers, one invoked via 'Local Binding', the other invoked via 'Remote Binding'.">
 			<figcaption style="text-align: center;">
 				A client invokes a <a>DID Resolver</a> via <a>Local Binding</a> which invokes another <a>DID Resolver</a> via
@@ -895,16 +898,21 @@ https://example.com/messages/8377464/some/path?query#frag
 		</figure>
 
 		<p class="note">This is similar to a "stub resolver" invoking a "recursive resolver" in DNS architecture, although
-		the concepts are not entirely comparable.</p>
+		the concepts are not entirely comparable (DNS Resolution uses a single concrete protocol, whereas DID Resolution
+		is an abstract function realized by different <a>DID methods</a> and different <a>bindings</a>).</p>
 
 	</section>
 
-	<section id="resolver-architectures-partial">
-		<h2>Partial Dereferencing</h2>
+	<section id="resolver-architectures-client-side">
+		<h2>Client-Side Dereferencing</h2>
 
 		<p>Different parts of the <a href="#dereferencing">DID URL Dereferencing</a>
-		algorithm may be performed by different components of a <a href="#resolver-architectures">Resolver Architecture</a>,
-		especially in combination with <a href="#resolver-architectures-delegated">Delegated Dereferencing</a>.</p>
+		algorithm may be performed by different components of a <a href="#resolver-architectures">Resolver Architecture</a>.</p>
+
+		<p>Specifically, when a <a>DID URL</a> with a <a>DID Fragment</a> is dereferenced, then
+		<a href="#dereferencing-algorithm-primary">Dereferencing the Primary Resource</a> is done by
+		the <a>DID Resolver</a>, and
+		<a href="#dereferencing-algorithm-secondary">Dereferencing the Secondary Resource</a> is done by the <a>Client</a>.</p>
 
 		<p>Example: Given the <a>DID URL</a> <code>did:xyz:1234#keys-1</code>, a <a>DID Resolver</a> could be invoked
 		via <a>Local Binding</a>
@@ -912,11 +920,11 @@ https://example.com/messages/8377464/some/path?query#frag
 		and the <a>Client</a> could complete the <a>DID URL Dereferencing</a> algorithm by
 		<a href="#dereferencing-algorithm-secondary">Dereferencing the Secondary Resource</a> (i.e. a part of the <a>DID Document</a>).</p>
 
-		<figure id="figure-partial-dereferencing-1">
-			<img style="display: block; width: 100%;" src="diagrams/partial-dereferencing-1.png"
-			alt="Diagram showing partial dereferencing of a DID URL by a DID Resolver and a Client">
+		<figure id="figure-client-side-dereferencing-1">
+			<img style="display: block; width: 100%;" src="diagrams/client-side-dereferencing-1.png"
+			alt="Diagram showing client-side dereferencing of a DID URL by a DID Resolver and a Client">
 			<figcaption style="text-align: center;">
-				Partial dereferencing of a <a>DID URL</a> by a <a>DID Resolver</a> and a <a>Client</a>.
+				Client-side dereferencing of a <a>DID URL</a> by a <a>DID Resolver</a> and a <a>Client</a>.
 			</figcaption>
 		</figure>
 
@@ -926,11 +934,12 @@ https://example.com/messages/8377464/some/path?query#frag
 		and the <a>Client</a> could complete the <a>DID URL Dereferencing</a> algorithm by
 		<a href="#dereferencing-algorithm-secondary">Dereferencing the Secondary Resource</a> (i.e. a part of the <a>DID Document</a>).</p>
 
-		<figure id="figure-partial-dereferencing-3">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/partial-dereferencing-3.png"
-			alt="Diagram showing partial dereferencing of a DID URL by two DID Resolvers and a Client">
+		<figure id="figure-client-side-dereferencing-3">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/client-side-dereferencing-2.png"
+			alt="Diagram showing client-side dereferencing of a DID URL by two DID Resolvers and a Client">
 			<figcaption style="text-align: center;">
-				Partial dereferencing (in combination with delegated dereferencing) of a <a>DID URL</a> by two <a>DID Resolvers</a> and a <a>Client</a>.
+				Client-side dereferencing (in combination with <a href="#resolver-architectures-proxied">Proxied Resolution</a>)
+				of a <a>DID URL</a> by two <a>DID Resolvers</a> and a <a>Client</a>.
 			</figcaption>
 		</figure>
 
@@ -939,11 +948,11 @@ https://example.com/messages/8377464/some/path?query#frag
 		and the <a>Client</a> could complete the <a>DID URL Dereferencing</a> algorithm by
 		<a href="#dereferencing-algorithm-secondary">Dereferencing the Secondary Resource</a> (i.e. a <a>service endpoint</a> URL with a fragment).</p>
 
-		<figure id="figure-partial-dereferencing-2">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/partial-dereferencing-2.png"
-			alt="Diagram showing partial dereferencing of a DID URL by a DID Resolver and a Client">
+		<figure id="figure-client-side-dereferencing-2">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/client-side-dereferencing-3.png"
+			alt="Diagram showing client-side dereferencing of a DID URL by a DID Resolver and a Client">
 			<figcaption style="text-align: center;">
-				Partial dereferencing of a <a>DID URL</a> by a <a>DID Resolver</a> and a <a>Client</a>.
+				Client-side dereferencing of a <a>DID URL</a> by a <a>DID Resolver</a> and a <a>Client</a>.
 			</figcaption>
 		</figure>
 
