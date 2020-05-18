@@ -473,9 +473,9 @@ and dereferencing DID URLs.
 			<li>Obtain the <a>DID Document</a> for the <var>input <a>DID</a></var> by executing the
 			<a>DID Resolution</a> algorithm as defined in <a href="#resolving"></a>. All
 				<a href="https://w3c-ccg.github.io/did-spec/#generic-did-parameter-names"> generic
-				matrix parameters</a> as well as
+				DID parameters</a> as well as
 				<a href="https://w3c-ccg.github.io/did-spec/#method-specific-did-parameter-names"> method-specific
-				matrix parameters</a> of the <var>input <a>DID URL</a></var> MUST be passed as <var>input metadata properties</var> to the <a>DID
+				DID parameters</a> of the <var>input <a>DID URL</a></var> MUST be passed as <var>input metadata properties</var> to the <a>DID
 				Resolution</a> algorithm. If the <var>input <a>DID</a></var> does not exist, return a null result.
 				Otherwise, the result is called the <var>resolved <a>DID Document</a></var>.</li>
 			</li>
@@ -493,12 +493,12 @@ and dereferencing DID URLs.
 		<ol class="algorithm">
 			<li>If the <var>input <a>DID URL</a></var> contains the
 			<a href="https://w3c-ccg.github.io/did-spec/#generic-did-parameter-names"> generic
-			matrix parameter</a> <code>service</code> and optionally a <a>DID Path</a> and/or <a>DID Query</a>:
+			DID parameter</a> <code>service</code> and optionally a <a>DID Path</a> and/or <a>DID Query</a>:
 			<pre class="example nohighlight">did:example:1234;service=agent/profile?query</pre>
 			<ol class="algorithm">
 				<li>From the <var>resolved <a>DID Document</a></var>, select the
 				<a href="#service-endpoint-construction">service endpoint</a> whose <code>id</code>
-				property contains a fragment which matches the value of the <code>service</code> matrix parameter of the
+				property contains a fragment which matches the value of the <code>service</code> DID parameter of the
 				<var>input <a>DID URL</a></var>. This is called the <var>input <a>service endpoint</a></var>.</li>
 				<li>Execute the <a href="#service-endpoint-construction">Service Endpoint Construction</a> algorithm:
 				<ol class="algorithm">
@@ -514,7 +514,7 @@ and dereferencing DID URLs.
 			</li>
 			<li>Otherwise, if the <var>input <a>DID URL</a></var> contains
 			<a href="https://w3c-ccg.github.io/did-spec/#method-specific-did-parameter-names"> method-specific
-			matrix parameters</a>:</a>
+			DID parameters</a>:</a>
 			<pre class="example nohighlight">did:example:1234;example:object=myprofile</pre>
 			<ol class="algorithm">
 				<li>Defer to the applicable <a>DID Method</a> specification to determine how to dereference the
