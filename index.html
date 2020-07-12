@@ -296,8 +296,8 @@ and dereferencing DID URLs.
 			<p>This <var>input metadata property</var> is OPTIONAL.</p>
 			<p>Possible values of this property are:</p>
 			<ul>
-			<li>`"did-document"` (default value): Request a <a>DID Document</a> as output.</li>
-			<li>`"resolution-result"`: Request a <a>DID Resolution Result</a> as output (see <a href="#did-resolution-result"></a>).</li>
+			<li>`application/did+ld+json` (or other MIME type of a conformant representation of a <a>DID Document</a>): Request a <a>DID Document</a> as output.</li>
+			<li>`application/ld+json;profile="https://w3c-ccg.github.io/did-resolution"`: Request a <a>DID Resolution Result</a> as output (see <a href="#did-resolution-result"></a>).</li>
 			</ul>
 			<p class="issue">Discuss what this means for certain bindings (such as <a href="#bindings-https"></a>).</p>
 
@@ -377,7 +377,7 @@ and dereferencing DID URLs.
 			</ol>
 			</li>
 			<li>If the value to of <a href="#resolving-input-accept"><code>accept</code></a> <var>input
-			metadata property</var> is <code>"resolution-result"</code>:
+			metadata property</var> is `application/ld+json;profile="https://w3c-ccg.github.io/did-resolution"`:
 			<ol class="algorithm">
 				<li>Construct a <a>DID Resolution Result</a> and populate it with the <var>output <a>DID Document</a></var>
 				as well as metadata about the processes that produced the result (see <a href="#did-resolution-result"></a>.
@@ -433,8 +433,8 @@ and dereferencing DID URLs.
 			<p>This <var>input metadata property</var> is OPTIONAL.</p>
 			<p>Possible values of this property are:</p>
 			<ul>
-			<li>`"did-document"` (default value): Request a <a>DID Document</a> as output.</li>
-			<li>`"resolution-result"`: Request a <a>DID Resolution Result</a> as output (see <a href="#did-resolution-result"></a>).</li>
+			<li>`application/did+ld+json` (or other MIME type of a conformant representation of a <a>DID Document</a>): Request a <a>DID Document</a> as output.</li>
+			<li>`application/ld+json;profile="https://w3c-ccg.github.io/did-resolution""`: Request a <a>DID Resolution Result</a> as output (see <a href="#did-resolution-result"></a>).</li>
 			</ul>
 			<p class="issue">Discuss what this means for certain bindings (such as <a href="#bindings-https"></a>).</p>
 			<p class="issue">Discuss additional result types that may exist for <a>DID URL Dereferencing</a> but
