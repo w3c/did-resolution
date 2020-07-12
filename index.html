@@ -289,9 +289,9 @@ and dereferencing DID URLs.
 
 		</section>
 
-		<section id="resolving-input-result-type">
-			<h3><code>result-type</code></h3>
-			<p>The <code>result-type</code> <var>input metadata property</var> can be used to request a certain
+		<section id="resolving-input-accept">
+			<h3><code>accept</code></h3>
+			<p>The <code>accept</code> <var>input metadata property</var> can be used to request a certain
 			type of result.</p>
 			<p>This <var>input metadata property</var> is OPTIONAL.</p>
 			<p>Possible values of this property are:</p>
@@ -370,13 +370,13 @@ and dereferencing DID URLs.
 			<a href="https://w3c-ccg.github.io/did-spec/#did-documents">serialization</a> of the <a>DID Document</a>
 			<a href="https://w3c-ccg.github.io/did-spec/#data-model">data model</a>. If not,
 			the <a>DID Resolver</a> MUST raise an error.</li>
-			<li>If the value of <a href="#resolving-input-result-type"><code>result-type</code></a> <var>input
+			<li>If the value of <a href="#resolving-input-accept"><code>accept</code></a> <var>input
 			metadata property</var> is <code>null</code> or <code>"did-document"</code>:
 			<ol class="algorithm">
 				<li>Return the <var>output <a>DID Document</a></var>.</li>
 			</ol>
 			</li>
-			<li>If the value to of <a href="#resolving-input-result-type"><code>result-type</code></a> <var>input
+			<li>If the value to of <a href="#resolving-input-accept"><code>accept</code></a> <var>input
 			metadata property</var> is <code>"resolution-result"</code>:
 			<ol class="algorithm">
 				<li>Construct a <a>DID Resolution Result</a> and populate it with the <var>output <a>DID Document</a></var>
@@ -426,9 +426,9 @@ and dereferencing DID URLs.
 
 		</section>
 
-		<section id="dereferencing-input-result-type">
-			<h3><code>result-type</code></h3>
-			<p>The <code>result-type</code> <var>input metadata property</var> can be used to request a certain
+		<section id="dereferencing-input-accept">
+			<h3><code>accept</code></h3>
+			<p>The <code>accept</code> <var>input metadata property</var> can be used to request a certain
 			type of result.</p>
 			<p>This <var>input metadata property</var> is OPTIONAL.</p>
 			<p>Possible values of this property are:</p>
