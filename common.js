@@ -68,8 +68,8 @@ var ccg = {
     "DID-PEER": {
       title: "Peer DID Method Specification",
       subtitle: "blockchain-independent decentralized identifiers",
-      date: "16 October 2019",
-      href: "https://openssi.github.io/peer-did-method-spec/index.html",
+      date: "10 July 2020",
+      href: "https://identity.foundation/peer-did-method-spec/",
       editors: [
         "Daniel Hardman",
       ],
@@ -95,8 +95,8 @@ var ccg = {
     "DID-KEY": {
       title: "The did:key Method",
       subtitle: "A DID Method for Static Cryptographic Keys",
-      date: "18 November 2019",
-      href: "https://digitalbazaar.github.io/did-method-key/",
+      date: " 09 June 2020",
+      href: "https://w3c-ccg.github.io/did-method-key/",
       editors: [
         "Manu Sporny",
         "Dmitri Zagidulin",
