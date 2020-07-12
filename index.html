@@ -275,7 +275,7 @@ and dereferencing DID URLs.
 
 	<p>The abstract interface to this algorithm is:</p>
 
-	<code>resolve ( did, input-metadata ) -> ( did-document, did-document-metadata, did-resolution-metadata )</code>
+	<code>resolve ( did, did-resolution-input-metadata ) -> ( did-resolution-metadata, did-document, did-document-metadata )</code>
 
 	<section id="resolving-input">
 		<h2>Input</h2>
@@ -412,7 +412,7 @@ and dereferencing DID URLs.
 
 	<p>The abstract interface to this algorithm is:</p>
 
-	<code>dereference ( did-url, input-metadata ) -> ( content, did-document-metadata, did-dereference-metadata )</code>
+	<code>dereference ( did-url, did-url-dereference-input-metadata ) -> ( did-dereference-metadata, content, did-document-metadata )</code>
 
 	<section id="dereferencing-input">
 		<h2>Input</h2>
