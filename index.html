@@ -349,26 +349,26 @@ and dereferencing DID URLs.
 		<p>The following <a>DID Resolution</a> algorithm MUST be implemented by a conformant <a>DID Resolver</a>.</p>
 		<ol class="algorithm">
 			<li>Validate that the <var>input <a>DID</a></var> conforms to the `did` rule of the
-			<a href="https://w3c-ccg.github.io/did-spec/#generic-did-syntax">Generic DID Syntax</a>.
+			<a href="https://w3c.github.io/did-core/#did-syntax">Generic DID Syntax</a>.
 			If not, the <a>DID Resolver</a> MUST raise an error.</li>
 			<li>Determine if the <var>input <a>DID method</a></var> is supported by the <a>DID Resolver</a>
 			that implements this algorithm. If not, the <a>DID Resolver</a> MUST raise an error.</li>
 			<li>Obtain the <a>DID Document</a> for the <var>input <a>DID</a></var> by executing the
-			<a href="https://w3c-ccg.github.io/did-spec/#read-verify">Read</a> operation against the
+			<a href="https://w3c.github.io/did-core/#read-verify">Read</a> operation against the
 			<var>input <a>DID</a>'s</var> <a>Decentralized Identifier Registry</a>, as defined by the <var>input <a>DID method</a></var>:
 			<ol class="algorithm">
 				<li>Besides the <var>input <a>DID</a></var>, all additional <var>input metadata properties</var> of
 				this algorithm MUST be passed to the
-				<a href="https://w3c-ccg.github.io/did-spec/#read-verify">Read</a> operation of the
+				<a href="https://w3c.github.io/did-core/#read-verify">Read</a> operation of the
 				<var>input <a>DID method</a></var>.</li>
 				<li>If the <var>input <a>DID</a></var> does not exist, return a null result.</li>
-				<li>The result of the <a href="https://w3c-ccg.github.io/did-spec/#read-verify">Read</a> operation
+				<li>The result of the <a href="https://w3c.github.io/did-core/#read-verify">Read</a> operation
 				is called the <var>output <a>DID Document</a></var>.</li>
 			</ol>
 			</li>
-			<li>Validate that the <var>output <a>DID Document</a></var> conforms to the 
-			<a href="https://w3c-ccg.github.io/did-spec/#did-documents">serialization</a> of the <a>DID Document</a>
-			<a href="https://w3c-ccg.github.io/did-spec/#data-model">data model</a>. If not,
+			<li>Validate that the <var>output <a>DID Document</a></var> conforms to a
+			<a href="https://w3c.github.io/did-core/#core-representations">conformant serialization</a> of the <a>DID Document</a>
+			<a href="https://w3c.github.io/did-core/#data-model">data model</a>. If not,
 			the <a>DID Resolver</a> MUST raise an error.</li>
 			<li>If the value of <a href="#resolving-input-accept"><code>accept</code></a> <var>input
 			metadata property</var> is <code>null</code> or <code>"did-document"</code>:
@@ -388,7 +388,7 @@ and dereferencing DID URLs.
 		</ol>
 
 		<p class="issue" data-number="5">There is discussion how a DID that has been
-		<a href="https://w3c-ccg.github.io/did-spec/#deactivate">deactivated</a> should be treated during the <a>DID Resolution</a>
+		<a href="https://w3c.github.io/did-core/#deactivate">deactivated</a> should be treated during the <a>DID Resolution</a>
 		process.</p>
 
 		<p class="issue" data-number="13">Specify how signatures/proofs on a DID Document should be verified during the
@@ -472,9 +472,9 @@ and dereferencing DID URLs.
 		<ol class="algorithm">
 			<li>Obtain the <a>DID Document</a> for the <var>input <a>DID</a></var> by executing the
 			<a>DID Resolution</a> algorithm as defined in <a href="#resolving"></a>. All
-				<a href="https://w3c-ccg.github.io/did-spec/#generic-did-parameter-names"> generic
+				<a href="https://w3c.github.io/did-core/#generic-did-url-parameters"> generic
 				DID parameters</a> as well as
-				<a href="https://w3c-ccg.github.io/did-spec/#method-specific-did-parameter-names"> method-specific
+				<a href="https://w3c.github.io/did-core/#method-specific-did-url-parameters"> method-specific
 				DID parameters</a> of the <var>input <a>DID URL</a></var> MUST be passed as <var>input metadata properties</var> to the <a>DID
 				Resolution</a> algorithm. If the <var>input <a>DID</a></var> does not exist, return a null result.
 				Otherwise, the result is called the <var>resolved <a>DID Document</a></var>.</li>
@@ -492,7 +492,7 @@ and dereferencing DID URLs.
 		<h2>Dereferencing the Primary Resource</h2>
 		<ol class="algorithm">
 			<li>If the <var>input <a>DID URL</a></var> contains the
-			<a href="https://w3c-ccg.github.io/did-spec/#generic-did-parameter-names"> generic
+			<a href="https://w3c.github.io/did-core/#generic-did-url-parameters"> generic
 			DID parameter</a> <code>service</code> and optionally a <a>DID Path</a> and/or <a>DID Query</a>:
 			<pre class="example nohighlight">did:example:1234;service=agent/profile?query</pre>
 			<ol class="algorithm">
@@ -513,7 +513,7 @@ and dereferencing DID URLs.
 			</ol>
 			</li>
 			<li>Otherwise, if the <var>input <a>DID URL</a></var> contains
-			<a href="https://w3c-ccg.github.io/did-spec/#method-specific-did-parameter-names"> method-specific
+			<a href="https://w3c.github.io/did-core/#method-specific-did-url-parameters"> method-specific
 			DID parameters</a>:</a>
 			<pre class="example nohighlight">did:example:1234;example:object=myprofile</pre>
 			<ol class="algorithm">
@@ -567,7 +567,7 @@ and dereferencing DID URLs.
 				<p>Mention relative IRIs and that the DID itself is considered the base IRI for
 				the JSON-LD parser. Mention potential attack vector if <code>@base</code> is injected into the
 				<a>DID Document</a>.</p>
-				<p>Also see <a href="https://github.com/w3c-ccg/did-spec/issues/97">this discussion</a>
+				<p>Also see <a href="https://github.com/w3c/did-core/issues/15">this discussion</a>
 				on fully qualified DID URLs as the value of the <code>id</code> field.</p>
 				</div>
 				<p class="note">
@@ -615,7 +615,7 @@ and dereferencing DID URLs.
 
 		<section id="redirect">
 			<h3>Redirect</h3>
-			<p>A <a href="https://w3c-ccg.github.io/did-spec/#dfn-service-endpoints">service endpoint</a> may have
+			<p>A <a href="https://w3c.github.io/did-core/#service-endpoints">service endpoint</a> may have
 			a <code>serviceEndpoint</code> property with a value that is itself
 			a DID. This is interpreted as a "DID redirect" from the input DID to another. In this case, a "child"
 			DID Resolution process can be launched to get to a "final" service endpoint.</p>
@@ -660,7 +660,8 @@ and dereferencing DID URLs.
 			<div class="issue">
 			<p>Several ways of selecting parts of a DID Document are being discussed, including the use
 			of JSON pointer.</p>
-			<p>See corresponding <a href="https://github.com/w3c-ccg/did-spec/pull/161">PR</a>.</p>
+			<p>See corresponding PRs <a href="https://github.com/w3c-ccg/did-spec/pull/161">here</a>
+			and <a href="https://github.com/w3c/did-core/pull/257">here</a>.</p>
 			</div>
 
 		</section>
@@ -736,7 +737,7 @@ https://example.com/messages/8377464/some/path?query#frag
 
 	<section id="method-architectures">
 		<h2>Method Architectures</h2>
-		<p>The <a>DID Resolution</a> algorithm involves executing the <a href="https://w3c-ccg.github.io/did-spec/#read-verify">Read</a>
+		<p>The <a>DID Resolution</a> algorithm involves executing the <a href="https://w3c.github.io/did-core/#read-verify">Read</a>
 		operation on a <a>DID</a> according to its <a>DID method</a> (see <a href="#resolving"></a>).</p>
 
 		<div class="note">
@@ -869,9 +870,9 @@ https://example.com/messages/8377464/some/path?query#frag
 			<p>Also describe mitigations against potential downsides of <a>Remote Bindings</a>, e.g.:</p>
 			<ul>
 				<li>A <a>DID Resolver's</a> <a>Remote Binding</a> can use a trusted channel such as VPN or TLS with mutual authentication.</li>
-				<li>A <a>DID Resolver</a> can add a <a href="https://w3c-ccg.github.io/did-spec/#proof-optional">proof</a>
+				<li>A <a>DID Resolver</a> can add a <a href="https://w3c-ccg.github.io/ld-proofs/">proof</a>
 				to a <a>DID Document</a> and/or the <a>DID Resolution Result</a>. Discuss what this does and doesn't achieve. Also see
-				<a href="https://w3c-ccg.github.io/did-spec/#binding-of-identity">Binding of Identity</a>.</li>
+				<a href="https://w3c.github.io/did-core/#binding-of-identity">Binding of Identity</a>.</li>
 				<li>A client could query multiple <a>DID Resolvers</a> over a <a>Remote Binding</a> and compare results.</li>
 			</ul>
 		</div>
@@ -1158,7 +1159,7 @@ https://example.com/messages/8377464/some/path?query#frag
 			<ul>
 				<li>How are <var>input metadata properties</var> passed via HTTP(S)? Using the query string and/or HTTP headers?</li>
 				<li>How is the output data (<a>DID Document</a>, <a>DID Resolution Result</a>) returned via HTTP(S)</li>
-				<li>What is the <a href="https://github.com/w3c-ccg/did-spec/issues/82">MIME type of a DID Document</a>?
+				<li>What is the <a href="https://github.com/w3c/did-core/issues/1">MIME type of a DID Document</a>?
 				How should <code>Accept</code> and <code>Content-Type</code> HTTP headers be used?</li>
 				<li>Are two separate HTTP(S) endpoints required/allowed for the <code>resolve()</code> and
 				<code>dereference()</code> functions, or can/must a single HTTP(S) endpoint be used?</li>
@@ -1249,7 +1250,7 @@ curl -X GET https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8p
 		</div>
 
 		<p class="issue">A related topic is whether (parts of) DID Document could be encrypted, e.g. see
-		<a href="https://github.com/w3c-ccg/did-spec/issues/172">w3c-ccg/did-spec/issues/172</a>. Also see the use
+		<a href="https://github.com/w3c/did-core/issues/25">w3c/did-core/issues/25</a>. Also see the use
 		of the fragment in the <a href="https://did-ipid.github.io/ipid-did-method/">IPID</a> DID method.</p>
 
 	</section>
@@ -1272,10 +1273,10 @@ curl -X GET https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8p
 		<a href="#resolving-input-version-time">`version-time`</a> input metadata property is provided, the <a>DID Resolution</a>
 		algorithm returns a certain version of the <a>DID Document</a>.</p>
 		<p>A DID Document MAY contain a version identifier that changes with each 
-		<a href="https://w3c-ccg.github.io/did-spec/#update">Update</a> operation that is performed
+		<a href="https://w3c.github.io/did-core/#update">Update</a> operation that is performed
 		on a DID.</p>
 		<p class="issue" data-number="12">See corresponding open issue.</p>
-		<p class="note">While all <a>DID methods</a> MUST support the <a href="https://w3c-ccg.github.io/did-spec/#update">Update</a>
+		<p class="note">While all <a>DID methods</a> MUST support the <a href="https://w3c.github.io/did-core/#update">Update</a>
 		operation, there is no requirement for <a>DID methods</a> to keep all previous <a>DID Document</a> versions, therefore
 		not all <a>DID methods</a> support versioning.
 		</p>
@@ -1303,7 +1304,7 @@ curl -X GET https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8p
 	<h1>DID Resolution Resources</h1>
 
 	<ol>
-	<li><a href="https://w3c-ccg.github.io/did-spec/#did-resolvers">DID Resolvers in DID spec</a></li>
+	<li><a href="https://w3c.github.io/did-core/#resolution">DID Resolvers in DID Core specification</a></li>
 	<li><a href="https://github.com/decentralized-identity/universal-resolver/">Universal Resolver</a></li>
 	<li><a href="https://github.com/digitalbazaar/did-client">did-client</a></li>
 	<li><a href="https://github.com/uport-project/did-resolver">uPort DID Resolver</a></li>
