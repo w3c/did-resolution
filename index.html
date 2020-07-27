@@ -668,66 +668,6 @@ and dereferencing DID URLs.
 	</section>
 
 	<section>
-		<h2>Additional Features</h2>
-		<p class="note">This section lists additional <a>DID URL dereferencing</a> features that are under discussion and
-		have not yet been incorporated into the algorithm.</p>
-
-		<section id="redirect">
-			<h3>Redirect</h3>
-			<p>A <a href="https://w3c.github.io/did-core/#service-endpoints">service endpoint</a> may have
-			a <code>serviceEndpoint</code> property with a value that is itself
-			a DID. This is interpreted as a "DID redirect" from the input DID to another. In this case, a "child"
-			DID resolution process can be launched to get to a "final" service endpoint.</p>
-
-			<p class="issue" data-number="7">See corresponding open issue.
-			</p>
-
-			<p class="issue" data-number="36">DID redirects could not only apply to a single service endpoint, but
-			to an entire DID document, therefore enabling portability use cases.
-			</p>
-
-			<pre class="example nohighlight">
-{
-   "id": "did:example:123456789abcdefghi#hub1",
-   "type": "HubService",
-   "serviceEndpoint": "did:example:xyz"
-}
-</pre>
-
-		</section>
-
-		<section id="proxy">
-			<h3>Proxy</h3>
-			<p>A DID document may contain a "proxy" service type which would provide a mapping that 
-			needs to be followed in order to resolve to a final service URL.</p>
-
-			<p class="issue" data-number="35"></p>
-			</p>
-
-			<pre class="example nohighlight">
-{
-   "id": "did:example:123456789abcdefghi",
-   "type": "ProxyService",
-   "serviceEndpoint": "https://mydomain.com/proxy"
-}
-</pre>
-
-		</section>
-
-		<section id="json-pointer">
-			<h3>JSON Pointer</h3>
-			<div class="issue">
-			<p>Several ways of selecting parts of a DID document are being discussed, including the use
-			of JSON pointer.</p>
-			<p>See corresponding PRs <a href="https://github.com/w3c-ccg/did-spec/pull/161">here</a>
-			and <a href="https://github.com/w3c/did-core/pull/257">here</a>.</p>
-			</div>
-
-		</section>
-
-	</section>
-
-	<section>
 		<h2>Examples</h2>
 		<p>Given the following <var>resolved <a>DID document</a></var>:<p>
 		<pre class="example nohighlight">
@@ -1363,6 +1303,66 @@ curl -X GET https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8p
 	<section id="did-method-governance">
 		<h2>DID Method Governance</h2>
 		<p class="issue" data-number="6">Describe which methods a <a>DID resolver</a> should support, and potential implications.</p>
+
+	</section>
+
+</section>
+
+<section id="future-work">
+	<h1>Future Work</h1>
+	<p class="note">This section lists additional <a>DID URL dereferencing</a> features that are under discussion and
+	have not yet been incorporated into the algorithm.</p>
+
+	<section id="redirect">
+		<h3>Redirect</h3>
+		<p>A <a href="https://w3c.github.io/did-core/#service-endpoints">service endpoint</a> may have
+		a <code>serviceEndpoint</code> property with a value that is itself
+		a DID. This is interpreted as a "DID redirect" from the input DID to another. In this case, a "child"
+		DID resolution process can be launched to get to a "final" service endpoint.</p>
+
+		<p class="issue" data-number="7">See corresponding open issue.
+		</p>
+
+		<p class="issue" data-number="36">DID redirects could not only apply to a single service endpoint, but
+		to an entire DID document, therefore enabling portability use cases.
+		</p>
+
+		<pre class="example nohighlight">
+{
+   "id": "did:example:123456789abcdefghi#hub1",
+   "type": "HubService",
+   "serviceEndpoint": "did:example:xyz"
+}
+</pre>
+
+	</section>
+
+	<section id="proxy">
+		<h3>Proxy</h3>
+		<p>A DID document may contain a "proxy" service type which would provide a mapping that 
+		needs to be followed in order to resolve to a final service URL.</p>
+
+		<p class="issue" data-number="35"></p>
+		</p>
+
+		<pre class="example nohighlight">
+{
+   "id": "did:example:123456789abcdefghi",
+   "type": "ProxyService",
+   "serviceEndpoint": "https://mydomain.com/proxy"
+}
+</pre>
+
+	</section>
+
+	<section id="json-pointer">
+		<h3>JSON Pointer</h3>
+		<div class="issue">
+		<p>Several ways of selecting parts of a DID document are being discussed, including the use
+		of JSON pointer.</p>
+		<p>See corresponding PRs <a href="https://github.com/w3c-ccg/did-spec/pull/161">here</a>
+		and <a href="https://github.com/w3c/did-core/pull/257">here</a>.</p>
+		</div>
 
 	</section>
 
