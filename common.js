@@ -14,20 +14,6 @@ var ccg = {
       ],
       publisher: "University of California, Irvine."
     },
-    "DECENTRALIZED-IDENTIFIERS": {
-      title: "Decentralized Identifiers (DIDs)",
-      href: "https://w3c-ccg.github.io/did-spec/",
-      authors: [
-        "Drummond Reed",
-        "Manu Sporny",
-        "Dave Longley",
-        "Christopher Allen",
-        "Ryan Grant",
-        "Markus Sabadello"
-      ],
-      status: "Draft Community Group Report",
-      publisher: "Credentials Community Group"
-    },
     "DID-METHOD-REGISTRY": {
       title: "The Decentralized Identifier Method Registry",
       href: "https://w3c-ccg.github.io/did-method-registry/",
