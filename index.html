@@ -20,7 +20,7 @@
         shortName: "did-resolution",
 
         // subtitle
-        subtitle: "Resolution of Decentralized Identifiers (DIDs)",
+        subtitle: "Resolution of Decentralized identifiers (DIDs)",
 
         // if you wish the publication date to be other than today, set this
         // publishDate:  "2009-08-06",
@@ -99,7 +99,7 @@
   <body>
     <section id='abstract'>
       <p>
-Decentralized Identifiers (DIDs) are a new type of identifier for
+Decentralized identifiers (DIDs) are a new type of identifier for
 verifiable, "self-sovereign" digital identity. DIDs are fully under the
 control of the DID subject, independent from any centralized registry,
 identity provider, or certificate authority. DIDs resolve to DID
@@ -142,20 +142,20 @@ and dereferencing DID URLs.
 <section id="introduction">
 <h1>Introduction</h1>
 
-	<p><a>DID Resolution</a> is the process of obtaining a <a>DID Document</a> for a given <a>DID</a>. This is one
+	<p><a>DID resolution</a> is the process of obtaining a <a>DID document</a> for a given <a>DID</a>. This is one
 	of four required operations that can be performed on any DID ("Read"; the other ones being "Create", "Update",
 	and "Deactivate"). The details of these operations differ depending on the <a>DID method</a>.
-	Building on top of <a>DID Resolution</a>, <a>DID URL Dereferencing</a> is the process of retrieving a representation
+	Building on top of <a>DID resolution</a>, <a>DID URL dereferencing</a> is the process of retrieving a representation
 	of a resource for a given <a>DID URL</a>. Software and/or hardware that is able to execute these processes is called
-	a <a>DID Resolver</a>.
+	a <a>DID resolver</a>.
 	
 	<p>This
 	specification defines common
 	requirements, algorithms including their inputs and results, architectural options, and various considerations for the
-	<a>DID Resolution</a> and <a>DID URL Dereferencing</a> processes.</p>
+	<a>DID resolution</a> and <a>DID URL dereferencing</a> processes.</p>
 
-	<p>Note that while this specification defines some base-level functionality for DID Resolution, the actual steps
-	required to communicate with a DID's <a>Decentralized Identifier Registry</a> are defined by the applicable
+	<p>Note that while this specification defines some base-level functionality for DID resolution, the actual steps
+	required to communicate with a DID's <a>verifiable data registry</a> are defined by the applicable
 	<a>DID method</a> specification.</p>
 
 	<p class="note">The difference between "resolving" a <a>DID</a> and "dereferencing" a <a>DID URL</a>
@@ -172,88 +172,88 @@ and dereferencing DID URLs.
 	<h1>Terminology</h1>
 
     <dl>
-      <dt><dfn>Binding</dfn></dt>
-      <dd>A concrete mechanism through which a <a>Client</a> invokes a <a>DID Resolver</a>. This could be a <a>Local Binding</a> such as a local command line tool or library API, or a <a>Remote Binding</a> such as the <a href="#bindings-https">HTTP(S) Binding</a>. See Section <a href="#resolver-architectures"></a>.</dd>
+      <dt><dfn>binding</dfn></dt>
+      <dd>A concrete mechanism through which a <a>client</a> invokes a <a>DID resolver</a>. This could be a <a>local binding</a> such as a local command line tool or library API, or a <a>remote binding</a> such as the <a href="#bindings-https">HTTP(S) binding</a>. See Section <a href="#resolver-architectures"></a>.</dd>
     </dl>
     <dl>
-      <dt><dfn>Client</dfn></dt>
-      <dd>Software and/or hardware that invokes a <a>DID Resolver</a> in order to execute the <a>DID Resolution</a> and/or <a>DID URL Dereferencing</a> algorithms. This invocation is done via a <a>Binding</a>. The term <a>Client</a> does not imply any specific network topology.</dd>
+      <dt><dfn>client</dfn></dt>
+      <dd>Software and/or hardware that invokes a <a>DID resolver</a> in order to execute the <a>DID resolution</a> and/or <a>DID URL dereferencing</a> algorithms. This invocation is done via a <a>binding</a>. The term <a>client</a> does not imply any specific network topology.</dd>
     </dl>
     <dl>
-      <dt><dfn data-lt="DID|DIDs|decentralized identifiers">Decentralized Identifier</dfn> (DID)</dt>
+      <dt><dfn data-lt="DID|DIDs|decentralized identifiers">decentralized identifier</dfn> (DID)</dt>
       <dd>As defined in [[DID-CORE]].</dd>
     </dl>
     <dl>
-      <dt><dfn data-lt="DIR|decentralized identifier registry|decentralized identifier registries">Decentralized Identifier Registry</dfn> (DIR)</dt>
+      <dt><dfn data-lt="">DID document</dfn></dt>
       <dd>As defined in [[DID-CORE]].</dd>
     </dl>
     <dl>
-      <dt><dfn data-lt="">DID Document</dfn></dt>
+      <dt><dfn data-lt="">DID fragment</dfn></dt>
       <dd>As defined in [[DID-CORE]].</dd>
     </dl>
     <dl>
-      <dt><dfn data-lt="">DID Fragment</dfn></dt>
+      <dt><dfn data-lt="method|DID method's">DID method</dfn></dt>
       <dd>As defined in [[DID-CORE]].</dd>
     </dl>
     <dl>
-      <dt><dfn data-lt="method|DID method's">DID Method</dfn></dt>
+      <dt><dfn data-lt="">DID path</dfn></dt>
       <dd>As defined in [[DID-CORE]].</dd>
     </dl>
     <dl>
-      <dt><dfn data-lt="">DID Path</dfn></dt>
+      <dt><dfn data-lt="">DID query</dfn></dt>
       <dd>As defined in [[DID-CORE]].</dd>
     </dl>
     <dl>
-      <dt><dfn data-lt="">DID Query</dfn></dt>
-      <dd>As defined in [[DID-CORE]].</dd>
-    </dl>
-    <dl>
-      <dt><dfn data-lt="">DID Resolution</dt>
+      <dt><dfn data-lt="">DID resolution</dt>
       <dd>As defined in [[DID-CORE]]. See Section <a href="#resolving"></a>.</dd>
     </dl>
     <dl>
-      <dt><dfn data-lt="DID Resolver's">DID Resolver</dt>
+      <dt><dfn data-lt="DID resolver's">DID resolver</dt>
       <dd>As defined in [[DID-CORE]].</dd>
     </dl>
     <dl>
-      <dt><dfn data-lt="">DID Resolution Result</dt>
-      <dd>A data structure that represents the result of the <a>DID Resolution</a> or <a>DID URL Dereferencing</a> algorithm.
-      May contain a <a>DID Document</a> or other content. See Section <a href="#did-resolution-result"></a>.</dd>
+      <dt><dfn data-lt="">DID resolution result</dt>
+      <dd>A data structure that represents the result of the <a>DID resolution</a> or <a>DID URL dereferencing</a> algorithm.
+      May contain a <a>DID document</a> or other content. See Section <a href="#did-resolution-result"></a>.</dd>
     </dl>
     <dl>
       <dt><dfn data-lt="">DID URL</dfn></dt>
       <dd>As defined in [[DID-CORE]].</dd>
     </dl>
     <dl>
-      <dt><dfn data-lt="">DID URL Dereferencing</dfn></dt>
+      <dt><dfn data-lt="">DID URL dereferencing</dfn></dt>
       <dd>As defined in [[DID-CORE]]. See Section <a href="#dereferencing"></a>.</dd>
 	</dl>
 	<dl>
-		<dt><dfn data-lt="">Local Binding</dfn></dt>
-		<dd>A <a>Binding</a> where the <a>Client</a> invokes a <a>DID Resolver</a> that runs on the same network host, e.g. via a local command line tool or library API.
-		In this case, the <a>DID Resolver</a> is sometimes also called a "local <a>DID Resolver</a>".
+		<dt><dfn data-lt="">local binding</dfn></dt>
+		<dd>A <a>binding</a> where the <a>client</a> invokes a <a>DID resolver</a> that runs on the same network host, e.g. via a local command line tool or library API.
+		In this case, the <a>DID resolver</a> is sometimes also called a "local <a>DID resolver</a>".
 		See Section <a href="#resolver-architectures"></a>.</dd>
 	</dl>
 	<dl>
-		<dt><dfn data-lt="">Remote Binding</dfn></dt>
-		<dd>A <a>Binding</a> where the <a>Client</a> invokes a <a>DID Resolver</a> that runs on a different network host, e.g. via the <a href="#bindings-https">HTTP(S) Binding</a>.
-		In this case, the <a>DID Resolver</a> is sometimes also called a "remote <a>DID Resolver</a>".
+		<dt><dfn data-lt="">remote binding</dfn></dt>
+		<dd>A <a>binding</a> where the <a>client</a> invokes a <a>DID resolver</a> that runs on a different network host, e.g. via the <a href="#bindings-https">HTTP(S) binding</a>.
+		In this case, the <a>DID resolver</a> is sometimes also called a "remote <a>DID resolver</a>".
 		See Section <a href="#resolver-architectures"></a>.</dd>
 	</dl>
     <dl>
-      <dt><dfn data-lt="">Service Endpoint</dfn></dt>
+      <dt><dfn data-lt="">service endpoint</dfn></dt>
       <dd>As defined in [[DID-CORE]].</dd>
 	</dl>
 	<dl>
-		<dt><dfn data-lt="">Unverifiable Read</dfn></dt>
+		<dt><dfn data-lt="">unverifiable read</dfn></dt>
 		<dd> A low confidence implementation of a <a>DID method's</a> "Read" operation between the
-		<a>DID Resolver</a> and the <a>Decentralized Identifier Registry</a>, to obtain the <a>DID Document</a>.
+		<a>DID resolver</a> and the <a>verifiable data registry</a>, to obtain the <a>DID document</a>.
 		There is no guarantee about the integrity and correctness of the result. See Section <a href="#method-architectures"></a>.</dd>
 	</dl>
+    <dl>
+      <dt><dfn data-lt="verifiable data registry|verifiable data registries">verifiable data registry</dfn></dt>
+      <dd>As defined in [[DID-CORE]].</dd>
+    </dl>
 	<dl>
-		<dt><dfn data-lt="">Verifiable Read</dfn></dt>
+		<dt><dfn data-lt="">verifiable read</dfn></dt>
 		<dd> A high confidence implementation of a <a>DID method's</a> "Read" operation between the
-		<a>DID Resolver</a> and the <a>Decentralized Identifier Registry</a>, to obtain the <a>DID Document</a>.
+		<a>DID resolver</a> and the <a>verifiable data registry</a>, to obtain the <a>DID document</a>.
 		There are guarantees about the integrity and correctness of the result to the extent possible under the applicable <a>DID method</a>.
 		See Section <a href="#method-architectures"></a>.</dd>
 	</dl>
@@ -264,8 +264,8 @@ and dereferencing DID URLs.
 <section id="resolving">
 	<h1>Resolving a DID</h1>
 
-	<p>This section defines the inputs and the algorithm of <a>DID Resolution</a>, which returns
-	a <a>DID Document</a> or a <a>DID Resolution Result</a> as output.
+	<p>This section defines the inputs and the algorithm of <a>DID resolution</a>, which returns
+	a <a>DID document</a> or a <a>DID resolution result</a> as output.
 	This algorithm relies on the "Read" operation of the applicable <a>DID method</a>.</p>
 
 	<p>The abstract interface to this algorithm is:</p>
@@ -274,12 +274,12 @@ and dereferencing DID URLs.
 
 	<section id="resolving-input">
 		<h2>Input</h2>
-		<p>The inputs of the <a>DID Resolution</a> algorithm are an <var>input <a>DID</a></var> and
+		<p>The inputs of the <a>DID resolution</a> algorithm are an <var>input <a>DID</a></var> and
 		additional <var>input metadata properties</var>.</p>
 
 		<section id="resolving-input-did">
 			<h3>DID</h3>
-			<p>The <var>input <a>DID</a></var> is REQUIRED for the <a>DID Resolution</a> algorithm.</p>
+			<p>The <var>input <a>DID</a></var> is REQUIRED for the <a>DID resolution</a> algorithm.</p>
 			<p>The `method-name` component of the <var>input <a>DID</a></var> is called the <var>input <a>DID method</a></var>.</p>
 
 		</section>
@@ -294,8 +294,8 @@ and dereferencing DID URLs.
 				<p>This <var>input metadata property</var> is OPTIONAL.</p>
 				<p>Possible values of this property are:</p>
 				<ul>
-				<li>`application/did+ld+json` (or other MIME type of a conformant representation of a <a>DID Document</a>): Request a <a>DID Document</a> as output.</li>
-				<li>`application/ld+json;profile="https://w3c-ccg.github.io/did-resolution"`: Request a <a>DID Resolution Result</a> as output (see <a href="#did-resolution-result"></a>).</li>
+				<li>`application/did+ld+json` (or other MIME type of a conformant representation of a <a>DID document</a>): Request a <a>DID document</a> as output.</li>
+				<li>`application/ld+json;profile="https://w3c-ccg.github.io/did-resolution"`: Request a <a>DID resolution result</a> as output (see <a href="#did-resolution-result"></a>).</li>
 				</ul>
 				<p class="issue">Discuss what this means for certain bindings (such as <a href="#bindings-https"></a>).</p>
 
@@ -304,7 +304,7 @@ and dereferencing DID URLs.
 			<section id="resolving-input-version-id">
 				<h4><code>version-id</code></h4>
 				<p>The <code>version-id</code> input metadata property can be used to request a specific
-				version of a <a>DID Document</a>.</p>
+				version of a <a>DID document</a>.</p>
 				<p>This <var>input metadata property</var> is OPTIONAL. It is mutually exclusive with <a href="#resolving-input-version-time"></a>.</p>
 				<p>See Section <a href="#versioning"></a> for additional considerations.</p>
 				<p>The possible values of this property are specific to the <var>input <a>DID method</a></var>.</p>
@@ -317,11 +317,11 @@ and dereferencing DID URLs.
 			<section id="resolving-input-version-time">
 				<h4><code>version-time</code></h4>
 				<p>The <code>version-time</code> input metadata property can used to request a specific
-				version of a <a>DID Document</a>.</p>
+				version of a <a>DID document</a>.</p>
 				<p>This <var>input metadata property</var> is OPTIONAL. It is mutually exclusive with <a href="#resolving-input-version-id"></a>.</p>
 				<p>See Section <a href="#versioning"></a> for additional considerations.</p>
 				<p>The value of this property MUST be a string value of an [[!RFC3339]] combined date and time string representing
-				the date and time the <a>DID Document</a> was current for the <var>input <a>DID</a></var>.</p>
+				the date and time the <a>DID document</a> was current for the <var>input <a>DID</a></var>.</p>
 
 			</section>
 
@@ -332,9 +332,9 @@ and dereferencing DID URLs.
 				<p>This <var>input metadata property</var> is OPTIONAL.</p>
 				<p>Possible values of this property are:</p>
 				<ul>
-				<li>`"false"` (default value): Caching of <a>DID Documents</a> is allowed.</li>
-				<li>`"true"`: Request that caching is disabled and a fresh <a>DID Document</a> is retrieved from
-				the <a>Decentralized Identifier Registry</a>.</li>
+				<li>`"false"` (default value): Caching of <a>DID documents</a> is allowed.</li>
+				<li>`"true"`: Request that caching is disabled and a fresh <a>DID document</a> is retrieved from
+				the <a>verifiable data registry</a>.</li>
 				</ul>
 				<p>See Section <a href="#caching"></a> for additional considerations.</p>
 
@@ -346,16 +346,16 @@ and dereferencing DID URLs.
 
 	<section id="resolving-algorithm">
 		<h2>Algorithm</h2>
-		<p>The following <a>DID Resolution</a> algorithm MUST be implemented by a conformant <a>DID Resolver</a>.</p>
+		<p>The following <a>DID resolution</a> algorithm MUST be implemented by a conformant <a>DID resolver</a>.</p>
 		<ol class="algorithm">
 			<li>Validate that the <var>input <a>DID</a></var> conforms to the `did` rule of the
 			<a href="https://w3c.github.io/did-core/#did-syntax">Generic DID Syntax</a>.
-			If not, the <a>DID Resolver</a> MUST raise an error.</li>
-			<li>Determine if the <var>input <a>DID method</a></var> is supported by the <a>DID Resolver</a>
-			that implements this algorithm. If not, the <a>DID Resolver</a> MUST raise an error.</li>
-			<li>Obtain the <a>DID Document</a> for the <var>input <a>DID</a></var> by executing the
+			If not, the <a>DID resolver</a> MUST raise an error.</li>
+			<li>Determine if the <var>input <a>DID method</a></var> is supported by the <a>DID resolver</a>
+			that implements this algorithm. If not, the <a>DID resolver</a> MUST raise an error.</li>
+			<li>Obtain the <a>DID document</a> for the <var>input <a>DID</a></var> by executing the
 			<a href="https://w3c.github.io/did-core/#read-verify">Read</a> operation against the
-			<var>input <a>DID</a>'s</var> <a>Decentralized Identifier Registry</a>, as defined by the <var>input <a>DID method</a></var>:
+			<var>input <a>DID</a>'s</var> <a>verifiable data registry</a>, as defined by the <var>input <a>DID method</a></var>:
 			<ol class="algorithm">
 				<li>Besides the <var>input <a>DID</a></var>, all additional <var>input metadata properties</var> of
 				this algorithm MUST be passed to the
@@ -363,41 +363,41 @@ and dereferencing DID URLs.
 				<var>input <a>DID method</a></var>.</li>
 				<li>If the <var>input <a>DID</a></var> does not exist, return a null result.</li>
 				<li>The result of the <a href="https://w3c.github.io/did-core/#read-verify">Read</a> operation
-				is called the <var>output <a>DID Document</a></var>.</li>
+				is called the <var>output <a>DID document</a></var>.</li>
 			</ol>
 			</li>
-			<li>Validate that the <var>output <a>DID Document</a></var> conforms to a
-			<a href="https://w3c.github.io/did-core/#core-representations">conformant serialization</a> of the <a>DID Document</a>
+			<li>Validate that the <var>output <a>DID document</a></var> conforms to a
+			<a href="https://w3c.github.io/did-core/#core-representations">conformant serialization</a> of the <a>DID document</a>
 			<a href="https://w3c.github.io/did-core/#data-model">data model</a>. If not,
-			the <a>DID Resolver</a> MUST raise an error.</li>
+			the <a>DID resolver</a> MUST raise an error.</li>
 			<li>If the value of <a href="#resolving-input-accept"><code>accept</code></a> <var>input
-			metadata property</var> is <code>null</code> or `application/did+ld+json` (or other MIME type of a conformant representation of a <a>DID Document</a>):
+			metadata property</var> is <code>null</code> or `application/did+ld+json` (or other MIME type of a conformant representation of a <a>DID document</a>):
 			<ol class="algorithm">
-				<li>Return the <var>output <a>DID Document</a></var>.</li>
+				<li>Return the <var>output <a>DID document</a></var>.</li>
 			</ol>
 			</li>
 			<li>If the value to of <a href="#resolving-input-accept"><code>accept</code></a> <var>input
 			metadata property</var> is `application/ld+json;profile="https://w3c-ccg.github.io/did-resolution"`:
 			<ol class="algorithm">
-				<li>Construct a <a>DID Resolution Result</a> and populate it with the <var>output <a>DID Document</a></var>
+				<li>Construct a <a>DID resolution result</a> and populate it with the <var>output <a>DID document</a></var>
 				as well as 
 				<a href="#output-resolutionmetadata">DID resolution metadata</a> and <a href="#output-documentmetadata">DID
 				document metadata</a> (see <a href="#did-resolution-result"></a>.
-				This is called the <var>output <a>DID Resolution Result</a></var>.</li>
-				<li>Return the <var>output <a>DID Resolution Result</a></var>.</li>
+				This is called the <var>output <a>DID resolution result</a></var>.</li>
+				<li>Return the <var>output <a>DID resolution result</a></var>.</li>
 			</ol>
 			</li>
 		</ol>
 
 		<p class="issue" data-number="5">There is discussion how a DID that has been
-		<a href="https://w3c.github.io/did-core/#deactivate">deactivated</a> should be treated during the <a>DID Resolution</a>
+		<a href="https://w3c.github.io/did-core/#deactivate">deactivated</a> should be treated during the <a>DID resolution</a>
 		process.</p>
 
-		<p class="issue" data-number="13">Specify how signatures/proofs on a DID Document should be verified during the
-		DID Resolution process.</p>
+		<p class="issue" data-number="13">Specify how signatures/proofs on a DID document should be verified during the
+		DID resolution process.</p>
 
 		<p class="issue">Should we define functionality that enables discovery of the list of <a>DID methods</a> or other
-		capabilities that are supported by a <a>DID Resolver</a>? Or is this implementation-specific and out-of-scope
+		capabilities that are supported by a <a>DID resolver</a>? Or is this implementation-specific and out-of-scope
 		for this spec? E.g. see <a href="https://github.com/w3c-ccg/did-resolution/issues/26">here</a> and
 		<a href="https://github.com/w3c-ccg/did-resolution/issues/25">here</a>.</p>
 
@@ -408,9 +408,9 @@ and dereferencing DID URLs.
 <section id="dereferencing">
 	<h1>Dereferencing a DID URL</h1>
 
-	<p>This section defines the inputs and the algorithm of <a>DID URL Dereferencing</a>, which returns
-	a <a>DID Document</a>, a <a>DID Resolution Result</a>, or various other types of resources as output.
-	This algorithm relies on <a>DID Resolution</a>.</p>
+	<p>This section defines the inputs and the algorithm of <a>DID URL dereferencing</a>, which returns
+	a <a>DID document</a>, a <a>DID resolution result</a>, or various other types of resources as output.
+	This algorithm relies on <a>DID resolution</a>.</p>
 
 	<p>The abstract interface to this algorithm is:</p>
 
@@ -418,12 +418,12 @@ and dereferencing DID URLs.
 
 	<section id="dereferencing-input">
 		<h2>Input</h2>
-		<p>The inputs of the <a>DID URL Dereferencing</a> algorithm are an <var>input <a>DID URL</a></var> and
+		<p>The inputs of the <a>DID URL dereferencing</a> algorithm are an <var>input <a>DID URL</a></var> and
 		additional <var>input metadata properties</var>.</p>
 
 		<section id="dereferencing-input-did-url">
 			<h3>DID URL</h3>
-			<p>The <var>input <a>DID URL</a></var> is REQUIRED for the <a>DID URL Dereferencing</a> algorithm.</p>
+			<p>The <var>input <a>DID URL</a></var> is REQUIRED for the <a>DID URL dereferencing</a> algorithm.</p>
 			<p>The `did̀` component of the <var>input <a>DID URL</a> is called the <var>input <a>DID</a></var>.</p>
 
 		</section>
@@ -490,19 +490,19 @@ and dereferencing DID URLs.
 				<p>This <var>input metadata property</var> is OPTIONAL.</p>
 				<p>Possible values of this property are:</p>
 				<ul>
-				<li>`application/did+ld+json` (or other MIME type of a conformant representation of a <a>DID Document</a>): Request a <a>DID Document</a> as output.</li>
-				<li>`application/ld+json;profile="https://w3c-ccg.github.io/did-resolution"`: Request a <a>DID Resolution Result</a> as output (see <a href="#did-resolution-result"></a>).</li>
+				<li>`application/did+ld+json` (or other MIME type of a conformant representation of a <a>DID document</a>): Request a <a>DID document</a> as output.</li>
+				<li>`application/ld+json;profile="https://w3c-ccg.github.io/did-resolution"`: Request a <a>DID resolution result</a> as output (see <a href="#did-resolution-result"></a>).</li>
 				</ul>
 				<p class="issue">Discuss what this means for certain bindings (such as <a href="#bindings-https"></a>).</p>
-				<p class="issue">Discuss additional result types that may exist for <a>DID URL Dereferencing</a> but
-				do not exist for <a>DID Resolution</a>.</p>
+				<p class="issue">Discuss additional result types that may exist for <a>DID URL dereferencing</a> but
+				do not exist for <a>DID resolution</a>.</p>
 
 			</section>
 
 			<section id="dereferencing-input-service-type">
 				<h4><code>service-type</code></h4>
 				<p>The <code>service-type</code> input metadata property can be supplied by a client to select a specific
-				service from the DID Document.</p>
+				service from the DID document.</p>
 				<p>This <var>input metadata property</var> is OPTIONAL.</p>
 				<p class="issue">See <a href="https://lists.w3.org/Archives/Public/public-credentials/2019Jun/0028.html">
 				comments by Dave Longley</a> about `service-type`.</p>
@@ -524,24 +524,24 @@ and dereferencing DID URLs.
 
 	<section id="dereferencing-algorithm">
 		<h2>Algorithm</h2>
-		<p>The following <a>DID URL Dereferencing</a> algorithm MUST be implemented by a conformant <a>DID Resolver</a>.
+		<p>The following <a>DID URL dereferencing</a> algorithm MUST be implemented by a conformant <a>DID resolver</a>.
 		In accordance with [[RFC3986]], it consists of the following steps: Resolving the DID, dereferencing the primary
-		resource, and dereferencing the secondary resource (only if the <var>input <a>DID URL</a></var> contains a <a>DID Fragment</a>:</p>
+		resource, and dereferencing the secondary resource (only if the <var>input <a>DID URL</a></var> contains a <a>DID fragment</a>:</p>
 
 		<ol class="algorithm">
-			<li>Obtain the <a>DID Document</a> for the <var>input <a>DID</a></var> by executing the
-			<a>DID Resolution</a> algorithm as defined in <a href="#resolving"></a>. All
+			<li>Obtain the <a>DID document</a> for the <var>input <a>DID</a></var> by executing the
+			<a>DID resolution</a> algorithm as defined in <a href="#resolving"></a>. All
 				<a href="https://w3c.github.io/did-core/#generic-did-url-parameters"> generic
 				DID parameters</a> as well as
 				<a href="https://w3c.github.io/did-core/#method-specific-did-url-parameters"> method-specific
 				DID parameters</a> of the <var>input <a>DID URL</a></var> MUST be passed as <var>input metadata properties</var> to the <a>DID
 				Resolution</a> algorithm. If the <var>input <a>DID</a></var> does not exist, return a null result.
-				Otherwise, the result is called the <var>resolved <a>DID Document</a></var>.</li>
+				Otherwise, the result is called the <var>resolved <a>DID document</a></var>.</li>
 			</li>
-			<li>If present, separate the <a>DID Fragment</a> from the <var>input <a>DID URL</a></var>. Execute the algorithm for
+			<li>If present, separate the <a>DID fragment</a> from the <var>input <a>DID URL</a></var>. Execute the algorithm for
 			<a href="#dereferencing-algorithm-primary"></a>, with the <var>input <a>DID URL</a></var> adjusted
 			accordingly.</li>
-			<li>If the original <var>input <a>DID URL</a></var> contained a <a>DID Fragment</a>, execute the algorithm for
+			<li>If the original <var>input <a>DID URL</a></var> contained a <a>DID fragment</a>, execute the algorithm for
 			<a href="#dereferencing-algorithm-secondary"></a>.</li>
 		</ol>
 
@@ -555,7 +555,7 @@ and dereferencing DID URLs.
 			DID parameter</a> <code>service</code> and optionally the <code>relative-ref</code> DID parameter:
 			<pre class="example nohighlight">did:example:1234?service=files&relative-ref=%2Fmyresume%2Fdoc%3Fversion%3Dlatest</pre>
 			<ol class="algorithm">
-				<li>From the <var>resolved <a>DID Document</a></var>, select the
+				<li>From the <var>resolved <a>DID document</a></var>, select the
 				<a href="#service-endpoint-construction">service endpoint</a> whose <code>id</code>
 				property contains a fragment which matches the value of the <code>service</code> DID parameter of the
 				<var>input <a>DID URL</a></var>. This is called the <var>input <a>service endpoint</a></var>.</li>
@@ -576,25 +576,25 @@ and dereferencing DID URLs.
 			DID parameters</a>:</a>
 			<pre class="example nohighlight">did:example:1234?example:object=myprofile</pre>
 			<ol class="algorithm">
-				<li>Defer to the applicable <a>DID Method</a> specification to determine how to dereference the
+				<li>Defer to the applicable <a>DID method</a> specification to determine how to dereference the
 				<var>input <a>DID URL</a></var>.</li>
 			</ol>
-			<li>Otherwise, if the <var>input <a>DID URL</a></var> contains no <a>DID Path</a> and no <a>DID Query</a>:
+			<li>Otherwise, if the <var>input <a>DID URL</a></var> contains no <a>DID path</a> and no <a>DID query</a>:
 			<pre class="example nohighlight">did:example:1234</pre>
 			<ol class="algorithm">
-				<li>Return the <var>resolved <a>DID Document</a></var>.</li>
+				<li>Return the <var>resolved <a>DID document</a></var>.</li>
 			</ol>
 			</li>
-			<li>Otherwise, if the <var>input <a>DID URL</a></var> contains a <a>DID Path</a> and/or <a>DID Query</a>:
+			<li>Otherwise, if the <var>input <a>DID URL</a></var> contains a <a>DID path</a> and/or <a>DID query</a>:
 			<pre class="example nohighlight">did:example:1234/custom/path?customquery</pre>
 			<ol class="algorithm">
-				<li>The applicable <a>DID Method</a> MAY specify how to dereference
+				<li>The applicable <a>DID method</a> MAY specify how to dereference
 				the <var>input <a>DID URL</a></var>.</li>
 				<li>The client MAY be able to dereference the <var>input <a>DID URL</a></var>
 				in an application-specific way.</li>
 			</ol>
 			</li>
-			<li>If neither this algorithm, nor the applicable <a>DID Method</a>, nor the client
+			<li>If neither this algorithm, nor the applicable <a>DID method</a>, nor the client
 			is able to dereference the <var>input <a>DID URL</a></var>:
 			<ol class="algorithm">
 				<li>Return a null result.</li>
@@ -606,36 +606,36 @@ and dereferencing DID URLs.
 
 	<section id="dereferencing-algorithm-secondary">
 		<h2>Dereferencing the Secondary Resource</h2>
-		<p>If the <var>input <a>DID URL</a></var> contains a <a>DID Fragment</a>,
+		<p>If the <var>input <a>DID URL</a></var> contains a <a>DID fragment</a>,
 		then dereferencing of the secondary resource identified by the URL is dependent not on the URI scheme, but
 		on the media type ([[RFC2046]]) of the primary resource, i.e. on the result of
 		<a href="#dereferencing-algorithm-primary"></a>.</p> 
 		<ol class="algorithm">
-			<li>If the result of <a href="#dereferencing-algorithm-primary"></a> is a <var>resolved <a>DID Document</a></var>
+			<li>If the result of <a href="#dereferencing-algorithm-primary"></a> is a <var>resolved <a>DID document</a></var>
 			with MIME type <code>application/did+ld+json</code>, and the <var>input <a>DID URL</a></var> contains a
-			<a>DID Fragment</a>:
+			<a>DID fragment</a>:
 			<pre class="example nohighlight">did:example:1234#keys-1</pre>
 			<ol class="algorithm">
-				<li>From the <var>resolved <a>DID Document</a></var>, select the JSON-LD object whose <code>id</code>
+				<li>From the <var>resolved <a>DID document</a></var>, select the JSON-LD object whose <code>id</code>
 				property matches the <var>input <a>DID URL</a></var>, e.g. a public key or service endpoint in the
-				<a>DID Document</a>. This is called the <var>output resource</var>.
-				Selecting the JSON-LD object from the <a>DID Document</a> MUST take into account relative IRIs and
-				the base IRI of the <var>resolved <a>DID Document</a></var>.</li>
+				<a>DID document</a>. This is called the <var>output resource</var>.
+				Selecting the JSON-LD object from the <a>DID document</a> MUST take into account relative IRIs and
+				the base IRI of the <var>resolved <a>DID document</a></var>.</li>
 				<li>Return the <var>output resource</var>.
 				<div class="issue" data-number="9">
 				<p>Mention relative IRIs and that the DID itself is considered the base IRI for
 				the JSON-LD parser. Mention potential attack vector if <code>@base</code> is injected into the
-				<a>DID Document</a>.</p>
+				<a>DID document</a>.</p>
 				<p>Also see <a href="https://github.com/w3c/did-core/issues/15">this discussion</a>
 				on fully qualified DID URLs as the value of the <code>id</code> field.</p>
 				</div>
 				<p class="note">
-				This use of the <a>DID Fragment</a> is consistent with the definition of the fragment identifier in
+				This use of the <a>DID fragment</a> is consistent with the definition of the fragment identifier in
 				[[RFC3986]]. It identifies a <em>secondary resource</em> which is a subset of the <em>primary resource</em>
-				(the <a>DID Document</a>).
+				(the <a>DID document</a>).
 				</p>
 				<p class="note">
-				This use of the <a>DID Fragment</a> is furthermore consistent with the concept of Hash URIs
+				This use of the <a>DID fragment</a> is furthermore consistent with the concept of Hash URIs
 				for the Semantic Web [[COOL-URIS]].
 				</p>
 				<p class="issue">
@@ -646,15 +646,15 @@ and dereferencing DID URLs.
 			</ol>
 			</li>
 			<li>Otherwise, if the result of <a href="#dereferencing-algorithm-primary"></a> is an <var>output <a>service endpoint</a> URL</var>,
-			and the <var>input <a>DID URL</a></var> contains a <a>DID Fragment</a>:
+			and the <var>input <a>DID URL</a></var> contains a <a>DID fragment</a>:
 			<pre class="example nohighlight">did:example:1234?service=files&relative-ref=%2Fmyresume%2Fdoc%3Fversion%3Dlatest#intro</pre>
 			<ol class="algorithm">
-				<li>Append the <a>DID Fragment</a> to the <var>output <a>service endpoint</a> URL</var>. In other words,
-				the <var>output <a>service endpoint</a> URL</var> "inherits" the <a>DID Fragment</a> of the
+				<li>Append the <a>DID fragment</a> to the <var>output <a>service endpoint</a> URL</var>. In other words,
+				the <var>output <a>service endpoint</a> URL</var> "inherits" the <a>DID fragment</a> of the
 				<var>input <a>DID URL</a></var>.</li>
 				<li>Return the <var>output <a>service endpoint</a> URL</var>.</li>
 				<p class="note">
-				This behavior of the <a>DID Fragment</a> is analogous to the handling of a fragment in an HTTP URL in the
+				This behavior of the <a>DID fragment</a> is analogous to the handling of a fragment in an HTTP URL in the
 				case when dereferencing it returns an HTTP <code>3xx</code> (Redirection) response with a
 				<code>Location</code> header (see section 7.1.2 of [[RFC7231]].
 				</p>
@@ -669,7 +669,7 @@ and dereferencing DID URLs.
 
 	<section>
 		<h2>Additional Features</h2>
-		<p class="note">This section lists additional <a>DID URL Dereferencing</a> features that are under discussion and
+		<p class="note">This section lists additional <a>DID URL dereferencing</a> features that are under discussion and
 		have not yet been incorporated into the algorithm.</p>
 
 		<section id="redirect">
@@ -677,13 +677,13 @@ and dereferencing DID URLs.
 			<p>A <a href="https://w3c.github.io/did-core/#service-endpoints">service endpoint</a> may have
 			a <code>serviceEndpoint</code> property with a value that is itself
 			a DID. This is interpreted as a "DID redirect" from the input DID to another. In this case, a "child"
-			DID Resolution process can be launched to get to a "final" service endpoint.</p>
+			DID resolution process can be launched to get to a "final" service endpoint.</p>
 
 			<p class="issue" data-number="7">See corresponding open issue.
 			</p>
 
 			<p class="issue" data-number="36">DID redirects could not only apply to a single service endpoint, but
-			to an entire DID Document, therefore enabling portability use cases.
+			to an entire DID document, therefore enabling portability use cases.
 			</p>
 
 			<pre class="example nohighlight">
@@ -698,7 +698,7 @@ and dereferencing DID URLs.
 
 		<section id="proxy">
 			<h3>Proxy</h3>
-			<p>A DID Document may contain a "proxy" service type which would provide a mapping that 
+			<p>A DID document may contain a "proxy" service type which would provide a mapping that 
 			needs to be followed in order to resolve to a final service URL.</p>
 
 			<p class="issue" data-number="35"></p>
@@ -717,7 +717,7 @@ and dereferencing DID URLs.
 		<section id="json-pointer">
 			<h3>JSON Pointer</h3>
 			<div class="issue">
-			<p>Several ways of selecting parts of a DID Document are being discussed, including the use
+			<p>Several ways of selecting parts of a DID document are being discussed, including the use
 			of JSON pointer.</p>
 			<p>See corresponding PRs <a href="https://github.com/w3c-ccg/did-spec/pull/161">here</a>
 			and <a href="https://github.com/w3c/did-core/pull/257">here</a>.</p>
@@ -729,7 +729,7 @@ and dereferencing DID URLs.
 
 	<section>
 		<h2>Examples</h2>
-		<p>Given the following <var>resolved <a>DID Document</a></var>:<p>
+		<p>Given the following <var>resolved <a>DID document</a></var>:<p>
 		<pre class="example nohighlight">
 {
   "@context": "https://www.w3.org/ns/did/v1",
@@ -754,7 +754,7 @@ and dereferencing DID URLs.
   }]
 }
 </pre>
-		<p>Given the following <var>input <a>DID URL</a></var> and the <var>resolved <a>DID Document</a></var> above:</p>
+		<p>Given the following <var>input <a>DID URL</a></var> and the <var>resolved <a>DID document</a></var> above:</p>
 		<pre class="example nohighlight">
 did:example:123456789abcdefghi#keys-1
 </pre>
@@ -767,7 +767,7 @@ did:example:123456789abcdefghi#keys-1
   "publicKeyPem": "-----BEGIN PUB...0101010..END PUB -----\r\n"
 }
 </pre>
-		<p>Given the following <var>input <a>DID URL</a></var> and the <var>resolved <a>DID Document</a></var> above:</p>
+		<p>Given the following <var>input <a>DID URL</a></var> and the <var>resolved <a>DID document</a></var> above:</p>
 		<pre class="example nohighlight">
 did:example:123456789abcdefghi?service=messages&relative-ref=%2Fsome%2Fpath%3Fquery#frag
 </pre>
@@ -789,26 +789,26 @@ https://example.com/messages/8377464/some/path?query#frag
 </section>
 
 <section id="architectures">
-	<h1>DID Resolution Architectures</h1>
-	<p class="issue">TODO: Describe how <a>DID Resolvers</a> are implemented and used, describe the relevance
+	<h1>DID resolution Architectures</h1>
+	<p class="issue">TODO: Describe how <a>DID resolvers</a> are implemented and used, describe the relevance
 	of <a>DID methods</a>.
 	Explain the difference between "method architectures" and "resolver architectures".</p>
 
 	<section id="method-architectures">
 		<h2>Method Architectures</h2>
-		<p>The <a>DID Resolution</a> algorithm involves executing the <a href="https://w3c.github.io/did-core/#read-verify">Read</a>
+		<p>The <a>DID resolution</a> algorithm involves executing the <a href="https://w3c.github.io/did-core/#read-verify">Read</a>
 		operation on a <a>DID</a> according to its <a>DID method</a> (see <a href="#resolving"></a>).</p>
 
 		<div class="note">
 		<p>The mechanics of the "Read" operation can vary considerably between
 		<a>DID methods</a>. In particular, no assumption should be made that:</p>
 		<ul>
-		<li>... an immutable blockchain is used as (part of) the <a>Decentralized Identifier Registry</a>.</li>
+		<li>... an immutable blockchain is used as (part of) the <a>verifiable data registry</a>.</li>
 		<li>... interaction with a remote network is required during execution of the "Read" operation.</li>
-		<li>... an actual <a>DID Document</a> is stored in plain-text on a <a>Decentralized Identifier Registry</a>,
-		or that the <a>DID Document</a> can simply be retrieved via a standard protocol such as HTTP(S).
+		<li>... an actual <a>DID document</a> is stored in plain-text on a <a>verifiable data registry</a>,
+		or that the <a>DID document</a> can simply be retrieved via a standard protocol such as HTTP(S).
 		While some <a>DID methods</a> may define their "Read" operation this way, others may
-		define more complex multi-step processes that involve on-the-fly construction of a "virtual" <a>DID Document</a>.</li>
+		define more complex multi-step processes that involve on-the-fly construction of a "virtual" <a>DID document</a>.</li>
 		</ul>
 		</div>
 
@@ -821,61 +821,61 @@ https://example.com/messages/8377464/some/path?query#frag
 		<a href="https://github.com/w3c-ccg/did-spec/pull/55">here</a>).</p>
 
 		<p>Depending on the exact nature of the <a>DID method's</a> "Read" operation, the interaction between a
-		<a>DID Resolver</a> and the <a>Decentralized Identifier Registry</a> may be implemented as a <a>Verifiable Read</a>
-		or <a>Unverifiable Read</a>:</p>
+		<a>DID resolver</a> and the <a>verifiable data registry</a> may be implemented as a <a>verifiable read</a>
+		or <a>unverifiable read</a>:</p>
 
 		<figure id="figure-method-verifiable">
 			<img style="margin: auto; display: block; width: 100%;" src="diagrams/method-verifiable.png"
-			alt="Diagram showing a 'Verifiable Read' implementation of a DID method.">
+			alt="Diagram showing a 'verifiable read' implementation of a DID method.">
 			<figcaption style="text-align: center;">
-				A <a>Verifiable Read</a> implementation of a <a>DID method</a>.
+				A <a>verifiable read</a> implementation of a <a>DID method</a>.
 			</figcaption>
 		</figure>
 		<figure id="figure-method-unverifiable">
 			<img style="margin: auto; display: block; width: 100%;" src="diagrams/method-unverifiable.png"
-			alt="Diagram showing an 'Unverifiable Read' implementation of a DID method.">
+			alt="Diagram showing an 'unverifiable read' implementation of a DID method.">
 			<figcaption style="text-align: center;">
-				An <a>Unverifiable Read</a> implementation of a <a>DID method</a>.
+				An <a>unverifiable read</a> implementation of a <a>DID method</a>.
 			</figcaption>
 		</figure>
 
 		<p>
-			A <a>Verifiable Read</a> maximizes confidence in the integrity and correctness of the result of the "Read" operation ‐ to the extent
+			A <a>verifiable read</a> maximizes confidence in the integrity and correctness of the result of the "Read" operation ‐ to the extent
 			possible under the applicable <a>DID method</a>. It can be implemented in a variety of ways, for example:
 		</p>
 
 		<ul>
-		<li>A "Read" operation may be considered "Verifiable" if access to the <a>Decentralized Identifier Registry</a> is
+		<li>A "Read" operation may be considered "Verifiable" if access to the <a>verifiable data registry</a> is
 			possible via a local, trusted network host. In the case of blockchain-based <a>DID methods</a>, a blockchain full node
-			may be run on a local network host in order to implement a <a>Verifiable Read</a>.</li>
-		<li>The <a>DID Resolver</a> may be remotely connected to the <a>Decentralized Identifier Registry</a> but have some method
+			may be run on a local network host in order to implement a <a>verifiable read</a>.</li>
+		<li>The <a>DID resolver</a> may be remotely connected to the <a>verifiable data registry</a> but have some method
 			to verify the contents of the response of the "Read" operation. In the case of blockchain-based <a>DID methods</a>, even if
-			direct access to a blockchain full node is not available, a <a>Verifiable Read</a> may still be possible by running a light client that
+			direct access to a blockchain full node is not available, a <a>verifiable read</a> may still be possible by running a light client that
 			processes metadata to verify that the result of the "Read" operation hasn't been tampered with.</li>
-		<li>A <a>Verifiable Read</a> may be implemented if access to the <a>Decentralized Identifier Registry</a> happens via a remote
+		<li>A <a>verifiable read</a> may be implemented if access to the <a>verifiable data registry</a> happens via a remote
 			network host that is considered trusted because it is run on a personal device in the home and accessed via
 			a secure channel.</li>
 		</ul>
 
 		<p>
-			An <a>Unverifiable Read</a> does not have such guarantees and is therefore less desirable, for example:
+			An <a>unverifiable read</a> does not have such guarantees and is therefore less desirable, for example:
 		</p>
 
 		<ul>
-		<li>A "Read" operation may be considered "Unverifiable" if access to the <a>Decentralized Identifier Registry</a> happens
+		<li>A "Read" operation may be considered "Unverifiable" if access to the <a>verifiable data registry</a> happens
 			via a remote, untrusted intermediary. In the case of blockchain-based <a>DID methods</a>, a remote blockchain explorer API
 			operated by an third party may be used to look up data from the blockchain.</li>
 		</ul>
 
 		<p>
-			Whether or not a <a>Verifiable Read</a> is possible depends not only on a <a>DID method</a> itself, but also on the way how
-			a <a>DID Resolver</a> implements it. <a>DID methods</a> MAY define multiple different ways of implementing their "Read"
-			operation(s) and SHOULD offer guidance on how to implement a <a>Verifiable Read</a> in at least one way.
+			Whether or not a <a>verifiable read</a> is possible depends not only on a <a>DID method</a> itself, but also on the way how
+			a <a>DID resolver</a> implements it. <a>DID methods</a> MAY define multiple different ways of implementing their "Read"
+			operation(s) and SHOULD offer guidance on how to implement a <a>verifiable read</a> in at least one way.
 		</p>
 
 		<p class="note">
-			The guarantees associated with a <a>Verifiable Read</a> are still always limited by the architectures, protocols, cryptography,
-			and other aspects of the underlying <a>Decentralized Identifier Registry</a>. The strongest forms of <a>Verifiable Read</a>
+			The guarantees associated with a <a>verifiable read</a> are still always limited by the architectures, protocols, cryptography,
+			and other aspects of the underlying <a>verifiable data registry</a>. The strongest forms of <a>verifiable read</a>
 			implementations are considered those that do not require any interaction with a remote network at all (for example, see
 			[[DID-KEY]]), or that minimize dependencies on specific network infrastructure and reduce the "root of trust"
 			to proven entropy and cryptography alone (for example, see [[KERI]]).
@@ -884,81 +884,81 @@ https://example.com/messages/8377464/some/path?query#frag
 		<p class="issue">TODO: Describe how a client can potentially verify the result of a "Read" operation independently even if it does
 		not trust the DID resolver (e.g. using state proofs).</p>
 
-		<p>A <a>DID Resolver</a> MUST support the <a>DID Resolution</a> algorithm for at least one <a>DID method</a> and
+		<p>A <a>DID resolver</a> MUST support the <a>DID resolution</a> algorithm for at least one <a>DID method</a> and
 		MAY support it for multiple <a>DID methods</a>:</p>
 		<figure id="figure-method-multiple">
 			<img style="margin: auto; display: block; width: 100%;" src="diagrams/method-multiple.png"
-			alt="Diagram showing a DID Resolver that supports multiple DID methods.">
+			alt="Diagram showing a DID resolver that supports multiple DID methods.">
 			<figcaption style="text-align: center;">
-				A <a>DID Resolver</a> that supports multiple <a>DID methods</a>.
+				A <a>DID resolver</a> that supports multiple <a>DID methods</a>.
 			</figcaption>
 		</figure>
 
-		<p>In this case, the above considerations about <a>Verifiable Read</a> and <a>Unverifiable Read</a>
+		<p>In this case, the above considerations about <a>verifiable read</a> and <a>unverifiable read</a>
 		implementations apply to each supported <a>DID method</a> individually.</p>
 
 	</section>
 
 	<section id="resolver-architectures">
 		<h2>Resolver Architectures</h2>
-		<p>The algorithms for <a>DID Resolution</a> and <a>DID URL Dereferencing</a> are defined as abstract functions
+		<p>The algorithms for <a>DID resolution</a> and <a>DID URL dereferencing</a> are defined as abstract functions
 		(see <a href="#resolving"></a> and <a href="#dereferencing"></a>).</p>
-		Those algorithms are implemented by <a>DID Resolvers</a>. A <a>DID Resolver</a> is invoked by a <a>Client</a>
-		via a <a>Binding</a>. Bindings define how the abstract functions are realized using concrete
-		programming or communication interfaces. It is possible to distinguish between <a>Local Bindings</a>
-		(such as a local command line tool or library API) and <a>Remote Bindings</a> (such as the
-		<a href="#bindings-https">HTTP(S) Binding</a>).</p>
+		Those algorithms are implemented by <a>DID resolvers</a>. A <a>DID resolver</a> is invoked by a <a>client</a>
+		via a <a>binding</a>. bindings define how the abstract functions are realized using concrete
+		programming or communication interfaces. It is possible to distinguish between <a>local bindings</a>
+		(such as a local command line tool or library API) and <a>remote bindings</a> (such as the
+		<a href="#bindings-https">HTTP(S) binding</a>).</p>
 
 		<figure id="figure-binding-local">
 			<img style="margin: auto; display: block; width: 100%;" src="diagrams/binding-local.png"
-			alt="Diagram showing a DID Resolver with a 'Local Binding'.">
+			alt="Diagram showing a DID resolver with a 'local binding'.">
 			<figcaption style="text-align: center;">
-				A <a>Local Binding</a> for a <a>DID Resolver</a>.
+				A <a>local binding</a> for a <a>DID resolver</a>.
 			</figcaption>
 		</figure>
 		<figure id="figure-binding-remote">
 			<img style="margin: auto; display: block; width: 100%;" src="diagrams/binding-remote.png"
-			alt="Diagram showing a DID Resolver with a 'Remote Binding'.">
+			alt="Diagram showing a DID resolver with a 'remote binding'.">
 			<figcaption style="text-align: center;">
-				A <a>Remote Binding</a> for a <a>DID Resolver</a>.
+				A <a>remote binding</a> for a <a>DID resolver</a>.
 			</figcaption>
 		</figure>
 
 		<div class="issue" data-number="28">
-			<p>TODO: Describe <a>Local Bindings</a> vs. <a>Remote Bindings</a>, and implications for privacy, security and trust.</p>
-			<p>Also describe mitigations against potential downsides of <a>Remote Bindings</a>, e.g.:</p>
+			<p>TODO: Describe <a>local bindings</a> vs. <a>remote bindings</a>, and implications for privacy, security and trust.</p>
+			<p>Also describe mitigations against potential downsides of <a>remote bindings</a>, e.g.:</p>
 			<ul>
-				<li>A <a>DID Resolver's</a> <a>Remote Binding</a> can use a trusted channel such as VPN or TLS with mutual authentication.</li>
-				<li>A <a>DID Resolver</a> can add a <a href="https://w3c-ccg.github.io/ld-proofs/">proof</a>
-				to a <a>DID Document</a> and/or the <a>DID Resolution Result</a>. Discuss what this does and doesn't achieve. Also see
-				<a href="https://w3c.github.io/did-core/#binding-of-identity">Binding of Identity</a>.</li>
-				<li>A client could query multiple <a>DID Resolvers</a> over a <a>Remote Binding</a> and compare results.</li>
+				<li>A <a>DID resolver's</a> <a>remote binding</a> can use a trusted channel such as VPN or TLS with mutual authentication.</li>
+				<li>A <a>DID resolver</a> can add a <a href="https://w3c-ccg.github.io/ld-proofs/">proof</a>
+				to a <a>DID document</a> and/or the <a>DID resolution result</a>. Discuss what this does and doesn't achieve. Also see
+				<a href="https://w3c.github.io/did-core/#binding-of-identity">binding of Identity</a>.</li>
+				<li>A client could query multiple <a>DID resolvers</a> over a <a>remote binding</a> and compare results.</li>
 			</ul>
 		</div>
-		<p class="issue">TODO: Discuss DID Resolution in constrained user agents such as mobile apps and browsers.</p>
+		<p class="issue">TODO: Discuss DID resolution in constrained user agents such as mobile apps and browsers.</p>
 
 	<section id="resolver-architectures-proxied">
 		<h2>Proxied Resolution</h2>
 
-		<p>A <a>DID Resolver</a> MAY invoke another <a>DID Resolver</a>, which serves as a proxy that executes
-		the <a>DID Resolution</a> algorithm as defined in <a href="#resolving"></a>.</p>
+		<p>A <a>DID resolver</a> MAY invoke another <a>DID resolver</a>, which serves as a proxy that executes
+		the <a>DID resolution</a> algorithm as defined in <a href="#resolving"></a>.</p>
 
-		<p>The first <a>DID Resolver</a> then acts
-		as a <a>Client</a> and chooses a suitable <a>Binding</a> for invoking the second <a>DID Resolver</a>. For example, a <a>DID Resolver</a> may be
-		invoked via a <a>Local Binding</a> (such as a command line tool), which in turn invokes another <a>DID Resolver</a>
-		via a <a>Remote Binding</a> (such as the <a href="#bindings-https">HTTP(S) Binding</a>).</p>
+		<p>The first <a>DID resolver</a> then acts
+		as a <a>client</a> and chooses a suitable <a>binding</a> for invoking the second <a>DID resolver</a>. For example, a <a>DID resolver</a> may be
+		invoked via a <a>local binding</a> (such as a command line tool), which in turn invokes another <a>DID resolver</a>
+		via a <a>remote binding</a> (such as the <a href="#bindings-https">HTTP(S) binding</a>).</p>
 
 		<figure id="figure-proxied-dereferencing">
 			<img style="margin: auto; display: block; width: 100%;" src="diagrams/proxied-dereferencing.png"
-			alt="Diagram showing two DID Resolvers, one invoked via 'Local Binding', the other invoked via 'Remote Binding'.">
+			alt="Diagram showing two DID resolvers, one invoked via 'local binding', the other invoked via 'remote binding'.">
 			<figcaption style="text-align: center;">
-				A client invokes a <a>DID Resolver</a> via <a>Local Binding</a> which invokes another <a>DID Resolver</a> via
-				<a>Remote Binding</a>, which in turn supports resolving multiple <a>DID methods</a>.
+				A client invokes a <a>DID resolver</a> via <a>local binding</a> which invokes another <a>DID resolver</a> via
+				<a>remote binding</a>, which in turn supports resolving multiple <a>DID methods</a>.
 			</figcaption>
 		</figure>
 
 		<p class="note">This is similar to a "stub resolver" invoking a "recursive resolver" in DNS architecture, although
-		the concepts are not entirely comparable (DNS Resolution uses a single concrete protocol, whereas DID Resolution
+		the concepts are not entirely comparable (DNS Resolution uses a single concrete protocol, whereas DID resolution
 		is an abstract function realized by different <a>DID methods</a> and different <a>bindings</a>).</p>
 
 	</section>
@@ -966,53 +966,53 @@ https://example.com/messages/8377464/some/path?query#frag
 	<section id="resolver-architectures-client-side">
 		<h2>Client-Side Dereferencing</h2>
 
-		<p>Different parts of the <a href="#dereferencing">DID URL Dereferencing</a>
+		<p>Different parts of the <a href="#dereferencing">DID URL dereferencing</a>
 		algorithm may be performed by different components of a <a href="#resolver-architectures">Resolver Architecture</a>.</p>
 
-		<p>Specifically, when a <a>DID URL</a> with a <a>DID Fragment</a> is dereferenced, then
+		<p>Specifically, when a <a>DID URL</a> with a <a>DID fragment</a> is dereferenced, then
 		<a href="#dereferencing-algorithm-primary">Dereferencing the Primary Resource</a> is done by
-		the <a>DID Resolver</a>, and
-		<a href="#dereferencing-algorithm-secondary">Dereferencing the Secondary Resource</a> is done by the <a>Client</a>.</p>
+		the <a>DID resolver</a>, and
+		<a href="#dereferencing-algorithm-secondary">Dereferencing the Secondary Resource</a> is done by the <a>client</a>.</p>
 
-		<p>Example: Given the <a>DID URL</a> <code>did:xyz:1234#keys-1</code>, a <a>DID Resolver</a> could be invoked
-		via <a>Local Binding</a>
-		for <a href="#dereferencing-algorithm-primary">Dereferencing the Primary Resource</a> (i.e. the <a>DID Document</a>),
-		and the <a>Client</a> could complete the <a>DID URL Dereferencing</a> algorithm by
-		<a href="#dereferencing-algorithm-secondary">Dereferencing the Secondary Resource</a> (i.e. a part of the <a>DID Document</a>).</p>
+		<p>Example: Given the <a>DID URL</a> <code>did:xyz:1234#keys-1</code>, a <a>DID resolver</a> could be invoked
+		via <a>local binding</a>
+		for <a href="#dereferencing-algorithm-primary">Dereferencing the Primary Resource</a> (i.e. the <a>DID document</a>),
+		and the <a>client</a> could complete the <a>DID URL dereferencing</a> algorithm by
+		<a href="#dereferencing-algorithm-secondary">Dereferencing the Secondary Resource</a> (i.e. a part of the <a>DID document</a>).</p>
 
 		<figure id="figure-client-side-dereferencing-1">
 			<img style="display: block; width: 100%;" src="diagrams/client-side-dereferencing-1.png"
-			alt="Diagram showing client-side dereferencing of a DID URL by a DID Resolver and a Client">
+			alt="Diagram showing client-side dereferencing of a DID URL by a DID resolver and a client">
 			<figcaption style="text-align: center;">
-				Client-side dereferencing of a <a>DID URL</a> by a <a>DID Resolver</a> and a <a>Client</a>.
+				client-side dereferencing of a <a>DID URL</a> by a <a>DID resolver</a> and a <a>client</a>.
 			</figcaption>
 		</figure>
 
-		<p>Example: Given the <a>DID URL</a> <code>did:xyz:1234#keys-1</code>, a <a>DID Resolver</a> could be invoked via
-		<a>Local Binding</a> which invokes another <a>DID Resolver</a> via <a>Remote Binding</a>
-		for <a href="#dereferencing-algorithm-primary">Dereferencing the Primary Resource</a> (i.e. the <a>DID Document</a>),
-		and the <a>Client</a> could complete the <a>DID URL Dereferencing</a> algorithm by
-		<a href="#dereferencing-algorithm-secondary">Dereferencing the Secondary Resource</a> (i.e. a part of the <a>DID Document</a>).</p>
+		<p>Example: Given the <a>DID URL</a> <code>did:xyz:1234#keys-1</code>, a <a>DID resolver</a> could be invoked via
+		<a>local binding</a> which invokes another <a>DID resolver</a> via <a>remote binding</a>
+		for <a href="#dereferencing-algorithm-primary">Dereferencing the Primary Resource</a> (i.e. the <a>DID document</a>),
+		and the <a>client</a> could complete the <a>DID URL dereferencing</a> algorithm by
+		<a href="#dereferencing-algorithm-secondary">Dereferencing the Secondary Resource</a> (i.e. a part of the <a>DID document</a>).</p>
 
 		<figure id="figure-client-side-dereferencing-3">
 			<img style="margin: auto; display: block; width: 100%;" src="diagrams/client-side-dereferencing-2.png"
-			alt="Diagram showing client-side dereferencing of a DID URL by two DID Resolvers and a Client">
+			alt="Diagram showing client-side dereferencing of a DID URL by two DID resolvers and a client">
 			<figcaption style="text-align: center;">
-				Client-side dereferencing (in combination with <a href="#resolver-architectures-proxied">Proxied Resolution</a>)
-				of a <a>DID URL</a> by two <a>DID Resolvers</a> and a <a>Client</a>.
+				client-side dereferencing (in combination with <a href="#resolver-architectures-proxied">Proxied Resolution</a>)
+				of a <a>DID URL</a> by two <a>DID resolvers</a> and a <a>client</a>.
 			</figcaption>
 		</figure>
 
-		<p>Example: Given the <a>DID URL</a> <code>did:xyz:1234?service=agent&relative-ref=%2Fsome%2Fpath%3Fquery#frag</code>, a <a>DID Resolver</a> could be invoked
+		<p>Example: Given the <a>DID URL</a> <code>did:xyz:1234?service=agent&relative-ref=%2Fsome%2Fpath%3Fquery#frag</code>, a <a>DID resolver</a> could be invoked
 		for <a href="#dereferencing-algorithm-primary">Dereferencing the Primary Resource</a> (i.e. a <a>service endpoint</a> URL),
-		and the <a>Client</a> could complete the <a>DID URL Dereferencing</a> algorithm by
+		and the <a>client</a> could complete the <a>DID URL dereferencing</a> algorithm by
 		<a href="#dereferencing-algorithm-secondary">Dereferencing the Secondary Resource</a> (i.e. a <a>service endpoint</a> URL with a fragment).</p>
 
 		<figure id="figure-client-side-dereferencing-2">
 			<img style="margin: auto; display: block; width: 100%;" src="diagrams/client-side-dereferencing-3.png"
-			alt="Diagram showing client-side dereferencing of a DID URL by a DID Resolver and a Client">
+			alt="Diagram showing client-side dereferencing of a DID URL by a DID resolver and a client">
 			<figcaption style="text-align: center;">
-				Client-side dereferencing of a <a>DID URL</a> by a <a>DID Resolver</a> and a <a>Client</a>.
+				client-side dereferencing of a <a>DID URL</a> by a <a>DID resolver</a> and a <a>client</a>.
 			</figcaption>
 		</figure>
 
@@ -1025,19 +1025,19 @@ https://example.com/messages/8377464/some/path?query#frag
 <section id="did-resolution-result">
 	<h1>DID Resolution Result</h1>
 	<p>This section defines a data structure that in some cases represents the result of the algorithms described
-	in <a href="#resolving"></a> and <a href="#dereferencing"></a>. A <a>DID Resolution Result</a> contains
-	a <a>DID Document</a> or other result as well as 
+	in <a href="#resolving"></a> and <a href="#dereferencing"></a>. A <a>DID resolution result</a> contains
+	a <a>DID document</a> or other result as well as 
 	<a href="#output-resolutionmetadata">DID resolution metadata</a> and <a href="#output-documentmetadata">DID
 	document metadata</a>.</p>
 
 	<p class="issue" data-number="23">See corresponding open issue.</p>
 	<p class="issue">Need to define how this data structure works exactly, and whether it always contains
-	a <a>DID Document</a> or can also contain other results.</p>
+	a <a>DID document</a> or can also contain other results.</p>
 
 	<section>
 		<h2>Example</h2>
 
-		<pre class="example nohighlight" title="Example DID Resolution Result">
+		<pre class="example nohighlight" title="Example DID resolution result">
 {
 	"@context": "https://www.w3.org/ns/did-resolution/v1",
 	"didDocument": {
@@ -1097,18 +1097,18 @@ https://example.com/messages/8377464/some/path?query#frag
 
 	<section id="output-diddocument">
 		<h2>DID Document</h2>
-		<p>A <a>DID Document</a> associated with a <a>DID</a>. The result of <a href="#resolving"></a>.</p>
+		<p>A <a>DID document</a> associated with a <a>DID</a>. The result of <a href="#resolving"></a>.</p>
 
 	</section>
 
 	<section id="output-resolutionmetadata">
 		<h2>DID Resolution Metadata</h2>
 		<div class="issue">
-		<p>TODO: Describe DID Resolution metadata that is not method-specific, e.g.:</p>
+		<p>TODO: Describe DID resolution metadata that is not method-specific, e.g.:</p>
 		<ul>
-		<li>Duration of the DID Resolution process.</li>
-		<li>Versioning information about the DID Document (see Section <a href="#versioning"></a>).</li>
-		<li>Caching information about the DID Document (see Section <a href="#caching"></a>).</li>
+		<li>Duration of the DID resolution process.</li>
+		<li>Versioning information about the DID document (see Section <a href="#versioning"></a>).</li>
+		<li>Caching information about the DID document (see Section <a href="#caching"></a>).</li>
 		</ul>
 		</div>
 
@@ -1117,19 +1117,19 @@ https://example.com/messages/8377464/some/path?query#frag
 	<section id="output-documentmetadata">
 		<h2>DID Document Metadata</h2>
 		<div class="issue">
-		<p>TODO: Describe DID Resolution metadata that is method-specific, e.g.:</p>
+		<p>TODO: Describe DID resolution metadata that is method-specific, e.g.:</p>
 		<ul>
-		<li>State proofs from the <a>Decentralized Identifier Registry</a>.</li>
-		<li>Block number, index, transaction hash, number of confirmations, etc. of a record in the blockchain or other <a>Decentralized Identifier Registry</a>.</li>
-		<li>Various URLs, IP addresses or other network information that was used during the DID Resolution process.</li>
+		<li>State proofs from the <a>verifiable data registry</a>.</li>
+		<li>Block number, index, transaction hash, number of confirmations, etc. of a record in the blockchain or other <a>verifiable data registry</a>.</li>
+		<li>Various URLs, IP addresses or other network information that was used during the DID resolution process.</li>
 		</ul>
 		</div>
 
 	</section>
 
-	<p class="issue">For certain data, it may be debatable whether it should be part of the DID Document
-	(i.e. data that describes the DID Subject), or whether it is metadata (i.e. data about the DID Document or about
-	the DID Resolution process). For example the URL of the "Continuation DID Document" in the BTCR method.
+	<p class="issue">For certain data, it may be debatable whether it should be part of the DID document
+	(i.e. data that describes the DID Subject), or whether it is metadata (i.e. data about the DID document or about
+	the DID resolution process). For example the URL of the "Continuation DID document" in the BTCR method.
 	</p>
 
 </section>
@@ -1139,7 +1139,7 @@ https://example.com/messages/8377464/some/path?query#frag
 
 	<p>This section defines the inputs and the algorithm of <a>Service Endpoint Construction</a>,
 	which returns a <a>service endpoint</a> URL as output. This algorithm is used when service endpoints
-	are selected during <a>DID URL Dereferencing</a> (see <a href="#dereferencing"></a>).</p>
+	are selected during <a>DID URL dereferencing</a> (see <a href="#dereferencing"></a>).</p>
 
 	<p>In this section, <code>path</code>, <code>query</code>, and <code>fragment</code> are understood as defined in [[RFC3986]].</p>
 
@@ -1211,29 +1211,29 @@ https://example.com/messages/8377464/some/path?query#frag
 
 	<section id="bindings-https">
 		<h2>HTTP(S) Binding</h2>
-		<p>This section defines a <a>DID Resolver</a> <a>Binding</a> which exposes the
-		<a>DID Resolution</a> and/or <a>DID URL Dereferencing</a> functions (including all
+		<p>This section defines a <a>DID resolver</a> <a>binding</a> which exposes the
+		<a>DID resolution</a> and/or <a>DID URL dereferencing</a> functions (including all
 		input metadata properties and output data) via an HTTP(S) endpoint. See <a href="#resolver-architectures"></a>.</p>
 		<div class="issue">
-			<p>TODO: Define HTTP(S) Binding for <a>DID Resolution</a> and <a>DID URL Dereferencing</a>,
+			<p>TODO: Define HTTP(S) binding for <a>DID resolution</a> and <a>DID URL dereferencing</a>,
 			including the following topics:</p>
 			<ul>
 				<li>How are <var>input metadata properties</var> passed via HTTP(S)? Using the query string and/or HTTP headers?</li>
-				<li>How is the output data (<a>DID Document</a>, <a>DID Resolution Result</a>) returned via HTTP(S)</li>
-				<li>What is the <a href="https://github.com/w3c/did-core/issues/1">MIME type of a DID Document</a>?
+				<li>How is the output data (<a>DID document</a>, <a>DID resolution result</a>) returned via HTTP(S)</li>
+				<li>What is the <a href="https://github.com/w3c/did-core/issues/1">MIME type of a DID document</a>?
 				How should <code>Accept</code> and <code>Content-Type</code> HTTP headers be used?</li>
 				<li>Are two separate HTTP(S) endpoints required/allowed for the <code>resolve()</code> and
 				<code>dereference()</code> functions, or can/must a single HTTP(S) endpoint be used?</li>
 			</ul>
 		</div>
 
-		<p>The HTTP(S) Binding for <a>DID Resolvers</a> requires a known HTTP(S) URL called the
-		<var><a>DID Resolver</a> HTTP(S) endpoint</var>.</p>
-		<p>Using this binding, the <a>DID Resolution</a> function (see
-		<a href="#resolving"></a>) and/or <a>DID URL Dereferencing</a> function (see <a href="#dereferencing"></a>)
+		<p>The HTTP(S) binding for <a>DID resolvers</a> requires a known HTTP(S) URL called the
+		<var><a>DID resolver</a> HTTP(S) endpoint</var>.</p>
+		<p>Using this binding, the <a>DID resolution</a> function (see
+		<a href="#resolving"></a>) and/or <a>DID URL dereferencing</a> function (see <a href="#dereferencing"></a>)
 		can be executed as follows:</p>
 		<ol class="algorithm">
-			<li>Initialize a <var>request HTTP(S) URL</var> with the <var><a>DID Resolver</a> HTTP(S) endpoint</var>.</li>
+			<li>Initialize a <var>request HTTP(S) URL</var> with the <var><a>DID resolver</a> HTTP(S) endpoint</var>.</li>
 			<ol class="algorithm">
 				<li>Append the <var>input <a>DID</a></var> or
 				<var>input <a>DID URL</a></var> to the <var>request HTTP(S) URL</var>. Certain characters
@@ -1243,20 +1243,20 @@ data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>).</li>
 				query parameters in the <var>request HTTP(S) URL</var>.</li>
 			</ol>
 			<li>Execute an HTTP <code>GET</code> request on the <var>request HTTP(S) URL</var>.</li>
-			<li>If the <var>input <a>DID</a></var> does not exist (i.e. the <a>DID Resolution</a> function
+			<li>If the <var>input <a>DID</a></var> does not exist (i.e. the <a>DID resolution</a> function
 			returns a null result):
 			<ol class="algorithm">
 				<li>The HTTP response status code MUST be <code>404</code>.</li>
 			</ol>
 			</li>
-			<li>If the <var>input <a>DID</a></var> exists and the result is (part of) a <a>DID Document</a>:
+			<li>If the <var>input <a>DID</a></var> exists and the result is (part of) a <a>DID document</a>:
 			<ol class="algorithm">
 				<li>The HTTP response status code MUST be <code>200</code>.</li>
 				<li>The HTTP response MUST contain a <code>Content-Type</code> header. The
-				value of this header MUST be `application/did+ld+json` (or other MIME type of a conformant representation of a <a>DID Document</a>).</li>
-				<li>The HTTP response body MUST contain the <var>resolved <a>DID Document</a></var> or other
-				<var>output resources</var> that is the result of the <a>DID Resolution</a> or
-				<a>DID URL Dereferencing</a> function.</li>
+				value of this header MUST be `application/did+ld+json` (or other MIME type of a conformant representation of a <a>DID document</a>).</li>
+				<li>The HTTP response body MUST contain the <var>resolved <a>DID document</a></var> or other
+				<var>output resources</var> that is the result of the <a>DID resolution</a> or
+				<a>DID URL dereferencing</a> function.</li>
 			</ol>
 			</li>
 			<li>If the <var>input <a>DID</a></var> exists and the result is a <a>service endpoint</a> URL:
@@ -1272,7 +1272,7 @@ data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>).</li>
 
 	<section>
 		<h2>Example</h2>
-		<p>Given the following <var><a>DID Resolver</a> HTTP(S) endpoint</var>:<p>
+		<p>Given the following <var><a>DID resolver</a> HTTP(S) endpoint</var>:<p>
 		<p><code>
 https://uniresolver.io/1.0/identifiers/</code></p>
 		<p>And given the following <var>input <a>DID</a></var>:</p>
@@ -1281,8 +1281,8 @@ did:sov:WRfXPg8dantKVubE3HX8pw</code></p>
 		<p>Then the <var>request HTTP(S) URL</var> is:</p>
 		<p><code>
 https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8pw</code></p>
-		<p>The HTTP(S) Binding can be invoked as follows:</p>
-		<pre class="example nohighlight" title="Example curl call to a DID Resolver via HTTP(S) Binding">
+		<p>The HTTP(S) binding can be invoked as follows:</p>
+		<pre class="example nohighlight" title="Example curl call to a DID resolver via HTTP(S) binding">
 curl -X GET https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8pw</pre>
 
 	</section>
@@ -1300,7 +1300,7 @@ curl -X GET https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8p
 
 	<section id="authentication">
 		<h2>Authentication/Authorization</h2>
-		<p><a>DID Resolution</a> and <a>DID URL Dereferencing</a> do not involve any authentication or authorization
+		<p><a>DID resolution</a> and <a>DID URL dereferencing</a> do not involve any authentication or authorization
 		functionality. Similar to DNS resolution, anybody can perform the process, without requiring any credentials
 		or non-public knowledge.</p>
 
@@ -1313,11 +1313,11 @@ curl -X GET https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8p
 		<em> URIs have a global scope and are interpreted consistently regardless of context, though the
 		result of that interpretation may be in relation to the end-user's context.</em>
 		</p>
-		<p>An advanced idea is that the result of DID Resolution could be contextual or depend on policies,
+		<p>An advanced idea is that the result of DID resolution could be contextual or depend on policies,
 		see <a href="https://github.com/w3c-ccg/did-resolution/issues/28#issuecomment-510592199">this comment</a>.</p>
 		</div>
 
-		<p class="issue">A related topic is whether (parts of) DID Document could be encrypted, e.g. see
+		<p class="issue">A related topic is whether (parts of) DID document could be encrypted, e.g. see
 		<a href="https://github.com/w3c/did-core/issues/25">w3c/did-core/issues/25</a>. Also see the use
 		of the fragment in the <a href="https://did-ipid.github.io/ipid-did-method/">IPID</a> DID method.</p>
 
@@ -1325,10 +1325,10 @@ curl -X GET https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8p
 
 	<section id="caching">
 		<h2>Caching</h2>
-		<p>A <a>DID Resolver</a> may maintain a generic cache of <a>DID Documents</a>. It may also maintain caches specific
+		<p>A <a>DID resolver</a> may maintain a generic cache of <a>DID documents</a>. It may also maintain caches specific
 		to certain <a>DID methods</a>.</p>
-		<p>Caching behavior can be controlled by configuration of the <a>DID Resolver</a>,
-		by the <a href="#resolving-input-no-cache">`no-cache`</a> input metadata property, or by contents of the DID Document
+		<p>Caching behavior can be controlled by configuration of the <a>DID resolver</a>,
+		by the <a href="#resolving-input-no-cache">`no-cache`</a> input metadata property, or by contents of the DID document
 		(e.g. a `time-to-live` field), or by a combination of these properties.</p>
 		<p class="issue" data-number="10">See corresponding open issue.</p>
 		<p class="issue">Perhaps we can re-use caching mechanisms of other protocols such as HTTP.</p>
@@ -1338,14 +1338,14 @@ curl -X GET https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8p
 	<section id="versioning">
 		<h2>Versioning</h2>
 		<p>If a <a href="#resolving-input-version-id">`version-id`</a> or
-		<a href="#resolving-input-version-time">`version-time`</a> input metadata property is provided, the <a>DID Resolution</a>
-		algorithm returns a certain version of the <a>DID Document</a>.</p>
-		<p>A DID Document MAY contain a version identifier that changes with each 
+		<a href="#resolving-input-version-time">`version-time`</a> input metadata property is provided, the <a>DID resolution</a>
+		algorithm returns a certain version of the <a>DID document</a>.</p>
+		<p>A DID document MAY contain a version identifier that changes with each 
 		<a href="https://w3c.github.io/did-core/#update">Update</a> operation that is performed
 		on a DID.</p>
 		<p class="issue" data-number="12">See corresponding open issue.</p>
 		<p class="note">While most <a>DID methods</a> support the <a href="https://w3c.github.io/did-core/#update">Update</a>
-		operation, there is no requirement for <a>DID methods</a> to keep all previous <a>DID Document</a> versions, therefore
+		operation, there is no requirement for <a>DID methods</a> to keep all previous <a>DID document</a> versions, therefore
 		not all <a>DID methods</a> support versioning.
 		</p>
 	
@@ -1353,7 +1353,7 @@ curl -X GET https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8p
 	
 	<section id="non-did-identifiers">
 		<h2>Non-DID Identifiers</h2>
-		<p class="issue" data-number="8">There is discussion on the relationship between <a>DID Resolution</a> and
+		<p class="issue" data-number="8">There is discussion on the relationship between <a>DID resolution</a> and
 		resolution of non-DID identifiers such as domain names, HTTP URIs, or e-mail addresses. This includes the
 		questions how DIDs can be discovered from non-DID identifiers, and how links between identifiers can
 		be verifiable.</p>
@@ -1362,7 +1362,7 @@ curl -X GET https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8p
 
 	<section id="did-method-governance">
 		<h2>DID Method Governance</h2>
-		<p class="issue" data-number="6">Describe which methods a <a>DID Resolver</a> should support, and potential implications.</p>
+		<p class="issue" data-number="6">Describe which methods a <a>DID resolver</a> should support, and potential implications.</p>
 
 	</section>
 
@@ -1372,10 +1372,10 @@ curl -X GET https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8p
 	<h1>DID Resolution Resources</h1>
 
 	<ol>
-	<li><a href="https://w3c.github.io/did-core/#resolution">DID Resolvers in DID Core specification</a></li>
+	<li><a href="https://w3c.github.io/did-core/#resolution">DID resolvers in DID Core specification</a></li>
 	<li><a href="https://github.com/decentralized-identity/universal-resolver/">Universal Resolver</a></li>
 	<li><a href="https://github.com/digitalbazaar/did-client">did-client</a></li>
-	<li><a href="https://github.com/uport-project/did-resolver">uPort DID Resolver</a></li>
+	<li><a href="https://github.com/uport-project/did-resolver">uPort DID resolver</a></li>
 	</ol>
 
 </section>
