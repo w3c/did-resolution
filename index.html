@@ -289,56 +289,61 @@ and dereferencing DID URLs.
 
 		</section>
 
-		<section id="resolving-input-accept">
-			<h3><code>accept</code></h3>
-			<p>The <code>accept</code> <var>input metadata property</var> can be used to request a certain
-			type of result.</p>
-			<p>This <var>input metadata property</var> is OPTIONAL.</p>
-			<p>Possible values of this property are:</p>
-			<ul>
-			<li>`application/did+ld+json` (or other MIME type of a conformant representation of a <a>DID Document</a>): Request a <a>DID Document</a> as output.</li>
-			<li>`application/ld+json;profile="https://w3c-ccg.github.io/did-resolution"`: Request a <a>DID Resolution Result</a> as output (see <a href="#did-resolution-result"></a>).</li>
-			</ul>
-			<p class="issue">Discuss what this means for certain bindings (such as <a href="#bindings-https"></a>).</p>
+		<section id="resolving-input-metadata-properties">
+			<h3>Input Metadata Properties</h3>
 
-		</section>
+			<section id="resolving-input-accept">
+				<h4><code>accept</code></h4>
+				<p>The <code>accept</code> <var>input metadata property</var> can be used to request a certain
+				type of result.</p>
+				<p>This <var>input metadata property</var> is OPTIONAL.</p>
+				<p>Possible values of this property are:</p>
+				<ul>
+				<li>`application/did+ld+json` (or other MIME type of a conformant representation of a <a>DID Document</a>): Request a <a>DID Document</a> as output.</li>
+				<li>`application/ld+json;profile="https://w3c-ccg.github.io/did-resolution"`: Request a <a>DID Resolution Result</a> as output (see <a href="#did-resolution-result"></a>).</li>
+				</ul>
+				<p class="issue">Discuss what this means for certain bindings (such as <a href="#bindings-https"></a>).</p>
 
-		<section id="resolving-input-version-id">
-			<h3><code>version-id</code></h3>
-			<p>The <code>version-id</code> input metadata property can be used to request a specific
-			version of a <a>DID Document</a>.</p>
-			<p>This <var>input metadata property</var> is OPTIONAL. It is mutually exclusive with <a href="#resolving-input-version-time"></a>.</p>
-			<p>See Section <a href="#versioning"></a> for additional considerations.</p>
-			<p>The possible values of this property are specific to the <var>input <a>DID method</a></var>.</p>
-			<p class="note">
-			Possible values may include sequential numbers, random UUIDs, content hashes, etc.
-			</p>
+			</section>
 
-		</section>
+			<section id="resolving-input-version-id">
+				<h4><code>version-id</code></h4>
+				<p>The <code>version-id</code> input metadata property can be used to request a specific
+				version of a <a>DID Document</a>.</p>
+				<p>This <var>input metadata property</var> is OPTIONAL. It is mutually exclusive with <a href="#resolving-input-version-time"></a>.</p>
+				<p>See Section <a href="#versioning"></a> for additional considerations.</p>
+				<p>The possible values of this property are specific to the <var>input <a>DID method</a></var>.</p>
+				<p class="note">
+				Possible values may include sequential numbers, random UUIDs, content hashes, etc.
+				</p>
 
-		<section id="resolving-input-version-time">
-			<h3><code>version-time</code></h3>
-			<p>The <code>version-time</code> input metadata property can used to request a specific
-			version of a <a>DID Document</a>.</p>
-			<p>This <var>input metadata property</var> is OPTIONAL. It is mutually exclusive with <a href="#resolving-input-version-id"></a>.</p>
-			<p>See Section <a href="#versioning"></a> for additional considerations.</p>
-			<p>The value of this property MUST be a string value of an [[!RFC3339]] combined date and time string representing
-			the date and time the <a>DID Document</a> was current for the <var>input <a>DID</a></var>.</p>
+			</section>
 
-		</section>
+			<section id="resolving-input-version-time">
+				<h4><code>version-time</code></h4>
+				<p>The <code>version-time</code> input metadata property can used to request a specific
+				version of a <a>DID Document</a>.</p>
+				<p>This <var>input metadata property</var> is OPTIONAL. It is mutually exclusive with <a href="#resolving-input-version-id"></a>.</p>
+				<p>See Section <a href="#versioning"></a> for additional considerations.</p>
+				<p>The value of this property MUST be a string value of an [[!RFC3339]] combined date and time string representing
+				the date and time the <a>DID Document</a> was current for the <var>input <a>DID</a></var>.</p>
 
-		<section id="resolving-input-no-cache">
-			<h3><code>no-cache</code></h3>
-			<p>The <code>no-cache</code> input metadata property can be used to 
-			request a certain kind of caching behavior.</p>
-			<p>This <var>input metadata property</var> is OPTIONAL.</p>
-			<p>Possible values of this property are:</p>
-			<ul>
-			<li>`"false"` (default value): Caching of <a>DID Documents</a> is allowed.</li>
-			<li>`"true"`: Request that caching is disabled and a fresh <a>DID Document</a> is retrieved from
-			the <a>Decentralized Identifier Registry</a>.</li>
-			</ul>
-			<p>See Section <a href="#caching"></a> for additional considerations.</p>
+			</section>
+
+			<section id="resolving-input-no-cache">
+				<h4><code>no-cache</code></h4>
+				<p>The <code>no-cache</code> input metadata property can be used to
+				request a certain kind of caching behavior.</p>
+				<p>This <var>input metadata property</var> is OPTIONAL.</p>
+				<p>Possible values of this property are:</p>
+				<ul>
+				<li>`"false"` (default value): Caching of <a>DID Documents</a> is allowed.</li>
+				<li>`"true"`: Request that caching is disabled and a fresh <a>DID Document</a> is retrieved from
+				the <a>Decentralized Identifier Registry</a>.</li>
+				</ul>
+				<p>See Section <a href="#caching"></a> for additional considerations.</p>
+
+			</section>
 
 		</section>
 
@@ -428,38 +433,95 @@ and dereferencing DID URLs.
 
 		</section>
 
-		<section id="dereferencing-input-accept">
-			<h3><code>accept</code></h3>
-			<p>The <code>accept</code> <var>input metadata property</var> can be used to request a certain
-			type of result.</p>
-			<p>This <var>input metadata property</var> is OPTIONAL.</p>
-			<p>Possible values of this property are:</p>
-			<ul>
-			<li>`application/did+ld+json` (or other MIME type of a conformant representation of a <a>DID Document</a>): Request a <a>DID Document</a> as output.</li>
-			<li>`application/ld+json;profile="https://w3c-ccg.github.io/did-resolution""`: Request a <a>DID Resolution Result</a> as output (see <a href="#did-resolution-result"></a>).</li>
-			</ul>
-			<p class="issue">Discuss what this means for certain bindings (such as <a href="#bindings-https"></a>).</p>
-			<p class="issue">Discuss additional result types that may exist for <a>DID URL Dereferencing</a> but
-			do not exist for <a>DID Resolution</a>.</p>
+		<section id="dereferencing-input-did-url-parameters">
+			<h3>DID URL Parameters</h3>
+
+			<section id="dereferencing-input-did-url-parameter-hl">
+				<h4><code>hl</code></h4>
+				<p>As defined in section <a href="https://w3c.github.io/did-core/#generic-did-url-parameters">Generic DID URL Parameters</a>
+				in [[DID-CORE]].</p>
+
+			</section>
+
+			<section id="dereferencing-input-did-url-parameter-service">
+				<h4><code>service</code></h4>
+				<p>As defined in section <a href="https://w3c.github.io/did-core/#generic-did-url-parameters">Generic DID URL Parameters</a>
+				in [[DID-CORE]].</p>
+
+			</section>
+
+			<section id="dereferencing-input-did-url-parameter-version-id">
+				<h4><code>version-id</code></h4>
+				<p>As defined in section <a href="https://w3c.github.io/did-core/#generic-did-url-parameters">Generic DID URL Parameters</a>
+				in [[DID-CORE]].</p>
+
+			</section>
+
+			<section id="dereferencing-input-did-url-parameter-version-time">
+				<h4><code>version-time</code></h4>
+				<p>As defined in section <a href="https://w3c.github.io/did-core/#generic-did-url-parameters">Generic DID URL Parameters</a>
+				in [[DID-CORE]].</p>
+
+			</section>
+
+			<section id="dereferencing-input-did-url-parameter-relative-ref">
+				<h4><code>relative-ref</code></h4>
+				<p>As defined in section <a href="https://w3c.github.io/did-core/#generic-did-url-parameters">Generic DID URL Parameters</a>
+				in [[DID-CORE]].</p>
+
+			</section>
+
+			<section id="dereferencing-input-did-url-parameter-initial-state">
+				<h4><code>initial-state</code></h4>
+				<p>As defined in <a href="https://github.com/decentralized-identity/did-spec-extensions/blob/master/parameters/initial-state.md">Extension DID Parameter: initial-state</a>.</p>
+
+			</section>
+
+			<section id="dereferencing-input-did-url-parameter-transform-keys">
+				<h4><code>transform-keys</code></h4>
+				<p>As defined in <a href="https://github.com/decentralized-identity/did-spec-extensions/blob/master/parameters/transform-keys.md">Extension DID Parameter: transform-keys</a>.</p>
+
+			</section>
 
 		</section>
 
-		<section id="dereferencing-input-service-type">
-			<h3><code>service-type</code></h3>
-			<p>The <code>service-type</code> input metadata property can be supplied by a client to select a specific
-			service from the DID Document.</p>
-			<p>This <var>input metadata property</var> is OPTIONAL.</p>
-			<p class="issue">See <a href="https://lists.w3.org/Archives/Public/public-credentials/2019Jun/0028.html">
-			comments by Dave Longley</a> about `service-type`.</p>
+		<section id="dereferencing-input-metadata-properties">
+			<h3>Input Metadata Properties</h3>
 
-		</section>
+			<section id="dereferencing-input-accept">
+				<h4><code>accept</code></h4>
+				<p>The <code>accept</code> <var>input metadata property</var> can be used to request a certain
+				type of result.</p>
+				<p>This <var>input metadata property</var> is OPTIONAL.</p>
+				<p>Possible values of this property are:</p>
+				<ul>
+				<li>`application/did+ld+json` (or other MIME type of a conformant representation of a <a>DID Document</a>): Request a <a>DID Document</a> as output.</li>
+				<li>`application/ld+json;profile="https://w3c-ccg.github.io/did-resolution"`: Request a <a>DID Resolution Result</a> as output (see <a href="#did-resolution-result"></a>).</li>
+				</ul>
+				<p class="issue">Discuss what this means for certain bindings (such as <a href="#bindings-https"></a>).</p>
+				<p class="issue">Discuss additional result types that may exist for <a>DID URL Dereferencing</a> but
+				do not exist for <a>DID Resolution</a>.</p>
 
-		<section id="dereferencing-input-follow-redirect">
-			<h3><code>follow-redirect</code></h3>
-			<p>The <code>follow-redirect</code> input metadata property can be supplied by a client as a hint to 
-			instruct whether redirects should be followed.</p>
-			<p>This <var>input metadata property</var> is OPTIONAL.</p>
-			<p>See Section <a href="#redirect"></a>.</p>
+			</section>
+
+			<section id="dereferencing-input-service-type">
+				<h4><code>service-type</code></h4>
+				<p>The <code>service-type</code> input metadata property can be supplied by a client to select a specific
+				service from the DID Document.</p>
+				<p>This <var>input metadata property</var> is OPTIONAL.</p>
+				<p class="issue">See <a href="https://lists.w3.org/Archives/Public/public-credentials/2019Jun/0028.html">
+				comments by Dave Longley</a> about `service-type`.</p>
+
+			</section>
+
+			<section id="dereferencing-input-follow-redirect">
+				<h4><code>follow-redirect</code></h4>
+				<p>The <code>follow-redirect</code> input metadata property can be supplied by a client as a hint to
+				instruct whether redirects should be followed.</p>
+				<p>This <var>input metadata property</var> is OPTIONAL.</p>
+				<p>See Section <a href="#redirect"></a>.</p>
+
+			</section>
 
 		</section>
 
