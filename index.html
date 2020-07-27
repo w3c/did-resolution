@@ -371,7 +371,7 @@ and dereferencing DID URLs.
 			<a href="https://w3c.github.io/did-core/#data-model">data model</a>. If not,
 			the <a>DID Resolver</a> MUST raise an error.</li>
 			<li>If the value of <a href="#resolving-input-accept"><code>accept</code></a> <var>input
-			metadata property</var> is <code>null</code> or <code>application/did+ld+json</code>:
+			metadata property</var> is <code>null</code> or `application/did+ld+json` (or other MIME type of a conformant representation of a <a>DID Document</a>):
 			<ol class="algorithm">
 				<li>Return the <var>output <a>DID Document</a></var>.</li>
 			</ol>
@@ -380,7 +380,9 @@ and dereferencing DID URLs.
 			metadata property</var> is `application/ld+json;profile="https://w3c-ccg.github.io/did-resolution"`:
 			<ol class="algorithm">
 				<li>Construct a <a>DID Resolution Result</a> and populate it with the <var>output <a>DID Document</a></var>
-				as well as metadata about the processes that produced the result (see <a href="#did-resolution-result"></a>.
+				as well as 
+				<a href="#output-resolutionmetadata">DID resolution metadata</a> and <a href="#output-documentmetadata">DID
+				document metadata</a> (see <a href="#did-resolution-result"></a>.
 				This is called the <var>output <a>DID Resolution Result</a></var>.</li>
 				<li>Return the <var>output <a>DID Resolution Result</a></var>.</li>
 			</ol>
@@ -967,7 +969,9 @@ https://example.com/messages/8377464/some/path?query#frag
 	<h1>DID Resolution Result</h1>
 	<p>This section defines a data structure that in some cases represents the result of the algorithms described
 	in <a href="#resolving"></a> and <a href="#dereferencing"></a>. A <a>DID Resolution Result</a> contains
-	a <a>DID Document</a> or other result as well as metadata about the processes that produced the result.</p>
+	a <a>DID Document</a> or other result as well as 
+	<a href="#output-resolutionmetadata">DID resolution metadata</a> and <a href="#output-documentmetadata">DID
+	document metadata</a>.</p>
 
 	<p class="issue" data-number="23">See corresponding open issue.</p>
 	<p class="issue">Need to define how this data structure works exactly, and whether it always contains
@@ -996,13 +1000,13 @@ https://example.com/messages/8377464/some/path?query#frag
 			"publicKeyBase58": "H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV"
 		}]
 	},
-	"resolverMetadata": {
+	"didResolutionMetadata": {
 		"driverId": "did:sov",
 		"driver": "HttpDriver",
 		"retrieved": "2019-06-01T19:73:24Z",
 		"duration": 1015
 	},
-	"methodMetadata": {
+	"didDocumentMetadata": {
 		"nymResponse": {
 			"result": {
 				"data": "{\"dest\":\"WRfXPg8dantKVubE3HX8pw\",\"identifier\":\"V4SGRU86Z58d6TV7PBUe6f\",\"role\":\"0\",\"seqNo\":11,\"txnTime\":1524055264,\"verkey\":\"H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV\"}",
@@ -1040,8 +1044,8 @@ https://example.com/messages/8377464/some/path?query#frag
 
 	</section>
 
-	<section id="output-resolvermetadata">
-		<h2>Resolver Metadata</h2>
+	<section id="output-resolutionmetadata">
+		<h2>DID Resolution Metadata</h2>
 		<div class="issue">
 		<p>TODO: Describe DID Resolution metadata that is not method-specific, e.g.:</p>
 		<ul>
@@ -1053,8 +1057,8 @@ https://example.com/messages/8377464/some/path?query#frag
 
 	</section>
 
-	<section id="output-methodmetadata">
-		<h2>Method Metadata</h2>
+	<section id="output-documentmetadata">
+		<h2>DID Document Metadata</h2>
 		<div class="issue">
 		<p>TODO: Describe DID Resolution metadata that is method-specific, e.g.:</p>
 		<ul>
@@ -1185,7 +1189,7 @@ https://example.com/messages/8377464/some/path?query#frag
 			<ol class="algorithm">
 				<li>The HTTP response status code MUST be <code>200</code>.</li>
 				<li>The HTTP response MUST contain a <code>Content-Type</code> header. The
-				value of this header MUST be <code>application/did+ld+json</code>.</li>
+				value of this header MUST be `application/did+ld+json` (or other MIME type of a conformant representation of a <a>DID Document</a>).</li>
 				<li>The HTTP response body MUST contain the <var>resolved <a>DID Document</a></var> or other
 				<var>output resources</var> that is the result of the <a>DID Resolution</a> or
 				<a>DID URL Dereferencing</a> function.</li>
