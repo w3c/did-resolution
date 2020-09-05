@@ -964,15 +964,11 @@ https://example.com/messages/8377464/some/path?query#frag
 
 <section id="did-resolution-result">
 	<h1>DID Resolution Result</h1>
-	<p>This section defines a data structure that in some cases represents the result of the algorithms described
+	<p>This section defines a data structure that represents the result of the algorithms described
 	in <a href="#resolving"></a> and <a href="#dereferencing"></a>. A <a>DID resolution result</a> contains
-	a <a>DID document</a> or other result as well as 
+	a <a>DID document</a> as well as
 	<a href="#output-resolutionmetadata">DID resolution metadata</a> and <a href="#output-documentmetadata">DID
 	document metadata</a>.</p>
-
-	<p class="issue" data-number="23">See corresponding open issue.</p>
-	<p class="issue">Need to define how this data structure works exactly, and whether it always contains
-	a <a>DID document</a> or can also contain other results.</p>
 
 	<section>
 		<h2>Example</h2>
@@ -1033,6 +1029,10 @@ https://example.com/messages/8377464/some/path?query#frag
 }
 </pre>
 
+	<p class="issue" data-number="23">See corresponding open issue.</p>
+	<p class="issue">Need to define how this data structure works exactly, and whether it always contains
+	a <a>DID document</a> or can also contain other results.</p>
+
 	</section>
 
 	<section id="output-diddocument">
@@ -1043,27 +1043,43 @@ https://example.com/messages/8377464/some/path?query#frag
 
 	<section id="output-resolutionmetadata">
 		<h2>DID Resolution Metadata</h2>
-		<div class="issue">
-		<p>TODO: Describe DID resolution metadata that is not method-specific, e.g.:</p>
+		<p>This is a metadata structure (see section <a href="https://w3c.github.io/did-core/#metadata-structure">Metadata Structure</a>
+		in [[DID-CORE]]) that contains metadata about the <a>DID Resolution</a> process.</p>
+		<p>This metadata typically changes between invocations of the <a>DID Resolution</a> functions as it represents data about the resolution process itself.</p>
+		<p>The source of this metadata is the DID resolver.</p>
+		<p>Examples of DID Resolution Metadata include:</p>
 		<ul>
+		<li>MIME type of the returned content (the <b>content-type</b> metadata property).</li>
+		<li>Error code (the <b>error</b> metadata property).</li>
 		<li>Duration of the DID resolution process.</li>
 		<li>Versioning information about the DID document (see Section <a href="#versioning"></a>).</li>
 		<li>Caching information about the DID document (see Section <a href="#caching"></a>).</li>
+		<li>Various URLs, IP addresses or other network information that was used during the DID resolution process.</li>
 		</ul>
-		</div>
+		<p>See also section <a href="https://w3c.github.io/did-core/#did-resolution-metadata-properties">DID Resolution Metadata Properties</a>
+		in [[DID-CORE]].</p>
 
 	</section>
 
 	<section id="output-documentmetadata">
 		<h2>DID Document Metadata</h2>
-		<div class="issue">
-		<p>TODO: Describe DID resolution metadata that is method-specific, e.g.:</p>
+		<p>This is a metadata structure (see section <a href="https://w3c.github.io/did-core/#metadata-structure">Metadata Structure</a>
+		in [[DID-CORE]]) that contains metadata about a <a>DID Document</a>.</p>
+		<p>This metadata typically does not change between invocations of the <a>DID Resolution</a> function unless the <a>DID document</a> changes, as it represents data about the <a>DID document</a>.</p>
+		<p>The sources of this metadata are the <a>DID controller</a> and/or the <a>DID registry</a>.</p>
+		<p>Examples of DID Document Metadata include:</p>
+		<ul>
+		<li>Timestamps when the DID and its associated DID document were created or updated (the <b>created</b> and <b>updated</b> metadata properties).</li>
+		<li>Metadata about controllers, capabilities, delegations, etc.</li>
+		<li>Proofs added by a DID controller (e.g. to establish control authority).</li>
+		</ul>
+		<p>DID Document Metadata may also include method-specific metadata, e.g.:</p>
 		<ul>
 		<li>State proofs from the <a>verifiable data registry</a>.</li>
 		<li>Block number, index, transaction hash, number of confirmations, etc. of a record in the blockchain or other <a>verifiable data registry</a>.</li>
-		<li>Various URLs, IP addresses or other network information that was used during the DID resolution process.</li>
 		</ul>
-		</div>
+		<p>See also section <a href="https://w3c.github.io/did-core/#did-document-metadata-properties">DID Document Metadata Properties</a>
+		in [[DID-CORE]].</p>
 
 	</section>
 
