@@ -1096,76 +1096,6 @@ https://example.com/messages/8377464/some/path?query#frag
 
 </section>
 
-<section id="service-endpoint-construction">
-	<h1>Service Endpoint Construction</h1>
-
-	<p>This section defines the inputs and the algorithm of <a>Service Endpoint Construction</a>,
-	which returns a <a>service endpoint</a> URL as output. This algorithm is used when service endpoints
-	are selected during <a>DID URL dereferencing</a> (see <a href="#dereferencing"></a>).</p>
-
-	<p>In this section, <code>path</code>, <code>query</code>, and <code>fragment</code> are understood as defined in [[RFC3986]].</p>
-
-	<section>
-		<h2>Input</h2>
-
-		<p>The inputs of the <a>Service Endpoint Construction</a> algorithm are an <var>input <a>DID URL</a></var> and an
-		<var>input <a>service endpoint</a> URL</var>.</p>
-
-		<p>The requirements for the inputs of the <a>Service Endpoint Construction</a> algorithm are as follows:</p>
-		<ul>
-			<li>The <var>input <a>DID URL</a></var> and <var>input <a>service endpoint</a> URL</var> MAY both have a <code>path</code> component.</li>
-			<li>The <var>input <a>DID URL</a></var> and <var>input <a>service endpoint</a> URL</var> MUST NOT both have a <code>query</code> component.</li>
-			<li>The <var>input <a>DID URL</a></var> and <var>input <a>service endpoint</a> URL</var> MUST NOT both have a <code>fragment</code> component.</li>
-			<li>The <var>input <a>service endpoint</a> URL</var> MUST be an HTTP(S) URL.</li>
-		</ul>
-
-	</section>
-
-	<section>
-		<h2>Algorithm</h2>
-		<ol class="algorithm">
-			<li>Initialize a string <var>output <a>service endpoint</a> URL</var> to the value of the <var>input <a>service endpoint</a> URL</var></li>
-			<li>If the <var>output <a>service endpoint</a> URL</var> has a <code>query</code> component, remove it.</li>
-			<li>If the <var>output <a>service endpoint</a> URL</var> has a <code>fragment</code> component, remove it.</li>
-			<li>Append the <code>path</code> component of the <var>input <a>DID URL</a></var> to the <var>output <a>service endpoint</a> URL</var>.</li>
-			<li>If the <var>input <a>service endpoint</a> URL</var> has a <code>query</code> component, append <code>?</code> plus the <code>query</code> to the <var>output <a>service endpoint</a> URL</var>.</li>
-			<li>If the <var>input <a>DID URL</a></var> has a <code>query</code> component, append <code>?</code> plus the <code>query</code> to the <var>output <a>service endpoint</a> URL</var>.</li>
-			<li>If the <var>input <a>service endpoint</a> URL</var> has a <code>fragment</code> component, append <code>#</code> plus the <code>fragment</code> to the <var>output <a>service endpoint</a> URL</var>.</li>
-			<li>If the <var>input <a>DID URL</a></var> has a <code>fragment</code> component, append <code>#</code> plus the <code>fragment</code> to the <var>output <a>service endpoint</a> URL</var>.</li>
-			<li>Return the <var>output <a>service endpoint</a> URL</var>.</li>
-		</ol>
-
-		<p class="issue">We could potentially allow a <code>query</code> components on both the
-		<var>input <a>DID URL</a></var> and <var>input <a>service endpoint</a> URL</var>, if they both contain lists of
-		key/value parameters that can be merged.</p>
-
-		<p class="issue">Details of the Service Endpoint Construction algorithm have been discussed in April 2019
-		on the CCG mailing list, e.g. <a href="https://lists.w3.org/Archives/Public/public-credentials/2019Apr/0021.html">here</a>
-		or <a href="https://lists.w3.org/Archives/Public/public-credentials/2019Apr/0032.html">here</a>.</p>
-
-		<p class="issue">Instead of defining our own algorithm, we could potentially re-use the "Relative Resolution"
-		algorithm defined in [[RFC3986]].</p>
-
-	</section>
-
-	<section>
-		<h2>Example</h2>
-		<p>Given the following <var>input <a>service endpoint</a> URL</var>:<p>
-		<p><code>
-https://example.com/messages/8377464</code></p>
-		<p>And given the following <var>input <a>DID URL</a></var>:</p>
-		<p><code>
-did:example:123456789abcdefghi?service=messages&relative-ref=%2Fsome%2Fpath%3Fquery#frag
-</code></p>
-		<p>Then the <var>output <a>service endpoint</a> URL</var> is:</p>
-		<p><code>
-https://example.com/messages/8377464/some/path?query#frag
-</code></p>
-
-	</section>
-
-</section>
-
 <section id="bindings">
 	<h1>Bindings</h1>
 	<p>This section defines bindings for the abstract algorithms in sections <a href="#resolving"></a> and
@@ -1246,6 +1176,76 @@ https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8pw</code></p>
 		<p>The HTTP(S) binding can be invoked as follows:</p>
 		<pre class="example nohighlight" title="Example curl call to a DID resolver via HTTP(S) binding">
 curl -X GET https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8pw</pre>
+
+	</section>
+
+</section>
+
+<section id="service-endpoint-construction">
+	<h1>Service Endpoint Construction</h1>
+
+	<p>This section defines the inputs and the algorithm of <a>Service Endpoint Construction</a>,
+	which returns a <a>service endpoint</a> URL as output. This algorithm is used when service endpoints
+	are selected during <a>DID URL dereferencing</a> (see <a href="#dereferencing"></a>).</p>
+
+	<p>In this section, <code>path</code>, <code>query</code>, and <code>fragment</code> are understood as defined in [[RFC3986]].</p>
+
+	<section>
+		<h2>Input</h2>
+
+		<p>The inputs of the <a>Service Endpoint Construction</a> algorithm are an <var>input <a>DID URL</a></var> and an
+		<var>input <a>service endpoint</a> URL</var>.</p>
+
+		<p>The requirements for the inputs of the <a>Service Endpoint Construction</a> algorithm are as follows:</p>
+		<ul>
+			<li>The <var>input <a>DID URL</a></var> and <var>input <a>service endpoint</a> URL</var> MAY both have a <code>path</code> component.</li>
+			<li>The <var>input <a>DID URL</a></var> and <var>input <a>service endpoint</a> URL</var> MUST NOT both have a <code>query</code> component.</li>
+			<li>The <var>input <a>DID URL</a></var> and <var>input <a>service endpoint</a> URL</var> MUST NOT both have a <code>fragment</code> component.</li>
+			<li>The <var>input <a>service endpoint</a> URL</var> MUST be an HTTP(S) URL.</li>
+		</ul>
+
+	</section>
+
+	<section>
+		<h2>Algorithm</h2>
+		<ol class="algorithm">
+			<li>Initialize a string <var>output <a>service endpoint</a> URL</var> to the value of the <var>input <a>service endpoint</a> URL</var></li>
+			<li>If the <var>output <a>service endpoint</a> URL</var> has a <code>query</code> component, remove it.</li>
+			<li>If the <var>output <a>service endpoint</a> URL</var> has a <code>fragment</code> component, remove it.</li>
+			<li>Append the <code>path</code> component of the <var>input <a>DID URL</a></var> to the <var>output <a>service endpoint</a> URL</var>.</li>
+			<li>If the <var>input <a>service endpoint</a> URL</var> has a <code>query</code> component, append <code>?</code> plus the <code>query</code> to the <var>output <a>service endpoint</a> URL</var>.</li>
+			<li>If the <var>input <a>DID URL</a></var> has a <code>query</code> component, append <code>?</code> plus the <code>query</code> to the <var>output <a>service endpoint</a> URL</var>.</li>
+			<li>If the <var>input <a>service endpoint</a> URL</var> has a <code>fragment</code> component, append <code>#</code> plus the <code>fragment</code> to the <var>output <a>service endpoint</a> URL</var>.</li>
+			<li>If the <var>input <a>DID URL</a></var> has a <code>fragment</code> component, append <code>#</code> plus the <code>fragment</code> to the <var>output <a>service endpoint</a> URL</var>.</li>
+			<li>Return the <var>output <a>service endpoint</a> URL</var>.</li>
+		</ol>
+
+		<p class="issue">We could potentially allow a <code>query</code> components on both the
+		<var>input <a>DID URL</a></var> and <var>input <a>service endpoint</a> URL</var>, if they both contain lists of
+		key/value parameters that can be merged.</p>
+
+		<p class="issue">Details of the Service Endpoint Construction algorithm have been discussed in April 2019
+		on the CCG mailing list, e.g. <a href="https://lists.w3.org/Archives/Public/public-credentials/2019Apr/0021.html">here</a>
+		or <a href="https://lists.w3.org/Archives/Public/public-credentials/2019Apr/0032.html">here</a>.</p>
+
+		<p class="issue">Instead of defining our own algorithm, we could potentially re-use the "Relative Resolution"
+		algorithm defined in [[RFC3986]].</p>
+
+	</section>
+
+	<section>
+		<h2>Example</h2>
+		<p>Given the following <var>input <a>service endpoint</a> URL</var>:<p>
+		<p><code>
+https://example.com/messages/8377464</code></p>
+		<p>And given the following <var>input <a>DID URL</a></var>:</p>
+		<p><code>
+did:example:123456789abcdefghi?service=messages&relative-ref=%2Fsome%2Fpath%3Fquery#frag
+</code></p>
+		<p>Then the <var>output <a>service endpoint</a> URL</var> is:</p>
+		<p><code>
+https://example.com/messages/8377464/some/path?query#frag
+</code></p>
 
 	</section>
 
