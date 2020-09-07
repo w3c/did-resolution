@@ -1154,8 +1154,8 @@ data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>).</li>
 				query parameters in the <var>request HTTP(S) URL</var>.</li>
 			</ol>
 			<li>Execute an HTTP <code>GET</code> request on the <var>request HTTP(S) URL</var>.</li>
-			<li>If the <var>input <a>DID</a></var> does not exist (i.e. the <a>DID resolution</a> function
-			returns a null result):
+			<li>If the <var>input <a>DID</a></var> does not exist (i.e. the <b>did-resolution-metadata</b> output of the
+			<a>DID resolution</a> function contains a metadata property <b>error</b> with value <b>not-found</b>):
 			<ol class="algorithm">
 				<li>The HTTP response status code MUST be <code>404</code>.</li>
 			</ol>
