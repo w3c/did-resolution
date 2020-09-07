@@ -352,7 +352,7 @@ resolve ( did, did-resolution-input-metadata ) <br>
 		<p>The following <a>DID resolution</a> algorithm MUST be implemented by a conformant <a>DID resolver</a>.</p>
 		<ol class="algorithm">
 			<li>Validate that the <var>input <a>DID</a></var> conforms to the `did` rule of the
-			<a href="https://w3c.github.io/did-core/#did-syntax">Generic DID Syntax</a>.
+			<a href="https://w3c.github.io/did-core/#did-syntax">DID Syntax</a>.
 			If not, the <a>DID resolver</a> MUST return the following result:
 			<ol class="algorithm">
 				<li><b>did-resolution-metadata</b>: <code>«[ "error" → "invalid-did" ]»</code></li>
@@ -452,51 +452,51 @@ dereference ( did-url, did-url-dereferencing-input-metadata ) <br>
 
 		</section>
 
-		<section id="dereferencing-input-did-url-parameters">
-			<h3>DID URL Parameters</h3>
+		<section id="dereferencing-input-did-parameters">
+			<h3>DID Parameters</h3>
 
-			<section id="dereferencing-input-did-url-parameter-hl">
+			<section id="dereferencing-input-did-parameter-hl">
 				<h4><code>hl</code></h4>
-				<p>As defined in section <a href="https://w3c.github.io/did-core/#generic-did-url-parameters">Generic DID URL Parameters</a>
+				<p>As defined in section <a href="https://w3c.github.io/did-core/#did-parameters">DID Parameters</a>
 				in [[DID-CORE]].</p>
 
 			</section>
 
-			<section id="dereferencing-input-did-url-parameter-service">
+			<section id="dereferencing-input-did-parameter-service">
 				<h4><code>service</code></h4>
-				<p>As defined in section <a href="https://w3c.github.io/did-core/#generic-did-url-parameters">Generic DID URL Parameters</a>
+				<p>As defined in section <a href="https://w3c.github.io/did-core/#did-parameters">DID Parameters</a>
 				in [[DID-CORE]].</p>
 
 			</section>
 
-			<section id="dereferencing-input-did-url-parameter-version-id">
+			<section id="dereferencing-input-did-parameter-version-id">
 				<h4><code>version-id</code></h4>
-				<p>As defined in section <a href="https://w3c.github.io/did-core/#generic-did-url-parameters">Generic DID URL Parameters</a>
+				<p>As defined in section <a href="https://w3c.github.io/did-core/#did-parameters">DID Parameters</a>
 				in [[DID-CORE]].</p>
 
 			</section>
 
-			<section id="dereferencing-input-did-url-parameter-version-time">
+			<section id="dereferencing-input-did-parameter-version-time">
 				<h4><code>version-time</code></h4>
-				<p>As defined in section <a href="https://w3c.github.io/did-core/#generic-did-url-parameters">Generic DID URL Parameters</a>
+				<p>As defined in section <a href="https://w3c.github.io/did-core/#did-parameters">DID Parameters</a>
 				in [[DID-CORE]].</p>
 
 			</section>
 
-			<section id="dereferencing-input-did-url-parameter-relative-ref">
+			<section id="dereferencing-input-did-parameter-relative-ref">
 				<h4><code>relative-ref</code></h4>
-				<p>As defined in section <a href="https://w3c.github.io/did-core/#generic-did-url-parameters">Generic DID URL Parameters</a>
+				<p>As defined in section <a href="https://w3c.github.io/did-core/#did-parameters">DID Parameters</a>
 				in [[DID-CORE]].</p>
 
 			</section>
 
-			<section id="dereferencing-input-did-url-parameter-initial-state">
+			<section id="dereferencing-input-did-parameter-initial-state">
 				<h4><code>initial-state</code></h4>
 				<p>As defined in <a href="https://github.com/decentralized-identity/did-spec-extensions/blob/master/parameters/initial-state.md">Extension DID Parameter: initial-state</a>.</p>
 
 			</section>
 
-			<section id="dereferencing-input-did-url-parameter-transform-keys">
+			<section id="dereferencing-input-did-parameter-transform-keys">
 				<h4><code>transform-keys</code></h4>
 				<p>As defined in <a href="https://github.com/decentralized-identity/did-spec-extensions/blob/master/parameters/transform-keys.md">Extension DID Parameter: transform-keys</a>.</p>
 
@@ -555,9 +555,7 @@ dereference ( did-url, did-url-dereferencing-input-metadata ) <br>
 		<ol class="algorithm">
 			<li>Obtain the <a>DID document</a> for the <var>input <a>DID</a></var> by executing the
 			<a>DID resolution</a> algorithm as defined in <a href="#resolving"></a>. All
-				<a href="https://w3c.github.io/did-core/#generic-did-url-parameters"> generic
-				DID parameters</a> as well as
-				<a href="https://w3c.github.io/did-core/#method-specific-did-url-parameters"> method-specific
+				<a href="https://w3c.github.io/did-core/#did-parameters">
 				DID parameters</a> of the <var>input <a>DID URL</a></var> MUST be passed as <var>input metadata properties</var> to the <a>DID
 				Resolution</a> algorithm. If the <var>input <a>DID</a></var> does not exist, return a null result.
 				Otherwise, the result is called the <var>resolved <a>DID document</a></var>.</li>
