@@ -353,9 +353,21 @@ resolve ( did, did-resolution-input-metadata ) <br>
 		<ol class="algorithm">
 			<li>Validate that the <var>input <a>DID</a></var> conforms to the `did` rule of the
 			<a href="https://w3c.github.io/did-core/#did-syntax">Generic DID Syntax</a>.
-			If not, the <a>DID resolver</a> MUST raise an error.</li>
+			If not, the <a>DID resolver</a> MUST return the following result:
+			<ol class="algorithm">
+				<li><b>did-resolution-metadata</b>: <code>«[ "error" → "invalid-did" ]»</code></li>
+				<li><b>did-document</b>: <code>null</code></li>
+				<li><b>did-document-metadata</b>: <code>null</code></li>
+			</ol>
+			</li>
 			<li>Determine if the <var>input <a>DID method</a></var> is supported by the <a>DID resolver</a>
-			that implements this algorithm. If not, the <a>DID resolver</a> MUST raise an error.</li>
+			that implements this algorithm. If not, the <a>DID resolver</a> MUST return the following result:
+			<ol class="algorithm">
+				<li><b>did-resolution-metadata</b>: <code>«[ "error" → "not-supported" ]»</code></li>
+				<li><b>did-document</b>: <code>null</code></li>
+				<li><b>did-document-metadata</b>: <code>null</code></li>
+			</ol>
+			</li>
 			<li>Obtain the <a>DID document</a> for the <var>input <a>DID</a></var> by executing the
 			<a href="https://w3c.github.io/did-core/#read-verify">Read</a> operation against the
 			<var>input <a>DID</a>'s</var> <a>verifiable data registry</a>, as defined by the <var>input <a>DID method</a></var>:
@@ -364,7 +376,13 @@ resolve ( did, did-resolution-input-metadata ) <br>
 				this algorithm MUST be passed to the
 				<a href="https://w3c.github.io/did-core/#read-verify">Read</a> operation of the
 				<var>input <a>DID method</a></var>.</li>
-				<li>If the <var>input <a>DID</a></var> does not exist, return a null result.</li>
+				<li>If the <var>input <a>DID</a></var> does not exist, return the following result:
+				<ol class="algorithm">
+					<li><b>did-resolution-metadata</b>: <code>«[ "error" → "not-found" ]»</code></li>
+					<li><b>did-document</b>: <code>null</code></li>
+					<li><b>did-document-metadata</b>: <code>null</code></li>
+				</ol>
+				</li>
 				<li>The result of the <a href="https://w3c.github.io/did-core/#read-verify">Read</a> operation
 				is called the <var>output <a>DID document</a></var>.</li>
 			</ol>
@@ -373,13 +391,13 @@ resolve ( did, did-resolution-input-metadata ) <br>
 			<a href="https://w3c.github.io/did-core/#core-representations">conformant serialization</a> of the <a>DID document</a>
 			<a href="https://w3c.github.io/did-core/#data-model">data model</a>. If not,
 			the <a>DID resolver</a> MUST raise an error.</li>
-			<li>If the value of <a href="#resolving-input-accept"><code>accept</code></a> <var>input
+			<li>If the value of the <a href="#resolving-input-accept"><code>accept</code></a> <var>input
 			metadata property</var> is <code>null</code> or `application/did+ld+json` (or other MIME type of a conformant representation of a <a>DID document</a>):
 			<ol class="algorithm">
 				<li>Return the <var>output <a>DID document</a></var>.</li>
 			</ol>
 			</li>
-			<li>If the value to of <a href="#resolving-input-accept"><code>accept</code></a> <var>input
+			<li>If the value of the <a href="#resolving-input-accept"><code>accept</code></a> <var>input
 			metadata property</var> is `application/ld+json;profile="https://w3c-ccg.github.io/did-resolution"`:
 			<ol class="algorithm">
 				<li>Construct a <a>DID resolution result</a> and populate it with the <var>output <a>DID document</a></var>
