@@ -1125,18 +1125,6 @@ https://example.com/messages/8377464/some/path?query#frag
 		<p>This section defines a <a>DID resolver</a> <a>binding</a> which exposes the
 		<a>DID resolution</a> and/or <a>DID URL dereferencing</a> functions (including all
 		input metadata properties and output data) via an HTTP(S) endpoint. See <a href="#resolver-architectures"></a>.</p>
-		<div class="issue">
-			<p>TODO: Define HTTP(S) binding for <a>DID resolution</a> and <a>DID URL dereferencing</a>,
-			including the following topics:</p>
-			<ul>
-				<li>How are <var>input metadata properties</var> passed via HTTP(S)? Using the query string and/or HTTP headers?</li>
-				<li>How is the output data (<a>DID document</a>, <a>DID resolution result</a>) returned via HTTP(S)</li>
-				<li>What is the <a href="https://github.com/w3c/did-core/issues/1">MIME type of a DID document</a>?
-				How should <code>Accept</code> and <code>Content-Type</code> HTTP headers be used?</li>
-				<li>Are two separate HTTP(S) endpoints required/allowed for the <code>resolve()</code> and
-				<code>dereference()</code> functions, or can/must a single HTTP(S) endpoint be used?</li>
-			</ul>
-		</div>
 
 		<p>The HTTP(S) binding for <a>DID resolvers</a> requires a known HTTP(S) URL called the
 		<var><a>DID resolver</a> HTTP(S) endpoint</var>.</p>
@@ -1178,6 +1166,19 @@ data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>).</li>
 			</ol>
 			</li>
 		</ol>
+
+		<div class="issue">
+			<p>TODO: Review HTTP(S) binding for <a>DID resolution</a> and <a>DID URL dereferencing</a>,
+			including the following topics:</p>
+			<ul>
+				<li>How are <var>input metadata properties</var> passed via HTTP(S)? Using the query string and/or HTTP headers?</li>
+				<li>How is the output data (<a>DID document</a>, <a>DID resolution result</a>) returned via HTTP(S)</li>
+				<li>What is the <a href="https://github.com/w3c/did-core/issues/1">MIME type of a DID document</a>?
+				How should <code>Accept</code> and <code>Content-Type</code> HTTP headers be used?</li>
+				<li>Are two separate HTTP(S) endpoints required/allowed for the <code>resolve()</code> and
+				<code>dereference()</code> functions, or can/must a single HTTP(S) endpoint be used?</li>
+			</ul>
+		</div>
 
 	</section>
 
