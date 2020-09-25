@@ -298,7 +298,7 @@ resolve ( did, did-resolution-input-metadata ) <br>
 				<p>Possible values of this property are:</p>
 				<ul>
 				<li>`application/did+ld+json` (or other MIME type of a conformant representation of a <a>DID document</a>): Request a <a>DID document</a> as output.</li>
-				<li>`application/ld+json;profile="https://w3c-ccg.github.io/did-resolution"`: Request a <a>DID resolution result</a> as output (see <a href="#did-resolution-result"></a>).</li>
+				<li>`application/ld+json;profile="https://w3id.org/did-resolution"`: Request a <a>DID resolution result</a> as output (see <a href="#did-resolution-result"></a>).</li>
 				</ul>
 				<p class="issue">Discuss what this means for certain bindings (such as <a href="#bindings-https"></a>).</p>
 
@@ -398,7 +398,7 @@ resolve ( did, did-resolution-input-metadata ) <br>
 			</ol>
 			</li>
 			<li>If the value of the <a href="#resolving-input-accept"><code>accept</code></a> <var>input
-			metadata property</var> is `application/ld+json;profile="https://w3c-ccg.github.io/did-resolution"`:
+			metadata property</var> is `application/ld+json;profile="https://w3id.org/did-resolution"`:
 			<ol class="algorithm">
 				<li>Construct a <a>DID resolution result</a> and populate it with the <var>output <a>DID document</a></var>
 				as well as 
@@ -515,7 +515,7 @@ dereference ( did-url, did-url-dereferencing-input-metadata ) <br>
 				<p>Possible values of this property are:</p>
 				<ul>
 				<li>`application/did+ld+json` (or other MIME type of a conformant representation of a <a>DID document</a>): Request a <a>DID document</a> as output.</li>
-				<li>`application/ld+json;profile="https://w3c-ccg.github.io/did-resolution"`: Request a <a>DID resolution result</a> as output (see <a href="#did-resolution-result"></a>).</li>
+				<li>`application/ld+json;profile="https://w3id.org/did-resolution"`: Request a <a>DID resolution result</a> as output (see <a href="#did-resolution-result"></a>).</li>
 				</ul>
 				<p class="issue">Discuss what this means for certain bindings (such as <a href="#bindings-https"></a>).</p>
 				<p class="issue">Discuss additional result types that may exist for <a>DID URL dereferencing</a> but
