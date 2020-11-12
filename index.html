@@ -1280,19 +1280,44 @@ https://example.com/messages/8377464/some/path?query#frag
 
 	<section id="authentication">
 		<h2>Authentication/Authorization</h2>
-		<p><a>DID resolution</a> and <a>DID URL dereferencing</a> do not involve any authentication or authorization
+		<!-- Response to Issue #38 -->
+		<p>It is RECOMMENDED that <a>DID resolution</a> and <a>DID URL dereferencing</a> do not involve any authentication or authorization
 		functionality. Similar to DNS resolution, anybody can perform the process, without requiring any credentials
 		or non-public knowledge.</p>
 
-		<p class="issue" data-number="38"></p>
+		<p><a>DID resolution</a> MAY require of Authorization. DIDs, either pairwise or N-wise
+			"peer" DIDs MAY be stored on restricted access DLTs requiring access-control capabilites for querying.</p>
+		<p>
+			Authentication MAY be required for:
+			<ul>
+				<li>
+					Access control
+				</li>
+				<li>
+					Usage statistics generation
+				</li>
+				<li>
+					Fraud detection
+				</li>
+				<li>
+					Compliance with business or IT regulations
+				</li>
+			</ul>
+		</p>
+		<p>
+			DIDs SHOULD be considered as global resources defined like an URI.
+		</p>
+			<p>See [[RFC3339]]:
+				<em> URIs have a global scope and are interpreted consistently regardless of context, though the
+				result of that interpretation may be in relation to the end-user's context.</em>
+		</p>
+
+		<p>
+			While Authentication is out of scope of this document, it SHOULD be suited to the <a>binding</a> implementation of the <a>DID resolution</a> and <a>DID URL dereferencing</a> algorithms.
+			For the <a href="#bindings-https">HTTP(S) binding</a>, Authorization SHOULD be enforced through the HTTP Authorization Header. See [[RFC2616]] <a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html">section 14.8</a>.
+		</p>
 
 		<div class="issue">
-		<p>Explain that DIDs are not necessarily <em>globally</em> resolvable, such as pairwise or N-wise
-		"peer" DIDs.</p>
-		<p>See [[RFC3339]]:
-		<em> URIs have a global scope and are interpreted consistently regardless of context, though the
-		result of that interpretation may be in relation to the end-user's context.</em>
-		</p>
 		<p>An advanced idea is that the result of DID resolution could be contextual or depend on policies,
 		see <a href="https://github.com/w3c-ccg/did-resolution/issues/28#issuecomment-510592199">this comment</a>.</p>
 		</div>
