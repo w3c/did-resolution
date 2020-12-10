@@ -343,6 +343,14 @@ resolve ( did, did-resolution-input-metadata ) <br>
 
 			</section>
 
+			<section id="resolving-input-authoirzation">
+				<h4><code>authorization<code></h4>
+				<p>The <code>authorization</code> input metadata property CAN be used to provide any kind of Authentication data .</p>
+				<p>This <var>input metadata property</var> is OPTIONAL.</p>
+				<p>The possible accepted values for this property may be defined by the <a>binding</a> implemented.</p>
+				<p>See Section <a href="#authentication"></a> for additional considerations.</p>
+			</section>
+
 		</section>
 
 	</section>
@@ -1082,6 +1090,7 @@ https://example.com/messages/8377464/some/path?query#frag
 		<p>See also section <a href="https://w3c.github.io/did-core/#did-resolution-metadata-properties">DID Resolution Metadata Properties</a>
 		in [[DID-CORE]].</p>
 
+
 	</section>
 
 	<section id="output-documentmetadata">
@@ -1307,14 +1316,22 @@ https://example.com/messages/8377464/some/path?query#frag
 		<p>
 			DIDs SHOULD be considered as global resources defined like an URI.
 		</p>
-			<p>See [[RFC3339]]:
+			<p>See [[RFC3986]]:
 				<em> URIs have a global scope and are interpreted consistently regardless of context, though the
 				result of that interpretation may be in relation to the end-user's context.</em>
 		</p>
 
 		<p>
-			While Authentication is out of scope of this document, it SHOULD be suited to the <a>binding</a> implementation of the <a>DID resolution</a> and <a>DID URL dereferencing</a> algorithms.
+			Authentication MAY be included on the DID Resolution Algorithm by using the <code>Authorization</code> property on the <a href="#resolving-input-metadata-properties">DID Input Metadata Properties</a>.
+		</p>
+		<p>
+			Errors on authentication or authorization MUST be reflected on the <code>Error code</code> property of the <a href="#output-resolutionmetadata">DID Resolution Metadata</a>
+		</p>
+
+		<p>
+			While specific Authentication protocols are out of scope of this document, they SHOULD be suited to the <a>binding</a> implementation of the <a>DID resolution</a> and <a>DID URL dereferencing</a> algorithms.
 			For the <a href="#bindings-https">HTTP(S) binding</a>, Authorization SHOULD be enforced through the HTTP Authorization Header. See [[RFC2616]] <a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html">section 14.8</a>.
+			While some bindings might automatically provide some kind of authentication on their definition, including that authentication on the resolution algorithm is OPTIONAL.
 		</p>
 
 		<div class="issue">
