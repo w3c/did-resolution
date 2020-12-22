@@ -593,14 +593,6 @@ dereference ( did-url, did-url-dereferencing-input-metadata ) <br>
 				<li>Return the <var>output <a>service endpoint</a> URL</var>.</li>
 			</ol>
 			</li>
-			<li>Otherwise, if the <var>input <a>DID URL</a></var> contains
-			<a href="https://w3c.github.io/did-core/#method-specific-did-url-parameters"> method-specific
-			DID parameters</a>:</a>
-			<pre class="example nohighlight">did:example:1234?example:object=myprofile</pre>
-			<ol class="algorithm">
-				<li>Defer to the applicable <a>DID method</a> specification to determine how to dereference the
-				<var>input <a>DID URL</a></var>.</li>
-			</ol>
 			<li>Otherwise, if the <var>input <a>DID URL</a></var> contains no <a>DID path</a> and no <a>DID query</a>:
 			<pre class="example nohighlight">did:example:1234</pre>
 			<ol class="algorithm">
