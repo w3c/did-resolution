@@ -263,13 +263,18 @@ and dereferencing DID URLs.
 <section id="resolving">
 	<h1>Resolving a DID</h1>
 
-	<p>This section defines an algorithm for <a>DID resolution</a>, based on the abstract function <code>resolve()</code> 
-		as defined in section <a href="https://w3c.github.io/did-core/#did-resolution">DID Resolution</a> in [[DID-CORE]]:</p>
+	<p>This section defines an algorithm for <a>DID resolution</a>, based on the abstract functions <code>resolve()</code> 
+		and <code>resolveRepresentation()</code> as defined in section <a href="https://w3c.github.io/did-core/#did-resolution">DID Resolution</a> in [[DID-CORE]]:</p>
 
-	<code>
+	<p><code>
 resolve ( did, did-resolution-input-metadata ) <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt; ( did-resolution-metadata, did-document, did-document-metadata )
-	</code>
+	</code></p>
+
+        <p><code>
+resolveRepresentation ( did, did-resolution-input-metadata ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt; ( did-resolution-metadata, did-document-stream, did-document-metadata )
+        </code></p>
 
 	<section id="resolving-algorithm">
 		<h2>Algorithm</h2>
