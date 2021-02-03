@@ -304,7 +304,14 @@ resolve ( did, did-resolution-input-metadata ) <br>
 				<ol class="algorithm">
 					<li><b>did-resolution-metadata</b>: <code>«[ "error" → "not-found" ]»</code></li>
 					<li><b>did-document</b>: <code>null</code></li>
-					<li><b>did-document-metadata</b>: <code>null</code></li>
+					<li><b>did-document-metadata</b>: <code>«[ ]»</code></li>
+				</ol>
+				</li>
+				<li>If the <var>input <a>DID</a></var> has been deactivated, return the following result:
+				<ol class="algorithm">
+					<li><b>did-resolution-metadata</b>: <code>«[ ]»</code></li>
+					<li><b>did-document</b>: <code>null</code></li>
+					<li><b>did-document-metadata</b>: <code>«[ "deactivated" → true ]»</code></li>
 				</ol>
 				</li>
 				<li>The result of the <a href="https://w3c.github.io/did-core/#read-verify">Read</a> operation
@@ -946,14 +953,19 @@ data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>).</li>
 					<li>The HTTP response status code MUST be <code>400</code>.</li>
 				</ol>
 			</li>
-			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>did-dereferencing-metadata</b> with the property <b>error</b> with value <b>not-found</b>:
+			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>did-dereferencing-metadata</b> property <b>error</b> with value <b>not-found</b>:
 				<ol class="algorithm">
 					<li>The HTTP response status code MUST be <code>404</code>.</li>
 				</ol>
 			</li>
-			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>did-dereferencing-metadata</b> with the property <b>error</b> with value <b>representation-not-supported</b>:
+			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>did-dereferencing-metadata</b> property <b>error</b> with value <b>representation-not-supported</b>:
 				<ol class="algorithm">
 					<li>The HTTP response status code MUST be <code>406</code>.</li>
+				</ol>
+			</li>
+			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>did-document-metadata</b> property <b>deactivated</b> with value <b>true</b>:
+				<ol class="algorithm">
+					<li>The HTTP response status code MUST be <code>410</code>.</li>
 				</ol>
 			</li>
 			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>did-document-stream</b>:
