@@ -700,6 +700,18 @@ https://example.com/messages/8377464/some/path?query#frag
 			</ul>
 		</div>
 		<p class="issue">TODO: Discuss DID resolution in constrained user agents such as mobile apps and browsers.</p>
+		
+		<p>The following diagram shows how the <code>resolve()</code> and <code>resolveRepresentation()</code> functions
+		use production and consumption rules of DID document representation can apply in an architecture that involves
+		both a local resolver and a remote resolver.</p> 
+		<figure id="resolvers-and-representations">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/resolvers-and-representations.png"
+			alt="Diagram showing a local and remote DID resolver executing the resolve() and resolveRepresentation() functions.">
+			<figcaption style="text-align: center;">
+				Production and consumption in an architecture that involves both
+				a local and a remote <a>DID resolver</a>.
+			</figcaption>
+		</figure>
 
 	<section id="resolver-architectures-proxied">
 		<h2>Proxied Resolution</h2>
