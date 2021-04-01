@@ -1,22 +1,44 @@
 {
-  "@context": [
-    {
-      "@version": 1.1
+  "@context": {
+    "@version": 1.1,
+    "id": "@id",
+    "type": "@type",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "didres": "https://w3id.org/did-resolution#",
+
+    "didDocument": "didres:didDocument",
+
+    "didResolutionMetadata": "didres:didResolutionMetadata",
+    "contentType": "didres:contentType",
+    "error": "didres:contentType",
+
+    "didDocumentMetadata": "didres:didDocumentMetadata",
+    "created": {
+      "@id": "didres:created",
+      "@type": "xsd:dateTime"
     },
-    {
-      "id": "@id",
-      "type": "@type",
-      "didDocument": {
-        "@id": "https://w3id.org/did-resolution#dfn-did-document"
-      },
-      "didResolutionMetadata": {
-        "@id": "https://w3id.org/did-resolution#output-resolutionmetadata",
-        "@type": "@json"
-      },
-      "didDocumentMetadata": {
-        "@id": "https://w3id.org/did-resolution#output-documentmetadata",
-        "@type": "@json"
-      }
+    "updated": {
+      "@id": "didres:updated",
+      "@type": "xsd:dateTime"
+    },
+    "deactivated": {
+      "@id": "didres:deactivated",
+      "@type": "http://www.w3.org/2001/XMLSchema#boolean"
+    },
+    "nextUpdate": {
+      "@id": "didres:nextUpdate",
+      "@type": "xsd:dateTime"
+    },
+    "versionId": "didres:versionId",
+    "nextVersionId": "didres:nextVersionId",
+    "equivalentId": {
+      "@id": "didres:equivalentId",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "canonicalId": {
+      "@id": "didres:canonicalId",
+      "@type": "@id"
     }
-  ]
+  }
 }
