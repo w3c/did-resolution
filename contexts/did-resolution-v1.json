@@ -10,7 +10,7 @@
 
     "didResolutionMetadata": "didres:didResolutionMetadata",
     "contentType": "didres:contentType",
-    "error": "didres:contentType",
+    "error": "didres:error",
 
     "didDocumentMetadata": "didres:didDocumentMetadata",
     "created": {
