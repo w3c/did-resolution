@@ -23,7 +23,7 @@
     },
     "deactivated": {
       "@id": "didres:deactivated",
-      "@type": "http://www.w3.org/2001/XMLSchema#boolean"
+      "@type": "xsd:boolean"
     },
     "nextUpdate": {
       "@id": "didres:nextUpdate",
