@@ -384,8 +384,8 @@ dereference ( did-url, did-url-dereferencing-input-metadata ) <br>
 		<ol class="algorithm">
 			<li>If the <var>input <a>DID URL</a></var> contains the
 			<a href="https://w3c.github.io/did-core/#generic-did-url-parameters">
-			DID parameter</a> <code>service</code> and optionally the <code>relative-ref</code> DID parameter:
-			<pre class="example nohighlight">did:example:1234?service=files&relative-ref=%2Fmyresume%2Fdoc%3Fversion%3Dlatest</pre>
+			DID parameter</a> <code>service</code> and optionally the <code>relativeRef</code> DID parameter:
+			<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest</pre>
 			<ol class="algorithm">
 				<li>From the <var>resolved <a>DID document</a></var>, select the
 				<a href="#service-endpoint-construction">service endpoint</a> whose <code>id</code>
@@ -478,7 +478,7 @@ dereference ( did-url, did-url-dereferencing-input-metadata ) <br>
 			</li>
 			<li>Otherwise, if the result of <a href="#dereferencing-algorithm-primary"></a> is an <var>output <a>service endpoint</a> URL</var>,
 			and the <var>input <a>DID URL</a></var> contains a <a>DID fragment</a>:
-			<pre class="example nohighlight">did:example:1234?service=files&relative-ref=%2Fmyresume%2Fdoc%3Fversion%3Dlatest#intro</pre>
+			<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest#intro</pre>
 			<ol class="algorithm">
 				<li>Append the <a>DID fragment</a> to the <var>output <a>service endpoint</a> URL</var>. In other words,
 				the <var>output <a>service endpoint</a> URL</var> "inherits" the <a>DID fragment</a> of the
@@ -538,7 +538,7 @@ did:example:123456789abcdefghi#keys-1
 </pre>
 		<p>Given the following <var>input <a>DID URL</a></var> and the same <var>resolved <a>DID document</a></var> as above:</p>
 		<pre class="example nohighlight">
-did:example:123456789abcdefghi?service=messages&relative-ref=%2Fsome%2Fpath%3Fquery#frag
+did:example:123456789abcdefghi?service=messages&relativeRef=%2Fsome%2Fpath%3Fquery#frag
 </pre>
 		<p>... then the result of the <a href="#dereferencing"></a> algorithm is the following <var>output <a>service endpoint</a> URL</var>:</p>
 		<pre class="example nohighlight">
@@ -784,7 +784,7 @@ https://example.com/messages/8377464/some/path?query#frag
 			</figcaption>
 		</figure>
 
-		<p>Example: Given the <a>DID URL</a> <code>did:xyz:1234?service=agent&relative-ref=%2Fsome%2Fpath%3Fquery#frag</code>, a <a>DID resolver</a> could be invoked
+		<p>Example: Given the <a>DID URL</a> <code>did:xyz:1234?service=agent&relativeRef=%2Fsome%2Fpath%3Fquery#frag</code>, a <a>DID resolver</a> could be invoked
 		for <a href="#dereferencing-algorithm-primary">Dereferencing the Primary Resource</a> (i.e. a <a>service endpoint</a> URL),
 		and the <a>client</a> could complete the <a>DID URL dereferencing</a> algorithm by
 		<a href="#dereferencing-algorithm-secondary">Dereferencing the Secondary Resource</a> (i.e. a <a>service endpoint</a> URL with a fragment).</p>
@@ -1111,7 +1111,7 @@ curl -X GET https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8p
 https://example.com/messages/8377464</code></p>
 		<p>And given the following <var>input <a>DID URL</a></var>:</p>
 		<p><code>
-did:example:123456789abcdefghi?service=messages&relative-ref=%2Fsome%2Fpath%3Fquery#frag
+did:example:123456789abcdefghi?service=messages&relativeRef=%2Fsome%2Fpath%3Fquery#frag
 </code></p>
 		<p>Then the <var>output <a>service endpoint</a> URL</var> is:</p>
 		<p><code>
