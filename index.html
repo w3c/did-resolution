@@ -443,7 +443,7 @@ dereference ( did-url, did-url-dereferencing-input-metadata ) <br>
 		<a href="#dereferencing-algorithm-primary"></a>.</p> 
 		<ol class="algorithm">
 			<li>If the result of <a href="#dereferencing-algorithm-primary"></a> is a <var>resolved <a>DID document</a></var>
-			with MIME type <code>application/did+ld+json</code>, and the <var>input <a>DID URL</a></var> contains a
+			with media type <code>application/did+ld+json</code>, and the <var>input <a>DID URL</a></var> contains a
 			<a>DID fragment</a>:
 			<pre class="example nohighlight">did:example:1234#keys-1</pre>
 			<ol class="algorithm">
@@ -811,7 +811,7 @@ https://example.com/messages/8377464/some/path?query#frag
 	<a href="#output-resolutionmetadata">DID resolution metadata</a> and <a href="#output-documentmetadata">DID
 	document metadata</a>.</p>
 
-	<p>The MIME type of this data structure is defined to be `application/ld+json;profile="https://w3id.org/did-resolution"`.</p>
+	<p>The media type of this data structure is defined to be `application/ld+json;profile="https://w3id.org/did-resolution"`.</p>
 
 	<section>
 		<h2>Example</h2>
@@ -892,7 +892,7 @@ https://example.com/messages/8377464/some/path?query#frag
 		<p>The source of this metadata is the DID resolver.</p>
 		<p>Examples of DID Resolution Metadata include:</p>
 		<ul>
-		<li>MIME type of the returned content (the <b>contentType</b> metadata property).</li>
+		<li>Media type of the returned content (the <b>contentType</b> metadata property).</li>
 		<li>Error code (the <b>error</b> metadata property).</li>
 		<li>Duration of the DID resolution process.</li>
 		<li>Versioning information about the DID document (see Section <a href="#versioning"></a>).</li>
@@ -987,11 +987,11 @@ data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>).</li>
 			</li>
 			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>did-document-stream</b>:
 				<ol class="algorithm">
-					<li>If the value of the <code>Accept</code> HTTP header is absent or `application/did+ld+json` (or other MIME type of a conformant representation of a <a>DID document</a>):
+					<li>If the value of the <code>Accept</code> HTTP header is absent or `application/did+ld+json` (or other media type of a conformant representation of a <a>DID document</a>):
 					<ol class="algorithm">
 						<li>The HTTP response status code MUST be <code>200</code>.</li>
 						<li>The HTTP response MUST contain a <code>Content-Type</code> header. The
-						value of this header MUST be `application/did+ld+json` (or other MIME type of a conformant representation of a <a>DID document</a>).</li>
+						value of this header MUST be `application/did+ld+json` (or other media type of a conformant representation of a <a>DID document</a>).</li>
 						<li>The HTTP response body MUST contain the <b>did-document-stream</b>, in the representation corresponding to the <code>Accept</code> HTTP header.</li>
 					</ol>
 					</li>
