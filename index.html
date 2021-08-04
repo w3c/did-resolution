@@ -268,12 +268,12 @@ and dereferencing DID URLs.
 
 	<p><code>
 resolve ( did, resolutionOptions ) <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt; ( didResolutionMetadata, did-document, didDocumentMetadata )
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt; ( didResolutionMetadata, didDocument, didDocumentMetadata )
 	</code></p>
 
         <p><code>
 resolveRepresentation ( did, resolutionOptions ) <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt; ( didResolutionMetadata, did-document-stream, didDocumentMetadata )
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt; ( didResolutionMetadata, didDocumentStream, didDocumentMetadata )
         </code></p>
 
 	<section id="resolving-algorithm">
@@ -285,7 +285,7 @@ resolveRepresentation ( did, resolutionOptions ) <br>
 			If not, the <a>DID resolver</a> MUST return the following result:
 			<ol class="algorithm">
 				<li><b>didResolutionMetadata</b>: <code>«[ "error" → "invalid-did" ]»</code></li>
-				<li><b>did-document</b>: <code>null</code></li>
+				<li><b>didDocument</b>: <code>null</code></li>
 				<li><b>didDocumentMetadata</b>: <code>null</code></li>
 			</ol>
 			</li>
@@ -293,7 +293,7 @@ resolveRepresentation ( did, resolutionOptions ) <br>
 			that implements this algorithm. If not, the <a>DID resolver</a> MUST return the following result:
 			<ol class="algorithm">
 				<li><b>didResolutionMetadata</b>: <code>«[ "error" → "method-not-supported" ]»</code></li>
-				<li><b>did-document</b>: <code>null</code></li>
+				<li><b>didDocument</b>: <code>null</code></li>
 				<li><b>didDocumentMetadata</b>: <code>null</code></li>
 			</ol>
 			</li>
@@ -308,14 +308,14 @@ resolveRepresentation ( did, resolutionOptions ) <br>
 				<li>If the <var>input <a>DID</a></var> does not exist, return the following result:
 				<ol class="algorithm">
 					<li><b>didResolutionMetadata</b>: <code>«[ "error" → "not-found" ]»</code></li>
-					<li><b>did-document</b>: <code>null</code></li>
+					<li><b>didDocument</b>: <code>null</code></li>
 					<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
 				</ol>
 				</li>
 				<li>If the <var>input <a>DID</a></var> has been deactivated, return the following result:
 				<ol class="algorithm">
 					<li><b>didResolutionMetadata</b>: <code>«[ ]»</code></li>
-					<li><b>did-document</b>: <code>null</code></li>
+					<li><b>didDocument</b>: <code>null</code></li>
 					<li><b>didDocumentMetadata</b>: <code>«[ "deactivated" → true ]»</code></li>
 				</ol>
 				</li>
@@ -985,19 +985,19 @@ data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>).</li>
 					<li>The HTTP response status code MUST be <code>410</code>.</li>
 				</ol>
 			</li>
-			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>did-document-stream</b>:
+			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>didDocumentStream</b>:
 				<ol class="algorithm">
 					<li>If the value of the <code>Accept</code> HTTP header is absent or `application/did+ld+json` (or other media type of a conformant representation of a <a>DID document</a>):
 					<ol class="algorithm">
 						<li>The HTTP response status code MUST be <code>200</code>.</li>
 						<li>The HTTP response MUST contain a <code>Content-Type</code> header. The
 						value of this header MUST be `application/did+ld+json` (or other media type of a conformant representation of a <a>DID document</a>).</li>
-						<li>The HTTP response body MUST contain the <b>did-document-stream</b>, in the representation corresponding to the <code>Accept</code> HTTP header.</li>
+						<li>The HTTP response body MUST contain the <b>didDocumentStream</b>, in the representation corresponding to the <code>Accept</code> HTTP header.</li>
 					</ol>
 					</li>
 					<li>If the value of the <code>Accept</code> HTTP header is `application/ld+json;profile="https://w3id.org/did-resolution"`:
 					<ol class="algorithm">
-						<li>Produce a <a>DID resolution result</a> (see (see <a href="#did-resolution-result"></a>) and populate it with the <b>did-document-stream</b>,
+						<li>Produce a <a>DID resolution result</a> (see (see <a href="#did-resolution-result"></a>) and populate it with the <b>didDocumentStream</b>,
 							<b>didResolutionMetadata</b>, and <b>didDocumentMetadata</b> that are the output of the
 							<a>DID resolution</a> function.</li>
 						<li>The HTTP response status code MUST be <code>200</code>.</li>
