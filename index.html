@@ -267,13 +267,13 @@ and dereferencing DID URLs.
 		and <code>resolveRepresentation()</code> as defined in section <a href="https://w3c.github.io/did-core/#did-resolution">DID Resolution</a> in [[DID-CORE]]:</p>
 
 	<p><code>
-resolve ( did, did-resolution-input-metadata ) <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt; ( did-resolution-metadata, did-document, did-document-metadata )
+resolve ( did, resolutionOptions ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt; ( didResolutionMetadata, did-document, didDocumentMetadata )
 	</code></p>
 
         <p><code>
-resolveRepresentation ( did, did-resolution-input-metadata ) <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt; ( did-resolution-metadata, did-document-stream, did-document-metadata )
+resolveRepresentation ( did, resolutionOptions ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt; ( didResolutionMetadata, did-document-stream, didDocumentMetadata )
         </code></p>
 
 	<section id="resolving-algorithm">
@@ -284,39 +284,39 @@ resolveRepresentation ( did, did-resolution-input-metadata ) <br>
 			<a href="https://w3c.github.io/did-core/#did-syntax">DID Syntax</a>.
 			If not, the <a>DID resolver</a> MUST return the following result:
 			<ol class="algorithm">
-				<li><b>did-resolution-metadata</b>: <code>«[ "error" → "invalid-did" ]»</code></li>
+				<li><b>didResolutionMetadata</b>: <code>«[ "error" → "invalid-did" ]»</code></li>
 				<li><b>did-document</b>: <code>null</code></li>
-				<li><b>did-document-metadata</b>: <code>null</code></li>
+				<li><b>didDocumentMetadata</b>: <code>null</code></li>
 			</ol>
 			</li>
 			<li>Determine if the DID method of the <var>input <a>DID</a></var> is supported by the <a>DID resolver</a>
 			that implements this algorithm. If not, the <a>DID resolver</a> MUST return the following result:
 			<ol class="algorithm">
-				<li><b>did-resolution-metadata</b>: <code>«[ "error" → "method-not-supported" ]»</code></li>
+				<li><b>didResolutionMetadata</b>: <code>«[ "error" → "method-not-supported" ]»</code></li>
 				<li><b>did-document</b>: <code>null</code></li>
-				<li><b>did-document-metadata</b>: <code>null</code></li>
+				<li><b>didDocumentMetadata</b>: <code>null</code></li>
 			</ol>
 			</li>
 			<li>Obtain the <a>DID document</a> for the <var>input <a>DID</a></var> by executing the
 			<a href="https://w3c.github.io/did-core/#read-verify">Read</a> operation against the
 			<var>input <a>DID</a>'s</var> <a>verifiable data registry</a>, as defined by the <var>input <a>DID method</a></var>:
 			<ol class="algorithm">
-				<li>Besides the <var>input <a>DID</a></var>, all additional <var>input metadata properties</var> of
+				<li>Besides the <var>input <a>DID</a></var>, all additional <var>resolution options</var> of
 				this algorithm MUST be passed to the
 				<a href="https://w3c.github.io/did-core/#read-verify">Read</a> operation of the
 				<var>input <a>DID method</a></var>.</li>
 				<li>If the <var>input <a>DID</a></var> does not exist, return the following result:
 				<ol class="algorithm">
-					<li><b>did-resolution-metadata</b>: <code>«[ "error" → "not-found" ]»</code></li>
+					<li><b>didResolutionMetadata</b>: <code>«[ "error" → "not-found" ]»</code></li>
 					<li><b>did-document</b>: <code>null</code></li>
-					<li><b>did-document-metadata</b>: <code>«[ ]»</code></li>
+					<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
 				</ol>
 				</li>
 				<li>If the <var>input <a>DID</a></var> has been deactivated, return the following result:
 				<ol class="algorithm">
-					<li><b>did-resolution-metadata</b>: <code>«[ ]»</code></li>
+					<li><b>didResolutionMetadata</b>: <code>«[ ]»</code></li>
 					<li><b>did-document</b>: <code>null</code></li>
-					<li><b>did-document-metadata</b>: <code>«[ "deactivated" → true ]»</code></li>
+					<li><b>didDocumentMetadata</b>: <code>«[ "deactivated" → true ]»</code></li>
 				</ol>
 				</li>
 				<li>The result of the <a href="https://w3c.github.io/did-core/#read-verify">Read</a> operation
@@ -349,11 +349,11 @@ resolveRepresentation ( did, did-resolution-input-metadata ) <br>
 	<h1>Dereferencing a DID URL</h1>
 
 	<p>This section defines an algorithm for <a>DID URL dereferencing</a>, based on the abstract function <code>dereference()</code> 
-		as defined in section <a href="https://w3c.github.io/did-core/#did-url-dereferencing">DID URL Dereferencing</a> in [[DID-CORE]]:</p>
+		as defined in section <a href="https://w3c.github.io/did-core/#didUrl-dereferencing">DID URL Dereferencing</a> in [[DID-CORE]]:</p>
 
 	<code>
-dereference ( did-url, did-url-dereferencing-input-metadata ) <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt; ( did-url-dereferencing-metadata, content-stream, content-metadata ) 
+dereference ( didUrl, dereferenceOptions ) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt; ( dereferencingMetadata, contentStream, contentMetadata ) 
 	</code>
 
 	<section id="dereferencing-algorithm">
@@ -366,7 +366,7 @@ dereference ( did-url, did-url-dereferencing-input-metadata ) <br>
 			<li>Obtain the <a>DID document</a> for the <var>input <a>DID</a></var> by executing the
 			<a>DID resolution</a> algorithm as defined in <a href="#resolving"></a>. All
 				<a href="https://w3c.github.io/did-core/#did-parameters">
-				DID parameters</a> of the <var>input <a>DID URL</a></var> MUST be passed as <var>input metadata properties</var> to the <a>DID
+				DID parameters</a> of the <var>input <a>DID URL</a></var> MUST be passed as <var>resolution options</var> to the <a>DID
 				Resolution</a> algorithm. If the <var>input <a>DID</a></var> does not exist, return a null result.
 				Otherwise, the result is called the <var>resolved <a>DID document</a></var>.</li>
 			</li>
@@ -383,7 +383,7 @@ dereference ( did-url, did-url-dereferencing-input-metadata ) <br>
 		<h2>Dereferencing the Primary Resource</h2>
 		<ol class="algorithm">
 			<li>If the <var>input <a>DID URL</a></var> contains the
-			<a href="https://w3c.github.io/did-core/#generic-did-url-parameters">
+			<a href="https://w3c.github.io/did-core/#generic-didUrl-parameters">
 			DID parameter</a> <code>service</code> and optionally the <code>relativeRef</code> DID parameter:
 			<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest</pre>
 			<ol class="algorithm">
@@ -545,7 +545,7 @@ did:example:123456789abcdefghi?service=messages&relativeRef=%2Fsome%2Fpath%3Fque
 https://example.com/messages/8377464/some/path?query#frag
 </pre>
 		<figure id="figure-dereferencing">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/did-url-dereferencing.png"
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/didUrl-dereferencing.png"
 			alt="Diagram showing how a DID URL can be dereferencing to a service endpoint URL">
 			<figcaption style="text-align: center;">
 				Dereferencing a DID URL to a service endpoint URL.
@@ -899,7 +899,7 @@ https://example.com/messages/8377464/some/path?query#frag
 		<li>Various URLs, IP addresses or other network information that was used during the DID resolution process.</li>
 		<li>Proofs added by a DID resolver (e.g. to establish trusted resolution).</li>
 		</ul>
-		<p>See also section <a href="https://w3c.github.io/did-core/#did-resolution-metadata-properties">DID Resolution Metadata Properties</a>
+		<p>See also section <a href="https://w3c.github.io/did-core/#didResolutionMetadata-properties">DID Resolution Metadata Properties</a>
 		in [[DID-CORE]].</p>
 
 	</section>
@@ -922,7 +922,7 @@ https://example.com/messages/8377464/some/path?query#frag
 		<li>State proofs from the <a>verifiable data registry</a>.</li>
 		<li>Block number, index, transaction hash, number of confirmations, etc. of a record in the blockchain or other <a>verifiable data registry</a>.</li>
 		</ul>
-		<p>See also section <a href="https://w3c.github.io/did-core/#did-document-metadata-properties">DID Document Metadata Properties</a>
+		<p>See also section <a href="https://w3c.github.io/did-core/#didDocumentMetadata-properties">DID Document Metadata Properties</a>
 		in [[DID-CORE]].</p>
 
 	</section>
@@ -943,7 +943,7 @@ https://example.com/messages/8377464/some/path?query#frag
 		<h2>HTTP(S) Binding</h2>
 		<p>This section defines a <a>DID resolver</a> <a>binding</a> which exposes the
 		<a>DID resolution</a> and/or <a>DID URL dereferencing</a> functions (including all
-		input metadata properties and output data) via an HTTP(S) endpoint. See <a href="#resolver-architectures"></a>.</p>
+		resolution options and output data) via an HTTP(S) endpoint. See <a href="#resolver-architectures"></a>.</p>
 
 		<p>The HTTP(S) binding for <a>DID resolvers</a> requires a known HTTP(S) URL called the
 		<var><a>DID resolver</a> HTTP(S) endpoint</var>.</p>
@@ -959,13 +959,13 @@ https://example.com/messages/8377464/some/path?query#frag
 data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>).</li>
 				<li>Encode the <code>accept</code> <var>input
 					metadata property</var> as the <code>Accept</code> HTTP header in the request.</li>
-				<li>Encode all other input metadata properties as
+				<li>Encode all other resolution options as
 				query parameters in the <var>request HTTP(S) URL</var>.</li>
 			</ol>
 			<li>Execute an HTTP <code>GET</code> request on the <var>request HTTP(S) URL</var>.</li>
 			<li>Dereference the <var>input <a>DID</a></var> or <var>input <a>DID URL</a></var> by executing the
 				<a>DID URL dereferencing</a> algorithm as defined in <a href="#dereferencing"></a></li>
-			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>did-dereferencing-metadata</b> with the property <b>error</b> with value <b>invalid-did-url</b>:
+			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>did-dereferencing-metadata</b> with the property <b>error</b> with value <b>invalid-didUrl</b>:
 				<ol class="algorithm">
 					<li>The HTTP response status code MUST be <code>400</code>.</li>
 				</ol>
@@ -980,7 +980,7 @@ data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>).</li>
 					<li>The HTTP response status code MUST be <code>406</code>.</li>
 				</ol>
 			</li>
-			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>did-document-metadata</b> property <b>deactivated</b> with value <b>true</b>:
+			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>didDocumentMetadata</b> property <b>deactivated</b> with value <b>true</b>:
 				<ol class="algorithm">
 					<li>The HTTP response status code MUST be <code>410</code>.</li>
 				</ol>
@@ -998,7 +998,7 @@ data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>).</li>
 					<li>If the value of the <code>Accept</code> HTTP header is `application/ld+json;profile="https://w3id.org/did-resolution"`:
 					<ol class="algorithm">
 						<li>Produce a <a>DID resolution result</a> (see (see <a href="#did-resolution-result"></a>) and populate it with the <b>did-document-stream</b>,
-							<b>did-resolution-metadata</b>, and <b>did-document-metadata</b> that are the output of the
+							<b>didResolutionMetadata</b>, and <b>didDocumentMetadata</b> that are the output of the
 							<a>DID resolution</a> function.</li>
 						<li>The HTTP response status code MUST be <code>200</code>.</li>
 						<li>The HTTP response MUST contain a <code>Content-Type</code> header. The
@@ -1021,7 +1021,7 @@ data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>).</li>
 			<p>TODO: Review HTTP(S) binding for <a>DID resolution</a> and <a>DID URL dereferencing</a>,
 			including the following topics:</p>
 			<ul>
-				<li>How are <var>input metadata properties</var> passed via HTTP(S)? Using the query string and/or HTTP headers?</li>
+				<li>How are <var>resolution options</var> passed via HTTP(S)? Using the query string and/or HTTP headers?</li>
 				<li>How is the output data (<a>DID document</a>, <a>DID resolution result</a>) returned via HTTP(S)?</li>
 				<li>How should <code>Accept</code> and <code>Content-Type</code> HTTP headers be used? How are
 				the <code>resolve()</code> and <code>resolveRepresentation()</code> functions called? See <a href="https://github.com/w3c/did-core/issues/417">
@@ -1160,9 +1160,9 @@ https://example.com/messages/8377464/some/path?query#frag
 		<h2>Caching</h2>
 		<p>A <a>DID resolver</a> may maintain a generic cache of <a>DID documents</a>. It may also
 			maintain caches specific to certain <a>DID methods</a>.</p>
-		<p>The <code>no-cache</code> input metadata property can be used to
+		<p>The <code>no-cache</code> resolution option can be used to
 			request a certain kind of caching behavior.</p>
-			<p>This <var>input metadata property</var> is OPTIONAL.</p>
+			<p>This <var>resolution option</var> is OPTIONAL.</p>
 			<p>Possible values of this property are:</p>
 			<ul>
 			<li>`"false"` (default value): Caching of <a>DID documents</a> is allowed.</li>
@@ -1170,7 +1170,7 @@ https://example.com/messages/8377464/some/path?query#frag
 			the <a>verifiable data registry</a>.</li>
 			</ul>
 		<p>Caching behavior can be controlled by configuration of the <a>DID resolver</a>,
-			by the <code>no-cache</code> input metadata property, or by contents of the DID document
+			by the <code>no-cache</code> resolution option, or by contents of the DID document
 			(e.g. a `time-to-live` field), or by a combination of these properties.</p>
 		<p class="issue" data-number="10">See corresponding open issue.</p>
 		<p class="issue">Perhaps we can re-use caching mechanisms of other protocols such as HTTP.</p>
@@ -1227,8 +1227,8 @@ https://example.com/messages/8377464/some/path?query#frag
 		a DID. This is interpreted as a "DID redirect" from the input DID to another. In this case, a "child"
 		DID resolution process can be launched to get to a "final" service endpoint.</p>
 
-		<p>The <code>follow-redirect</code> input metadata property can be supplied by a client as a hint to
-			instruct whether redirects should be followed. This <var>input metadata property</var> is OPTIONAL.</p>
+		<p>The <code>follow-redirect</code> resolution option can be supplied by a client as a hint to
+			instruct whether redirects should be followed. This <var>resolution option</var> is OPTIONAL.</p>
 
 		<p class="issue" data-number="7">See corresponding open issue.
 		</p>
