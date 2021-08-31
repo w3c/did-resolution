@@ -643,7 +643,9 @@ dereference ( did-url, did-url-dereferencing-input-metadata ) <br>
 				<a>DID document</a>. This is called the <var>output resource</var>.
 				When selecting the JSON-LD object from the <a>DID document</a>, the absolute
 				<a>DID URL</a> used to identify a graph node MUST be unique and present only once in the
-				<a>DID document</a>. If the identifer of the graph node is not unique, an error MUST be thrown.
+				<a>DID document</a>. "If the identifier of the graph node is not unique,
+				including if a relative or base IRI mapped to an absolute IRI collides with
+				a different graph node's absolute IRI, then an error MUST be thrown."
 				<li>Return the <var>output resource</var>.
 				<div class="issue" data-number="9">
 				<p>Mention relative IRIs and that the DID itself is considered the base IRI for
