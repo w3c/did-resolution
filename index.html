@@ -284,7 +284,7 @@ resolveRepresentation ( did, resolutionOptions ) <br>
 			<a href="https://www.w3.org/TR/did-core/#did-syntax">DID Syntax</a>.
 			If not, the <a>DID resolver</a> MUST return the following result:
 			<ol class="algorithm">
-				<li><b>didResolutionMetadata</b>: <code>«[ "error" → "invalid-did" ]»</code></li>
+				<li><b>didResolutionMetadata</b>: <code>«[ "error" → "invalidDid" ]»</code></li>
 				<li><b>didDocument</b>: <code>null</code></li>
 				<li><b>didDocumentMetadata</b>: <code>null</code></li>
 			</ol>
@@ -292,7 +292,7 @@ resolveRepresentation ( did, resolutionOptions ) <br>
 			<li>Determine if the DID method of the <var>input <a>DID</a></var> is supported by the <a>DID resolver</a>
 			that implements this algorithm. If not, the <a>DID resolver</a> MUST return the following result:
 			<ol class="algorithm">
-				<li><b>didResolutionMetadata</b>: <code>«[ "error" → "method-not-supported" ]»</code></li>
+				<li><b>didResolutionMetadata</b>: <code>«[ "error" → "methodNotSupported" ]»</code></li>
 				<li><b>didDocument</b>: <code>null</code></li>
 				<li><b>didDocumentMetadata</b>: <code>null</code></li>
 			</ol>
@@ -307,7 +307,7 @@ resolveRepresentation ( did, resolutionOptions ) <br>
 				<var>input <a>DID method</a></var>.</li>
 				<li>If the <var>input <a>DID</a></var> does not exist, return the following result:
 				<ol class="algorithm">
-					<li><b>didResolutionMetadata</b>: <code>«[ "error" → "not-found" ]»</code></li>
+					<li><b>didResolutionMetadata</b>: <code>«[ "error" → "notFound" ]»</code></li>
 					<li><b>didDocument</b>: <code>null</code></li>
 					<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
 				</ol>
@@ -968,17 +968,17 @@ data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>).</li>
 			<li>Execute an HTTP <code>GET</code> request on the <var>request HTTP(S) URL</var>.</li>
 			<li>Dereference the <var>input <a>DID</a></var> or <var>input <a>DID URL</a></var> by executing the
 				<a>DID URL dereferencing</a> algorithm as defined in <a href="#dereferencing"></a></li>
-			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>did-dereferencing-metadata</b> with the property <b>error</b> with value <b>invalid-didUrl</b>:
+			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>dereferencingMetadata</b> with the property <b>error</b> with value <b>invalidDidUrl</b>:
 				<ol class="algorithm">
 					<li>The HTTP response status code MUST be <code>400</code>.</li>
 				</ol>
 			</li>
-			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>did-dereferencing-metadata</b> property <b>error</b> with value <b>not-found</b>:
+			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>dereferencingMetadata</b> property <b>error</b> with value <b>notFound</b>:
 				<ol class="algorithm">
 					<li>The HTTP response status code MUST be <code>404</code>.</li>
 				</ol>
 			</li>
-			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>did-dereferencing-metadata</b> property <b>error</b> with value <b>representation-not-supported</b>:
+			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>dereferencingMetadata</b> property <b>error</b> with value <b>representationNotSupported</b>:
 				<ol class="algorithm">
 					<li>The HTTP response status code MUST be <code>406</code>.</li>
 				</ol>
