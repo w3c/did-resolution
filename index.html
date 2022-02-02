@@ -286,7 +286,7 @@ resolveRepresentation ( did, resolutionOptions ) <br>
 			<ol class="algorithm">
 				<li><b>didResolutionMetadata</b>: <code>«[ "error" → "invalidDid" ]»</code></li>
 				<li><b>didDocument</b>: <code>null</code></li>
-				<li><b>didDocumentMetadata</b>: <code>null</code></li>
+				<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
 			</ol>
 			</li>
 			<li>Determine if the DID method of the <var>input <a>DID</a></var> is supported by the <a>DID resolver</a>
@@ -294,7 +294,7 @@ resolveRepresentation ( did, resolutionOptions ) <br>
 			<ol class="algorithm">
 				<li><b>didResolutionMetadata</b>: <code>«[ "error" → "methodNotSupported" ]»</code></li>
 				<li><b>didDocument</b>: <code>null</code></li>
-				<li><b>didDocumentMetadata</b>: <code>null</code></li>
+				<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
 			</ol>
 			</li>
 			<li>Obtain the <a>DID document</a> for the <var>input <a>DID</a></var> by executing the
