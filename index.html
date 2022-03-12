@@ -937,6 +937,13 @@ https://example.com/messages/8377464/some/path?query#frag
 
 </section>
 
+<section id="errors">
+	<h1>Errors</h1>
+	<h2>internalError</h2>
+	<p>When an unexpected error occurs during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
+		the value of the DID Resolution or DID URL Dereferencing Metadata <strong>error</strong> property MUST be <strong>internalError</strong>.
+</section>
+
 <section id="bindings">
 	<h1>Bindings</h1>
 	<p>This section defines bindings for the abstract algorithms in sections <a href="#resolving"></a> and
@@ -986,6 +993,11 @@ data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>).</li>
 			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>didDocumentMetadata</b> property <b>deactivated</b> with value <b>true</b>:
 				<ol class="algorithm">
 					<li>The HTTP response status code MUST be <code>410</code>.</li>
+				</ol>
+			</li>
+			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>dereferencingMetadata</b> with the property <b>error</b> with value <b>internalError</b>:
+				<ol class="algorithm">
+					<li>The HTTP response status code MUST be <code>500</code>.</li>
 				</ol>
 			</li>
 			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>didDocumentStream</b>:
@@ -1123,14 +1135,6 @@ https://example.com/messages/8377464/some/path?query#frag
 
 	</section>
 
-</section>
-
-<section id="errors">
-	<h1>Errors</h1>
-	<h2>internalError</h2>
-    <p>When an unexpected error occurs during did resolution or dereferencing,
-    the resolution or dereferencing meta data error should be <i>internalError</i>, and status code 500 
-    should be returned when an HTTP(s) binding is in use.</p>
 </section>
 
 <section id="security-privacy-considerations">
