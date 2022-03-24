@@ -548,8 +548,8 @@ did:example:123456789abcdefghi?service=messages&relativeRef=%2Fsome%2Fpath%3Fque
 https://example.com/messages/8377464/some/path?query#frag
 </pre>
 		<figure id="figure-dereferencing">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/didUrl-dereferencing.png"
-			alt="Diagram showing how a DID URL can be dereferencing to a service endpoint URL">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/did-url-dereferencing.png"
+			alt="Diagram showing how a DID URL can be dereferenced to a service endpoint URL">
 			<figcaption style="text-align: center;">
 				Dereferencing a DID URL to a service endpoint URL.
 			</figcaption>
@@ -1049,7 +1049,7 @@ data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>).</li>
 	</section>
 
 	<section>
-		<h2>Example</h2>
+		<h2>DID Resolution Examples</h2>
 		<p>Given the following <var><a>DID resolver</a> HTTP(S) endpoint</var>:<p>
 		<p><code>
 https://dev.uniresolver.io/1.0/identifiers/</code></p>
@@ -1062,6 +1062,47 @@ https://dev.uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8pw</code>
 		<p>The HTTP(S) binding can be invoked as follows:</p>
 		<pre class="example nohighlight" title="Example curl call to a DID resolver via HTTP(S) binding">
 curl -X GET https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8pw</pre>
+
+		<p>Additional examples of the HTTP(S) binding:</p>
+
+		<figure id="https-resolverepresentation-example-1">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/https-resolverepresentation-example-1.png"
+				 alt="Diagram showing the invocation of resolveRepresentation() over HTTPS">
+			<figcaption style="text-align: center;">
+				Invocation of resolveRepresentation() over HTTP(S).
+			</figcaption>
+		</figure>
+
+		<figure id="https-resolverepresentation-example-2">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/https-resolverepresentation-example-2.png"
+				 alt="Diagram showing the invocation of resolveRepresentation() over HTTPS">
+			<figcaption style="text-align: center;">
+				Invocation of resolveRepresentation() over HTTP(S).
+			</figcaption>
+		</figure>
+
+	</section>
+
+	<section>
+		<h2>DID URL Dereferencing Examples</h2>
+
+		<p>Additional examples of the HTTP(S) binding:</p>
+
+		<figure id="https-dereference-example-1">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/https-dereference-example-1.png"
+				 alt="Diagram showing the invocation of dereference() over HTTPS">
+			<figcaption style="text-align: center;">
+				Invocation of dereference() over HTTP(S).
+			</figcaption>
+		</figure>
+
+		<figure id="https-dereference-example-2">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/https-dereference-example-2.png"
+				 alt="Diagram showing the invocation of dereference() over HTTPS">
+			<figcaption style="text-align: center;">
+				Invocation of dereference() over HTTP(S).
+			</figcaption>
+		</figure>
 
 	</section>
 
