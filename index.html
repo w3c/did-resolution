@@ -944,6 +944,22 @@ https://example.com/messages/8377464/some/path?query#frag
 	<h2>internalError</h2>
 	<p>When an unexpected error occurs during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
 		the value of the DID Resolution or DID URL Dereferencing Metadata <strong>error</strong> property MUST be <strong>internalError</strong>.
+	<h2>invalidPublicKeyLength</h2>
+	<p>If the byte length of <i>rawPublicKeyBytes</i> does not match the expected public key length for the associated multicodecValue during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
+		the value of the DID Resolution or DID URL Dereferencing Metadata <strong>error</strong> property MUST be <strong>invalidPublicKeyLength</strong>.
+	<h2>invalidPublicKey</h2>
+	<p>If an invalid public key value is detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
+		the value of the DID Resolution or DID URL Dereferencing Metadata <strong>error</strong> property MUST be <strong>invalidPublicKey</strong>.
+	<h2>invalidDidUrl</h2>
+	<p>If an invalid DID URL is detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
+		the value of the DID Resolution or DID URL Dereferencing Metadata <strong>error</strong> property MUST be <strong>invalidDidUrl</strong>.
+	<h2>unsupportedPublicKeyType</h2>
+	<p>If an unsupported public key type is detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
+		the value of the DID Resolution or DID URL Dereferencing Metadata <strong>error</strong> property MUST be <strong>unsupportedPublicKeyType</strong>.
+	<h2>invalidPublicKeyType</h2>
+	<p>If an invalid public key type is detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
+		the value of the DID Resolution or DID URL Dereferencing Metadata <strong>error</strong> property MUST be <strong>invalidPublicKeyType</strong>.
+
 </section>
 
 <section id="bindings">
