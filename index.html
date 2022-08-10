@@ -1020,29 +1020,83 @@ data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>).</li>
 			<li>Execute an HTTP <code>GET</code> request on the <var>request HTTP(S) URL</var>.</li>
 			<li>Dereference the <var>input <a>DID</a></var> or <var>input <a>DID URL</a></var> by executing the
 				<a>DID URL dereferencing</a> algorithm as defined in <a href="#dereferencing"></a></li>
-			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>dereferencingMetadata</b> with the property <b>error</b> with value <b>invalidDidUrl</b>:
-				<ol class="algorithm">
-					<li>The HTTP response status code MUST be <code>400</code>.</li>
-				</ol>
-			</li>
-			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>dereferencingMetadata</b> property <b>error</b> with value <b>notFound</b>:
-				<ol class="algorithm">
-					<li>The HTTP response status code MUST be <code>404</code>.</li>
-				</ol>
-			</li>
-			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>dereferencingMetadata</b> property <b>error</b> with value <b>representationNotSupported</b>:
-				<ol class="algorithm">
-					<li>The HTTP response status code MUST be <code>406</code>.</li>
-				</ol>
+			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>dereferencingMetadata</b> property <b>error</b>,
+				then the HTTP response status code MUST be set to the value that corresponds to the value of the of the <b>error</b> property,
+				according to the following table:
+				<table class="simple">
+					<thead>
+					<tr>
+						<th>
+							error
+						</th>
+						<th>
+							HTTP status code
+						</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<td>
+							<code>invalidDid</code>
+						</td>
+						<td>
+							<code>400</code>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<code>invalidDidUrl</code>
+						</td>
+						<td>
+							<code>400</code>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<code>notFound</code>
+						</td>
+						<td>
+							<code>404</code>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<code>representationNotSupported</code>
+						</td>
+						<td>
+							<code>406</code>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<code>methodNotSupported</code>
+						</td>
+						<td>
+							<code>501</code>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<code>internalError</code>
+						</td>
+						<td>
+							<code>500</code>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							(any other value)
+						</td>
+						<td>
+							<code>500</code>
+						</td>
+					</tr>
+					</tbody>
+				</table>
 			</li>
 			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>didDocumentMetadata</b> property <b>deactivated</b> with value <b>true</b>:
 				<ol class="algorithm">
 					<li>The HTTP response status code MUST be <code>410</code>.</li>
-				</ol>
-			</li>
-			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>dereferencingMetadata</b> with the property <b>error</b> with value <b>internalError</b>:
-				<ol class="algorithm">
-					<li>The HTTP response status code MUST be <code>500</code>.</li>
 				</ol>
 			</li>
 			<li>If the output of the <a>DID URL dereferencing</a> function contains the <b>didDocumentStream</b>:
