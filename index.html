@@ -944,12 +944,12 @@ https://example.com/messages/8377464/some/path?query#frag
     <h2>invalidDid</h2>
 	<p>If an invalid DID is detected during <a>DID Resolution</a>,
 		the value of the DID Resolution Metadata <strong>error</strong> property MUST be <strong>invalidDid</strong>
-        as defined in <a href="https://www.w3.org/TR/did-core/#did-resolution-metadata">did-core</a>.
+        as defined in section <a href="https://www.w3.org/TR/did-core/#did-resolution-metadata">DID Resolution Metadata</a> in [[DID-CORE]].
     </p>
 	<h2>invalidDidUrl</h2>
 	<p>If an invalid DID URL is detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
 		the value of the DID Resolution or DID URL Dereferencing Metadata <strong>error</strong> property MUST be <strong>invalidDidUrl</strong>
-        as defined in <a href="https://www.w3.org/TR/did-core/#did-url-dereferencing-metadata">did-core</a>.
+        as defined in section <a href="https://www.w3.org/TR/did-core/#did-url-dereferencing-metadata">DID URL Dereferencing Metadata</a> in [[DID-CORE]].
     </p>
 	<h2>internalError</h2>
 	<p>When an unexpected error occurs during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
@@ -970,7 +970,8 @@ https://example.com/messages/8377464/some/path?query#frag
     <h2>notFound</h2>
     <p> If during <a>DID Resolution</a> or <a>DID URL dereferencing</a> a DID or DID URL doesn't exist,
         the value of the DID Resolution or DID URL dereferencing Metadata <strong>error</strong> property MUST be <strong>notFound</strong> as
-        defined in <a href="https://www.w3.org/TR/did-core/#did-resolution-metadata">did-core</a>.
+        defined in sections <a href="https://www.w3.org/TR/did-core/#did-resolution-metadata">DID Resolution Metadata</a> and
+		<a href="https://www.w3.org/TR/did-core/#did-url-dereferencing-metadata">DID URL Dereferencing Metadata</a> in [[DID-CORE]].
     </p>
 	<h2>unsupportedPublicKeyType</h2>
 	<p>If an unsupported public key type is detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
