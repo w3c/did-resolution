@@ -1309,7 +1309,7 @@ https://example.com/messages/8377464/some/path?query#frag
 		<h2>Caching</h2>
 		<p>A <a>DID resolver</a> may maintain a generic cache of <a>DID documents</a>. It may also
 			maintain caches specific to certain <a>DID methods</a>.</p>
-		<p>The <code>no-cache</code> resolution option can be used to
+		<p>The <code>noCache</code> resolution option can be used to
 			request a certain kind of caching behavior.</p>
 			<p>This <var>resolution option</var> is OPTIONAL.</p>
 			<p>Possible values of this property are:</p>
@@ -1319,8 +1319,8 @@ https://example.com/messages/8377464/some/path?query#frag
 			the <a>verifiable data registry</a>.</li>
 			</ul>
 		<p>Caching behavior can be controlled by configuration of the <a>DID resolver</a>,
-			by the <code>no-cache</code> resolution option, or by contents of the DID document
-			(e.g. a `time-to-live` field), or by a combination of these properties.</p>
+			by the <code>noCache</code> resolution option, or by contents of the DID document
+			(e.g. a `cacheMaxTtl` field), or by a combination of these properties.</p>
 		<p class="issue" data-number="10">See corresponding open issue.</p>
 		<p class="issue">Perhaps we can re-use caching mechanisms of other protocols such as HTTP.</p>
 	
