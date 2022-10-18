@@ -385,131 +385,131 @@ dereference ( didUrl, dereferenceOptions ) <br>
 			<a href="#dereferencing-algorithm-secondary"></a>.</li>
 		</ol>
 
-	</section>
-
-	<section id="dereferencing-algorithm-primary">
-		<h2>Dereferencing the Primary Resource</h2>
-		<ol class="algorithm">
-			<li>If the <var>input <a>DID URL</a></var> contains the
-			<a href="https://www.w3.org/TR/did-core/#did-parameters">
-			DID parameter</a> <code>service</code> and optionally the <code>relativeRef</code> DID parameter:
-			<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest</pre>
+		<section id="dereferencing-algorithm-primary">
+			<h2>Dereferencing the Primary Resource</h2>
 			<ol class="algorithm">
-				<li>From the <var>resolved <a>DID document</a></var>, select the
-				<a href="#service-endpoint-construction">service endpoint</a> whose <code>id</code>
-				property contains a fragment which matches the value of the <code>service</code> DID parameter of the
-				<var>input <a>DID URL</a></var>. This is called the <var>input <a>service endpoint</a></var>.</li>
-				<li>Execute the <a href="#service-endpoint-construction">Service Endpoint Construction</a> algorithm:
+				<li>If the <var>input <a>DID URL</a></var> contains the
+				<a href="https://www.w3.org/TR/did-core/#did-parameters">
+				DID parameter</a> <code>service</code> and optionally the <code>relativeRef</code> DID parameter:
+				<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest</pre>
 				<ol class="algorithm">
-					<li>Read the value of the <code>serviceEndpoint</code> property of the
-					<var>input <a>service endpoint</a></var>. This is called the <var>input <a>service endpoint</a> URL</var>.</li>
-					<li>Pass the <var>input <a>DID URL </a></var> and <var>input <a>service endpoint</a> URL</var> to
-					the <a href="#service-endpoint-construction">Service Endpoint Construction</a> algorithm.</li>
-					<li>The result is called the <var>output <a>service endpoint</a> URL</var>.</li>
+					<li>From the <var>resolved <a>DID document</a></var>, select the
+					<a href="#service-endpoint-construction">service endpoint</a> whose <code>id</code>
+					property contains a fragment which matches the value of the <code>service</code> DID parameter of the
+					<var>input <a>DID URL</a></var>. This is called the <var>input <a>service endpoint</a></var>.</li>
+					<li>Execute the <a href="#service-endpoint-construction">Service Endpoint Construction</a> algorithm:
+					<ol class="algorithm">
+						<li>Read the value of the <code>serviceEndpoint</code> property of the
+						<var>input <a>service endpoint</a></var>. This is called the <var>input <a>service endpoint</a> URL</var>.</li>
+						<li>Pass the <var>input <a>DID URL </a></var> and <var>input <a>service endpoint</a> URL</var> to
+						the <a href="#service-endpoint-construction">Service Endpoint Construction</a> algorithm.</li>
+						<li>The result is called the <var>output <a>service endpoint</a> URL</var>.</li>
+					</ol>
+					</li>
+					<li>Return the <var>output <a>service endpoint</a> URL</var>.</li>
 				</ol>
 				</li>
-				<li>Return the <var>output <a>service endpoint</a> URL</var>.</li>
-			</ol>
-			</li>
 
-			<p class="issue">There have been discussions whether in addition to the DID parameter <code>service</code>,
-				there could also be a DID parameter <code>serviceType</code> to select services based
-				on their type rather than ID.
-				See <a href="https://lists.w3.org/Archives/Public/public-credentials/2019Jun/0028.html">
-				comments by Dave Longley</a> about `serviceType`.</p>
+				<p class="issue">There have been discussions whether in addition to the DID parameter <code>service</code>,
+					there could also be a DID parameter <code>serviceType</code> to select services based
+					on their type rather than ID.
+					See <a href="https://lists.w3.org/Archives/Public/public-credentials/2019Jun/0028.html">
+					comments by Dave Longley</a> about `serviceType`.</p>
 
-			<li>Otherwise, if the <var>input <a>DID URL</a></var> contains no <a>DID path</a> and no <a>DID query</a>:
-			<pre class="example nohighlight">did:example:1234</pre>
-			<ol class="algorithm">
-				<li>Return the <var>resolved <a>DID document</a></var>.</li>
-			</ol>
-			</li>
-			<li>Otherwise, if the <var>input <a>DID URL</a></var> contains a <a>DID path</a> and/or <a>DID query</a>:
-			<pre class="example nohighlight">did:example:1234/custom/path?customquery</pre>
-			<ol class="algorithm">
-				<li>The applicable <a>DID method</a> MAY specify how to dereference
-				the <var>input <a>DID URL</a></var>.</li>
-				<li>The client MAY be able to dereference the <var>input <a>DID URL</a></var>
-				in an application-specific way.</li>
-			</ol>
-			</li>
-			<li>If neither this algorithm, nor the applicable <a>DID method</a>, nor the client
-			is able to dereference the <var>input <a>DID URL</a></var>, return the following result:
-			<ol class="algorithm">
-				<li><b>dereferencingMetadata</b>: <code>«[ "error" → "notFound" ]»</code></li>
-				<li><b>contentStream</b>: <code>null</code></li>
-				<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
-			</ol>
-			</li>
-		</ol>
-
-	</section>
-
-	<section id="dereferencing-algorithm-secondary">
-		<h2>Dereferencing the Secondary Resource</h2>
-		<p>If the <var>input <a>DID URL</a></var> contains a <a>DID fragment</a>,
-		then dereferencing of the secondary resource identified by the URL is dependent not on the URI scheme, but
-		on the media type ([[RFC2046]]) of the primary resource, i.e. on the result of
-		<a href="#dereferencing-algorithm-primary"></a>.</p> 
-		<ol class="algorithm">
-			<li>If the result of <a href="#dereferencing-algorithm-primary"></a> is a <var>resolved <a>DID document</a></var>
-			with media type <code>application/did+ld+json</code>, and the <var>input <a>DID URL</a></var> contains a
-			<a>DID fragment</a>:
-			<pre class="example nohighlight">did:example:1234#keys-1</pre>
-			<ol class="algorithm">
-				<li>From the <var>resolved <a>DID document</a></var>, select the JSON-LD object whose <code>id</code>
-				property matches the <var>input <a>DID URL</a></var>, e.g., a public key or service endpoint in the
-				<a>DID document</a>. This is called the <var>output resource</var>.
-				When selecting the JSON-LD object from the <a>DID document</a>, the absolute
-				<a>DID URL</a> used to identify a graph node MUST be unique and present only once in the
-				<a>DID document</a>. If the identifier of the graph node is not unique,
-				including if a relative or base IRI mapped to an absolute IRI collides with
-				a different graph node's absolute IRI, then an error MUST be thrown.
-				<li>Return the <var>output resource</var>.
-				<div class="issue" data-number="9">
-				<p>Mention relative IRIs and that the DID itself is considered the base IRI for
-				the JSON-LD parser. Mention potential attack vector if <code>@base</code> is injected into the
-				<a>DID document</a>.</p>
-				<p>Also see <a href="https://github.com/w3c/did-core/issues/15">this discussion</a>
-				on fully qualified DID URLs as the value of the <code>id</code> field.</p>
-				</div>
-				<p class="note">
-				This use of the <a>DID fragment</a> is consistent with the definition of the fragment identifier in
-				[[RFC3986]]. It identifies a <em>secondary resource</em> which is a subset of the <em>primary resource</em>
-				(the <a>DID document</a>).
-				</p>
-				<p class="note">
-				This use of the <a>DID fragment</a> is furthermore consistent with the concept of Hash URIs
-				for the Semantic Web [[COOL-URIS]].
-				</p>
-				<p class="issue">
-				Perhaps we can find a good reference somewhere from RDF, JSON-LD or Solid specifications that defines
-				clearly the ability to use the fragment for identifying a specific resource in an RDF document.
-				</p>
+				<li>Otherwise, if the <var>input <a>DID URL</a></var> contains no <a>DID path</a> and no <a>DID query</a>:
+				<pre class="example nohighlight">did:example:1234</pre>
+				<ol class="algorithm">
+					<li>Return the <var>resolved <a>DID document</a></var>.</li>
+				</ol>
+				</li>
+				<li>Otherwise, if the <var>input <a>DID URL</a></var> contains a <a>DID path</a> and/or <a>DID query</a>:
+				<pre class="example nohighlight">did:example:1234/custom/path?customquery</pre>
+				<ol class="algorithm">
+					<li>The applicable <a>DID method</a> MAY specify how to dereference
+					the <var>input <a>DID URL</a></var>.</li>
+					<li>The client MAY be able to dereference the <var>input <a>DID URL</a></var>
+					in an application-specific way.</li>
+				</ol>
+				</li>
+				<li>If neither this algorithm, nor the applicable <a>DID method</a>, nor the client
+				is able to dereference the <var>input <a>DID URL</a></var>, return the following result:
+				<ol class="algorithm">
+					<li><b>dereferencingMetadata</b>: <code>«[ "error" → "notFound" ]»</code></li>
+					<li><b>contentStream</b>: <code>null</code></li>
+					<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
+				</ol>
 				</li>
 			</ol>
-			</li>
-			<li>Otherwise, if the result of <a href="#dereferencing-algorithm-primary"></a> is an <var>output <a>service endpoint</a> URL</var>,
-			and the <var>input <a>DID URL</a></var> contains a <a>DID fragment</a>:
-			<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest#intro</pre>
+
+		</section>
+
+		<section id="dereferencing-algorithm-secondary">
+			<h2>Dereferencing the Secondary Resource</h2>
+			<p>If the <var>input <a>DID URL</a></var> contains a <a>DID fragment</a>,
+			then dereferencing of the secondary resource identified by the URL is dependent not on the URI scheme, but
+			on the media type ([[RFC2046]]) of the primary resource, i.e. on the result of
+			<a href="#dereferencing-algorithm-primary"></a>.</p>
 			<ol class="algorithm">
-				<li>If the <var>output <a>service endpoint</a> URL</var>
-				contains a <code>fragment</code> component, raise an error.</li>
-				<li>Append the <a>DID fragment</a> to the <var>output <a>service endpoint</a> URL</var>. In other words,
-				the <var>output <a>service endpoint</a> URL</var> "inherits" the <a>DID fragment</a> of the
-				<var>input <a>DID URL</a></var>.</li>
-				<li>Return the <var>output <a>service endpoint</a> URL</var>.</li>
-				<p class="note">
-				This behavior of the <a>DID fragment</a> is analogous to the handling of a fragment in an HTTP URL in the
-				case when dereferencing it returns an HTTP <code>3xx</code> (Redirection) response with a
-				<code>Location</code> header (see section 7.1.2 of [[RFC7231]].
-				</p>
+				<li>If the result of <a href="#dereferencing-algorithm-primary"></a> is a <var>resolved <a>DID document</a></var>
+				with media type <code>application/did+ld+json</code>, and the <var>input <a>DID URL</a></var> contains a
+				<a>DID fragment</a>:
+				<pre class="example nohighlight">did:example:1234#keys-1</pre>
+				<ol class="algorithm">
+					<li>From the <var>resolved <a>DID document</a></var>, select the JSON-LD object whose <code>id</code>
+					property matches the <var>input <a>DID URL</a></var>, e.g., a public key or service endpoint in the
+					<a>DID document</a>. This is called the <var>output resource</var>.
+					When selecting the JSON-LD object from the <a>DID document</a>, the absolute
+					<a>DID URL</a> used to identify a graph node MUST be unique and present only once in the
+					<a>DID document</a>. If the identifier of the graph node is not unique,
+					including if a relative or base IRI mapped to an absolute IRI collides with
+					a different graph node's absolute IRI, then an error MUST be thrown.
+					<li>Return the <var>output resource</var>.
+					<div class="issue" data-number="9">
+					<p>Mention relative IRIs and that the DID itself is considered the base IRI for
+					the JSON-LD parser. Mention potential attack vector if <code>@base</code> is injected into the
+					<a>DID document</a>.</p>
+					<p>Also see <a href="https://github.com/w3c/did-core/issues/15">this discussion</a>
+					on fully qualified DID URLs as the value of the <code>id</code> field.</p>
+					</div>
+					<p class="note">
+					This use of the <a>DID fragment</a> is consistent with the definition of the fragment identifier in
+					[[RFC3986]]. It identifies a <em>secondary resource</em> which is a subset of the <em>primary resource</em>
+					(the <a>DID document</a>).
+					</p>
+					<p class="note">
+					This use of the <a>DID fragment</a> is furthermore consistent with the concept of Hash URIs
+					for the Semantic Web [[COOL-URIS]].
+					</p>
+					<p class="issue">
+					Perhaps we can find a good reference somewhere from RDF, JSON-LD or Solid specifications that defines
+					clearly the ability to use the fragment for identifying a specific resource in an RDF document.
+					</p>
+					</li>
+				</ol>
+				</li>
+				<li>Otherwise, if the result of <a href="#dereferencing-algorithm-primary"></a> is an <var>output <a>service endpoint</a> URL</var>,
+				and the <var>input <a>DID URL</a></var> contains a <a>DID fragment</a>:
+				<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest#intro</pre>
+				<ol class="algorithm">
+					<li>If the <var>output <a>service endpoint</a> URL</var>
+					contains a <code>fragment</code> component, raise an error.</li>
+					<li>Append the <a>DID fragment</a> to the <var>output <a>service endpoint</a> URL</var>. In other words,
+					the <var>output <a>service endpoint</a> URL</var> "inherits" the <a>DID fragment</a> of the
+					<var>input <a>DID URL</a></var>.</li>
+					<li>Return the <var>output <a>service endpoint</a> URL</var>.</li>
+					<p class="note">
+					This behavior of the <a>DID fragment</a> is analogous to the handling of a fragment in an HTTP URL in the
+					case when dereferencing it returns an HTTP <code>3xx</code> (Redirection) response with a
+					<code>Location</code> header (see section 7.1.2 of [[RFC7231]].
+					</p>
+					</li>
+				</ol>
+				<li>Otherwise, dereference the secondary resource as defined by the media type ([[RFC2046]]) of the primary resource.
+				</li>
 				</li>
 			</ol>
-			<li>Otherwise, dereference the secondary resource as defined by the media type ([[RFC2046]]) of the primary resource.
-			</li>
-			</li>
-		</ol>
+
+		</section>
 
 	</section>
 
