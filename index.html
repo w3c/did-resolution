@@ -198,15 +198,15 @@ and dereferencing DID URLs.
       <dd>As defined in [[DID-CORE]].</dd>
     </dl>
     <dl>
-      <dt><dfn data-lt="">DID resolution</dt>
+      <dt><dfn data-lt="">DID resolution</dfn></dt>
       <dd>As defined in [[DID-CORE]]. See Section <a href="#resolving"></a>.</dd>
     </dl>
     <dl>
-      <dt><dfn data-lt="DID resolver's">DID resolver</dt>
+      <dt><dfn data-lt="DID resolver's">DID resolver</dfn></dt>
       <dd>As defined in [[DID-CORE]].</dd>
     </dl>
     <dl>
-      <dt><dfn data-lt="">DID resolution result</dt>
+      <dt><dfn data-lt="">DID resolution result</dfn></dt>
       <dd>A data structure that represents the result of the <a>DID resolution</a> or <a>DID URL dereferencing</a> algorithm.
       May contain a <a>DID document</a> or other content. See Section <a href="#did-resolution-result"></a>.</dd>
     </dl>
@@ -217,6 +217,10 @@ and dereferencing DID URLs.
     <dl>
       <dt><dfn data-lt="">DID URL dereferencing</dfn></dt>
       <dd>As defined in [[DID-CORE]]. See Section <a href="#dereferencing"></a>.</dd>
+	</dl>
+	<dl>
+		<dt><dfn data-lt="DID URL dereferencer's">DID URL dereferencer</dfn></dt>
+		<dd>As defined in [[DID-CORE]].</dd>
 	</dl>
 	<dl>
 		<dt><dfn data-lt="">local binding</dfn></dt>
@@ -1136,7 +1140,7 @@ data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>).</li>
 			<ol class="algorithm">
 				<li>The HTTP response status code MUST be <code>303</code>.</li>
 				<li>The HTTP response MUST contain an <code>Location</code> header. The value of this header
-				MUST be the <var>output <a>service endpoint</a> URL</a>.</li>
+				MUST be the <var>output <a>service endpoint</a> URL</a></var>.</li>
 			</ol>
 			</li>
 		</ol>
