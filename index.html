@@ -207,8 +207,8 @@ and dereferencing DID URLs.
     </dl>
     <dl>
       <dt><dfn data-lt="">DID resolution result</dfn></dt>
-      <dd>A data structure that represents the result of the <a>DID resolution</a> or <a>DID URL dereferencing</a> algorithm.
-      May contain a <a>DID document</a> or other content. See Section <a href="#did-resolution-result"></a>.</dd>
+      <dd>A data structure that represents the result of the <a>DID resolution</a> algorithm.
+      May contain a <a>DID document</a>. See Section <a href="#did-resolution-result"></a>.</dd>
     </dl>
     <dl>
       <dt><dfn data-lt="">DID URL</dfn></dt>
@@ -221,6 +221,11 @@ and dereferencing DID URLs.
 	<dl>
 		<dt><dfn data-lt="DID URL dereferencer's">DID URL dereferencer</dfn></dt>
 		<dd>As defined in [[DID-CORE]].</dd>
+	</dl>
+	<dl>
+		<dt><dfn data-lt="">DID URL dereferencing result</dfn></dt>
+		<dd>A data structure that represents the result of the <a>DID URL dereferencing</a> algorithm.
+			May contain a <a>DID document</a> or other content. See Section <a href="#did-url-dereferencing-result"></a>.</dd>
 	</dl>
 	<dl>
 		<dt><dfn data-lt="">local binding</dfn></dt>
@@ -824,8 +829,8 @@ https://example.com/messages/8377464/some/path?query#frag
 
 <section id="did-resolution-result">
 	<h1>DID Resolution Result</h1>
-	<p>This section defines a data structure that represents the result of the algorithms described
-	in <a href="#resolving"></a> and <a href="#dereferencing"></a>. A <a>DID resolution result</a> contains
+	<p>This section defines a data structure that represents the result of the algorithm described
+	in <a href="#resolving"></a>. A <a>DID resolution result</a> contains
 	a <a>DID document</a> as well as
 	<a href="#output-resolutionmetadata">DID resolution metadata</a> and <a href="#output-documentmetadata">DID
 	document metadata</a>.</p>
@@ -952,6 +957,105 @@ https://example.com/messages/8377464/some/path?query#frag
 	</p>
 
 </section>
+
+	<section id="did-url-dereferencing-result">
+		<h1>DID URL Dereferencing Result</h1>
+		<p>This section defines a data structure that represents the result of the algorithm described
+			in <a href="#dereferencing"></a>. A <a>DID URL dereferencing result</a> contains
+			arbitrary content as well as
+			<a href="#output-dereferencingmetadata">DID resolution metadata</a> and <a href="#output-contentmetadata">
+				content metadata</a>.</p>
+
+		<p>The media type of this data structure is defined to be `application/ld+json;profile="https://w3id.org/did-resolution"`.</p>
+
+		<section>
+			<h2>Example</h2>
+
+			<pre class="example nohighlight" title="Example DID URL dereferencing result">
+{
+	"@context": "https://w3id.org/did-resolution/v1",
+	"content": {
+		"@context": "https://www.w3.org/ns/did/v1",
+		"id": "did:example:123456789abcdefghi",
+		"authentication": [{
+			"id": "did:example:123456789abcdefghi#keys-1",
+			"type": "Ed25519VerificationKey2018",
+			"controller": "did:example:123456789abcdefghi",
+			"publicKeyBase58": "H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV"
+		}],
+		"service": [{
+			"id":"did:example:123456789abcdefghi#vcs",
+			"type": "VerifiableCredentialService",
+			"serviceEndpoint": "https://example.com/vc/"
+		}]
+	},
+	"didUrlDereferencingMetadata": {
+		"contentType": "application/did+ld+json",
+		"retrieved": "2024-06-01T19:73:24Z",
+	},
+	"contentMetadata": {
+		"created": "2019-03-23T06:35:22Z",
+		"updated": "2023-08-10T13:40:06Z",
+		"method": {
+			"nymResponse": {
+				"result": {
+					"data": "{\"dest\":\"WRfXPg8dantKVubE3HX8pw\",\"identifier\":\"V4SGRU86Z58d6TV7PBUe6f\",\"role\":\"0\",\"seqNo\":11,\"txnTime\":1524055264,\"verkey\":\"H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV\"}",
+					"type": "105",
+					"txnTime": 1.524055264E9,
+					"seqNo": 11.0,
+					"reqId": 1.52725687080231475E18,
+					"identifier": "HixkhyA4dXGz9yxmLQC4PU",
+					"dest": "WRfXPg8dantKVubE3HX8pw"
+				},
+				"op": "REPLY"
+			},
+			"attrResponse": {
+				"result": {
+					"identifier": "HixkhyA4dXGz9yxmLQC4PU",
+					"seqNo": 12.0,
+					"raw": "endpoint",
+					"dest": "WRfXPg8dantKVubE3HX8pw",
+					"data": "{\"endpoint\":{\"xdi\":\"http://127.0.0.1:8080/xdi\"}}",
+					"txnTime": 1.524055265E9,
+					"type": "104",
+					"reqId": 1.52725687092557056E18
+				},
+				"op": "REPLY"
+			}
+		}
+	}
+}
+</pre>
+
+		</section>
+
+		<section id="output-content">
+			<h2>Content</h2>
+			<p>Arbitrary content associated with a <a>DID URL</a>. The result of <a href="#dereferencing"></a>.</p>
+
+		</section>
+
+		<section id="output-dereferencingmetadata">
+			<h2>DID URL Dereferencing Metadata</h2>
+			<p>This is a metadata structure (see section <a href="https://www.w3.org/TR/did-core/#metadata-structure">Metadata Structure</a>
+				in [[DID-CORE]]) that contains metadata about the <a>DID URL Dereferencing</a> process.</p>
+			<p>This metadata typically changes between invocations of the <a>DID URL Dereferencing</a> functions as it represents data about the dereferencing process itself.</p>
+			<p class="issue">Add more details how DID URL dereferencing metadata works.</p>
+			<p>See also section <a href="https://www.w3.org/TR/did-core/#did-url-dereferencing-metadata">DID URL Dereferencing Metadata</a>
+				in [[DID-CORE]].</p>
+
+		</section>
+
+		<section id="output-contentmetadata">
+			<h2>Content Metadata</h2>
+			<p>This is a metadata structure (see section <a href="https://www.w3.org/TR/did-core/#metadata-structure">Metadata Structure</a>
+				in [[DID-CORE]]) that contains metadata about the content.</p>
+			<p>This metadata typically does not change between invocations of the <a>DID URL Dereferencing</a> function unless the content changes, as it represents data about the content.</p>
+			<p class="issue">Add more details how content metadata works.</p>
+
+		</section>
+
+	</section>
 
 <section id="errors">
 	<h1>Errors</h1>
