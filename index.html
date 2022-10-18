@@ -363,6 +363,14 @@ dereference ( didUrl, dereferenceOptions ) <br>
 		resource, and dereferencing the secondary resource (only if the <var>input <a>DID URL</a></var> contains a <a>DID fragment</a>:</p>
 
 		<ol class="algorithm">
+			<li>Validate that the <var>input <a>DID URL</a></var> conforms to the `did-url` rule of the
+			<a href="https://www.w3.org/TR/did-core/#did-url-syntax">DID URL Syntax</a>.
+			If not, the <a>DID URL dereferencer</a> MUST return the following result:
+			<ol class="algorithm">
+				<li><b>dereferencingMetadata</b>: <code>«[ "error" → "invalidDidUrl" ]»</code></li>
+				<li><b>contentStream</b>: <code>null</code></li>
+				<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
+			</ol>
 			<li>Obtain the <a>DID document</a> for the <var>input <a>DID</a></var> by executing the
 			<a>DID resolution</a> algorithm as defined in <a href="#resolving"></a>. All
 				<a href="https://www.w3.org/TR/did-core/#did-parameters">
@@ -426,9 +434,11 @@ dereference ( didUrl, dereferenceOptions ) <br>
 			</ol>
 			</li>
 			<li>If neither this algorithm, nor the applicable <a>DID method</a>, nor the client
-			is able to dereference the <var>input <a>DID URL</a></var>:
+			is able to dereference the <var>input <a>DID URL</a></var>, return the following result:
 			<ol class="algorithm">
-				<li>Return a null result.</li>
+				<li><b>dereferencingMetadata</b>: <code>«[ "error" → "notFound" ]»</code></li>
+				<li><b>contentStream</b>: <code>null</code></li>
+				<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
 			</ol>
 			</li>
 		</ol>
