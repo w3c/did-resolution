@@ -1075,6 +1075,10 @@ https://example.com/messages/8377464/some/path?query#frag
         defined in sections <a href="https://www.w3.org/TR/did-core/#did-resolution-metadata">DID Resolution Metadata</a> and
         <a href="https://www.w3.org/TR/did-core/#did-url-dereferencing-metadata">DID URL Dereferencing Metadata</a> in [[DID-CORE]].
     </p>
+	<h2>methodNotSupported</h2>
+	<p> If a DID method is not supported during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
+		the value of the DID Resolution or DID URL Dereferencing Metadata <strong>error</strong> property MUST be <strong>methodNotSupported</strong>.
+	</p>
     <h2>representationNotSupported</h2>
     <p> If a DID document representation is not supported during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
         the value of the DID Resolution Metadata <strong>error</strong> property MUST be <strong>representationNotSupported</strong> as
@@ -1084,10 +1088,6 @@ https://example.com/messages/8377464/some/path?query#frag
 	<p>When an unexpected error occurs during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
 		the value of the DID Resolution or DID URL Dereferencing Metadata <strong>error</strong> property MUST be <strong>internalError</strong>.
     </p>
-	<h2>methodNotSupported</h2>
-	<p> If a DID method is not supported during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
-		the value of the DID Resolution or DID URL Dereferencing Metadata <strong>error</strong> property MUST be <strong>methodNotSupported</strong>.
-	</p>
 	<h2>invalidPublicKey</h2>
 	<p>If an invalid public key value is detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
 		the value of the DID Resolution or DID URL Dereferencing Metadata <strong>error</strong> property MUST be <strong>invalidPublicKey</strong>.
