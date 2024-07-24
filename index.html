@@ -32,11 +32,11 @@
         // extend the bibliography entries
         localBiblio: ccg.localBiblio,
 
-        github: "https://github.com/w3c-ccg/did-resolution",
+        github: "https://github.com/w3c/did-resolution",
         includePermalinks: false,
 
         // if there a publicly available Editor's Draft, this is the link
-        edDraftURI: "https://w3c-ccg.github.io/did-resolution/",
+        edDraftURI: "https://w3c.github.io/did-resolution/",
 
         // if this is a LCWD, uncomment and set the end of its review period
         // lcEnd: "2009-08-05",
@@ -105,7 +105,7 @@ and dereferencing DID URLs.
     <section id='sotd'>
     <p>
       Comments regarding this document are welcome. Please file issues
-      directly on <a href="https://github.com/w3c-ccg/did-resolution/issues/">GitHub</a>,
+      directly on <a href="https://github.com/w3c/did-resolution/issues/">GitHub</a>,
       or send them to
       <a href="mailto:public-credentials@w3.org">public-credentials@w3.org</a>
       (<a href="mailto:public-credentials-request@w3.org?subject=subscribe">subscribe</a>,
@@ -150,7 +150,7 @@ and dereferencing DID URLs.
 
 	<p class="note">The difference between "resolving" a <a>DID</a> and "dereferencing" a <a>DID URL</a>
 	is being thoroughly discussed by the community. For example, see
-	<a href="https://github.com/w3c-ccg/did-spec/issues/166#issuecomment-464502719">this comment</a>.</p>
+	<a href="https://github.com/w3c/did-spec/issues/166#issuecomment-464502719">this comment</a>.</p>
 
 	<section id="conformance">
 
@@ -347,8 +347,8 @@ resolveRepresentation ( did, resolutionOptions ) <br>
 
 		<p class="issue">Should we define functionality that enables discovery of the list of <a>DID methods</a> or other
 		capabilities that are supported by a <a>DID resolver</a>? Or is this implementation-specific and out-of-scope
-		for this spec? For example, see <a href="https://github.com/w3c-ccg/did-resolution/issues/26">here</a> and
-		<a href="https://github.com/w3c-ccg/did-resolution/issues/25">here</a>.</p>
+		for this spec? For example, see <a href="https://github.com/w3c/did-resolution/issues/26">here</a> and
+		<a href="https://github.com/w3c/did-resolution/issues/25">here</a>.</p>
 
 	</section>
 
@@ -611,7 +611,7 @@ https://example.com/messages/8377464/some/path?query#frag
 
 		<p class="issue">As an example, mention what it means to "resolve" DIDs that are simply wrapped public keys (for instance, see
 		[[DID-KEY]] and
-		<a href="https://github.com/w3c-ccg/did-spec/pull/55">here</a>).</p>
+		<a href="https://github.com/w3c/did-spec/pull/55">here</a>).</p>
 
 		<p>Depending on the exact nature of the <a>DID method's</a> "Read" operation, the interaction between a
 		<a>DID resolver</a> and the <a>verifiable data registry</a> may be implemented as a <a>verifiable read</a>
@@ -722,7 +722,7 @@ https://example.com/messages/8377464/some/path?query#frag
 			<p>Also describe mitigations against potential downsides of <a>remote bindings</a>, e.g.:</p>
 			<ul>
 				<li>A <a>DID resolver's</a> <a>remote binding</a> can use a trusted channel such as VPN or TLS with mutual authentication.</li>
-				<li>A <a>DID resolver</a> can add a <a href="https://w3c-ccg.github.io/ld-proofs/">proof</a>
+				<li>A <a>DID resolver</a> can add a <a href="https://w3c.github.io/ld-proofs/">proof</a>
 				to a <a>DID document</a> and/or the <a>DID resolution result</a>. Discuss what this does and doesn't achieve. Also see
 				<a href="https://www.w3.org/TR/did-core/#proving-control-and-binding">Proving Control and Binding</a>.</li>
 				<li>A client could query multiple <a>DID resolvers</a> over a <a>remote binding</a> and compare results.</li>
@@ -1418,7 +1418,7 @@ https://example.com/messages/8377464/some/path?query#frag
 		result of that interpretation may be in relation to the end-user's context.</em>
 		</p>
 		<p>An advanced idea is that the result of DID resolution could be contextual or depend on policies,
-		see <a href="https://github.com/w3c-ccg/did-resolution/issues/28#issuecomment-510592199">this comment</a>.</p>
+		see <a href="https://github.com/w3c/did-resolution/issues/28#issuecomment-510592199">this comment</a>.</p>
 		</div>
 
 		<p class="issue">A related topic is whether (parts of) DID document could be encrypted, e.g.,
@@ -1541,7 +1541,7 @@ https://example.com/messages/8377464/some/path?query#frag
 		<div class="issue">
 		<p>Several ways of selecting parts of a DID document are being discussed, including the use
 		of JSON pointer.</p>
-		<p>See corresponding PRs <a href="https://github.com/w3c-ccg/did-spec/pull/161">here</a>
+		<p>See corresponding PRs <a href="https://github.com/w3c/did-spec/pull/161">here</a>
 		and <a href="https://github.com/w3c/did-core/pull/257">here</a>.</p>
 		</div>
 
