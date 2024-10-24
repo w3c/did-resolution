@@ -1092,44 +1092,7 @@ dereference(didUrl, dereferenceOptions) →
 			on the media type ([[RFC2046]]) of the primary resource, i.e., on the result of
 			<a href="#dereferencing-algorithm-primary"></a>.</p>
 			<ol class="algorithm">
-				<li>If the result of <a href="#dereferencing-algorithm-primary"></a> is a <var>resolved <a>DID document</a></var>
-				with media type <code>application/did+ld+json</code>, and the <var>input <a>DID URL</a></var> contains a
-				<a>DID fragment</a>:
-				<pre class="example nohighlight">did:example:1234#keys-1</pre>
-				<ol class="algorithm">
-					<li>From the <var>resolved <a>DID document</a></var>, select the JSON-LD object whose <code>id</code>
-					property matches the <var>input <a>DID URL</a></var>, e.g., a public key or service endpoint in the
-					<a>DID document</a>. This is called the <var>output resource</var>.
-					When selecting the JSON-LD object from the <a>DID document</a>, the absolute
-					<a>DID URL</a> used to identify a graph node MUST be unique and present only once in the
-					<a>DID document</a>. If the identifier of the graph node is not unique,
-					including if a relative or base IRI mapped to an absolute IRI collides with
-					a different graph node's absolute IRI, then an error MUST be thrown.
-					<li>Return the <var>output resource</var>.
-					<div class="issue" data-number="9">
-					<p>Mention relative IRIs and that the DID itself is considered the base IRI for
-					the JSON-LD parser. Mention potential attack vector if <code>@base</code> is injected into the
-					<a>DID document</a>.</p>
-					<p>Also see <a href="https://github.com/w3c/did-core/issues/15">this discussion</a>
-					on fully qualified DID URLs as the value of the <code>id</code> field.</p>
-					</div>
-					<p class="note">
-					This use of the <a>DID fragment</a> is consistent with the definition of the fragment identifier in
-					[[RFC3986]]. It identifies a <em>secondary resource</em> which is a subset of the <em>primary resource</em>
-					(the <a>DID document</a>).
-					</p>
-					<p class="note">
-					This use of the <a>DID fragment</a> is furthermore consistent with the concept of Hash URIs
-					for the Semantic Web [[COOL-URIS]].
-					</p>
-					<p class="issue">
-					Perhaps we can find a good reference somewhere from RDF, JSON-LD or Solid specifications that defines
-					clearly the ability to use the fragment for identifying a specific resource in an RDF document.
-					</p>
-					</li>
-				</ol>
-				</li>
-				<li>Otherwise, if the result of <a href="#dereferencing-algorithm-primary"></a> is an <var>output <a>service endpoint</a> URL</var>,
+				<li>If the result of <a href="#dereferencing-algorithm-primary"></a> is an <var>output <a>service endpoint</a> URL</var>,
 				and the <var>input <a>DID URL</a></var> contains a <a>DID fragment</a>:
 				<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest#intro</pre>
 				<ol class="algorithm">
@@ -1144,11 +1107,18 @@ dereference(didUrl, dereferenceOptions) →
 					case when dereferencing it returns an HTTP <code>3xx</code> (Redirection) response with a
 					<code>Location</code> header (see section 7.1.2 of [[RFC7231]].
 					</p>
-					</li>
 				</ol>
-				<li>Otherwise, dereference the secondary resource as defined by the media type ([[RFC2046]]) of the primary resource.
-				</li>
-				</li>
+				<li>Otherwise, dereference the secondary resource identified by the DID fragment as defined by the media type ([[RFC2046]]) of the primary resource.
+				For example, if the primary resource is a representation of a DID document with media type <code>application/did+ld+json</code>, then
+				the fragment is treated according to the rules associated with the
+				<a href="https://www.w3.org/TR/json-ld11/#iana-considerations">JSON-LD 1.1: application/ld+json media type</a>
+				[JSON-LD11].
+			</li>
+				<p class="note">
+					This use of the <a>DID fragment</a> is consistent with the definition of the fragment identifier in
+					[[RFC3986]]. It identifies a <em>secondary resource</em> which is a subset of the <em>primary resource</em>
+					(the <a>DID document</a>).
+				</p>
 			</ol>
 
 		</section>
