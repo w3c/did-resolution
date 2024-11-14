@@ -1001,36 +1001,41 @@ dereference(didUrl, dereferenceOptions) →
 	<section id="dereferencing-algorithm">
 		<h2>Algorithm</h2>
 		<p>The following <a>DID URL dereferencing</a> algorithm MUST be implemented by a conformant <a>DID resolver</a>.
-		In accordance with [[RFC3986]], it consists of the following steps: Resolving the DID, dereferencing the primary
-		resource, and dereferencing the secondary resource (only if the <var>input <a>DID URL</a></var> contains a <a>DID fragment</a>:</p>
+		In accordance with [[RFC3986]], it consists of the following steps: Resolving the DID, dereferencing the
+		resource, and dereferencing the fragment (only if the <var>input <a>DID URL</a></var> contains a <a>DID fragment</a>):</p>
 
-		<ol class="algorithm">
-			<li>Validate that the <var>input <a>DID URL</a></var> conforms to the `did-url` rule of the
-			<a href="https://www.w3.org/TR/did-core/#did-url-syntax">DID URL Syntax</a>.
-			If not, the <a>DID URL dereferencer</a> MUST return the following result:
+		<section id="dereferencing-algorithm-resource">
+			<h2>Dereferencing the Resource</h2>
 			<ol class="algorithm">
-				<li><b>dereferencingMetadata</b>: <code>«[ "error" → "invalidDidUrl" ]»</code></li>
-				<li><b>contentStream</b>: <code>null</code></li>
-				<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
-			</ol>
-			<li>Obtain the <a>DID document</a> for the <var>input <a>DID</a></var> by executing the
-			<a>DID resolution</a> algorithm as defined in <a href="#resolving"></a>. All
-				<a href="https://www.w3.org/TR/did-core/#did-parameters">
-				DID parameters</a> of the <var>input <a>DID URL</a></var> MUST be passed as <var>resolution options</var> to the <a>DID
-				Resolution</a> algorithm. If the <var>input <a>DID</a></var> does not exist, return a null result.
-				Otherwise, the result is called the <var>resolved <a>DID document</a></var>.</li>
-			</li>
-			<li>If present, separate the <a>DID fragment</a> from the <var>input <a>DID URL</a></var>. Execute the algorithm for
-			<a href="#dereferencing-algorithm-primary"></a>, with the <var>input <a>DID URL</a></var> adjusted
-			accordingly.</li>
-			<li>If the original <var>input <a>DID URL</a></var> contained a <a>DID fragment</a>, execute the algorithm for
-			<a href="#dereferencing-algorithm-secondary"></a>.</li>
-		</ol>
+				<li>Validate that the <var>input <a>DID URL</a></var> conforms to the `did-url` rule of the
+					<a href="https://www.w3.org/TR/did-core/#did-url-syntax">DID URL Syntax</a>.
+					If not, the <a>DID URL dereferencer</a> MUST return the following result:
 
-		<section id="dereferencing-algorithm-primary">
-			<h2>Dereferencing the Primary Resource</h2>
-			<ol class="algorithm">
-				<li>If the <var>input <a>DID URL</a></var> contains the
+					<ol class="algorithm">
+						<li><b>dereferencingMetadata</b>: <code>«[ "error" → "invalidDidUrl" ]»</code></li>
+						<li><b>contentStream</b>: <code>null</code></li>
+						<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
+					</ol>
+
+				<li>Obtain the <a>DID document</a> for the <var>input <a>DID</a></var> by executing the
+					<a>DID resolution</a> algorithm as defined in <a href="#resolving"></a>. All
+					<a href="https://www.w3.org/TR/did-core/#did-parameters">
+						DID parameters</a> of the <var>input <a>DID URL</a></var> MUST be passed as <var>resolution options</var> to the <a>DID
+						Resolution</a> algorithm. If the <var>input <a>DID</a></var> does not exist, return a null result.
+					Otherwise, the result is called the <var>resolved <a>DID document</a></var>.</li>
+				</li>
+
+				<li>If present, separate the <a>DID fragment</a> from the <var>input <a>DID URL</a></var> and continue
+					with the <var>input <a>DID URL</a></var> adjusted accordingly.</li>
+
+				<li>If the <var>input <a>DID URL</a></var> contains no <a>DID path</a> and no <a>DID query</a>:
+					<pre class="example nohighlight">did:example:1234</pre>
+					<ol class="algorithm">
+						<li>Return the <var>resolved <a>DID document</a></var>.</li>
+					</ol>
+				</li>
+
+				<li>Otherwise, if the <var>input <a>DID URL</a></var> contains the
 				<a href="https://www.w3.org/TR/did-core/#did-parameters">
 				DID parameter</a> <code>service</code> and optionally the <code>relativeRef</code> DID parameter:
 				<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest</pre>
@@ -1058,12 +1063,6 @@ dereference(didUrl, dereferenceOptions) →
 					See <a href="https://lists.w3.org/Archives/Public/public-credentials/2019Jun/0028.html">
 					comments by Dave Longley</a> about `serviceType`.</p>
 
-				<li>Otherwise, if the <var>input <a>DID URL</a></var> contains no <a>DID path</a> and no <a>DID query</a>:
-				<pre class="example nohighlight">did:example:1234</pre>
-				<ol class="algorithm">
-					<li>Return the <var>resolved <a>DID document</a></var>.</li>
-				</ol>
-				</li>
 				<li>Otherwise, if the <var>input <a>DID URL</a></var> contains a <a>DID path</a> and/or <a>DID query</a>:
 				<pre class="example nohighlight">did:example:1234/custom/path?customquery</pre>
 				<ol class="algorithm">
@@ -1082,17 +1081,16 @@ dereference(didUrl, dereferenceOptions) →
 				</ol>
 				</li>
 			</ol>
-
 		</section>
 
-		<section id="dereferencing-algorithm-secondary">
-			<h2>Dereferencing the Secondary Resource</h2>
+		<section id="dereferencing-algorithm-fragment">
+			<h2>Dereferencing the Fragment</h2>
 			<p>If the <var>input <a>DID URL</a></var> contains a <a>DID fragment</a>,
-			then dereferencing of the secondary resource identified by the URL is dependent not on the URI scheme, but
-			on the media type ([[RFC2046]]) of the primary resource, i.e., on the result of
-			<a href="#dereferencing-algorithm-primary"></a>.</p>
+			then dereferencing of the fragment is dependent
+			on the media type ([[RFC2046]]) of the resource, i.e., on the result of
+			<a href="#dereferencing-algorithm-resource"></a>.</p>
 			<ol class="algorithm">
-				<li>If the result of <a href="#dereferencing-algorithm-primary"></a> is an <var>output <a>service endpoint</a> URL</var>,
+				<li>If the result of <a href="#dereferencing-algorithm-resource"></a> is an <var>output <a>service endpoint</a> URL</var>,
 				and the <var>input <a>DID URL</a></var> contains a <a>DID fragment</a>:
 				<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest#intro</pre>
 				<ol class="algorithm">
@@ -1108,8 +1106,8 @@ dereference(didUrl, dereferenceOptions) →
 					<code>Location</code> header (see section 7.1.2 of [[RFC7231]].
 					</p>
 				</ol>
-				<li>Otherwise, dereference the secondary resource identified by the DID fragment as defined by the media type ([[RFC2046]]) of the primary resource.
-				For example, if the primary resource is a representation of a DID document with media type <code>application/did+ld+json</code>, then
+				<li>Otherwise, dereference the DID fragment as defined by the media type ([[RFC2046]]) of the resource.
+				For example, if the resource is a representation of a DID document with media type <code>application/did+ld+json</code>, then
 				the fragment is treated according to the rules associated with the
 				<a href="https://www.w3.org/TR/json-ld11/#iana-considerations">JSON-LD 1.1: application/ld+json media type</a>
 				[JSON-LD11].
@@ -1487,15 +1485,15 @@ https://example.com/messages/8377464/some/path?query#frag
 		algorithm may be performed by different components of a <a href="#resolver-architectures">Resolver Architecture</a>.</p>
 
 		<p>Specifically, when a <a>DID URL</a> with a <a>DID fragment</a> is dereferenced, then
-		<a href="#dereferencing-algorithm-primary">Dereferencing the Primary Resource</a> is done by
+		<a href="#dereferencing-algorithm-resource">Dereferencing the Resource</a> is done by
 		the <a>DID resolver</a>, and
-		<a href="#dereferencing-algorithm-secondary">Dereferencing the Secondary Resource</a> is done by the <a>client</a>.</p>
+		<a href="#dereferencing-algorithm-fragment">Dereferencing the Fragment</a> is done by the <a>client</a>.</p>
 
 		<p>Example: Given the <a>DID URL</a> <code>did:xyz:1234#keys-1</code>, a <a>DID resolver</a> could be invoked
 		via <a>local binding</a>
-		for <a href="#dereferencing-algorithm-primary">Dereferencing the Primary Resource</a> (i.e., the <a>DID document</a>),
+		for <a href="#dereferencing-algorithm-resource">Dereferencing the Resource</a> (i.e., the <a>DID document</a>),
 		and the <a>client</a> could complete the <a>DID URL dereferencing</a> algorithm by
-		<a href="#dereferencing-algorithm-secondary">Dereferencing the Secondary Resource</a> (i.e., a part of the <a>DID document</a>).</p>
+		<a href="#dereferencing-algorithm-fragment">Dereferencing the Fragment</a> (i.e., a part of the <a>DID document</a>).</p>
 
 		<figure id="figure-client-side-dereferencing-1">
 			<img style="display: block; width: 100%;" src="diagrams/client-side-dereferencing-1.png"
@@ -1507,9 +1505,9 @@ https://example.com/messages/8377464/some/path?query#frag
 
 		<p>Example: Given the <a>DID URL</a> <code>did:xyz:1234#keys-1</code>, a <a>DID resolver</a> could be invoked via
 		<a>local binding</a> which invokes another <a>DID resolver</a> via <a>remote binding</a>
-		for <a href="#dereferencing-algorithm-primary">Dereferencing the Primary Resource</a> (i.e., the <a>DID document</a>),
+		for <a href="#dereferencing-algorithm-resource">Dereferencing the Resource</a> (i.e., the <a>DID document</a>),
 		and the <a>client</a> could complete the <a>DID URL dereferencing</a> algorithm by
-		<a href="#dereferencing-algorithm-secondary">Dereferencing the Secondary Resource</a> (i.e., a part of the <a>DID document</a>).</p>
+		<a href="#dereferencing-algorithm-fragment">Dereferencing the Fragment</a> (i.e., a part of the <a>DID document</a>).</p>
 
 		<figure id="figure-client-side-dereferencing-3">
 			<img style="margin: auto; display: block; width: 100%;" src="diagrams/client-side-dereferencing-2.png"
@@ -1521,9 +1519,9 @@ https://example.com/messages/8377464/some/path?query#frag
 		</figure>
 
 		<p>Example: Given the <a>DID URL</a> <code>did:xyz:1234?service=agent&relativeRef=%2Fsome%2Fpath%3Fquery#frag</code>, a <a>DID resolver</a> could be invoked
-		for <a href="#dereferencing-algorithm-primary">Dereferencing the Primary Resource</a> (i.e., a <a>service endpoint</a> URL),
+		for <a href="#dereferencing-algorithm-resource">Dereferencing the Resource</a> (i.e., a <a>service endpoint</a> URL),
 		and the <a>client</a> could complete the <a>DID URL dereferencing</a> algorithm by
-		<a href="#dereferencing-algorithm-secondary">Dereferencing the Secondary Resource</a> (i.e., a <a>service endpoint</a> URL with a fragment).</p>
+		<a href="#dereferencing-algorithm-fragment">Dereferencing the Fragment</a> (i.e., a <a>service endpoint</a> URL with a fragment).</p>
 
 		<figure id="figure-client-side-dereferencing-2">
 			<img style="margin: auto; display: block; width: 100%;" src="diagrams/client-side-dereferencing-3.png"
