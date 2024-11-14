@@ -1001,8 +1001,8 @@ dereference(didUrl, dereferenceOptions) →
 	<section id="dereferencing-algorithm">
 		<h2>Algorithm</h2>
 		<p>The following <a>DID URL dereferencing</a> algorithm MUST be implemented by a conformant <a>DID resolver</a>.
-		In accordance with [[RFC3986]], it consists of the following steps: Resolving the DID, dereferencing the
-		resource, and dereferencing the fragment (only if the <var>input <a>DID URL</a></var> contains a <a>DID fragment</a>):</p>
+		In accordance with [[RFC3986]], it consists of the following three steps: resolving the DID; dereferencing the
+		resource; and dereferencing the fragment (only if the <var>input <a>DID URL</a></var> contains a <a>DID fragment</a>):</p>
 
 		<section id="dereferencing-algorithm-resource">
 			<h2>Dereferencing the Resource</h2>
@@ -1020,13 +1020,13 @@ dereference(didUrl, dereferenceOptions) →
 				<li>Obtain the <a>DID document</a> for the <var>input <a>DID</a></var> by executing the
 					<a>DID resolution</a> algorithm as defined in <a href="#resolving"></a>. All
 					<a href="https://www.w3.org/TR/did-core/#did-parameters">
-						DID parameters</a> of the <var>input <a>DID URL</a></var> MUST be passed as <var>resolution options</var> to the <a>DID
-						Resolution</a> algorithm. If the <var>input <a>DID</a></var> does not exist, return a null result.
-					Otherwise, the result is called the <var>resolved <a>DID document</a></var>.</li>
+						DID parameters</a> of the <var>input <a>DID URL</a></var> MUST be passed as <var>resolution options</var> to the
+						<a>DID Resolution</a> algorithm. If the <var>input <a>DID</a></var> does not exist, return a null result.
+						Otherwise, the result is called the <var>resolved <a>DID document</a></var>.</li>
 				</li>
 
 				<li>If present, separate the <a>DID fragment</a> from the <var>input <a>DID URL</a></var> and continue
-					with the <var>input <a>DID URL</a></var> adjusted accordingly.</li>
+					with the adjusted <var>input <a>DID URL</a></var>.</li>
 
 				<li>If the <var>input <a>DID URL</a></var> contains no <a>DID path</a> and no <a>DID query</a>:
 					<pre class="example nohighlight">did:example:1234</pre>
