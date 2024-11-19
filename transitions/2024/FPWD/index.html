@@ -155,7 +155,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
   "specStatus": "FPWD",
   "shortName": "did-resolution",
   "subtitle": "Algorithms and guidelines for resolving DIDs and dereferencing DID URLs",
-  "publishDate": "2024-11-05",
+  "publishDate": "2024-11-28",
   "localBiblio": {
     "REST": {
       "title": "Architectural Styles and the Design of Network-based Software Architectures",
@@ -267,7 +267,8 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
       "name": "Dmitri Zagidulin",
       "url": "https://www.linkedin.com/in/dzagidulin",
       "company": "MIT CSAIL",
-      "companyURL": "http://computingjoy.com/"
+      "companyURL": "http://computingjoy.com/",
+      "w3cid": 86708
     }
   ],
   "authors": [
@@ -282,27 +283,28 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
       "name": "Dmitri Zagidulin",
       "url": "https://www.linkedin.com/in/dzagidulin",
       "company": "MIT CSAIL",
-      "companyURL": "http://computingjoy.com/"
+      "companyURL": "http://computingjoy.com/",
+      "w3cid": 86708
     }
   ],
   "group": "did",
   "wgPublicList": "public-did-wg",
   "maxTocLevel": 4,
   "inlineCSS": true,
-  "publishISODate": "2024-11-05T00:00:00.000Z",
-  "generatedSubtitle": "W3C First Public Working Draft 05 November 2024"
+  "publishISODate": "2024-11-28T00:00:00.000Z",
+  "generatedSubtitle": "W3C First Public Working Draft 28 November 2024"
 }</script>
 <link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-WD"></head>
   <body data-cite="infra rfc3986" class="h-entry"><div class="head">
     <p class="logos"><a class="logo" href="https://www.w3.org/"><img crossorigin="" alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72">
   </a></p>
     <h1 id="title" class="title">Decentralized Identifier (DID) Resolution and DID URL Dereferencing v1.0</h1> <h2 id="subtitle" class="subtitle">Algorithms and guidelines for resolving DIDs and dereferencing DID URLs</h2>
-    <p id="w3c-state"><a href="https://www.w3.org/standards/types#FPWD">W3C First Public Working Draft</a> <time class="dt-published" datetime="2024-11-05">05 November 2024</time></p>
+    <p id="w3c-state"><a href="https://www.w3.org/standards/types#FPWD">W3C First Public Working Draft</a> <time class="dt-published" datetime="2024-11-28">28 November 2024</time></p>
     <details open="">
       <summary>More details about this document</summary>
       <dl>
         <dt>This version:</dt><dd>
-                <a class="u-url" href="https://www.w3.org/TR/2024/WD-did-resolution-20241105/">https://www.w3.org/TR/2024/WD-did-resolution-20241105/</a>
+                <a class="u-url" href="https://www.w3.org/TR/2024/WD-did-resolution-20241128/">https://www.w3.org/TR/2024/WD-did-resolution-20241128/</a>
               </dd>
         <dt>Latest published version:</dt><dd>
                 <a href="https://www.w3.org/TR/did-resolution/">https://www.w3.org/TR/did-resolution/</a>
@@ -320,13 +322,13 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
         
         <dt>Editors:</dt><dd class="editor p-author h-card vcard" data-editor-id="46729">
     <a class="u-url url p-name fn" href="https://www.linkedin.com/in/markus-sabadello-353a0821">Markus Sabadello</a> (<a class="p-org org h-org" href="https://danubetech.com/">Danube Tech</a>)
-  </dd><dd class="editor p-author h-card vcard">
+  </dd><dd class="editor p-author h-card vcard" data-editor-id="86708">
     <a class="u-url url p-name fn" href="https://www.linkedin.com/in/dzagidulin">Dmitri Zagidulin</a> (<a class="p-org org h-org" href="http://computingjoy.com/">MIT CSAIL</a>)
   </dd>
         
         <dt>Authors:</dt><dd class="editor p-author h-card vcard" data-editor-id="46729">
     <a class="u-url url p-name fn" href="https://www.linkedin.com/in/markus-sabadello-353a0821">Markus Sabadello</a> (<a class="p-org org h-org" href="https://danubetech.com/">Danube Tech</a>)
-  </dd><dd class="editor p-author h-card vcard">
+  </dd><dd class="editor p-author h-card vcard" data-editor-id="86708">
     <a class="u-url url p-name fn" href="https://www.linkedin.com/in/dzagidulin">Dmitri Zagidulin</a> (<a class="p-org org h-org" href="http://computingjoy.com/">MIT CSAIL</a>)
   </dd>
         <dt>Feedback:</dt><dd>
@@ -935,7 +937,7 @@ consumption rules.">
 		</dt>
 		<dd>
 			If the resolution is successful, and if the <code>resolve</code> function was
-			called, this <em class="rfc2119">MUST</em> be a <a href="#dfn-did-documents" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-did-documents-27">DID document</a> abstract data model (a <a href="https://infra.spec.whatwg.org/#maps">map</a>) as described in <a href="https://w3c.github.io/did-core/#data-model&quot;"></a> that
+			called, this <em class="rfc2119">MUST</em> be a <a href="#dfn-did-documents" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-did-documents-27">DID document</a> abstract data model (a <a href="https://infra.spec.whatwg.org/#maps">map</a>) as described in <a href="https://w3c.github.io/did-core/#data-model"></a> that
 			is capable of being transformed into a <a href="https://w3c.github.io/did-core/#dfn-did-documents">conforming DID Document</a>
 			(representation), using the production rules specified by the representation.
 			The value of <code><a href="https://w3c.github.io/did-core/#dfn-id">id</a></code> in the resolved <a href="#dfn-did-documents" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-did-documents-28">DID document</a> <em class="rfc2119">MUST</em>
@@ -951,7 +953,7 @@ consumption rules.">
 			document</a> in one of the conformant
 			<a href="https://w3c.github.io/did-core/#representations">representations</a>. The byte stream might then be
 			parsed by the caller of the <code>resolveRepresentation</code> function into a
-			<a href="https://w3c.github.io/did-core/#data-model&quot;">data model</a>, which can in turn be validated and
+			<a href="https://w3c.github.io/did-core/#data-model">data model</a>, which can in turn be validated and
 			processed. If the resolution is unsuccessful, this value <em class="rfc2119">MUST</em> be an empty
 			stream.
 		</dd>
@@ -1017,7 +1019,7 @@ string" data-type="dfn" href="https://infra.spec.whatwg.org/#ascii-string">ASCII
 				Type of the conformant <a href="#dfn-representations" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-representations-6">representations</a>. The
 				caller of the <code>resolveRepresentation</code> function <em class="rfc2119">MUST</em> use this value
 				when determining how to parse and process the <code>didDocumentStream</code>
-				returned by this function into the <a href="https://w3c.github.io/did-core/#data-model&quot;">data model</a>.
+				returned by this function into the <a href="https://w3c.github.io/did-core/#data-model">data model</a>.
 			</dd>
 			<dt>
 				error
@@ -2200,7 +2202,7 @@ external resources.
 }</pre>
       </div>
 
-	<div class="issue" id="issue-container-number-23"><div role="heading" class="issue-title marker" id="h-issue-12" aria-level="4"><a href="https://github.com/w3c/did-resolution/issues/23"><span class="issue-number">Issue 23</span></a><span class="issue-label">: The did is not a url for the did, but for a resolution structure which as yet has no name</span></div><p class="">See corresponding open issue.</p></div>
+	<div class="issue closed" id="issue-container-number-23"><div role="heading" class="issue-title marker" id="h-issue-12" aria-level="4"><a href="https://github.com/w3c/did-resolution/issues/23"><span class="issue-number">Issue 23</span></a><span class="issue-label">: The did is not a url for the did, but for a resolution structure which as yet has no name <a class="respec-gh-label" style="background-color: rgb(101, 159, 43); color: rgb(0, 0, 0);" href="https://github.com/w3c/did-resolution/issues/?q=is%3Aissue+is%3Aopen+label%3A%22pending-close%22" aria-label="GitHub label: pending-close">pending-close</a></span></div><p class="">See corresponding open issue.</p></div>
 	<div class="issue" id="issue-container-generatedID-17"><div role="heading" class="issue-title marker" id="h-issue-13" aria-level="4"><span>Issue</span></div><p class="">Need to define how this data structure works exactly, and whether it always contains
 	a <a href="#dfn-did-documents" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-did-documents-79">DID document</a> or can also contain other results.</p></div>
 
@@ -2831,7 +2833,7 @@ https://example.com/messages/8377464/some/path?query#frag
 		<p>A DID document may contain a "proxy" service type which would provide a mapping that 
 		needs to be followed in order to resolve to a final service URL.</p>
 
-		<div class="issue" id="issue-container-number-35"><div role="heading" class="issue-title marker" id="h-issue-32" aria-level="4"><a href="https://github.com/w3c/did-resolution/issues/35"><span class="issue-number">Issue 35</span></a><span class="issue-label">: Support "proxy" service type?</span></div><p dir="auto">Keeping track of a proposal here <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="332071991" data-permission-text="Title is private" data-url="https://github.com/w3c-ccg/did-spec/issues/90" data-hovercard-type="issue" data-hovercard-url="/w3c-ccg/did-spec/issues/90/hovercard?comment_id=439936749&amp;comment_type=issue_comment" href="https://github.com/w3c-ccg/did-spec/issues/90#issuecomment-439936749">w3c-ccg/did-spec#90 (comment)</a> that a DID Document could contain a "proxy" service type which would provide a mapping that needs to be followed in order to resolve to a final service URL.</p></div>
+		<div class="issue closed" id="issue-container-number-35"><div role="heading" class="issue-title marker" id="h-issue-32" aria-level="4"><a href="https://github.com/w3c/did-resolution/issues/35"><span class="issue-number">Issue 35</span></a><span class="issue-label">: Support "proxy" service type? <a class="respec-gh-label" style="background-color: rgb(162, 238, 239); color: rgb(0, 0, 0);" href="https://github.com/w3c/did-resolution/issues/?q=is%3Aissue+is%3Aopen+label%3A%22enhancement%22" aria-label="GitHub label: enhancement">enhancement</a><a class="respec-gh-label" style="background-color: rgb(101, 159, 43); color: rgb(0, 0, 0);" href="https://github.com/w3c/did-resolution/issues/?q=is%3Aissue+is%3Aopen+label%3A%22pending-close%22" aria-label="GitHub label: pending-close">pending-close</a></span></div><p dir="auto">Keeping track of a proposal here <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="332071991" data-permission-text="Title is private" data-url="https://github.com/w3c-ccg/did-spec/issues/90" data-hovercard-type="issue" data-hovercard-url="/w3c-ccg/did-spec/issues/90/hovercard?comment_id=439936749&amp;comment_type=issue_comment" href="https://github.com/w3c-ccg/did-spec/issues/90#issuecomment-439936749">w3c-ccg/did-spec#90 (comment)</a> that a DID Document could contain a "proxy" service type which would provide a mapping that needs to be followed in order to resolve to a final service URL.</p></div>
 		<p></p>
 
 		<div class="example" id="example-21">
@@ -2903,7 +2905,7 @@ https://example.com/messages/8377464/some/path?query#frag
     </dd><dt id="bib-did-peer">[DID-PEER]</dt><dd>
       <a href="https://identity.foundation/peer-did-method-spec/"><cite>Peer DID Method Specification</cite></a>. Oskar Deventer; Christian Lundkvist; Márton Csernai; Kyle Den Hartog; Markus Sabadello; Sam Curren; Dan Gisolfi; Mike Varley; Sven Hammann; John Jordan; Lovesh Harchandani; Devin Fisher; Tobias Looker; Brent Zundel; Stephen Curran. 10 July 2020. W3C Editor's Draft. URL: <a href="https://identity.foundation/peer-did-method-spec/">https://identity.foundation/peer-did-method-spec/</a>
     </dd><dt id="bib-did-spec-registries">[DID-SPEC-REGISTRIES]</dt><dd>
-      <a href="https://www.w3.org/TR/did-spec-registries/"><cite>Decentralized Identifier Extensions</cite></a>. Manu Sporny.  W3C. 31 August 2024. W3C Working Group Note. URL: <a href="https://www.w3.org/TR/did-spec-registries/">https://www.w3.org/TR/did-spec-registries/</a>
+      <a href="https://www.w3.org/TR/did-extensions/"><cite>Decentralized Identifier Extensions</cite></a>. Manu Sporny; Markus Sabadello.  W3C. 19 November 2024. W3C Working Group Note. URL: <a href="https://www.w3.org/TR/did-extensions/">https://www.w3.org/TR/did-extensions/</a>
     </dd><dt id="bib-keri">[KERI]</dt><dd>
       <a href="https://arxiv.org/abs/1907.02143"><cite>Key Event Receipt Infrastructure (KERI)</cite></a>. Samuel M. Smith. July 2019. URL: <a href="https://arxiv.org/abs/1907.02143">https://arxiv.org/abs/1907.02143</a>
     </dd><dt id="bib-rfc3339">[RFC3339]</dt><dd>
