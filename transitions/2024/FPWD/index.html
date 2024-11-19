@@ -2433,7 +2433,7 @@ external resources.
 		<a href="#resolving" class="sec-ref"><bdi class="secno">3. </bdi>DID Resolution</a>) and/or <a href="#dfn-did-url-dereferencing" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-did-url-dereferencing-34">DID URL dereferencing</a> function (see <a href="#dereferencing" class="sec-ref"><bdi class="secno">4. </bdi>DID URL Dereferencing</a>)
 		can be executed as follows:</p>
 		<ol class="algorithm">
-			<li>Initialize a <var>request HTTP(S) URL</var> with the <var><a href="#dfn-did-resolver-s" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-did-resolver-s-62">DID resolver</a> HTTP(S) endpoint</var>.</li>
+			<li>Initialize a <var>request HTTP(S) URL</var> with the <var><a href="#dfn-did-resolver-s" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-did-resolver-s-62">DID resolver</a> HTTP(S) endpoint</var>.
 			<ol class="algorithm">
 				<li>Append the <var>input <a href="#dfn-decentralized-identifiers" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-decentralized-identifiers-44">DID</a></var> or
 				<var>input <a href="#dfn-did-urls" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-did-urls-51">DID URL</a></var> to the <var>request HTTP(S) URL</var>. Certain characters
@@ -2443,6 +2443,7 @@ external resources.
 				<li>Encode all other resolution options as
 				query parameters in the <var>request HTTP(S) URL</var>.</li>
 			</ol>
+			</li>
 			<li>Execute an HTTP <code>GET</code> request on the <var>request HTTP(S) URL</var>.</li>
 			<li>Dereference the <var>input <a href="#dfn-decentralized-identifiers" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-decentralized-identifiers-45">DID</a></var> or <var>input <a href="#dfn-did-urls" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-did-urls-52">DID URL</a></var> by executing the
 				<a href="#dfn-did-url-dereferencing" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-did-url-dereferencing-35">DID URL dereferencing</a> algorithm as defined in <a href="#dereferencing" class="sec-ref"><bdi class="secno">4. </bdi>DID URL Dereferencing</a></li>
