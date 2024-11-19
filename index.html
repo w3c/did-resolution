@@ -1838,7 +1838,7 @@ https://example.com/messages/8377464/some/path?query#frag
 		<a href="#resolving"></a>) and/or <a>DID URL dereferencing</a> function (see <a href="#dereferencing"></a>)
 		can be executed as follows:</p>
 		<ol class="algorithm">
-			<li>Initialize a <var>request HTTP(S) URL</var> with the <var><a>DID resolver</a> HTTP(S) endpoint</var>.</li>
+			<li>Initialize a <var>request HTTP(S) URL</var> with the <var><a>DID resolver</a> HTTP(S) endpoint</var>.
 			<ol class="algorithm">
 				<li>Append the <var>input <a>DID</a></var> or
 				<var>input <a>DID URL</a></var> to the <var>request HTTP(S) URL</var>. Certain characters
@@ -1849,6 +1849,7 @@ data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>).</li>
 				<li>Encode all other resolution options as
 				query parameters in the <var>request HTTP(S) URL</var>.</li>
 			</ol>
+			</li>
 			<li>Execute an HTTP <code>GET</code> request on the <var>request HTTP(S) URL</var>.</li>
 			<li>Dereference the <var>input <a>DID</a></var> or <var>input <a>DID URL</a></var> by executing the
 				<a>DID URL dereferencing</a> algorithm as defined in <a href="#dereferencing"></a></li>
