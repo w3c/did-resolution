@@ -114,9 +114,9 @@ and dereferencing DID URLs.
       Comments regarding this document are welcome. Please file issues
       directly on <a href="https://github.com/w3c/did-resolution/issues/">GitHub</a>,
       or send them to
-      <a href="mailto:public-credentials@w3.org">public-credentials@w3.org</a>
-      (<a href="mailto:public-credentials-request@w3.org?subject=subscribe">subscribe</a>,
-      <a href="https://lists.w3.org/Archives/Public/public-credentials/">archives</a>).
+      <a href="mailto:public-did-wg@w3.org">public-did-wg@w3.org</a>
+      (<a href="mailto:public-did-wg-request@w3.org?subject=subscribe">subscribe</a>,
+      <a href="https://lists.w3.org/Archives/Public/public-did-wg/">archives</a>).
       </p>
 
       <p>
@@ -385,7 +385,7 @@ consumption rules.">
 		<dd>
 			If the resolution is successful, and if the <code>resolve</code> function was
 			called, this MUST be a <a>DID document</a> abstract data model (a <a
-				data-cite="INFRA#maps">map</a>) as described in <a href=https://w3c.github.io/did-core/#data-model"></a> that
+				data-cite="INFRA#maps">map</a>) as described in <a href="https://w3c.github.io/did-core/#data-model"></a> that
 			is capable of being transformed into a <a href="https://w3c.github.io/did-core/#dfn-did-documents">conforming DID Document</a>
 			(representation), using the production rules specified by the representation.
 			The value of <code><a href="https://w3c.github.io/did-core/#dfn-id">id</a></code> in the resolved <a>DID document</a> MUST
@@ -401,7 +401,7 @@ consumption rules.">
 			document</a> in one of the conformant
 			<a href="https://w3c.github.io/did-core/#representations">representations</a>. The byte stream might then be
 			parsed by the caller of the <code>resolveRepresentation</code> function into a
-			<a href=https://w3c.github.io/did-core/#data-model">data model</a>, which can in turn be validated and
+			<a href="https://w3c.github.io/did-core/#data-model">data model</a>, which can in turn be validated and
 			processed. If the resolution is unsuccessful, this value MUST be an empty
 			stream.
 		</dd>
@@ -469,7 +469,7 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 				Type of the conformant <a>representations</a>. The
 				caller of the <code>resolveRepresentation</code> function MUST use this value
 				when determining how to parse and process the <code>didDocumentStream</code>
-				returned by this function into the <a href=https://w3c.github.io/did-core/#data-model">data model</a>.
+				returned by this function into the <a href="https://w3c.github.io/did-core/#data-model">data model</a>.
 			</dd>
 			<dt>
 				error
@@ -1051,13 +1051,6 @@ dereference(didUrl, dereferenceOptions) →
 					<li>Return the <var>output <a>service endpoint</a> URL</var>.</li>
 				</ol>
 				</li>
-
-				<p class="issue" data-number="85">There have been discussions whether in addition to the DID parameter <code>service</code>,
-					there could also be a DID parameter <code>serviceType</code> to select services based
-					on their type rather than ID.
-					See <a href="https://lists.w3.org/Archives/Public/public-credentials/2019Jun/0028.html">
-					comments by Dave Longley</a> about `serviceType`.</p>
-
 				<li>Otherwise, if the <var>input <a>DID URL</a></var> contains no <a>DID path</a> and no <a>DID query</a>:
 				<pre class="example nohighlight">did:example:1234</pre>
 				<ol class="algorithm">
@@ -1083,6 +1076,12 @@ dereference(didUrl, dereferenceOptions) →
 				</li>
 			</ol>
 
+			<p class="issue" data-number="85">There have been discussions whether in addition to the DID parameter <code>service</code>,
+				there could also be a DID parameter <code>serviceType</code> to select services based
+				on their type rather than ID.
+				See <a href="https://lists.w3.org/Archives/Public/public-credentials/2019Jun/0028.html">
+					comments by Dave Longley</a> about `serviceType`.</p>
+
 		</section>
 
 		<section id="dereferencing-algorithm-secondary">
@@ -1102,11 +1101,6 @@ dereference(didUrl, dereferenceOptions) →
 					the <var>output <a>service endpoint</a> URL</var> "inherits" the <a>DID fragment</a> of the
 					<var>input <a>DID URL</a></var>.</li>
 					<li>Return the <var>output <a>service endpoint</a> URL</var>.</li>
-					<p class="note">
-					This behavior of the <a>DID fragment</a> is analogous to the handling of a fragment in an HTTP URL in the
-					case when dereferencing it returns an HTTP <code>3xx</code> (Redirection) response with a
-					<code>Location</code> header (see section 7.1.2 of [[RFC7231]].
-					</p>
 				</ol>
 				<li>Otherwise, dereference the secondary resource identified by the DID fragment as defined by the media type ([[RFC2046]]) of the primary resource.
 				For example, if the primary resource is a representation of a DID document with media type <code>application/did+ld+json</code>, then
@@ -1114,12 +1108,19 @@ dereference(didUrl, dereferenceOptions) →
 				<a href="https://www.w3.org/TR/json-ld11/#iana-considerations">JSON-LD 1.1: application/ld+json media type</a>
 				[JSON-LD11].
 			</li>
-				<p class="note">
-					This use of the <a>DID fragment</a> is consistent with the definition of the fragment identifier in
-					[[RFC3986]]. It identifies a <em>secondary resource</em> which is a subset of the <em>primary resource</em>
-					(the <a>DID document</a>).
-				</p>
 			</ol>
+
+			<p class="note">
+				This use of the <a>DID fragment</a> is consistent with the definition of the fragment identifier in
+				[[RFC3986]]. It identifies a <em>secondary resource</em> which is a subset of the <em>primary resource</em>
+				(the <a>DID document</a>).
+			</p>
+
+			<p class="note">
+				This behavior of the <a>DID fragment</a> is analogous to the handling of a fragment in an HTTP URL in the
+				case when dereferencing it returns an HTTP <code>3xx</code> (Redirection) response with a
+				<code>Location</code> header (see section 7.1.2 of [[RFC7231]].
+			</p>
 
 		</section>
 
@@ -1837,7 +1838,7 @@ https://example.com/messages/8377464/some/path?query#frag
 		<a href="#resolving"></a>) and/or <a>DID URL dereferencing</a> function (see <a href="#dereferencing"></a>)
 		can be executed as follows:</p>
 		<ol class="algorithm">
-			<li>Initialize a <var>request HTTP(S) URL</var> with the <var><a>DID resolver</a> HTTP(S) endpoint</var>.</li>
+			<li>Initialize a <var>request HTTP(S) URL</var> with the <var><a>DID resolver</a> HTTP(S) endpoint</var>.
 			<ol class="algorithm">
 				<li>Append the <var>input <a>DID</a></var> or
 				<var>input <a>DID URL</a></var> to the <var>request HTTP(S) URL</var>. Certain characters
@@ -1848,6 +1849,7 @@ data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>).</li>
 				<li>Encode all other resolution options as
 				query parameters in the <var>request HTTP(S) URL</var>.</li>
 			</ol>
+			</li>
 			<li>Execute an HTTP <code>GET</code> request on the <var>request HTTP(S) URL</var>.</li>
 			<li>Dereference the <var>input <a>DID</a></var> or <var>input <a>DID URL</a></var> by executing the
 				<a>DID URL dereferencing</a> algorithm as defined in <a href="#dereferencing"></a></li>
