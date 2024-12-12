@@ -1016,13 +1016,22 @@ dereference(didUrl, dereferenceOptions) →
 						<li><b>contentStream</b>: <code>null</code></li>
 						<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
 					</ol>
+				</li>
 
 				<li>Obtain the <a>DID document</a> for the <var>input <a>DID</a></var> by executing the
 					<a>DID resolution</a> algorithm as defined in <a href="#resolving"></a>. All
 					<a href="https://www.w3.org/TR/did-core/#did-parameters">
 						DID parameters</a> of the <var>input <a>DID URL</a></var> MUST be passed as <var>resolution options</var> to the
-						<a>DID Resolution</a> algorithm. If the <var>input <a>DID</a></var> does not exist, return a null result.
-						Otherwise, the result is called the <var>resolved <a>DID document</a></var>.</li>
+						<a>DID Resolution</a> algorithm. If the <var>input <a>DID</a></var> does not exist, the <a>DID URL dereferencer</a>
+						MUST return the following result:
+
+						<ol class="algorithm">
+							<li><b>dereferencingMetadata</b>: <code>«[ "error" → "notFound" ]»</code></li>
+							<li><b>contentStream</b>: <code>null</code></li>
+							<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
+						</ol>
+
+						Otherwise, the result is called the <var>resolved <a>DID document</a></var>.
 				</li>
 
 				<li>If present, separate the <a>DID fragment</a> from the <var>input <a>DID URL</a></var> and continue
@@ -1030,8 +1039,13 @@ dereference(didUrl, dereferenceOptions) →
 
 				<li>If the <var>input <a>DID URL</a></var> contains no <a>DID path</a> and no <a>DID query</a>:
 					<pre class="example nohighlight">did:example:1234</pre>
+					The <a>DID URL dereferencer</a> MUST return the <var>resolved <a>DID document</a></var> and
+					<var>resolved <a href="#did-document-metadata"></a> as follows:
+
 					<ol class="algorithm">
-						<li>Return the <var>resolved <a>DID document</a></var>.</li>
+						<li><b>dereferencingMetadata</b>: <code>«[ derefencingMetadata ]»</code></li>
+						<li><b>contentStream</b>: <code>resolved didDocumentStream</code></li>
+						<li><b>contentMetadata</b>: <code>«[ resolved didDocumentMetadata ]»</code></li>
 					</ol>
 				</li>
 
