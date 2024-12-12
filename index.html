@@ -1035,7 +1035,31 @@ dereference(didUrl, dereferenceOptions) →
 					</ol>
 				</li>
 
-				<li>Otherwise, if the <var>input <a>DID URL</a></var> contains the
+				<li>If the <var>input <a>DID URL</a></var> contains the
+					<a href="https://www.w3.org/TR/did-core/#did-parameters">DID parameter</a> <code>hl</code>:
+					<pre class="example nohighlight">did:example:1234?hl=zQmWvQxTqbG2Z9HPJgG57jjwR154cKhbtJenbyYTWkjgF3e</pre>
+					<ol class="algorithm"><li>
+						<p class="issue">TODO: Specify the algorithm for processing the `hl` DID parameter.</p>
+					</li></ol>
+				</li>
+
+				<li>If the <var>input <a>DID URL</a></var> contains the
+					<a href="https://www.w3.org/TR/did-core/#did-parameters">DID parameter</a> <code>versionId</code>:
+					<pre class="example nohighlight">did:example:1234?versionId=1</pre>
+					<ol class="algorithm"><li>
+						<p class="issue">TODO: Specify the algorithm for processing the `versionId` DID parameter.</p>
+					</li></ol>
+				</li>
+
+				<li>If the <var>input <a>DID URL</a></var> contains the
+					<a href="https://www.w3.org/TR/did-core/#did-parameters">DID parameter</a> <code>versionTime</code>:
+					<pre class="example nohighlight">did:example:1234??versionTime=2021-05-10T17:00:00Z</pre>
+					<ol class="algorithm"><li>
+						<p class="issue">TODO: Specify the algorithm for processing the `versionTime` DID parameter.</p>
+					</li></ol>
+				</li>
+
+				<li>If the <var>input <a>DID URL</a></var> contains the
 				<a href="https://www.w3.org/TR/did-core/#did-parameters">
 				DID parameter</a> <code>service</code> and optionally the <code>relativeRef</code> DID parameter:
 				<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest</pre>
@@ -1056,16 +1080,28 @@ dereference(didUrl, dereferenceOptions) →
 					<li>Return the <var>output <a>service endpoint</a> URL</var>.</li>
 				</ol>
 				</li>
+
 				<li>Otherwise, if the <var>input <a>DID URL</a></var> contains a <a>DID path</a> and/or <a>DID query</a>:
 				<pre class="example nohighlight">did:example:1234/custom/path?customquery</pre>
 				<ol class="algorithm">
 					<li>The applicable <a>DID method</a> MAY specify how to dereference
-					the <var>input <a>DID URL</a></var>.</li>
+						the <a>DID path</a> and/or <a>DID query</a> of the
+						<var>input <a>DID URL</a></var>.</li>
+						<pre class="example nohighlight">did:example:1234/resources/1234</pre>
+					<li>An extension specification MAY specify how to dereference
+						the <a>DID path</a> of the <var>input <a>DID URL</a></var>.
+						<pre class="example nohighlight">did:example:1234/whois</pre>
+					</li>
+					<li>An extension specification MAY specify how to dereference
+						the <a>DID query</a> of the <var>input <a>DID URL</a></var>.
+						<pre class="example nohighlight">did:example:1234?transformKey=JsonWebKey</pre>
+					</li>
 					<li>The client MAY be able to dereference the <var>input <a>DID URL</a></var>
 					in an application-specific way.</li>
 				</ol>
 				</li>
-				<li>If neither this algorithm, nor the applicable <a>DID method</a>, nor the client
+
+				<li>If neither this algorithm, nor the applicable <a>DID method</a>, nor an extension, nor the client
 				is able to dereference the <var>input <a>DID URL</a></var>, return the following result:
 				<ol class="algorithm">
 					<li><b>dereferencingMetadata</b>: <code>«[ "error" → "notFound" ]»</code></li>
