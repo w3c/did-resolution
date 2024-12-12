@@ -1016,6 +1016,7 @@ dereference(didUrl, dereferenceOptions) →
 						<li><b>contentStream</b>: <code>null</code></li>
 						<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
 					</ol>
+				</li>
 
 				<li>Obtain the <a>DID document</a> for the <var>input <a>DID</a></var> by executing the
 					<a>DID resolution</a> algorithm as defined in <a href="#resolving"></a>. All
@@ -1023,7 +1024,6 @@ dereference(didUrl, dereferenceOptions) →
 						DID parameters</a> of the <var>input <a>DID URL</a></var> MUST be passed as <var>resolution options</var> to the
 						<a>DID Resolution</a> algorithm. If the <var>input <a>DID</a></var> does not exist, return a null result.
 						Otherwise, the result is called the <var>resolved <a>DID document</a></var>.</li>
-				</li>
 
 				<li>If present, separate the <a>DID fragment</a> from the <var>input <a>DID URL</a></var> and continue
 					with the adjusted <var>input <a>DID URL</a></var>.</li>
