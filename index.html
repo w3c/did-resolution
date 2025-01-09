@@ -1078,12 +1078,22 @@ dereference(didUrl, dereferenceOptions) →
 				<pre class="example nohighlight">did:example:1234/custom/path?customquery</pre>
 				<ol class="algorithm">
 					<li>The applicable <a>DID method</a> MAY specify how to dereference
-					the <var>input <a>DID URL</a></var>.</li>
+						the <a>DID path</a> and/or <a>DID query</a> of the <var>input <a>DID URL</a></var>.
+						<pre class="example nohighlight">did:example:1234/resources/1234</pre>
+					</li>
+					<li>An extension specification MAY specify how to dereference
+						the <a>DID path</a> of the <var>input <a>DID URL</a></var>.
+						<pre class="example nohighlight">did:example:1234/whois</pre>
+					</li>
+					<li>An extension specification MAY specify how to dereference
+						the <a>DID query</a> of the <var>input <a>DID URL</a></var>.
+						<pre class="example nohighlight">did:example:1234?transformKey=JsonWebKey</pre>
+					</li>
 					<li>The client MAY be able to dereference the <var>input <a>DID URL</a></var>
-					in an application-specific way.</li>
+						in an application-specific way.</li>
 				</ol>
 				</li>
-				<li>If neither this algorithm, nor the applicable <a>DID method</a>, nor the client
+				<li>If neither this algorithm, nor the applicable <a>DID method</a>, nor an extension, nor the client
 				is able to dereference the <var>input <a>DID URL</a></var>, return the following result:
 				<ol class="algorithm">
 					<li><b>dereferencingMetadata</b>: <code>«[ "error" → "notFound" ]»</code></li>
