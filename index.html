@@ -1101,12 +1101,13 @@ dereference(didUrl, dereferenceOptions) →
 					<var>input <a>DID URL</a></var>.</li>
 					<li>Return the <var>output <a>service endpoint</a> URL</var>.</li>
 				</ol>
+				</li>
 				<li>Otherwise, dereference the DID fragment as defined by the media type ([[RFC2046]]) of the resource.
 				For example, if the resource is a representation of a DID document with media type <code>application/did</code>, then
 				the fragment is treated according to the rules associated with the
 				<a href="https://www.w3.org/TR/json-ld11/#iana-considerations">JSON-LD 1.1: application/ld+json media type</a>
 				[JSON-LD11].
-			</li>
+				</li>
 			</ol>
 
 			<p class="note">
