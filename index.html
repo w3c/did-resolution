@@ -185,6 +185,149 @@ and dereferencing DID URLs.
 
 </section>
 
+<section id="did-parameters">
+	<h2>DID Parameters</h2>
+
+	<p>
+		The <a>DID URL</a> syntax supports a simple format for parameters
+		(see section <a href="https://www.w3.org/TR/did-core/#query">Query</a>
+		in [[DID-CORE]]). Adding a DID
+		parameter to a <a>DID URL</a> means that the parameter becomes part of the
+		identifier for a <a>resource</a>.
+	</p>
+
+	<pre class="example nohighlight"
+		 title="A DID URL with a 'versionTime' DID parameter">
+did:example:123?versionTime=2021-05-10T17:00:00Z
+	</pre>
+
+	<pre class="example nohighlight"
+		 title="A DID URL with a 'service' and a 'relativeRef' DID parameter">
+did:example:123?service=files&amp;relativeRef=/resume.pdf
+	</pre>
+
+	<p>
+		Some DID parameters are completely independent of of any specific <a>DID
+		method</a> and function the same way for all <a>DIDs</a>. Other DID parameters
+		are not supported by all <a>DID methods</a>. Where optional parameters are
+		supported, they are expected to operate uniformly across the <a>DID methods</a>
+		that do support them. The following table provides common DID parameters that
+		function the same way across all <a>DID methods</a>. Support for all
+		<a href="#did-parameters">DID Parameters</a> is OPTIONAL.
+	</p>
+
+	<table class="simple">
+		<thead>
+		<tr>
+			<th>
+				Parameter&nbsp;Name
+			</th>
+			<th>
+				Description
+			</th>
+		</tr>
+		</thead>
+
+		<tbody>
+		<tr>
+			<td>
+				<code><a>service</a></code>
+			</td>
+			<td>
+				Identifies a service from the <a>DID document</a> by service ID.
+				If present, the associated value MUST be an <a
+					data-lt="ascii string">ASCII string</a>.
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<code>relativeRef</code>
+			</td>
+			<td>
+				A relative <a>URI</a> reference according to <a
+					data-cite="RFC3986#section-4.2">RFC3986 Section 4.2</a> that identifies a
+				<a>resource</a> at a <a>service endpoint</a>, which is selected from a <a>DID
+				document</a> by using the <code>service</code> parameter.
+				If present, the associated value MUST be an <a
+					data-lt="ascii string">ASCII string</a> and MUST use percent-encoding for
+				certain characters as specified in <a data-cite="RFC3986#section-2.1">RFC3986
+				Section 2.1</a>.
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<code>versionId</code>
+			</td>
+			<td>
+				Identifies a specific version of a <a>DID document</a> to be resolved (the
+				version ID could be sequential, or a <a>UUID</a>, or method-specific).
+				If present, the associated value MUST be an <a
+					data-lt="ascii string">ASCII string</a>.
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<code>versionTime</code>
+			</td>
+			<td>
+				Identifies a certain version timestamp of a <a>DID document</a> to be resolved.
+				That is, the <a>DID document</a> that was valid for a <a>DID</a> at a certain
+				time. If present, the associated value
+				MUST be an <a data-lt="ascii string">ASCII string</a> which is a valid XML
+				datetime value, as defined in section 3.3.7 of <a
+					href="https://www.w3.org/TR/xmlschema11-2/">W3C XML Schema Definition Language
+				(XSD) 1.1 Part 2: Datatypes</a> [[XMLSCHEMA11-2]]. This datetime value MUST be
+				normalized to UTC 00:00:00 and without sub-second decimal precision.
+				For example: <code>2020-12-20T19:17:47Z</code>.
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<code>hl</code>
+			</td>
+			<td>
+				A resource hash of the <a>DID document</a> to add integrity protection, as
+				specified in [[?HASHLINK]]. This parameter is non-normative.
+				If present, the associated value MUST be an
+				<a data-lt="ascii string">ASCII string</a>.
+			</td>
+		</tr>
+
+		</tbody>
+	</table>
+
+	<p>
+		Implementers as well as <a>DID method</a> specification authors might use
+		additional DID parameters that are not listed here. For maximum
+		interoperability, it is RECOMMENDED that DID parameters use the DID
+		Specification Registries mechanism [[?DID-SPEC-REGISTRIES]], to avoid collision
+		with other uses of the same DID parameter with different semantics.
+	</p>
+
+	<p>
+		DID parameters might be used if there is a clear use case where the parameter
+		needs to be part of a URL that references a <a>resource</a> with more
+		precision than using the <a>DID</a> alone. It is expected that DID parameters
+		are <em>not</em> used if the same functionality can be expressed by passing
+		input metadata to a <a>DID resolver</a>.
+	</p>
+
+	<p class="note" title="DID parameters and DID resolution">
+		The <a>DID resolution</a> and the <a>DID URL dereferencing</a> functions can
+		be influenced by passing <a href="#did-resolution-options"></a> or
+		<a href="#did-url-dereferencing-options"></a> to a <a>DID resolver</a> that are
+		not part of the <a>DID URL</a>. This is comparable to
+		HTTP, where certain parameters could either be included in an HTTP URL, or
+		alternatively passed as HTTP headers during the dereferencing process. The
+		important distinction is that DID parameters that are part of the <a>DID
+		URL</a> should be used to specify <em>what <a>resource</a> is being
+		identified</em>, whereas input metadata that is not part of the <a>DID URL</a>
+		should be used to control <em>how that <a>resource</a> is resolved or
+		dereferenced</em>.
+	</p>
+
+</section>
+
 <section id="resolving">
 	<h1>DID Resolution</h1>
 
@@ -1775,23 +1918,23 @@ https://example.com/messages/8377464/some/path?query#frag
     <h2>invalidDid</h2>
 	<p>If an invalid DID is detected during <a>DID Resolution</a>,
 		the value of the DID Resolution Metadata <strong>error</strong> property MUST be <strong>invalidDid</strong>
-        as defined in section <a href="https://www.w3.org/TR/did-core/#did-resolution-metadata">DID Resolution Metadata</a> in [[DID-CORE]].
+        as defined in section <a href="#did-resolution-metadata"></a>.
     </p>
 	<h2>invalidDidUrl</h2>
 	<p>If an invalid DID URL is detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
 		the value of the DID Resolution or DID URL Dereferencing Metadata <strong>error</strong> property MUST be <strong>invalidDidUrl</strong>
-        as defined in section <a href="https://www.w3.org/TR/did-core/#did-url-dereferencing-metadata">DID URL Dereferencing Metadata</a> in [[DID-CORE]].
+        as defined in section <a href="#did-url-dereferencing-metadata"></a>.
     </p>
     <h2>notFound</h2>
     <p> If during <a>DID Resolution</a> or <a>DID URL dereferencing</a> a DID or DID URL doesn't exist,
         the value of the DID Resolution or DID URL dereferencing Metadata <strong>error</strong> property MUST be <strong>notFound</strong> as
-        defined in sections <a href="https://www.w3.org/TR/did-core/#did-resolution-metadata">DID Resolution Metadata</a> and
-        <a href="https://www.w3.org/TR/did-core/#did-url-dereferencing-metadata">DID URL Dereferencing Metadata</a> in [[DID-CORE]].
+        defined in sections <a href="#did-resolution-metadata"></a> and
+        <a href="#did-url-dereferencing-metadata"></a>.
     </p>
     <h2>representationNotSupported</h2>
     <p> If a DID document representation is not supported during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
         the value of the DID Resolution Metadata <strong>error</strong> property MUST be <strong>representationNotSupported</strong> as
-        defined in section <a href="https://www.w3.org/TR/did-core/#did-resolution-metadata">DID Resolution Metadata</a> in [[DID-CORE]].
+        defined in section <a href="#did-resolution-metadata"></a>.
     </p>
 	<h2>methodNotSupported</h2>
 	<p> If a DID method is not supported during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,

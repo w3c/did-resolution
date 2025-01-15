@@ -24,6 +24,16 @@ var ccg = {
       status: "CG-DRAFT",
       publisher: "Digital Verification Community Group"
     },
+    "HASHLINK": {
+      title: "Cryptographic Hyperlinks",
+      date: "December 2018",
+      href: "https://tools.ietf.org/html/draft-sporny-hashlink-05",
+      authors: [
+          "Manu Sporny"
+      ],
+      status: "Internet-Draft",
+      publisher: "IETF"
+    },
     "DATA-INTEGRITY": {
       title: "Verifiable Credential Data Integrity 1.0",
       href: "https://www.w3.org/TR/vc-data-integrity/",
