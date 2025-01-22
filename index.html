@@ -1840,12 +1840,12 @@ https://example.com/messages/8377464/some/path?query#frag
 			can be executed as follows:</p>
 
 		<ol class="algorithm">
-			<li>Initialize a <var>request HTTP(S) URL</var> with the <var><a>DID resolver</a> HTTP(S) endpoint</var>.</li>
-			<pre class="example nohighlight">https://dev.uniresolver.io/1.0/identifiers/</pre>
+			<li>Initialize a <var>request HTTP(S) URL</var> with the <var><a>DID resolver</a> HTTP(S) endpoint</var>.
+			<pre class="example nohighlight">https://dev.uniresolver.io/1.0/identifiers/</pre></li>
 			<li>For the <a>DID resolution</a> function:
 				<ol class="algorithm">
-					<li>Append the <var>input <a>DID</a></var> to the <var>request HTTP(S) URL</var>.</li>
-					<pre class="example nohighlight">https://dev.uniresolver.io/1.0/identifiers/did:example:1234</pre>
+					<li>Append the <var>input <a>DID</a></var> to the <var>request HTTP(S) URL</var>.
+					<pre class="example nohighlight">https://dev.uniresolver.io/1.0/identifiers/did:example:1234</pre></li>
 					<li>Set the <code>Accept</code> <var>HTTP request header</var> to `application/ld+json;profile="https://w3id.org/did-resolution"`
 						in order to request a complete <a href="#did-resolution-result"></a>, OR</li>
 					<li>set the <code>Accept</code> <var>HTTP request header</var> to the value of the <b>accept</b> <var>resolution option</var>.</li>
@@ -1854,16 +1854,16 @@ https://example.com/messages/8377464/some/path?query#frag
 							<li>The <var>input <a>DID</a></var> MUST be URL-encoded (as specified in <a
 									data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>).</li>
 							<li>Encode all <var>resolution options</var> except <b>accept</b> as
-								query parameters in the <var>request HTTP(S) URL</var>.</li>
-							<pre class="example nohighlight">https://dev.uniresolver.io/1.0/identifiers/did%3Aexample%3A1234?option1=value1&option2=value2</pre>
+								query parameters in the <var>request HTTP(S) URL</var>.
+							<pre class="example nohighlight">https://dev.uniresolver.io/1.0/identifiers/did%3Aexample%3A1234?option1=value1&option2=value2</pre></li>
 						</ol>
 					</li>
 				</ol>
 			</li>
 			<li>For the <a>DID URL dereferencing</a> function:
 				<ol class="algorithm">
-					<li>Append the <var>input <a>DID URL</a></var> to the <var>request HTTP(S) URL</var>.</li>
-					<pre class="example nohighlight">https://dev.uniresolver.io/1.0/identifiers/did:example:1234?service=files&relativeRef=/resume.pdf</pre>
+					<li>Append the <var>input <a>DID URL</a></var> to the <var>request HTTP(S) URL</var>.
+					<pre class="example nohighlight">https://dev.uniresolver.io/1.0/identifiers/did:example:1234?service=files&relativeRef=/resume.pdf</pre></li>
 					<li>Set the <code>Accept</code> <var>HTTP request header</var> to `application/ld+json;profile="https://w3id.org/did-url-dereferencing"`
 						in order to request a complete <a href="#did-url-dereferencing-result"></a>, OR</li>
 					<li>set the <code>Accept</code> <var>HTTP request header</var> to the value of the <b>accept</b> <var>dereferencing option</var>.</li>
@@ -1872,8 +1872,8 @@ https://example.com/messages/8377464/some/path?query#frag
 							<li>The <var>input <a>DID URL</a></var> MUST be URL-encoded (as specified in <a
 									data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>).</li>
 							<li>Encode all <var>dereferencing options</var> except <b>accept</b> as
-								query parameters in the <var>request HTTP(S) URL</var>.</li>
-							<pre class="example nohighlight">https://dev.uniresolver.io/1.0/identifiers/did%3Aexample%3A1234%3Fservice%3Dfiles%26relativeRef%3D%2Fresume.pdf?option1=value1&option2=value2</pre>
+								query parameters in the <var>request HTTP(S) URL</var>.
+							<pre class="example nohighlight">https://dev.uniresolver.io/1.0/identifiers/did%3Aexample%3A1234%3Fservice%3Dfiles%26relativeRef%3D%2Fresume.pdf?option1=value1&option2=value2</pre></li>
 						</ol>
 					</li>
 				</ol>
