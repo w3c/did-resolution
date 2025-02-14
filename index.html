@@ -2052,11 +2052,11 @@ https://example.com/messages/8377464/some/path?query#frag
 
 		<ol class="algorithm">
 			<li>Initialize a <var>request HTTP(S) URL</var> with the <var><a>DID resolver</a> HTTP(S) endpoint</var>.
-			<pre class="example nohighlight">https://dev.uniresolver.io/1.0/identifiers/</pre></li>
+			<pre class="example nohighlight">https://resolver.example/1.0/identifiers/</pre></li>
 			<li>For the <a>DID resolution</a> function:
 				<ol class="algorithm">
 					<li>Append the <var>input <a>DID</a></var> to the <var>request HTTP(S) URL</var>.
-					<pre class="example nohighlight">https://dev.uniresolver.io/1.0/identifiers/did:example:1234</pre></li>
+					<pre class="example nohighlight">https://resolver.example/1.0/identifiers/did:example:1234</pre></li>
 					<li>Set the <code>Accept</code> <var>HTTP request header</var> to `application/ld+json;profile="https://w3id.org/did-resolution"`
 						in order to request a complete <a href="#did-resolution-result"></a>, OR</li>
 					<li>set the <code>Accept</code> <var>HTTP request header</var> to the value of the <b>accept</b> <var>resolution option</var>.</li>
@@ -2066,7 +2066,7 @@ https://example.com/messages/8377464/some/path?query#frag
 									data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>).</li>
 							<li>Encode all <var>resolution options</var> except <b>accept</b> as
 								query parameters in the <var>request HTTP(S) URL</var>.
-							<pre class="example nohighlight">https://dev.uniresolver.io/1.0/identifiers/did%3Aexample%3A1234?option1=value1&option2=value2</pre></li>
+							<pre class="example nohighlight">https://resolver.example/1.0/identifiers/did%3Aexample%3A1234?option1=value1&option2=value2</pre></li>
 						</ol>
 					</li>
 				</ol>
@@ -2074,7 +2074,7 @@ https://example.com/messages/8377464/some/path?query#frag
 			<li>For the <a>DID URL dereferencing</a> function:
 				<ol class="algorithm">
 					<li>Append the <var>input <a>DID URL</a></var> to the <var>request HTTP(S) URL</var>.
-					<pre class="example nohighlight">https://dev.uniresolver.io/1.0/identifiers/did:example:1234?service=files&relativeRef=/resume.pdf</pre></li>
+					<pre class="example nohighlight">https://resolver.example/1.0/identifiers/did:example:1234?service=files&relativeRef=/resume.pdf</pre></li>
 					<li>Set the <code>Accept</code> <var>HTTP request header</var> to `application/ld+json;profile="https://w3id.org/did-url-dereferencing"`
 						in order to request a complete <a href="#did-url-dereferencing-result"></a>, OR</li>
 					<li>set the <code>Accept</code> <var>HTTP request header</var> to the value of the <b>accept</b> <var>dereferencing option</var>.</li>
@@ -2084,7 +2084,7 @@ https://example.com/messages/8377464/some/path?query#frag
 									data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>).</li>
 							<li>Encode all <var>dereferencing options</var> except <b>accept</b> as
 								query parameters in the <var>request HTTP(S) URL</var>.
-							<pre class="example nohighlight">https://dev.uniresolver.io/1.0/identifiers/did%3Aexample%3A1234%3Fservice%3Dfiles%26relativeRef%3D%2Fresume.pdf?option1=value1&option2=value2</pre></li>
+							<pre class="example nohighlight">https://resolver.example/1.0/identifiers/did%3Aexample%3A1234%3Fservice%3Dfiles%26relativeRef%3D%2Fresume.pdf?option1=value1&option2=value2</pre></li>
 						</ol>
 					</li>
 				</ol>
@@ -2230,16 +2230,16 @@ https://example.com/messages/8377464/some/path?query#frag
 		<h2>DID Resolution Examples</h2>
 		<p>Given the following <var><a>DID resolver</a> HTTP(S) endpoint</var>:<p>
 		<p><code>
-https://dev.uniresolver.io/1.0/identifiers/</code></p>
+https://resolver.example/1.0/identifiers/</code></p>
 		<p>And given the following <var>input <a>DID</a></var>:</p>
 		<p><code>
 did:sov:WRfXPg8dantKVubE3HX8pw</code></p>
 		<p>Then the <var>request HTTP(S) URL</var> is:</p>
 		<p><code>
-https://dev.uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8pw</code></p>
+https://resolver.example/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8pw</code></p>
 		<p>The HTTP(S) binding can be invoked as follows:</p>
 		<pre class="example nohighlight" title="Example curl call to a DID resolver via HTTP(S) binding">
-curl -X GET https://dev.uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8pw</pre>
+curl -X GET https://resolver.example/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8pw</pre>
 
 		<p>Additional examples of the HTTP(S) binding:</p>
 
