@@ -1112,6 +1112,22 @@ dereference(didUrl, dereferenceOptions) →
 				returned value if such a <a>representation</a> is supported and available.
 			</dd>
 		</dl>
+		<dl>
+			<dt>
+				<code>verificationRelationship</code>
+			</dt>
+			<dd>
+				The verificationRelationship that the caller expects the verificationMethod 
+				dereferenced from the DID URL to be authorized for. If present, the 
+				associated value MUST be an <a data-lt="ascii string">ASCII string</a>.  
+				If the DID URL does not dereference to a verificationMethod, or the 
+				verificationMethod is not authorized by the DID document for the specified 
+				verificationRelationship then an error MUST be raised. When present 
+				the DID URL MUST be dereferenced by executing the Retrieve Verification 
+				Method algorithm, see <a data-cite="CID#retrieve-verification-method">Section 3.3</a>
+				of the [[[CID]]] specification. 
+			</dd>
+		</dl>
 	</section>
 
 	<section>
