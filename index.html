@@ -1117,15 +1117,15 @@ dereference(didUrl, dereferenceOptions) →
 				<code>verificationRelationship</code>
 			</dt>
 			<dd>
-				The verificationRelationship that the caller expects the verificationMethod 
-				dereferenced from the DID URL to be authorized for. If present, the 
-				associated value MUST be an <a data-lt="ascii string">ASCII string</a>.  
-				If the DID URL does not dereference to a verificationMethod, or the 
-				verificationMethod is not authorized by the DID document for the specified 
-				verificationRelationship then an error MUST be raised. When present 
-				the DID URL MUST be dereferenced by executing the Retrieve Verification 
-				Method algorithm, see <a data-cite="CID#retrieve-verification-method">Section 3.3</a>
-				of the [[[CID]]] specification. 
+				The verificationRelationship for which the caller expects the verificationMethod
+				dereferenced from the DID URL to be authorized. If present, the
+				associated value MUST be an <a data-lt="ascii string">ASCII string</a>.
+				If the DID URL does not dereference to a verificationMethod, or the
+				DID document does not authorize the verificationMethod for the specified
+				verificationRelationship, then an error MUST be raised. When present,
+				the DID URL MUST be dereferenced by executing the Retrieve Verification
+				Method algorithm; see <a data-cite="CID#retrieve-verification-method">Section 3.3</a>
+				of the [[[CID]]] specification.
 			</dd>
 		</dl>
 	</section>
@@ -1191,20 +1191,20 @@ dereference(didUrl, dereferenceOptions) →
 				<li>If the <var>input dereferencingOptions</var> contains the <code>verificationRelationship</code>
 					[[[#did-url-dereferencing-options]]] property:
 					<ol class="algorithm">
-						<li>Execute the Retrieve Verification Method algorithm, see <a data-cite="CID#retrieve-verification-method">
+						<li>Execute the Retrieve Verification Method algorithm; see <a data-cite="CID#retrieve-verification-method">
 							Section 3.3</a>	of the [[[CID]]] specification:
 						<ol class="algorithm">
 							<li>Read the value of the <code>verificationRelationship</code> property of the
 							<var>input dereferencingOptions</var>. This is called the <var>input verificationRelationship</var>.</li>
 							<li>Remove the <code>verificationRelationship</code> property from the <var>input 
 							dereferencingOptions</var></li>
-							<li>Pass the <var>input <a>DID URL</a></var> as the vmIdentifier, the <var>input verificationRelationship</var> 
+							<li>Pass the <var>input <a>DID URL</a></var> as the vmIdentifier, the <var>input verificationRelationship</var>,
 								and the <var>input dereferencingOptions</var> to the <a data-cite="CID#retrieve-verification-method">
 								Retrieve Verification Method</a> algorithm.</li>
 							<li>The result is called the <var>output verificationMethod</var>.</li>
 						</ol>
 						</li>
-						<li>Return the following result:
+						<li>Return the result in the following form:
 							<ol class="algorithm">
 								<li><b>dereferencingMetadata</b>: <code>«[ ... ]»</code></li>
 								<li><b>content</b>: <var>output verificationMethod</var></li>
