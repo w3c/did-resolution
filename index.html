@@ -2326,27 +2326,6 @@ curl -X GET https://resolver.example/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX
 
 </section>
 
-<section id="service-endpoint-construction">
-	<h1>Service Endpoint Construction</h1>
-
-	<section>
-		<h2>Example</h2>
-		<p>Given the following <var>input <a>service endpoint</a> URL</var>:<p>
-		<p><code>
-https://example.com/messages/8377464</code></p>
-		<p>And given the following <var>input <a>DID URL</a></var>:</p>
-		<p><code>
-did:example:123456789abcdefghi?service=messages&relativeRef=%2Fsome%2Fpath%3Fquery#frag
-</code></p>
-		<p>Then the <var>output <a>service endpoint</a> URL</var> is:</p>
-		<p><code>
-https://example.com/messages/8377464/some/path?query#frag
-</code></p>
-
-	</section>
-
-</section>
-
 <section id="security-privacy-considerations">
 	<h1>Security and Privacy Considerations</h1>
 
