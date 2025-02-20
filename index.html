@@ -1245,8 +1245,8 @@ dereference(didUrl, dereferenceOptions) →
 					<a data-cite="did-core#did-parameters">DID parameter</a> <code>relativeRef</code>:
 					<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest</pre>
 					<ol class="algorithm">
-						<li>From the <var>resolved <a>DID document</a></var>, select the first
-							<a data-cite="did-core#services">service</a> which fulfills the following conditions:
+						<li>From the <var>resolved <a>DID document</a></var>, select all
+							<a data-cite="did-core#services">services</a> which fulfill the following conditions:
 							<ul>
 								<p>If the <var>input <a>DID URL</a></var> contains the
 									<a data-cite="did-core#did-parameters">DID parameter</a> <code>service</code>:
@@ -1257,20 +1257,20 @@ dereference(didUrl, dereferenceOptions) →
 									Select the <a data-cite="did-core#services">service</a> if its <code>type</code>
 									property matches the value of the <code>serviceType</code> DID parameter.</p>
 							</ul>
-							The selected <a data-cite="did-core#services">service</a> is called the <var>resolved <a>service</a></var>.
+							The selected <a data-cite="did-core#services">services</a> are a list called the <var>resolved <a>services</a></var>.
 						</li>
-						<li>Read the value of the <code>serviceEndpoint</code> property of the
-							<var>resolved <a>service</a></var>. This is called the <var>resolved <a>service endpoint</a> URL</var>.</li>
+						<li>Read the values of the <code>serviceEndpoint</code> properties of the
+							<var>resolved <a>services</a></var>. This list is called the <var>resolved <a>service endpoint</a> URLs</var>.</li>
 						<li>If the <var>input <a>DID URL</a></var> does not contain the
 							<a data-cite="did-core#did-parameters">DID parameter</a> <code>relativeRef</code>:
 							<ol class="algorithm">
-								<li>Set the <var>output <a>service endpoint</a> URL</var> to the <var>resolved <a>service endpoint</a> URL</var>.</li>
+								<li>Set the <var>output <a>service endpoint</a> URLs</var> to the <var>resolved <a>service endpoint</a> URLs</var>.</li>
 							</ol>
 						</li>
 						<li>If the <var>input <a>DID URL</a></var> contains the
 							<a data-cite="did-core#did-parameters">DID parameter</a> <code>relativeRef</code>:
 							<ol class="algorithm">
-								<li>Execute the "Resolve Reference" algorithm specified in
+								<li>For each <var>resolved <a>service endpoint</a> URL</var>, execute the "Resolve Reference" algorithm specified in
 									<a data-cite="RFC3986#section-5">RFC3986 Section 5: Reference Resolution</a> as follows:
 									<ul>
 										<p>The <strong>base URI</strong> value is the <var>resolved <a>service endpoint</a> URL</var>.
@@ -1283,14 +1283,14 @@ dereference(didUrl, dereferenceOptions) →
 											<a data-cite="did-core#did-parameters">DID parameter</a> <code>relativeRef</code>.</p>
 									</ul>
 								</li>
-								<li>Set the <var>output <a>service endpoint</a> URL</var> to the result of the "Resolve Reference" algorithm.</li>
+								<li>Set the <var>output <a>service endpoint</a> URLs</var> to the list of results of the "Resolve Reference" algorithm.</li>
 							</ol>
 						</li>
 					</li>
 					<li>Return the following result:
 						<ol class="algorithm">
 							<li><b>dereferencingMetadata</b>: <code>«[ ... ]»</code></li>
-							<li><b>content</b>: <var>output service endpoint URL</var></li>
+							<li><b>content</b>: <code>« output service endpoint URLs »</code></li>
 							<li><b>contentMetadata</b>: <code>«[ "contentType" → "text/uri-list", ... ]»</code></li>
 						</ol>
 					</li>
