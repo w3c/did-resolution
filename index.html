@@ -251,7 +251,17 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 				<code><a>service</a></code>
 			</td>
 			<td>
-				Identifies a service from the <a>DID document</a> by service ID.
+				Identifies a <a data-cite="did-core#services">service</a> from the <a>DID document</a> by service ID.
+				If present, the associated value MUST be an <a
+					data-lt="ascii string">ASCII string</a>.
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<code>serviceType</code>
+			</td>
+			<td>
+				Identifies a <a data-cite="did-core#services">service</a> from the <a>DID document</a> by service type.
 				If present, the associated value MUST be an <a
 					data-lt="ascii string">ASCII string</a>.
 			</td>
@@ -1229,23 +1239,53 @@ dereference(didUrl, dereferenceOptions) →
 						<p class="issue">TODO: Specify the algorithm for processing the `versionTime` DID parameter.</p>
 					</li></ol>
 				</li>
-				<li>If the <var>input <a>DID URL</a></var> contains the
-				<a href="https://www.w3.org/TR/did-core/#did-parameters">
-				DID parameter</a> <code>service</code> and optionally the <code>relativeRef</code> DID parameter:
-				<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest</pre>
-				<ol class="algorithm">
-					<li>From the <var>resolved <a>DID document</a></var>, select the
-					<a href="#service-endpoint-construction">service endpoint</a> whose <code>id</code>
-					property contains a fragment which matches the value of the <code>service</code> DID parameter of the
-					<var>input <a>DID URL</a></var>. This is called the <var>input <a>service endpoint</a></var>.</li>
-					<li>Execute the <a href="#service-endpoint-construction">Service Endpoint Construction</a> algorithm:
+				<li>If the <var>input <a>DID URL</a></var> contains the <a href="https://www.w3.org/TR/did-core/#did-parameters">
+					DID parameter</a> <code>service</code> and/or the <a href="https://www.w3.org/TR/did-core/#did-parameters">
+					DID parameter</a> <code>serviceType</code>, and optionally the
+					<a data-cite="did-core#did-parameters">DID parameter</a> <code>relativeRef</code>:
+					<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest</pre>
 					<ol class="algorithm">
+						<li>From the <var>resolved <a>DID document</a></var>, select the first
+							<a data-cite="did-core#services">service</a> which fulfills the following conditions:
+							<ul>
+								<p>If the <var>input <a>DID URL</a></var> contains the
+									<a data-cite="did-core#did-parameters">DID parameter</a> <code>service</code>:
+									Select the <a data-cite="did-core#services">service</a> if its <code>id</code>
+									property contains a fragment which matches the value of the <code>service</code> DID parameter.</p>
+								<p>If the <var>input <a>DID URL</a></var> contains the
+									<a data-cite="did-core#did-parameters">DID parameter</a> <code>serviceType</code>:
+									Select the <a data-cite="did-core#services">service</a> if its <code>type</code>
+									property matches the value of the <code>serviceType</code> DID parameter.</p>
+							</ul>
+							The selected <a data-cite="did-core#services">service</a> is called the <var>resolved <a>service</a></var>.
+						</li>
 						<li>Read the value of the <code>serviceEndpoint</code> property of the
-						<var>input <a>service endpoint</a></var>. This is called the <var>input <a>service endpoint</a> URL</var>.</li>
-						<li>Pass the <var>input <a>DID URL </a></var> and <var>input <a>service endpoint</a> URL</var> to
-						the <a href="#service-endpoint-construction">Service Endpoint Construction</a> algorithm.</li>
-						<li>The result is called the <var>output <a>service endpoint</a> URL</var>.</li>
-					</ol>
+							<var>resolved <a>service</a></var>. This is called the <var>resolved <a>service endpoint</a> URL</var>.</li>
+						<li>If the <var>input <a>DID URL</a></var> does not contain the
+							<a data-cite="did-core#did-parameters">DID parameter</a> <code>relativeRef</code>:
+							<ol class="algorithm">
+								<li>Set the <var>output <a>service endpoint</a> URL</var> to the <var>resolved <a>service endpoint</a> URL</var>.</li>
+							</ol>
+						</li>
+						<li>If the <var>input <a>DID URL</a></var> contains the
+							<a data-cite="did-core#did-parameters">DID parameter</a> <code>relativeRef</code>:
+							<ol class="algorithm">
+								<li>Execute the "Resolve Reference" algorithm specified in
+									<a data-cite="RFC3986#section-5">RFC3986 Section 5: Reference Resolution</a> as follows:
+									<ul>
+										<p>The <strong>base URI</strong> value is the <var>resolved <a>service endpoint</a> URL</var>.
+											The <strong>scheme</strong> is <code>did</code>. The <strong>authority</strong> is a
+											combination of <code>&lt;method-name>:&lt;method-specific-id></code>, and the
+											<strong>path</strong>, <strong>query</strong>, and <strong>fragment</strong>
+											values are those defined in <a data-cite="did-core#path">path</a>, <a data-cite="did-core#query">query</a>,
+											and <a data-cite="did-core#fragment">fragment</a>, respectively.</p>
+										<p>The <strong>relative reference</strong> is the value of the
+											<a data-cite="did-core#did-parameters">DID parameter</a> <code>relativeRef</code>.</p>
+									</ul>
+								</li>
+								<li>Set the <var>output <a>service endpoint</a> URL</var> to the result of the "Resolve Reference" algorithm.</li>
+							</ol>
+						</li>
 					</li>
 					<li>Return the following result:
 						<ol class="algorithm">
@@ -2288,57 +2328,6 @@ curl -X GET https://resolver.example/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX
 
 <section id="service-endpoint-construction">
 	<h1>Service Endpoint Construction</h1>
-
-	<p>This section defines the inputs and the algorithm of <a>Service Endpoint Construction</a>,
-	which returns a <a>service endpoint</a> URL as output. This algorithm is used when service endpoints
-	are selected during <a>DID URL dereferencing</a> (see <a href="#dereferencing"></a>).</p>
-
-	<p>In this section, <code>path</code>, <code>query</code>, and <code>fragment</code> are understood as defined in [[RFC3986]].</p>
-
-	<section>
-		<h2>Input</h2>
-
-		<p>The inputs of the <a>Service Endpoint Construction</a> algorithm are an <var>input <a>DID URL</a></var> and an
-		<var>input <a>service endpoint</a> URL</var>.</p>
-
-		<p>The requirements for the inputs of the <a>Service Endpoint Construction</a> algorithm are as follows:</p>
-		<ul>
-			<li>The <var>input <a>DID URL</a></var> and <var>input <a>service endpoint</a> URL</var> MAY both have a <code>path</code> component.</li>
-			<li>The <var>input <a>DID URL</a></var> and <var>input <a>service endpoint</a> URL</var> MUST NOT both have a <code>query</code> component.</li>
-			<li>The <var>input <a>DID URL</a></var> and <var>input <a>service endpoint</a> URL</var> MUST NOT both have a <code>fragment</code> component.</li>
-			<li>The <var>input <a>service endpoint</a> URL</var> MUST be an HTTP(S) URL.</li>
-		</ul>
-
-	</section>
-
-	<section>
-		<h2>Algorithm</h2>
-		<ol class="algorithm">
-			<li>Initialize a string <var>output <a>service endpoint</a> URL</var> to the value of the <var>input <a>service endpoint</a> URL</var></li>
-			<li>If the <var>output <a>service endpoint</a> URL</var> has a <code>query</code> component, remove it.</li>
-			<li>If the <var>output <a>service endpoint</a> URL</var> has a <code>fragment</code> component, remove it.</li>
-			<li>Append the <code>path</code> component of the <var>input <a>DID URL</a></var> to the <var>output <a>service endpoint</a> URL</var>.</li>
-			<li>If the <var>input <a>service endpoint</a> URL</var> has a <code>query</code> component, append <code>?</code> plus the <code>query</code> to the <var>output <a>service endpoint</a> URL</var>.</li>
-			<li>If the <var>input <a>DID URL</a></var> has a <code>query</code> component, append <code>?</code> plus the <code>query</code> to the <var>output <a>service endpoint</a> URL</var>.</li>
-			<li>If the <var>input <a>service endpoint</a> URL</var> has a <code>fragment</code> component, append <code>#</code> plus the <code>fragment</code> to the <var>output <a>service endpoint</a> URL</var>.</li>
-			<li>If the <var>input <a>DID URL</a></var> has a <code>fragment</code> component, append <code>#</code> plus the <code>fragment</code> to the <var>output <a>service endpoint</a> URL</var>.</li>
-			<li>Return the <var>output <a>service endpoint</a> URL</var>.</li>
-		</ol>
-
-		<p class="issue">We could potentially allow <code>query</code> components on both the
-		<var>input <a>DID URL</a></var> and <var>input <a>service endpoint</a> URL</var>, if they both contain lists of
-		key/value parameters that can be merged.</p>
-
-		<p class="issue">Details of the Service Endpoint Construction algorithm have been discussed in April 2019
-		on the CCG mailing list, e.g., <a href="https://lists.w3.org/Archives/Public/public-credentials/2019Apr/0021.html">here</a>
-		or <a href="https://lists.w3.org/Archives/Public/public-credentials/2019Apr/0032.html">here</a>.</p>
-
-		<p class="issue">Instead of defining our own algorithm, we could potentially re-use the "Relative Resolution"
-		algorithm defined in [[RFC3986]].</p>
-
-		<p class="issue" data-number="61">See corresponding open issue.</p>
-
-	</section>
 
 	<section>
 		<h2>Example</h2>
