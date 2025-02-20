@@ -604,6 +604,19 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 				function and MUST NOT be used with the <code>resolve</code> function.
 			</dd>
 		</dl>
+
+		<dl>
+			<dt>
+				expandRelativeUrls
+			</dt>
+			<dd>
+				A boolean flag which instructs a <a>DID resolver</a> to expand
+				<a data-cite="did-core#relative-did-urls">relative DID URLs</a> in
+				the <a>DID document</a> to
+				absolute DID URLs conformant with <a data-cite="did-core#did-url-syntax">
+				DID URL Syntax</a>.
+			</dd>
+		</dl>
 	</section>
 
 	<section>
@@ -888,15 +901,37 @@ string">ASCII string</a>.
 				<li>Otherwise, the result of the <a href="https://www.w3.org/TR/did-core/#method-operations">Read</a> operation
 					is called the <var>output <a>DID document</a></var>. This result MUST be represented in a
 					<a href="https://www.w3.org/TR/did-core/#representations">conformant representation</a> that
-					corresponds to the <b>accept</b> <var>resolution option</var>.</li>
-				<li>Return the following result:
-					<ol class="algorithm">
-						<li><b>didResolutionMetadata</b>: <code>«[ ... ]»</code></li>
-						<li><b>didDocument</b>: <var>output DID document</var></li>
-						<li><b>didDocumentMetadata</b>: <code>«[ "contentType" → </code><var>output DID document media type</var><code>, ... ]»</code></li>
-					</ol>
-				</li>
+					corresponds to the <b>accept</b> <var>input <a href="#did-resolution-options">DID resolution option</a></var>.</li>
 			</ol>
+			<li>If the <var>input <a href="#did-resolution-options">DID resolution options</a></var> contain the <code>expandRelativeUrls</code> option with a value of <code>true</code>:
+				<ol class="algorithm">
+					<li>Iterate over all <a data-cite="did-core#services">services</a>,
+						<a data-cite="did-core#verification-methods">verification methods</a>, and
+						<a data-cite="did-core#verification-relationships">verification relationships</a>
+						in the <var>output <a>DID document</a></var>.</li>
+					<li>If the value of the <code>id</code> property of a <a data-cite="did-core#services">service</a> or
+						<a data-cite="did-core#verification-methods">verification methods</a> is a
+						<a data-cite="did-core#relative-did-urls">relative DID URL</a>, or if a
+						<a data-cite="did-core#verification-relationships">verification relationship</a> is a
+						<a data-cite="did-core#relative-did-urls">relative DID URL</a>:
+						<ol class="algorithm">
+							<li>Resolve the <a data-cite="did-core#relative-did-urls">relative DID URL</a> to
+								an absolute <a>DID URL</a> conformant with <a data-cite="did-core#did-url-syntax">DID URL Syntax</a>, according
+								to the rules of section <a data-cite="did-core#relative-did-urls">Relative DID URLs</a> in [[DID-CORE]].
+							</li>
+						</ol>
+					</li>
+					<li>Update the <var>output <a>DID document</a></var> by replacing
+						the <a data-cite="did-core#relative-did-urls">relative DID URLs</a> with the resolved absolute <a>DID URLs</a>.
+					</li>
+				</ol>
+			</li>
+			<li>Return the following result:
+				<ol class="algorithm">
+					<li><b>didResolutionMetadata</b>: <code>«[ ... ]»</code></li>
+					<li><b>didDocument</b>: <var>output DID document</var></li>
+					<li><b>didDocumentMetadata</b>: <code>«[ "contentType" → </code><var>output DID document media type</var><code>, ... ]»</code></li>
+				</ol>
 			</li>
 		</ol>
 
