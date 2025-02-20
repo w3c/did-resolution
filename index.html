@@ -353,7 +353,7 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 		document</a> by using the "Read" operation of the applicable <a>DID method</a>
 		as described in <a href="https://w3c.github.io/did-core/#method-operations">Method Operations</a>. All
 		conforming <a>DID resolvers</a> implement the function below, which has the
-		following abstract forms:
+		following abstract form:
 	</p>
 
 	<pre title="Abstract function for DID Resolution">
@@ -430,7 +430,7 @@ resolve(did, resolutionOptions) →
 		<dd>
 			If the resolution is successful, this MUST be a <a>DID document</a> that
 			is capable of being represented in one of the conformant
-			<a href="https://w3c.github.io/did-core/#representations">representations</a>.
+			<a data-cite="did-core#representations">representations</a> of the [[[DID]]] specification.
 			The value of <code><a href="https://w3c.github.io/did-core/#dfn-id">id</a></code> in the resolved <a>DID document</a> MUST
 			match the <a>DID</a> that was resolved. If the resolution is unsuccessful, this
 			value MUST be empty.
