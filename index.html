@@ -1188,33 +1188,6 @@ dereference(didUrl, dereferenceOptions) →
 		<section id="dereferencing-algorithm-resource">
 			<h2>Dereferencing the Resource</h2>
 			<ol class="algorithm">
-				<li>If the <var>input dereferencingOptions</var> contains the <code>verificationRelationship</code>
-					[[[#did-url-dereferencing-options]]] property:
-					<ol class="algorithm">
-						<li>Execute the Retrieve Verification Method algorithm; see <a data-cite="CID#retrieve-verification-method">
-							Section 3.3</a>	of the [[[CID]]] specification:
-						<ol class="algorithm">
-							<li>Read the value of the <code>verificationRelationship</code> property of the
-							<var>input dereferencingOptions</var>. This is called the <var>input verificationRelationship</var>.</li>
-							<li>Remove the <code>verificationRelationship</code> property from the <var>input 
-							dereferencingOptions</var></li>
-							<li>Pass the <var>input <a>DID URL</a></var> as the vmIdentifier, the <var>input verificationRelationship</var>,
-								and the <var>input dereferencingOptions</var> to the <a data-cite="CID#retrieve-verification-method">
-								Retrieve Verification Method</a> algorithm.</li>
-							<li>The result is called the <var>output verificationMethod</var>.</li>
-						</ol>
-						</li>
-						<li>Return the result in the following form:
-							<ol class="algorithm">
-								<li><b>dereferencingMetadata</b>: <code>«[ ... ]»</code></li>
-								<li><b>content</b>: <var>output verificationMethod</var></li>
-								<li><b>contentMetadata</b>: <code>«[ "contentType" → "application/json???", ... ]»</code></li>
-							</ol>
-						</li>
-					</ol>
-					
-
-				</li>
 				<li>Validate that the <var>input <a>DID URL</a></var> conforms to the `did-url` rule of the
 					<a href="https://www.w3.org/TR/did-core/#did-url-syntax">DID URL Syntax</a>.
 					If not, the <a>DID URL dereferencer</a> MUST return the following result:
@@ -1344,6 +1317,14 @@ dereference(didUrl, dereferenceOptions) →
 			on the media type ([[RFC2046]]) of the resource, i.e., on the result of
 			<a href="#dereferencing-algorithm-resource"></a>.</p>
 			<ol class="algorithm">
+				<li>If the <var>input <a href="#did-url-dereferencing-options">DID URL dereferencing options</a></var> contain the
+				<code>verificationRelationship</code> option, execute the <a data-cite="did#retrieve-verification-method">
+				Retrieve Verification Method</a> algorithm from the [[[CID]]] specification starting from Step 5. Set the 
+				<var>controllerDocument</var> to the result of the <a href="#dereferencing-algorithm-resource"></a> algorithm,
+				the	<var>vmFragment</var> to the <a>DID fragment</a> and the <var>verificationRelationship</var> to the value 
+				of the <code>verificationRelationship</code> option.
+				</li>
+				</li>
 				<li>If the result of <a href="#dereferencing-algorithm-resource"></a> is an <var>output <a>service endpoint</a> URL</var>,
 				and the <var>input <a>DID URL</a></var> contains a <a>DID fragment</a>:
 				<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest#intro</pre>
