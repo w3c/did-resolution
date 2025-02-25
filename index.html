@@ -91,6 +91,34 @@
 		  display: block;
 		  background-color: #ff9;
 	  }
+
+		table.simple {
+			border-collapse: collapse;
+			margin: 25px 0;
+			min-width: 400px;
+			border: 1px solid #dddddd;
+		}
+		table.simple thead tr {
+			background-color: #005a9c;
+			color: #ffffff;
+			text-align: left;
+		}
+		table.simple th,
+		table.simple td {
+			padding: 12px 15px;
+			vertical-align: top;
+			text-align: left;
+		}
+		table.simple tbody tr {
+			border-bottom: 1px solid #dddddd;
+		}
+		table.simple tbody tr:nth-of-type(even) {
+			background-color: #00000008;
+		}
+		table.simple tbody tr:last-of-type {
+			border-bottom: 2px solid #005a9c;
+		}
+
     </style>
   </head>
   <body data-cite="infra rfc3986">
@@ -175,6 +203,23 @@ and dereferencing DID URLs.
 
 	</section>
 
+	<section class="informative">
+		<h2>
+		  Audience
+		</h2>
+		<p>
+This specification has three primary audiences: implementers of conformant DID methods;
+implementers of conformant DID resolvers; and implementers of systems and services 
+that wish to resolve DIDs using DID resolvers. The intended audience includes, 
+but is not limited to, software architects, data modelers, application developers, 
+service developers, testers, operators, and user experience (UX) specialists. 
+Other people involved in a broad range of standards efforts related to decentralized 
+identity, verifiable credentials, and secure storage might also be interested in 
+reading this specification.
+		</p>
+  
+	  </section>
+
 </section>
 
 <section id="terminology">
@@ -207,7 +252,7 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 	</pre>
 
 	<p>
-		Some DID parameters are completely independent of of any specific <a>DID
+		Some DID parameters are completely independent of any specific <a>DID
 		method</a> and function the same way for all <a>DIDs</a>. Other DID parameters
 		are not supported by all <a>DID methods</a>. Where optional parameters are
 		supported, they are expected to operate uniformly across the <a>DID methods</a>
@@ -334,7 +379,7 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 	<p>
 		The <a>DID resolution</a> functions resolve a <a>DID</a> into a <a>DID
 		document</a> by using the "Read" operation of the applicable <a>DID method</a>
-		as described in <a href="https://w3c.github.io/did-core/#method-operations">Method Operations</a>. All
+		as described in <a data-cite="did-core#method-operations">Method Operations</a>. All
 		conforming <a>DID resolvers</a> implement the functions below, which have the
 		following abstract forms:
 	</p>
@@ -481,7 +526,7 @@ consumption rules.">
 		</dt>
 		<dd>
 			This is the <a>DID</a> to resolve. This input is REQUIRED and the value MUST
-			be a conformant <a>DID</a> as defined in <a href="https://w3c.github.io/did-core/#did-syntax"></a>.
+			be a conformant <a>DID</a> as defined in <a data-cite="did-core#did-syntax"></a>.
 		</dd>
 		<dt>
 			resolutionOptions
@@ -528,10 +573,10 @@ consumption rules.">
 		<dd>
 			If the resolution is successful, and if the <code>resolve</code> function was
 			called, this MUST be a <a>DID document</a> abstract data model (a <a
-				data-cite="INFRA#maps">map</a>) as described in <a href="https://w3c.github.io/did-core/#data-model"></a> that
-			is capable of being transformed into a <a href="https://w3c.github.io/did-core/#dfn-did-documents">conforming DID Document</a>
+				data-cite="INFRA#maps">map</a>) as described in <a data-cite="did-core#data-model"></a> that
+			is capable of being transformed into a <a data-cite="did-core#dfn-did-documents">conforming DID Document</a>
 			(representation), using the production rules specified by the representation.
-			The value of <code><a href="https://w3c.github.io/did-core/#dfn-id">id</a></code> in the resolved <a>DID document</a> MUST
+			The value of <code><a data-cite="did-core#dfn-id">id</a></code> in the resolved <a>DID document</a> MUST
 			match the <a>DID</a> that was resolved. If the resolution is unsuccessful, this
 			value MUST be empty.
 		</dd>
@@ -542,9 +587,9 @@ consumption rules.">
 			If the resolution is successful, and if the <code>resolveRepresentation</code>
 			function was called, this MUST be a byte stream of the resolved <a>DID
 			document</a> in one of the conformant
-			<a href="https://w3c.github.io/did-core/#representations">representations</a>. The byte stream might then be
+			<a data-cite="did-core#representations">representations</a>. The byte stream might then be
 			parsed by the caller of the <code>resolveRepresentation</code> function into a
-			<a href="https://w3c.github.io/did-core/#data-model">data model</a>, which can in turn be validated and
+			<a data-cite="did-core#data-model">data model</a>, which can in turn be validated and
 			processed. If the resolution is unsuccessful, this value MUST be an empty
 			stream.
 		</dd>
@@ -635,7 +680,7 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 				Type of the conformant <a>representations</a>. The
 				caller of the <code>resolveRepresentation</code> function MUST use this value
 				when determining how to parse and process the <code>didDocumentStream</code>
-				returned by this function into the <a href="https://w3c.github.io/did-core/#data-model">data model</a>.
+				returned by this function into the <a data-cite="did-core#data-model">data model</a>.
 			</dd>
 			<dt>
 				error
@@ -653,7 +698,7 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 					</dt>
 					<dd>
 						The <a>DID</a> supplied to the <a>DID resolution</a> function does not conform
-						to valid syntax. (See <a href="https://w3c.github.io/did-core/#did-syntax"></a>.)
+						to valid syntax. (See <a data-cite="did-core#did-syntax"></a>.)
 					</dd>
 					<dt>
 						notFound
@@ -689,7 +734,7 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 			<dt><dfn class="lint-ignore">created</dfn></dt>
 			<dd>
 				<a>DID document</a> metadata SHOULD include a <code>created</code> property to
-				indicate the timestamp of the <a href="https://w3c.github.io/did-core/#method-operations">Create operation</a>.
+				indicate the timestamp of the <a data-cite="did-core#method-operations">Create operation</a>.
 				The value of the property MUST be a <a data-cite="INFRA#string">string</a>
 				formatted as an <a data-cite="XMLSCHEMA11-2#dateTime">XML Datetime</a>
 				normalized to UTC 00:00:00 and without sub-second decimal precision. For
@@ -699,7 +744,7 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 			<dt><dfn class="lint-ignore">updated</dfn></dt>
 			<dd>
 				<a>DID document</a> metadata SHOULD include an <code>updated</code> property to
-				indicate the timestamp of the last <a href="https://w3c.github.io/did-core/#method-operations">Update
+				indicate the timestamp of the last <a data-cite="did-core#method-operations">Update
 				operation</a> for the document version which was resolved. The value of the
 				property MUST follow the same formatting rules as the <code>created</code>
 				property. The <code>updated</code> property is omitted if an Update operation
@@ -710,7 +755,7 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 
 			<dt><dfn class="lint-ignore">deactivated</dfn></dt>
 			<dd>
-				If a DID has been <a href="https://w3c.github.io/did-core/#method-operations">deactivated</a>,
+				If a DID has been <a data-cite="did-core#method-operations">deactivated</a>,
 				<a>DID document</a> metadata MUST include this property with the boolean value
 				<code>true</code>. If a DID has not been deactivated, this property is OPTIONAL,
 				but if included, MUST have the boolean value <code>false</code>.
@@ -720,7 +765,7 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 			<dd>
 				<a>DID document</a> metadata MAY include a <code>nextUpdate</code> property if
 				the resolved document version is not the latest version of the document. It
-				indicates the timestamp of the next <a href="https://w3c.github.io/did-core/#method-operations">Update
+				indicates the timestamp of the next <a data-cite="did-core#method-operations">Update
 				operation</a>. The value of the property MUST follow the same formatting rules
 				as the <code>created</code> property.
 			</dd>
@@ -728,7 +773,7 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 			<dt><dfn class="lint-ignore">versionId</dfn></dt>
 			<dd>
 				<a>DID document</a> metadata SHOULD include a <code>versionId</code> property to
-				indicate the version of the last <a href="https://w3c.github.io/did-core/#method-operations">Update
+				indicate the version of the last <a data-cite="did-core#method-operations">Update
 				operation</a> for the document version which was resolved. The value of the
 				property MUST be an <a data-lt="ascii string">ASCII string</a>.
 			</dd>
@@ -737,7 +782,7 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 			<dd>
 				<a>DID document</a> metadata MAY include a <code>nextVersionId</code> property
 				if the resolved document version is not the latest version of the document. It
-				indicates the version of the next <a href="https://w3c.github.io/did-core/#method-operations">Update
+				indicates the version of the next <a data-cite="did-core#method-operations">Update
 				operation</a>. The value of the property MUST be an <a data-lt="ascii
 string">ASCII string</a>.
 			</dd>
@@ -758,7 +803,7 @@ string">ASCII string</a>.
 					If present, the value MUST be a <a
 						data-cite="INFRA#ordered-set">set</a> where each item is a
 					<a data-cite="INFRA#string">string</a> that conforms to the rules in Section <a
-						href="https://w3c.github.io/did-core/#did-syntax"></a>. The relationship is a statement that each
+						data-cite="did-core#did-syntax"></a>. The relationship is a statement that each
 					<code><a>equivalentId</a></code> value is logically equivalent to the
 					<code>id</code> property value and thus refers to the same <a>DID subject</a>.
 					Each <code><a>equivalentId</a></code> DID value MUST be produced by, and a form
@@ -779,7 +824,7 @@ string">ASCII string</a>.
 				</p>
 				<p class="note" title="Stronger equivalence">
 					<code><a>equivalentId</a></code> is a much stronger form of equivalence than
-					<code><a href="https://w3c.github.io/did-core/#also-known-as">alsoKnownAs</a></code> because the equivalence MUST be guaranteed by
+					<code><a data-cite="did-core#also-known-as">alsoKnownAs</a></code> because the equivalence MUST be guaranteed by
 					the governing <a>DID method</a>. <code><a>equivalentId</a></code> represents a
 					full graph merge because the same <a>DID document</a> describes both the
 					<code><a>equivalentId</a></code> <a>DID</a> and the <code>id</code> property
@@ -807,7 +852,7 @@ string">ASCII string</a>.
 					<a>DID document</a> metadata MAY include a <code>canonicalId</code> property.
 					If present, the value MUST be a <a
 						data-cite="INFRA#string">string</a> that conforms to the rules in Section <a
-						href="https://w3c.github.io/did-core/#did-syntax"></a>. The relationship is a statement that the
+						data-cite="did-core#did-syntax"></a>. The relationship is a statement that the
 					<code><a>canonicalId</a></code> value is logically equivalent to the
 					<code>id</code> property value and that the <code><a>canonicalId</a></code>
 					value is defined by the <a>DID method</a> to be the canonical ID for the <a>DID
@@ -1068,8 +1113,8 @@ dereference(didUrl, dereferenceOptions) →
 			contain a <a>resource</a> corresponding to the <a>DID URL</a>. The
 			<code>contentStream</code> MAY be a <a>resource</a> such as a <a>DID
 			document</a> that is serializable in one of the conformant
-			<a>representations</a>, a <a href="https://w3c.github.io/did-core/#verification-methods">verification
-			method</a>, a <a href="https://w3c.github.io/did-core/#services">service</a>, or any other resource format that
+			<a>representations</a>, a <a data-cite="did-core#verification-methods">verification
+			method</a>, a <a data-cite="did-core#services">service</a>, or any other resource format that
 			can be identified via a Media Type and obtained through the resolution process.
 			If the dereferencing is unsuccessful, this value MUST be empty.
 		</dd>
@@ -1154,7 +1199,7 @@ dereference(didUrl, dereferenceOptions) →
 					</dt>
 					<dd>
 						The <a>DID URL</a> supplied to the <a>DID URL dereferencing</a> function does
-						not conform to valid syntax. (See <a href="https://w3c.github.io/did-core/#did-url-syntax"></a>.)
+						not conform to valid syntax. (See <a data-cite="did-core#did-url-syntax"></a>.)
 					</dd>
 					<dt>
 						notFound
@@ -1627,7 +1672,7 @@ https://example.com/messages/8377464/some/path?query#frag
 		<p>The algorithms for <a>DID resolution</a> and <a>DID URL dereferencing</a> are defined as abstract functions
 		(see <a href="#resolving"></a> and <a href="#dereferencing"></a>).</p>
 		Those algorithms are implemented by <a>DID resolvers</a>. A <a>DID resolver</a> is invoked by a <a>client</a>
-		via a <a>binding</a>. bindings define how the abstract functions are realized using concrete
+		via a <a>binding</a>. Bindings define how the abstract functions are realized using concrete
 		programming or communication interfaces. It is possible to distinguish between <a>local bindings</a>
 		(such as a local command line tool or library API) and <a>remote bindings</a> (such as the
 		<a href="#bindings-https">HTTP(S) binding</a>).</p>
@@ -2058,11 +2103,11 @@ https://example.com/messages/8377464/some/path?query#frag
 
 		<ol class="algorithm">
 			<li>Initialize a <var>request HTTP(S) URL</var> with the <var><a>DID resolver</a> HTTP(S) endpoint</var>.
-			<pre class="example nohighlight">https://dev.uniresolver.io/1.0/identifiers/</pre></li>
+			<pre class="example nohighlight">https://resolver.example/1.0/identifiers/</pre></li>
 			<li>For the <a>DID resolution</a> function:
 				<ol class="algorithm">
 					<li>Append the <var>input <a>DID</a></var> to the <var>request HTTP(S) URL</var>.
-					<pre class="example nohighlight">https://dev.uniresolver.io/1.0/identifiers/did:example:1234</pre></li>
+					<pre class="example nohighlight">https://resolver.example/1.0/identifiers/did:example:1234</pre></li>
 					<li>Set the <code>Accept</code> <var>HTTP request header</var> to `application/ld+json;profile="https://w3id.org/did-resolution"`
 						in order to request a complete <a href="#did-resolution-result"></a>, OR</li>
 					<li>set the <code>Accept</code> <var>HTTP request header</var> to the value of the <b>accept</b> <var>resolution option</var>.</li>
@@ -2072,7 +2117,7 @@ https://example.com/messages/8377464/some/path?query#frag
 									data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>).</li>
 							<li>Encode all <var>resolution options</var> except <b>accept</b> as
 								query parameters in the <var>request HTTP(S) URL</var>.
-							<pre class="example nohighlight">https://dev.uniresolver.io/1.0/identifiers/did%3Aexample%3A1234?option1=value1&option2=value2</pre></li>
+							<pre class="example nohighlight">https://resolver.example/1.0/identifiers/did%3Aexample%3A1234?option1=value1&option2=value2</pre></li>
 						</ol>
 					</li>
 				</ol>
@@ -2080,7 +2125,7 @@ https://example.com/messages/8377464/some/path?query#frag
 			<li>For the <a>DID URL dereferencing</a> function:
 				<ol class="algorithm">
 					<li>Append the <var>input <a>DID URL</a></var> to the <var>request HTTP(S) URL</var>.
-					<pre class="example nohighlight">https://dev.uniresolver.io/1.0/identifiers/did:example:1234?service=files&relativeRef=/resume.pdf</pre></li>
+					<pre class="example nohighlight">https://resolver.example/1.0/identifiers/did:example:1234?service=files&relativeRef=/resume.pdf</pre></li>
 					<li>Set the <code>Accept</code> <var>HTTP request header</var> to `application/ld+json;profile="https://w3id.org/did-url-dereferencing"`
 						in order to request a complete <a href="#did-url-dereferencing-result"></a>, OR</li>
 					<li>set the <code>Accept</code> <var>HTTP request header</var> to the value of the <b>accept</b> <var>dereferencing option</var>.</li>
@@ -2090,7 +2135,7 @@ https://example.com/messages/8377464/some/path?query#frag
 									data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>).</li>
 							<li>Encode all <var>dereferencing options</var> except <b>accept</b> as
 								query parameters in the <var>request HTTP(S) URL</var>.
-							<pre class="example nohighlight">https://dev.uniresolver.io/1.0/identifiers/did%3Aexample%3A1234%3Fservice%3Dfiles%26relativeRef%3D%2Fresume.pdf?option1=value1&option2=value2</pre></li>
+							<pre class="example nohighlight">https://resolver.example/1.0/identifiers/did%3Aexample%3A1234%3Fservice%3Dfiles%26relativeRef%3D%2Fresume.pdf?option1=value1&option2=value2</pre></li>
 						</ol>
 					</li>
 				</ol>
@@ -2236,16 +2281,16 @@ https://example.com/messages/8377464/some/path?query#frag
 		<h2>DID Resolution Examples</h2>
 		<p>Given the following <var><a>DID resolver</a> HTTP(S) endpoint</var>:<p>
 		<p><code>
-https://dev.uniresolver.io/1.0/identifiers/</code></p>
+https://resolver.example/1.0/identifiers/</code></p>
 		<p>And given the following <var>input <a>DID</a></var>:</p>
 		<p><code>
 did:sov:WRfXPg8dantKVubE3HX8pw</code></p>
 		<p>Then the <var>request HTTP(S) URL</var> is:</p>
 		<p><code>
-https://dev.uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8pw</code></p>
+https://resolver.example/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8pw</code></p>
 		<p>The HTTP(S) binding can be invoked as follows:</p>
 		<pre class="example nohighlight" title="Example curl call to a DID resolver via HTTP(S) binding">
-curl -X GET https://dev.uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8pw</pre>
+curl -X GET https://resolver.example/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8pw</pre>
 
 		<p>Additional examples of the HTTP(S) binding:</p>
 
