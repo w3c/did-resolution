@@ -635,24 +635,13 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 		<dl>
 			<dt>versionId</dt>
 			<dd>
-				Identifies a specific version of a <a>DID document</a> to be resolved (the
-				version ID could be sequential, or a <a>UUID</a>, or method-specific).
-				If present, the associated value MUST be an <a
-					data-lt="ascii string">ASCII string</a>.
+				See <a href="#did-parameters"></a> for the definition.
 			</dd>
 		</dl>
 		<dl>
 			<dt>versionTime</dt>
 			<dd>
-				Identifies a certain version timestamp of a <a>DID document</a> to be resolved.
-				That is, the most recent version of the <a>DID document</a> that was valid for a <a>DID</a> 
-				before the specified `versionTime`. If present, the associated value
-				MUST be an <a data-lt="ascii string">ASCII string</a> which is a valid XML
-				datetime value, as defined in section 3.3.7 of <a
-					href="https://www.w3.org/TR/xmlschema11-2/">W3C XML Schema Definition Language
-				(XSD) 1.1 Part 2: Datatypes</a> [[XMLSCHEMA11-2]]. This datetime value MUST be
-				normalized to UTC 00:00:00 and without sub-second decimal precision.
-				For example: <code>2020-12-20T19:17:47Z</code>.
+				See <a href="#did-parameters"></a> for the definition.
 			</dd>
 		</dl>
 	</section>
