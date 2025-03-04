@@ -1317,13 +1317,44 @@ dereference(didUrl, dereferenceOptions) →
 			on the media type ([[RFC2046]]) of the resource, i.e., on the result of
 			<a href="#dereferencing-algorithm-resource"></a>.</p>
 			<ol class="algorithm">
-				<li>If the <var>input <a href="#did-url-dereferencing-options">DID URL dereferencing options</a></var> contain the
-				<code>verificationRelationship</code> option, execute the <a data-cite="did#retrieve-verification-method">
+				<li>If the result of <a href="#dereferencing-algorithm-resource"></a> is an <var>output <a>DID document</a></var>,
+				and the <var>input <a href="#did-url-dereferencing-options">DID URL dereferencing options</a></var> contain the
+				<code>verificationRelationship</code> option:
+				</li>
+				<ol class="algorithm">
+					<li>
+					Let <var>verificationRelationship</var> be the value of the <code>verificationRelationship</code> 
+					option.
+					</li>
+					<li>
+					Let <var>verificationMethod</var> be the result of dereferencing the
+					<a>DID fragment</a> from the <var>output <a>DID document</a></var> according to the
+					rules of the media type of the <var>DID document</var>.
+					</li>
+					<li>
+					If <var>verificationMethod</var> is not a <a data-cite="cid#dfn-conforming-verification-method">conforming verification method</a>,
+					an error MUST be raised and SHOULD convey an error type of
+					<a data-cite="cid#INVALID_VERIFICATION_METHOD">INVALID_VERIFICATION_METHOD</a>.
+					</li>					
+					<li>
+					If <var>verificationMethod</var> is not associated, either by reference
+					(URL) or by value (object), with the <a data-cite="cid#dfn-verification-relationship">verification relationship</a> array in the
+					<var>output <a>DID document</a></var> identified by <var>verificationRelationship</var>,
+					an error MUST be raised and SHOULD convey an error type of
+					<a data-cite="cid#INVALID_RELATIONSHIP_FOR_VERIFICATION_METHOD">
+					INVALID_RELATIONSHIP_FOR_VERIFICATION_METHOD</a>.
+					</li>
+					<li>
+					Return the <var>verificationMethod</var>.
+					</li>
+				</ol>
+				
+				<!-- , execute the <a data-cite="did#retrieve-verification-method">
 				Retrieve Verification Method</a> algorithm from the [[[CID]]] specification starting from Step 5. Set the 
 				<var>controllerDocument</var> to the result of the <a href="#dereferencing-algorithm-resource"></a> algorithm,
 				the	<var>vmFragment</var> to the <a>DID fragment</a> and the <var>verificationRelationship</var> to the value 
 				of the <code>verificationRelationship</code> option.
-				</li>
+				</li> -->
 				</li>
 				<li>If the result of <a href="#dereferencing-algorithm-resource"></a> is an <var>output <a>service endpoint</a> URL</var>,
 				and the <var>input <a>DID URL</a></var> contains a <a>DID fragment</a>:
