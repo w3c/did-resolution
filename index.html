@@ -1223,6 +1223,7 @@ dereference(didUrl, dereferenceOptions) →
 				</li>
 				<li>Obtain the <a>DID document</a> for the <var>input <a>DID</a></var> by executing the
 					<a>DID resolution</a> algorithm as defined in <a href="#resolving"></a>. All
+					<var>dereferencing options</var> and all
 					<a href="https://www.w3.org/TR/did-core/#did-parameters">
 						DID parameters</a> of the <var>input <a>DID URL</a></var> MUST be passed as <var>resolution options</var> to the
 						<a>DID Resolution</a> algorithm.</li>
@@ -1252,21 +1253,6 @@ dereference(didUrl, dereferenceOptions) →
 					<pre class="example nohighlight">did:example:1234?hl=zQmWvQxTqbG2Z9HPJgG57jjwR154cKhbtJenbyYTWkjgF3e</pre>
 					<ol class="algorithm"><li>
 						<p class="issue">TODO: Specify the algorithm for processing the `hl` DID parameter.</p>
-					</li></ol>
-				</li>
-				<li>If the <var>input <a>DID URL</a></var> contains the
-					<a href="https://www.w3.org/TR/did-core/#did-parameters">DID parameter</a> <code>versionId</code>:
-					<pre class="example nohighlight">did:example:1234?versionId=1</pre>
-					<ol class="algorithm"><li>
-						<p class="issue">TODO: Specify the algorithm for processing the `versionId` DID parameter.</p>
-					</li></ol>
-				</li>
-
-				<li>If the <var>input <a>DID URL</a></var> contains the
-					<a href="https://www.w3.org/TR/did-core/#did-parameters">DID parameter</a> <code>versionTime</code>:
-					<pre class="example nohighlight">did:example:1234?versionTime=2021-05-10T17:00:00Z</pre>
-					<ol class="algorithm"><li>
-						<p class="issue">TODO: Specify the algorithm for processing the `versionTime` DID parameter.</p>
 					</li></ol>
 				</li>
 				<li>If the <var>input <a>DID URL</a></var> contains the
