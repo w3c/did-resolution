@@ -1299,9 +1299,7 @@ dereference(didUrl, dereferenceOptions) →
 				<li>If the <var>input <a>DID URL</a></var> contains the
 					<a href="https://www.w3.org/TR/did-core/#did-parameters">DID parameter</a> <code>hl</code>:
 					<pre class="example nohighlight">did:example:1234?hl=zQmWvQxTqbG2Z9HPJgG57jjwR154cKhbtJenbyYTWkjgF3e</pre>
-					<ol class="algorithm"><li>
-						<p class="issue">TODO: Specify the algorithm for processing the `hl` DID parameter.</p>
-					</li></ol>
+					<p class="issue">TODO: Specify the algorithm for processing the `hl` DID parameter.</p>
 				</li>
 				<li>If the <var>input <a>DID URL</a></var> contains the
 				<a href="https://www.w3.org/TR/did-core/#did-parameters">
@@ -1322,44 +1320,69 @@ dereference(didUrl, dereferenceOptions) →
 									Select the <a data-cite="did-core#services">service</a> if its <code>type</code>
 									property matches the value of the <code>serviceType</code> DID parameter.</li>
 							</ol>
-							The selected <a data-cite="did-core#services">services</a> are a list called the <var>resolved <a>services</a></var>.
-						</li>
-						<li>Read the values of the <code>serviceEndpoint</code> properties of the
-							<var>resolved <a>services</a></var>. This list is called the <var>resolved <a>service endpoint</a> URLs</var>.</li>
-						<li>If the <var>input <a>DID URL</a></var> does not contain the
-							<a data-cite="did-core#did-parameters">DID parameter</a> <code>relativeRef</code>:
-							<ol class="algorithm">
-								<li>Set the <var>output <a>service endpoint</a> URLs</var> to the <var>resolved <a>service endpoint</a> URLs</var>.</li>
-							</ol>
+							The selected <a data-cite="did-core#services">services</a> are a list called the <var>selected <a>services</a></var>.
 						</li>
 						<li>If the <var>input <a>DID URL</a></var> contains the
 							<a data-cite="did-core#did-parameters">DID parameter</a> <code>relativeRef</code>:
 							<ol class="algorithm">
-								<li>For each <var>resolved <a>service endpoint</a> URL</var>, execute the "Resolve Reference" algorithm specified in
-									<a data-cite="RFC3986#section-5">RFC3986 Section 5: Reference Resolution</a> as follows:
+								<li>For each <var>selected <a>service</a></var>:
 									<ol class="algorithm">
-										<li>The <strong>base URI</strong> value is the <var>resolved <a>service endpoint</a> URL</var>.
-											The <strong>scheme</strong> is <code>did</code>. The <strong>authority</strong> is a
-											combination of <code>&lt;method-name>:&lt;method-specific-id></code>, and the
-											<strong>path</strong>, <strong>query</strong>, and <strong>fragment</strong>
-											values are those defined in <a data-cite="did-core#path">path</a>, <a data-cite="did-core#query">query</a>,
-											and <a data-cite="did-core#fragment">fragment</a>, respectively.</li>
-										<li>The <strong>relative reference</strong> is the value of the
-											<a data-cite="did-core#did-parameters">DID parameter</a> <code>relativeRef</code>.</li>
+										<li>If the value of the <code>serviceEndpoint</code> property of the <var>selected <a>service</a></var>
+										is a <a data-cite="INFRA#maps">map</a>, skip this <var>selected <a>service</a></var>.</li>
+										<li>If the value of the <code>serviceEndpoint</code> property of the <var>selected <a>service</a></var>
+											is a <a data-cite="INFRA#string">string</a>, add this value to a list of
+											<var>selected <a>service endpoint</a> URLs</var>.</li>
+										<li>If the value of the <code>serviceEndpoint</code> property of the <var>selected <a>service</a></var>
+											is a <a data-cite="INFRA#ordered-set">set</a>, add all its items that are <a data-cite="INFRA#string">strings</a>
+											to a list of <var>selected <a>service endpoint</a> URLs</var>.</li>
 									</ol>
 								</li>
-								<li>Set the <var>output <a>service endpoint</a> URLs</var> to the list of results of the "Resolve Reference" algorithm.</li>
+								<li>For each <var>selected <a>service endpoint</a> URL</var>, execute the algorithm specified in
+									<a data-cite="RFC3986#section-5">RFC3986 Section 5: Reference Resolution</a> as follows:
+									<ol class="algorithm">
+										<li>The <strong>base URI</strong> value is the <var>selected <a>service endpoint</a> URL</var>.</li>
+										<li>The <strong>relative reference</strong> is the value of the
+											<a data-cite="did-core#did-parameters">DID parameter</a> <code>relativeRef</code>.</li>
+										<li>Update the <var>selected <a>service endpoint</a> URL</var> to
+										the result of the "Reference Resolution" algorithm.</li>
+									</ol>
+								</li>
 							</ol>
 						</li>
-					</li>
-					<li>Return the following result:
-						<ol class="algorithm">
-							<li><b>dereferencingMetadata</b>: <code>«[ ... ]»</code></li>
-							<li><b>content</b>: <code>« output service endpoint URLs »</code></li>
-							<li><b>contentMetadata</b>: <code>«[ "contentType" → "text/uri-list", ... ]»</code></li>
-						</ol>
-					</li>
-				</ol>
+						<li>If the <b>accept</b> <var>input <a href="#did-url-dereferencing-options">DID dereferencing option</a></var>
+							is missing, or if its value is the Media Type of a <a>representation</a> of a <a>DID document</a>:
+							<ol class="algorithm">
+								<li>Update the <a>services</a> in the <var>resolved <a>DID document</a></var> to contain only the
+									<var>selected <a>services</a></var>.</li>
+								<li>Return the following result:
+									<ol class="algorithm">
+										<li><b>dereferencingMetadata</b>: <code>«[ ... ]»</code></li>
+										<li><b>content</b>: <code>resolved DID document with selected services</code></li>
+										<li><b>contentMetadata</b>: <code>«[ <code>resolved DID document metadata</code> ]»</code></li>
+									</ol>
+								</li>
+							</ol>
+						</li>
+						<li>If the value of the <b>accept</b> <var>input <a href="#did-resolution-options">DID resolution option</a></var>
+							is <b>text/uri-list</b>:
+							<ol class="algorithm">
+								<li>Return the following result:
+									<ol class="algorithm">
+										<li><b>dereferencingMetadata</b>: <code>«[ ... ]»</code></li>
+										<li><b>content</b>: <code>« selected service endpoint URLs »</code></li>
+										<li><b>contentMetadata</b>: <code>«[ "contentType" → "text/uri-list", ... ]»</code></li>
+									</ol>
+								</li>
+							</ol>
+						</li>
+						<li>Otherwise, return the following result:
+							<ol class="algorithm">
+								<li><b>dereferencingMetadata</b>: <code>«[ "error" → "representationNotSupported", ... ]»</code></li>
+								<li><b>content</b>: <code>null</code></li>
+								<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
+							</ol>
+						</li>
+					</ol>
 				</li>
 
 				<li>Otherwise, if the <var>input <a>DID URL</a></var> contains a <a>DID path</a> and/or <a>DID query</a>:
@@ -1406,16 +1429,16 @@ dereference(didUrl, dereferenceOptions) →
 			on the media type ([[RFC2046]]) of the resource, i.e., on the result of
 			<a href="#dereferencing-algorithm-resource"></a>.</p>
 			<ol class="algorithm">
-				<li>If the result of <a href="#dereferencing-algorithm-resource"></a> is an <var>output <a>service endpoint</a> URL</var>,
+				<li>If the result of <a href="#dereferencing-algorithm-resource"></a> is a <var>selected <a>service endpoint</a> URL</var>,
 				and the <var>input <a>DID URL</a></var> contains a <a>DID fragment</a>:
 				<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest#intro</pre>
 				<ol class="algorithm">
-					<li>If the <var>output <a>service endpoint</a> URL</var>
+					<li>If the <var>select <a>service endpoint</a> URL</var>
 					contains a <code>fragment</code> component, raise an error.</li>
-					<li>Append the <a>DID fragment</a> to the <var>output <a>service endpoint</a> URL</var>. In other words,
-					the <var>output <a>service endpoint</a> URL</var> "inherits" the <a>DID fragment</a> of the
+					<li>Append the <a>DID fragment</a> to the <var>select <a>service endpoint</a> URL</var>. In other words,
+					the <var>select <a>service endpoint</a> URL</var> "inherits" the <a>DID fragment</a> of the
 					<var>input <a>DID URL</a></var>.</li>
-					<li>Return the <var>output <a>service endpoint</a> URL</var>.</li>
+					<li>Return the <var>select <a>service endpoint</a> URL</var>.</li>
 				</ol>
 				</li>
 				<li>Otherwise, dereference the DID fragment as defined by the media type ([[RFC2046]]) of the resource.
@@ -1484,7 +1507,7 @@ did:example:123456789abcdefghi#keys-1
 		<pre class="example nohighlight">
 did:example:123456789abcdefghi?service=messages&relativeRef=%2Fsome%2Fpath%3Fquery#frag
 </pre>
-		<p>... then the result of the <a href="#dereferencing"></a> algorithm is the following <var>output <a>service endpoint</a> URL</var>:</p>
+		<p>... then the result of the <a href="#dereferencing"></a> algorithm is the following <var>selected <a>service endpoint</a> URL</var>:</p>
 		<pre class="example nohighlight">
 https://example.com/messages/8377464/some/path?query#frag
 </pre>
@@ -2308,7 +2331,7 @@ https://example.com/messages/8377464/some/path?query#frag
 						<ol class="algorithm">
 							<li>The HTTP response status code MUST be <code>303</code>.</li>
 							<li>The HTTP response MUST contain an <code>Location</code> header. The value of this header
-								MUST be the <var>output <a>service endpoint</a> URL</var>.</li>
+								MUST be the <var>selected <a>service endpoint</a> URL</var>.</li>
 							<li>the HTTP response body MUST be empty.</li>
 						</ol>
 					</li>
