@@ -1312,16 +1312,16 @@ dereference(didUrl, dereferenceOptions) →
 					<ol class="algorithm">
 						<li>From the <var>resolved <a>DID document</a></var>, select all
 							<a data-cite="did-core#services">services</a> which fulfill the following conditions:
-							<ul>
-								<p>If the <var>input <a>DID URL</a></var> contains the
+							<ol class="algorithm">
+								<li>If the <var>input <a>DID URL</a></var> contains the
 									<a data-cite="did-core#did-parameters">DID parameter</a> <code>service</code>:
 									Select the <a data-cite="did-core#services">service</a> if its <code>id</code>
-									property contains a fragment which matches the value of the <code>service</code> DID parameter.</p>
-								<p>If the <var>input <a>DID URL</a></var> contains the
+									property contains a fragment which matches the value of the <code>service</code> DID parameter.</li>
+								<li>If the <var>input <a>DID URL</a></var> contains the
 									<a data-cite="did-core#did-parameters">DID parameter</a> <code>serviceType</code>:
 									Select the <a data-cite="did-core#services">service</a> if its <code>type</code>
-									property matches the value of the <code>serviceType</code> DID parameter.</p>
-							</ul>
+									property matches the value of the <code>serviceType</code> DID parameter.</li>
+							</ol>
 							The selected <a data-cite="did-core#services">services</a> are a list called the <var>resolved <a>services</a></var>.
 						</li>
 						<li>Read the values of the <code>serviceEndpoint</code> properties of the
@@ -1337,16 +1337,16 @@ dereference(didUrl, dereferenceOptions) →
 							<ol class="algorithm">
 								<li>For each <var>resolved <a>service endpoint</a> URL</var>, execute the "Resolve Reference" algorithm specified in
 									<a data-cite="RFC3986#section-5">RFC3986 Section 5: Reference Resolution</a> as follows:
-									<ul>
-										<p>The <strong>base URI</strong> value is the <var>resolved <a>service endpoint</a> URL</var>.
+									<ol class="algorithm">
+										<li>The <strong>base URI</strong> value is the <var>resolved <a>service endpoint</a> URL</var>.
 											The <strong>scheme</strong> is <code>did</code>. The <strong>authority</strong> is a
 											combination of <code>&lt;method-name>:&lt;method-specific-id></code>, and the
 											<strong>path</strong>, <strong>query</strong>, and <strong>fragment</strong>
 											values are those defined in <a data-cite="did-core#path">path</a>, <a data-cite="did-core#query">query</a>,
-											and <a data-cite="did-core#fragment">fragment</a>, respectively.</p>
-										<p>The <strong>relative reference</strong> is the value of the
-											<a data-cite="did-core#did-parameters">DID parameter</a> <code>relativeRef</code>.</p>
-									</ul>
+											and <a data-cite="did-core#fragment">fragment</a>, respectively.</li>
+										<li>The <strong>relative reference</strong> is the value of the
+											<a data-cite="did-core#did-parameters">DID parameter</a> <code>relativeRef</code>.</li>
+									</ol>
 								</li>
 								<li>Set the <var>output <a>service endpoint</a> URLs</var> to the list of results of the "Resolve Reference" algorithm.</li>
 							</ol>
