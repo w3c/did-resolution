@@ -6,7 +6,7 @@
     "type": "@type",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
 
-    "didDocument": "https://www.w3.org/ns/did/v1",
+    "didDocument": "https://w3id.org/did-resolution#didDocument",
 
     "didResolutionMetadata": "https://w3id.org/did-resolution#didResolutionMetadata",
     "contentType": "https://w3id.org/did-resolution#contentType",
