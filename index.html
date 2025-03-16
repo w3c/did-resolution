@@ -1314,7 +1314,11 @@ dereference(didUrl, dereferenceOptions) →
 								<li>If the <var>input <a>DID URL</a></var> contains the
 									<a data-cite="did-core#did-parameters">DID parameter</a> <code>service</code>:
 									Select the <a data-cite="did-core#services">service</a> if its <code>id</code>
-									property contains a fragment which matches the value of the <code>service</code> DID parameter.</li>
+									property matches the value of the <code>service</code> DID parameter. In case the <code>id</code>
+									property or the <code>service</code> DID parameter or both contain relative
+									references, the corresponding absolute URIs MUST be resolved and used for determining
+									the match, using the rules specified in <a data-cite="RFC3986#section-5">RFC3986 Section 5: Reference Resolution</a>
+									and in section <a data-cite="did-core#relative-did-urls">Relative DID URLs</a> in [[[DID-CORE]]].</li>
 								<li>If the <var>input <a>DID URL</a></var> contains the
 									<a data-cite="did-core#did-parameters">DID parameter</a> <code>serviceType</code>:
 									Select the <a data-cite="did-core#services">service</a> if its <code>type</code>
