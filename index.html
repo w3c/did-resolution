@@ -377,146 +377,37 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 	<h1>DID Resolution</h1>
 
 	<p>
-		The <a>DID resolution</a> functions resolve a <a>DID</a> into a <a>DID
+		The <a>DID resolution</a> function resolves a <a>DID</a> into a <a>DID
 		document</a> by using the "Read" operation of the applicable <a>DID method</a>
 		as described in <a data-cite="did-core#method-operations">Method Operations</a>. All
-		conforming <a>DID resolvers</a> implement the functions below, which have the
-		following abstract forms:
+		conforming <a>DID resolvers</a> implement the function below, which has the
+		following abstract form:
 	</p>
 
-	<pre title="Abstract functions for DID Resolution">
+	<pre title="Abstract function for DID Resolution">
 resolve(did, resolutionOptions) →
    « didResolutionMetadata, didDocument, didDocumentMetadata »
-
-resolveRepresentation(did, resolutionOptions) →
-   « didResolutionMetadata, didDocumentStream, didDocumentMetadata »
       </pre>
 
 	<p>
-		The <code>resolve</code> function returns the <a>DID document</a> in its
-		abstract form (a <a data-cite="INFRA#maps">map</a>). The
-		<code>resolveRepresentation</code> function returns a byte stream of the <a>DID
-		Document</a> formatted in the corresponding representation.
-	</p>
-
-	<figure id="resolve-resolverepresentation">
-		<img style="margin: auto; display: block;"
-			 src="diagrams/diagram-resolve-resolverepresentation.svg" alt="
-Diagram illustrating how resolve() returns the DID document data model in
-its abstract form and resolveRepresenation() returns it in one of the
-conformant representations; conversion is possible using production and
-consumption rules.">
-		<figcaption>
-			Functions resolve() and resolveRepresentation().
-			See also: <a class="longdesc-link"
-						 href="#resolve-resolverepresentation-longdesc">narrative description</a>.
-		</figcaption>
-	</figure>
-
-	<div class="longdesc" id="resolve-resolverepresentation-longdesc">
-		<p>
-			The upper middle part of the diagram contains a rectangle with dashed grey outline, containing two
-			blue-outlined rectangles, one above the other.
-			The upper, larger rectangle is labeled, in blue, "Core Properties", and contains the following
-			<a data-cite="INFRA#maps">INFRA</a> notation:
-		</p>
-		<pre>
-«[
-  "id" → "example:123",
-  "verificationMethod" → « «[
-    "id": "did:example:123#keys-1",
-    "controller": "did:example:123",
-    "type": "Ed25519VerificationKey2018",
-    "publicKeyBase58": "H3C2AVvLMv6gmMNam3uVA"
-  ]» »,
-  "authentication" → «
-    "did:example:123#keys-1"
-  »
-]»
-            </pre>
-		<p>
-			The lower, smaller rectangle is labeled, in blue, "Core Representation-specific Entries (JSON-LD)", and
-			contains the following monospaced <a data-cite="INFRA#maps">INFRA</a> notation:
-		</p>
-		<pre>
-«[ "@context" → "https://www.w3.org/ns/did/v1" ]»
-        </pre>
-		<p>
-			From the grey-outlined rectangle, three pairs of arrows extend to three
-			different black-outlined rectangles, aligned in a horizontal row side-by-side, in the bottom half
-			of the diagram. Each pair of arrows consists of
-			one blue arrow pointing from the grey-outlined rectangle to the respective
-			black-outlined rectangle, labeled "produce", and one red arrow pointing in the
-			reverse direction, labeled "consume". The first black-outlined rectangle in the row
-			is labeled "application/did+ld+json", and contains
-			the following JSON-LD data:
-		</p>
-		<pre>
-{
-  "@context": ["https://www.w3.org/ns/did/v1"],
-  "id": "did:example:123",
-  "verificationMethod": [{
-    "id": "did:example:123#keys-1",
-    "controller": "did:example:123",
-    "type": "Ed25519VerificationKey2018",
-    "publicKeyBase58": "H3C2AVvLMv6gmMNam3uVA"
-  }],
-  "authentication": [
-    "did:example:123#keys-1"
-  ]
-}
-            </pre>
-		<p>
-			The second rectangle in the row is labeled "application/did+json" and contains the following
-			JSON data:
-		</p>
-		<pre>
-{
-  "id": "did:example:123",
-  "verificationMethod": [{
-    "id": "did:example:123#keys-1",
-    "controller": "did:example:123",
-    "type": "Ed25519VerificationKey2018",
-    "publicKeyBase58": "H3C2AVvLMv6gmMNam3uVA"
-  }],
-  "authentication": [
-    "did:example:123#keys-1"
-  ]
-}
-            </pre>
-		<p>
-			The third rectangle in the row is labeled "application/did+cbor", and contains hexadecimal data.
-		</p>
-		<p>
-			In the left part of the diagram, in the middle, there is a box, with black outline and light gray
-			background. This box is labeled "VERIFIABLE DATA REGISTRY" and contains a symbol representing a graph
-			with nodes and arcs. From this box, one arrow, labeled "resolve()", extends upwards and points to the
-			top half of the diagram where the grey-outlined rectangle is located. Another arrow, labeled
-			"resolveRepresentation()", extends downwards and points to the bottom half of the diagram, where the
-			row of three black-outlined rectangles is located.
-		</p>
-	</div>
-
-	<p>
 		All conformant <a>DID resolvers</a> MUST implement the <a>DID resolution</a>
-		functions for at least one <a>DID method</a> and MUST be able to return a
+		function for at least one <a>DID method</a> and MUST be able to return a
 		<a>DID document</a> in at least one conformant <a>representation</a>.
 	</p>
 
 	<p>
 		Conforming <a>DID resolver</a> implementations do not alter the signature of
-		these functions in any way. <a>DID resolver</a> implementations might map the
-		<code>resolve</code> and <code>resolveRepresentation</code> functions to a
+		this function in any way. <a>DID resolver</a> implementations might map the
+		<code>resolve</code> function to a
 		method-specific internal function to perform the actual <a>DID resolution</a>
 		process. <a>DID resolver</a> implementations might implement and expose
 		additional functions with different signatures in addition to the
-		<code>resolve</code> and <code>resolveRepresentation</code> functions specified
-		here.
+		<code>resolve</code> function specified here.
 	</p>
 
 	<p>
 		The input variables
-		of the <code>resolve</code> and <code>resolveRepresentation</code> functions are
+		of the <code>resolve</code> function are
 		as follows:
 	</p>
 
@@ -539,13 +430,10 @@ consumption rules.">
 	</dl>
 
 	<p>
-		These functions each return multiple values, and no limitations
+		This function returns multiple values, and no limitations
 		are placed on how these values are returned together.
 		The return values of <code>resolve</code> are
 		<a>didResolutionMetadata</a>, <a>didDocument</a>, and
-		<a>didDocumentMetadata</a>. The return values of
-		<code>resolveRepresentation</code> are
-		<a>didResolutionMetadata</a>, <a>didDocumentStream</a>, and
 		<a>didDocumentMetadata</a>. These values are described below:
 	</p>
 
@@ -556,14 +444,11 @@ consumption rules.">
 		<dd>
 			A <a href="#metadata-structure">metadata structure</a> consisting of values
 			relating to the results of the <a>DID resolution</a> process which typically
-			changes between invocations of the <code>resolve</code> and
-			<code>resolveRepresentation</code> functions, as it represents data about the
+			changes between invocations of the <code>resolve</code>
+			function, as it represents data about the
 			resolution process itself. This structure is REQUIRED, and in the case of an
 			error in the resolution process, this MUST NOT be empty. This metadata is
-			defined by <a href="#did-resolution-metadata"></a>. If
-			<code>resolveRepresentation</code> was called, this structure MUST contain a
-			<code>contentType</code> property containing the Media Type of the
-			representation found in the <code>didDocumentStream</code>. If the resolution is
+			defined by <a href="#did-resolution-metadata"></a>. If the resolution is
 			not successful, this structure MUST contain an <code>error</code> property
 			describing the error.
 		</dd>
@@ -571,27 +456,12 @@ consumption rules.">
 			<dfn>didDocument</dfn>
 		</dt>
 		<dd>
-			If the resolution is successful, and if the <code>resolve</code> function was
-			called, this MUST be a <a>DID document</a> abstract data model (a <a
-				data-cite="INFRA#maps">map</a>) as described in <a data-cite="did-core#data-model"></a> that
-			is capable of being transformed into a <a data-cite="did-core#dfn-did-documents">conforming DID Document</a>
-			(representation), using the production rules specified by the representation.
+			If the resolution is successful, this MUST be a <a>DID document</a> that
+			is capable of being represented in one of the conformant
+			<a data-cite="did-core#representations">representations</a> of the [[[DID]]] specification.
 			The value of <code><a data-cite="did-core#dfn-id">id</a></code> in the resolved <a>DID document</a> MUST
 			match the <a>DID</a> that was resolved. If the resolution is unsuccessful, this
 			value MUST be empty.
-		</dd>
-		<dt>
-			<dfn>didDocumentStream</dfn>
-		</dt>
-		<dd>
-			If the resolution is successful, and if the <code>resolveRepresentation</code>
-			function was called, this MUST be a byte stream of the resolved <a>DID
-			document</a> in one of the conformant
-			<a data-cite="did-core#representations">representations</a>. The byte stream might then be
-			parsed by the caller of the <code>resolveRepresentation</code> function into a
-			<a data-cite="did-core#data-model">data model</a>, which can in turn be validated and
-			processed. If the resolution is unsuccessful, this value MUST be an empty
-			stream.
 		</dd>
 		<dt>
 			<dfn>didDocumentMetadata</dfn>
@@ -601,7 +471,7 @@ consumption rules.">
 				href="#metadata-structure">metadata structure</a>. This structure contains
 			metadata about the <a>DID document</a> contained in the <code>didDocument</code>
 			property. This metadata typically does not change between invocations of the
-			<code>resolve</code> and <code>resolveRepresentation</code> functions unless the
+			<code>resolve</code> function unless the
 			<a>DID document</a> changes, as it represents metadata about the <a>DID
 			document</a>. If the resolution is unsuccessful, this output MUST be an empty <a
 				href="#metadata-structure">metadata structure</a>. Properties defined by this
@@ -626,10 +496,9 @@ consumption rules.">
 				The Media Type of the caller's preferred <a>representation</a> of the <a>DID
 				document</a>. The Media Type MUST be expressed as an <a data-lt="ascii
 string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
-				value to determine the <a>representation</a> contained in the returned
-				<code>didDocumentStream</code> if such a <a>representation</a> is supported and
-				available. This property is OPTIONAL for the <code>resolveRepresentation</code>
-				function and MUST NOT be used with the <code>resolve</code> function.
+				value to determine the <a>representation</a> of the returned
+				<code>didDocument</code> if such a <a>representation</a> is supported and
+				available. This property is OPTIONAL.
 			</dd>
 		</dl>
 
@@ -675,16 +544,12 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 				contentType
 			</dt>
 			<dd>
-				The Media Type of the returned <code>didDocumentStream</code>. This property is
-				REQUIRED if resolution is successful and if the
-				<code>resolveRepresentation</code> function was called.
-				This property MUST NOT
-				be present if the <code>resolve</code> function was called. The value of this
+				The Media Type of the returned <code>didDocument</code>. This property is
+				OPTIONAL. If present, the value of this
 				property MUST be an <a data-lt="ascii string">ASCII string</a> that is the Media
-				Type of the conformant <a>representations</a>. The
-				caller of the <code>resolveRepresentation</code> function MUST use this value
-				when determining how to parse and process the <code>didDocumentStream</code>
-				returned by this function into the <a data-cite="did-core#data-model">data model</a>.
+				Type of the conformant <a>representations</a>. In this case, the
+				caller of the <code>resolve</code> function MUST use this value
+				when determining how to parse and process the <code>didDocument</code>.
 			</dd>
 			<dt>
 				error
@@ -1717,18 +1582,6 @@ https://example.com/messages/8377464/some/path?query#frag
 			</ul>
 		</div>
 		<p class="issue">TODO: Discuss DID resolution in constrained user agents such as mobile apps and browsers.</p>
-		
-		<p>The following diagram shows how the <code>resolve()</code> and <code>resolveRepresentation()</code> functions
-		use production and consumption rules of DID document representation can apply in an architecture that involves
-		both a local resolver and a remote resolver.</p> 
-		<figure id="resolvers-and-representations">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/resolvers-and-representations.png"
-			alt="Diagram showing a local and remote DID resolver executing the resolve() and resolveRepresentation() functions.">
-			<figcaption style="text-align: center;">
-				Production and consumption in an architecture that involves both
-				a local and a remote <a>DID resolver</a>.
-			</figcaption>
-		</figure>
 
 	<section id="resolver-architectures-proxied">
 		<h2>Proxied Resolution</h2>
@@ -2307,19 +2160,19 @@ curl -X GET https://resolver.example/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX
 
 		<p>Additional examples of the HTTP(S) binding:</p>
 
-		<figure id="https-resolverepresentation-example-1">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/https-resolverepresentation-example-1.png"
-				 alt="Diagram showing the invocation of resolveRepresentation() over HTTPS">
+		<figure id="https-resolve-example-1">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/https-resolve-example-1.png"
+				 alt="Diagram showing the invocation of resolve() over HTTPS">
 			<figcaption style="text-align: center;">
-				Invocation of resolveRepresentation() over HTTP(S).
+				Invocation of resolve() over HTTP(S).
 			</figcaption>
 		</figure>
 
-		<figure id="https-resolverepresentation-example-2">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/https-resolverepresentation-example-2.png"
-				 alt="Diagram showing the invocation of resolveRepresentation() over HTTPS">
+		<figure id="https-resolve-example-2">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/https-resolve-example-2.png"
+				 alt="Diagram showing the invocation of resolve() over HTTPS">
 			<figcaption style="text-align: center;">
-				Invocation of resolveRepresentation() over HTTP(S).
+				Invocation of resolve() over HTTP(S).
 			</figcaption>
 		</figure>
 
