@@ -26,7 +26,7 @@ included whenever they appear in this specification.
     A globally unique persistent identifier that does not require a centralized
     registration authority and is often generated and/or registered
     cryptographically. The generic format of a DID is defined in <a
-          href="https://w3c.github.io/did-core/#did-syntax"></a>. A specific <a>DID scheme</a> is defined in a <a>DID
+          data-cite="did-core#did-syntax"></a>. A specific <a>DID scheme</a> is defined in a <a>DID
     method</a> specification. Many—but not all—DID methods make use of
     <a>distributed ledger technology</a> (DLT) or some other form of decentralized
     network.
@@ -73,7 +73,7 @@ included whenever they appear in this specification.
     A definition of how a specific <a>DID method scheme</a> is implemented. A DID method is
     defined by a DID method specification, which specifies the precise operations by
     which <a>DIDs</a> and <a>DID documents</a> are created, resolved, updated,
-    and deactivated. See <a href="https://w3c.github.io/did-core/#methods"></a>.
+    and deactivated. See <a data-cite="did-core#methods"></a>.
   </dd>
 
   <dt><dfn data-lt="DID paths">DID path</dfn></dt>
@@ -82,14 +82,14 @@ included whenever they appear in this specification.
     slash (<code>/</code>) character and ends with either a question mark
     (<code>?</code>) character, a fragment hash sign (<code>#</code>) character,
     or the end of the <a>DID URL</a>. DID path syntax is identical to URI path syntax.
-    See <a href="https://w3c.github.io/did-core/#path"></a>.
+    See <a data-cite="did-core#path"></a>.
   </dd>
 
   <dt><dfn data-lt="DID queries">DID query</dfn></dt>
   <dd>
     The portion of a <a>DID URL</a> that follows and includes the first question
     mark character (<code>?</code>). DID query syntax is identical to URI query
-    syntax. See <a href="https://w3c.github.io/did-core/#query"></a>.
+    syntax. See <a data-cite="did-core#query"></a>.
   </dd>
 
   <dt><dfn>DID resolution</dfn></dt>
@@ -117,7 +117,7 @@ included whenever they appear in this specification.
   <dd>
     The formal syntax of a <a>decentralized identifier</a>. The generic DID scheme
     begins with the prefix <code>did:</code> as defined in <a
-          href="https://w3c.github.io/did-core/#did-syntax"></a>. Each <a>DID method</a> specification defines a specific
+          data-cite="did-core#did-syntax"></a>. Each <a>DID method</a> specification defines a specific
     DID method scheme that works with that specific <a>DID method</a>. In a specific DID
     method scheme, the DID method name follows the first colon and terminates with
     the second colon, e.g., <code>did:example:</code>
@@ -134,7 +134,7 @@ included whenever they appear in this specification.
   <dt><dfn data-lt="DID URLs">DID URL</dfn></dt>
   <dd>
     A <a>DID</a> plus any additional syntactic component that conforms to the
-    definition in <a href="https://w3c.github.io/did-core/#did-url-syntax"></a>. This includes an optional <a>DID
+    definition in <a data-cite="did-core#did-url-syntax"></a>. This includes an optional <a>DID
     path</a> (with its leading <code>/</code> character), optional <a>DID query</a>
     (with its leading <code>?</code> character), and optional <a>DID fragment</a>
     (with its leading <code>#</code> character).
@@ -189,7 +189,7 @@ included whenever they appear in this specification.
     readily communicated via the protocol, and that consists of a set of
     representation metadata and a potentially unbounded stream of representation
     data." A <a>DID document</a> is a representation of information describing a
-    <a>DID subject</a>. See <a href="https://w3c.github.io/did-core/#representations"></a>.
+    <a>DID subject</a>. See <a data-cite="did-core#representations"></a>.
   </dd>
 
   <dt><dfn data-lt="">local binding</dfn></dt>
@@ -215,10 +215,6 @@ included whenever they appear in this specification.
     A network address, such as an HTTP URL, at which <a>services</a> operate on
     behalf of a <a>DID subject</a>.
   </dd>
-
-  <dt><dfn data-lt="">service endpoint construction</dfn></dt>
-  <dd>An algorithm that takes a <a>DID URL</a> and a service, and constructs
-    a <a>service endpoint</a> URL See Section <a href="#service-endpoint-construction"></a>.</dd>
 
   <dt><dfn data-lt="">unverifiable read</dfn></dt>
   <dd> A low confidence implementation of a <a>DID method's</a> "Read" operation between the
