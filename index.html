@@ -559,32 +559,18 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 				is an error in the resolution process. The value of this property MUST be a
 				single keyword <a data-lt="ascii string">ASCII string</a>. The possible property
 				values of this field SHOULD be registered in the DID Specification Registries
-				[[?DID-SPEC-REGISTRIES]]. This specification defines the following
-				common error values:
-				<dl>
-					<dt>
-						invalidDid
-					</dt>
-					<dd>
-						The <a>DID</a> supplied to the <a>DID resolution</a> function does not conform
-						to valid syntax. (See <a data-cite="did-core#did-syntax"></a>.)
-					</dd>
-					<dt>
-						notFound
-					</dt>
-					<dd>
-						The <a>DID resolver</a> was unable to find the <a>DID document</a>
-						resulting from this resolution request.
-					</dd>
-					<dt>
-						representationNotSupported
-					</dt>
-					<dd>
-						This error code is returned if the <a>representation</a> requested via the
-						<code>accept</code> input metadata property is not supported by the <a>DID
-						method</a> and/or <a>DID resolver</a> implementation.
-					</dd>
-				</dl>
+				[[?DID-SPEC-REGISTRIES]]. The common error codes defined by this specification can
+				be found in <a href="#errors"></a>.
+			</dd>
+			<dt>
+				problemDetails
+			</dt>
+			<dd>
+				An error data structure defined in [[RFC9457]]. This property is OPTIONAL, when it is 
+				used the error described MUST be equivalent to the error code returned by the <code>error</code>
+				DID Resolution Metadata property. The types for errors defined by this specification and 
+				their mapping to error codes can be found in<a href="#errors"></a>.
+
 			</dd>
 		</dl>
 
@@ -1901,6 +1887,104 @@ https://example.com/messages/8377464/some/path?query#frag
 
 <section id="errors">
 	<h1>Errors</h1>
+	<p>
+		The algorithms described in this specification throw specific types of errors.
+		Implementers might find it useful to convey these errors to other libraries or
+		software systems. This section provides specific URLs and descriptions for the errors,
+		such that an ecosystem implementing technologies described
+		by this specification might interoperate more effectively when errors occur. Additionally,
+		this specification uses some errors defined in <a data-cite="CID#processing-errors">Section 
+		3.5 Processing Errors</a> of the [[CID]] specification.
+	</p>
+		
+	<p>
+		When exposing these errors through an HTTP interface, implementers SHOULD use
+		[[RFC9457]] to encode the error data structure. If [[RFC9457]] is used:
+	</p>
+
+	<ul>
+		<li>
+The `type` value of the error object MUST be a URL that starts with the value
+`https://w3id.org/security#` and ends with the value in the section listed
+below.
+		</li>
+		<li>
+The `title` value SHOULD provide a short but specific human-readable string for
+the error.
+		</li>
+		<li>
+The `detail` value SHOULD provide a longer human-readable string for the error.
+		</li>
+	</ul>
+
+
+	<table class="simple">
+		<thead>
+		<tr>
+			<th>
+				Error Code
+			</th>
+			<th>
+				Type
+			</th>
+			<th>
+				Title
+			</th>
+		</tr>
+		</thead>
+
+		<tbody>
+		</tbody>
+	</table>
+
+	<dl>
+		<dt id="INVALID_DID">INVALID_DID</dt>
+		<dd>
+			An invalid DID was detected during <a>DID Resolution</a>. See <a href="#resolving-algorithm">DID Resolution Algorithm</a>
+		</dd>
+		<dt id="INVALID_DID_DOCUMENT">INVALID_DID_DOCUMENT</dt>
+		<dd>
+The [=DID document=] was malformed. See Section
+[[[#retrieve-verification-method]]].
+		</dd>
+		<dt id="INVALID_VERIFICATION_METHOD">INVALID_VERIFICATION_METHOD</dt>
+		<dd>
+The [=verification method=] in a [=controlled identifier document=] was malformed. See Section
+[[[#retrieve-verification-method]]].
+		</dd>
+		<dt id="INVALID_RELATIONSHIP_FOR_VERIFICATION_METHOD">INVALID_RELATIONSHIP_FOR_VERIFICATION_METHOD</dt>
+		<dd>
+The [=verification method=] in a [=controlled identifier document=] was not
+associated using the expected [=verification relationship=] as expressed in
+the `proofPurpose` property in the [=proof=]. See Section
+[[[#retrieve-verification-method]]].
+		</dd>
+	  </dl>
+	  <dl>
+		<dt>
+			invalidDid
+		</dt>
+		<dd>
+			The <a>DID</a> supplied to the <a>DID resolution</a> function does not conform
+			to valid syntax. (See <a data-cite="did-core#did-syntax"></a>.)
+		</dd>
+		<dt>
+			notFound
+		</dt>
+		<dd>
+			The <a>DID resolver</a> was unable to find the <a>DID document</a>
+			resulting from this resolution request.
+		</dd>
+		<dt>
+			representationNotSupported
+		</dt>
+		<dd>
+			This error code is returned if the <a>representation</a> requested via the
+			<code>accept</code> input metadata property is not supported by the <a>DID
+			method</a> and/or <a>DID resolver</a> implementation.
+		</dd>
+	</dl>
+
     <h2>invalidDid</h2>
 	<p>If an invalid DID is detected during <a>DID Resolution</a>,
 		the value of the DID Resolution Metadata <strong>error</strong> property MUST be <strong>invalidDid</strong>
