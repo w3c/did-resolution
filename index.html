@@ -1346,7 +1346,11 @@ dereference(didUrl, dereferenceOptions) →
 			<p>... and the following <var>resolved <a>DID document</a></var>:<p>
 			<pre class="example nohighlight">
 	{
-		"@context": "https://www.w3.org/ns/did/v1.1",
+		"@context":[
+			"https://www.w3.org/ns/did/v1.1",
+			"https://didcomm.org/messaging/contexts/v2",
+			"https://identity.foundation/linked-vp/contexts/v1"
+		],
 		"id": "did:example:123456789abcdefghi",
 		"verificationMethod": [{
 			"id": "did:example:123456789abcdefghi#keys-1",
@@ -1355,13 +1359,13 @@ dereference(didUrl, dereferenceOptions) →
 			"publicKeyMultibase": "z6MkmM42vxfqZQsv4ehtTjFFxQ4sQKS2w6WR7emozFAn5cxu"
 		}],
 		"service": [{
-			"id": "did:example:123456789abcdefghi#agent",
-			"type": "AgentService",
-			"serviceEndpoint": "https://agent.example.com/8377464"
-		}, {
 			"id": "did:example:123456789abcdefghi#messages",
-			"type": "MessagingService",
+			"type": "DIDCommMessaging",
 			"serviceEndpoint": "https://example.com/messages/8377464"
+		}, {
+			"id": "did:example:123456789abcdefghi#linkedvp",
+			"type": "LinkedVerifiablePresentation",
+			"serviceEndpoint": "https://example.com/verifiable-presentation.jsonld"
 		}]
 	}
 	</pre>
