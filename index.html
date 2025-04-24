@@ -565,22 +565,9 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 				error
 			</dt>
 			<dd>
-				The error code from the resolution process. This property is REQUIRED when there
-				is an error in the resolution process. The value of this property MUST be a
-				single keyword <a data-lt="ascii string">ASCII string</a>. The possible property
-				values of this field SHOULD be registered in the DID Specification Registries
-				[[?DID-SPEC-REGISTRIES]]. The common error codes defined by this specification can
-				be found in <a href="#errors"></a>.
-			</dd>
-			<dt>
-				problemDetails
-			</dt>
-			<dd>
-				An error data structure defined in [[RFC9457]]. This property is OPTIONAL, when it is 
-				used the error described MUST be equivalent to the error code returned by the <code>error</code>
-				DID Resolution Metadata property. The types for errors defined by this specification and 
-				their mapping to error codes can be found in<a href="#errors"></a>.
-
+				An error data structure defined in [[RFC9457]]. This property is REQUIRED when there is an error
+                in the resolution process. The errors defined by this specification and can be found in
+                Section <a href="#errors"></a>.
 			</dd>
 		</dl>
 
@@ -2089,7 +2076,7 @@ the `proofPurpose` property in the [=proof=]. See Section
 		</dd>
         <dt id="INVALID_PUBLIC_KEY_TYPE">UNSUPPORTED_PUBLIC_KEY_TYPE</dt>
 		<dd>
-			An unsupported public key type is detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>.
+			An unsupported public key type was detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>.
 		</dd>
 	  </dl>
 	  <dl>
