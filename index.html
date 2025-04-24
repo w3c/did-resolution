@@ -759,7 +759,7 @@ string">ASCII string</a>.
 	</section>
 
 	<section id="resolving-algorithm">
-		<h2>Algorithm</h2>
+		<h2>DID Resolution Algorithm</h2>
 		<p>The following <a>DID resolution</a> algorithm MUST be implemented by a conformant <a>DID resolver</a>.</p>
 		<ol class="algorithm">
 			<li>Validate that the <var>input <a>DID</a></var> conforms to the `did` rule of the
@@ -1116,7 +1116,7 @@ dereference(didUrl, dereferenceOptions) →
 
 
 	<section id="dereferencing-algorithm">
-		<h2>Algorithm</h2>
+		<h2>DID URL Dereferencing Algorithm</h2>
 		<p>The following <a>DID URL dereferencing</a> algorithm MUST be implemented by a conformant <a>DID resolver</a>.
 		In accordance with [[RFC3986]], it consists of the following three steps: resolving the DID; dereferencing the
 		resource; and dereferencing the fragment (only if the <var>input <a>DID URL</a></var> contains a <a>DID fragment</a>):</p>
@@ -2032,14 +2032,13 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 	<dl>
 		<dt id="INVALID_DID">INVALID_DID</dt>
 		<dd>
-			An invalid DID was detected during <a>DID Resolution</a>. See <a href="#resolving-algorithm">
+			An invalid DID was detected during <a>DID Resolution</a>. See Section <a href="#resolving-algorithm"></a>.
 		</dd>
 		<dt id="INVALID_DID_DOCUMENT">INVALID_DID_DOCUMENT</dt>
 		<dd>
-The [=DID document=] was malformed. See Section
-[[[#retrieve-verification-method]]].
+            The [=DID document=] was malformed. See Section <a href="#resolving-algorithm"></a>.
 		</dd>
-		<dt id="INVALID_VERIFICATION_METHOD">INVALID_VERIFICATION_METHOD</dt>
+		<!-- <dt id="INVALID_VERIFICATION_METHOD">INVALID_VERIFICATION_METHOD</dt>
 		<dd>
 The [=verification method=] in a [=controlled identifier document=] was malformed. See Section
 [[[#retrieve-verification-method]]].
@@ -2050,78 +2049,52 @@ The [=verification method=] in a [=controlled identifier document=] was not
 associated using the expected [=verification relationship=] as expressed in
 the `proofPurpose` property in the [=proof=]. See Section
 [[[#retrieve-verification-method]]].
+		</dd> -->
+        <dt id="NOT_FOUND">NOT_FOUND</dt>
+		<dd>
+            The <a>DID resolver</a> was unable to find the <a>DID document</a>
+			resulting from this resolution request. See Section <a href="#resolving-algorithm"></a>.
+		</dd>
+        <dt id="REPRESENTATION_NOT_SUPPORTED">REPRESENTATION_NOT_SUPPORTED</dt>
+		<dd>
+			The <a>representation</a> requested via the <code>accept</code> input metadata property 
+            is not supported by the <a>DID method</a> and/or <a>DID resolver</a> implementation. 
+            See Section <a href="#resolving-algorithm"></a>.
+		</dd>
+        <dt id="INVALID_DID_URL">INVALID_DID_URL</dt>
+		<dd>
+			An invalid <a>DID URL</a> was detected during <a>DID URL dereferencing</a>.
+            See Section <a href="#dereferencing-algorithm"></a>
+		</dd>
+        <dt id="METHOD_NOT_SUPPORTED">METHOD_NOT_SUPPORTED</dt>
+		<dd>
+			The DID method of the DID is not supported by the <a>DID resolver</a>. See Section <a href="#resolving-algorithm"></a>.
+		</dd>
+        <dt id="INTERNAL_ERROR">INTERNAL_ERROR</dt>
+		<dd>
+			An unexpected error occured during <a>DID Resolution</a> or <a>DID URL dereferencing</a>.
+		</dd>
+        <dt id="INVALID_PUBLIC_KEY">INVALID_PUBLIC_KEY</dt>
+		<dd>
+			An invalid public key value is detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>. 
+		</dd>
+        <dt id="INVALID_PUBLIC_KEY_LENGTH">INVALID_PUBLIC_KEY_LENGTH</dt>
+		<dd>
+			The byte length of <i>rawPublicKeyBytes</i> did not match the expected public key length for the associated multicodecValue 
+            during <a>DID Resolution</a> or <a>DID URL dereferencing</a>.
+		</dd>
+        <dt id="INVALID_PUBLIC_KEY_TYPE">INVALID_PUBLIC_KEY_TYPE</dt>
+		<dd>
+			An invalid public key type was detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>.
+		</dd>
+        <dt id="INVALID_PUBLIC_KEY_TYPE">UNSUPPORTED_PUBLIC_KEY_TYPE</dt>
+		<dd>
+			An unsupported public key type is detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>.
 		</dd>
 	  </dl>
 	  <dl>
-		<dt>
-			invalidDid
-		</dt>
-		<dd>
-			The <a>DID</a> supplied to the <a>DID resolution</a> function does not conform
-			to valid syntax. (See <a data-cite="did-core#did-syntax"></a>.)
-		</dd>
-		<dt>
-			notFound
-		</dt>
-		<dd>
-			The <a>DID resolver</a> was unable to find the <a>DID document</a>
-			resulting from this resolution request.
-		</dd>
-		<dt>
-			representationNotSupported
-		</dt>
-		<dd>
-			This error code is returned if the <a>representation</a> requested via the
-			<code>accept</code> input metadata property is not supported by the <a>DID
-			method</a> and/or <a>DID resolver</a> implementation.
-		</dd>
 	</dl>
 
-    <h2>invalidDid</h2>
-	<p>If an invalid DID is detected during <a>DID Resolution</a>,
-		the value of the DID Resolution Metadata <strong>error</strong> property MUST be <strong>invalidDid</strong>
-        as defined in section <a href="#did-resolution-metadata"></a>.
-    </p>
-	<h2>invalidDidUrl</h2>
-	<p>If an invalid DID URL is detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
-		the value of the DID Resolution or DID URL Dereferencing Metadata <strong>error</strong> property MUST be <strong>invalidDidUrl</strong>
-        as defined in section <a href="#did-url-dereferencing-metadata"></a>.
-    </p>
-    <h2>notFound</h2>
-    <p> If during <a>DID Resolution</a> or <a>DID URL dereferencing</a> a DID or DID URL doesn't exist,
-        the value of the DID Resolution or DID URL dereferencing Metadata <strong>error</strong> property MUST be <strong>notFound</strong> as
-        defined in sections <a href="#did-resolution-metadata"></a> and
-        <a href="#did-url-dereferencing-metadata"></a>.
-    </p>
-    <h2>representationNotSupported</h2>
-    <p> If a DID document representation is not supported during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
-        the value of the DID Resolution Metadata <strong>error</strong> property MUST be <strong>representationNotSupported</strong> as
-        defined in section <a href="#did-resolution-metadata"></a>.
-    </p>
-	<h2>methodNotSupported</h2>
-	<p> If a DID method is not supported during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
-		the value of the DID Resolution or DID URL Dereferencing Metadata <strong>error</strong> property MUST be <strong>methodNotSupported</strong>.
-	</p>
-	<h2>internalError</h2>
-	<p>When an unexpected error occurs during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
-		the value of the DID Resolution or DID URL Dereferencing Metadata <strong>error</strong> property MUST be <strong>internalError</strong>.
-    </p>
-	<h2>invalidPublicKey</h2>
-	<p>If an invalid public key value is detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
-		the value of the DID Resolution or DID URL Dereferencing Metadata <strong>error</strong> property MUST be <strong>invalidPublicKey</strong>.
-    </p>
-	<h2>invalidPublicKeyLength</h2>
-	<p>If the byte length of <i>rawPublicKeyBytes</i> does not match the expected public key length for the associated multicodecValue during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
-		the value of the DID Resolution or DID URL Dereferencing Metadata <strong>error</strong> property MUST be <strong>invalidPublicKeyLength</strong>.
-    </p>
-	<h2>invalidPublicKeyType</h2>
-	<p>If an invalid public key type is detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
-		the value of the DID Resolution or DID URL Dereferencing Metadata <strong>error</strong> property MUST be <strong>invalidPublicKeyType</strong>.
-    </p>
-	<h2>unsupportedPublicKeyType</h2>
-	<p>If an unsupported public key type is detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
-		the value of the DID Resolution or DID URL Dereferencing Metadata <strong>error</strong> property MUST be <strong>unsupportedPublicKeyType</strong>.
-    </p>
 
 </section>
 
