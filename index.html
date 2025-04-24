@@ -279,7 +279,17 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 				<code><a>service</a></code>
 			</td>
 			<td>
-				Identifies a service from the <a>DID document</a> by service ID.
+				Identifies a <a data-cite="did-core#services">service</a> from the <a>DID document</a> by service ID.
+				If present, the associated value MUST be an <a
+					data-lt="ascii string">ASCII string</a>.
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<code>serviceType</code>
+			</td>
+			<td>
+				Identifies a set of one or more <a data-cite="did-core#services">services</a> from the <a>DID document</a> by service type.
 				If present, the associated value MUST be an <a
 					data-lt="ascii string">ASCII string</a>.
 			</td>
@@ -1041,6 +1051,19 @@ dereference(didUrl, dereferenceOptions) →
 				returned value if such a <a>representation</a> is supported and available.
 			</dd>
 		</dl>
+		<dl>
+			<dt>
+				<code>verificationRelationship</code>
+			</dt>
+			<dd>
+				The verificationRelationship for which the caller expects the verificationMethod
+				dereferenced from the DID URL to be authorized. If present, the
+				associated value MUST be an <a data-lt="ascii string">ASCII string</a>.
+				If the DID URL does not dereference to a verificationMethod, or the
+				DID document does not authorize the verificationMethod for the specified
+				verificationRelationship, then an error MUST be raised. 
+			</dd>
+		</dl>
 	</section>
 
 	<section>
@@ -1140,36 +1163,94 @@ dereference(didUrl, dereferenceOptions) →
 				<li>If the <var>input <a>DID URL</a></var> contains the
 					<a href="https://www.w3.org/TR/did-core/#did-parameters">DID parameter</a> <code>hl</code>:
 					<pre class="example nohighlight">did:example:1234?hl=zQmWvQxTqbG2Z9HPJgG57jjwR154cKhbtJenbyYTWkjgF3e</pre>
-					<ol class="algorithm"><li>
-						<p class="issue">TODO: Specify the algorithm for processing the `hl` DID parameter.</p>
-					</li></ol>
+					<p class="issue">TODO: Specify the algorithm for processing the `hl` DID parameter.</p>
 				</li>
 				<li>If the <var>input <a>DID URL</a></var> contains the
 				<a href="https://www.w3.org/TR/did-core/#did-parameters">
-				DID parameter</a> <code>service</code> and optionally the <code>relativeRef</code> DID parameter:
-				<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest</pre>
-				<ol class="algorithm">
-					<li>From the <var>resolved <a>DID document</a></var>, select the
-					<a href="#service-endpoint-construction">service endpoint</a> whose <code>id</code>
-					property contains a fragment which matches the value of the <code>service</code> DID parameter of the
-					<var>input <a>DID URL</a></var>. This is called the <var>input <a>service endpoint</a></var>.</li>
-					<li>Execute the <a href="#service-endpoint-construction">Service Endpoint Construction</a> algorithm:
+					DID parameter</a> <code>service</code> and/or the <a href="https://www.w3.org/TR/did-core/#did-parameters">
+					DID parameter</a> <code>serviceType</code>, and optionally the
+					<a data-cite="did-core#did-parameters">DID parameter</a> <code>relativeRef</code>:
+					<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest</pre>
 					<ol class="algorithm">
-						<li>Read the value of the <code>serviceEndpoint</code> property of the
-						<var>input <a>service endpoint</a></var>. This is called the <var>input <a>service endpoint</a> URL</var>.</li>
-						<li>Pass the <var>input <a>DID URL </a></var> and <var>input <a>service endpoint</a> URL</var> to
-						the <a href="#service-endpoint-construction">Service Endpoint Construction</a> algorithm.</li>
-						<li>The result is called the <var>output <a>service endpoint</a> URL</var>.</li>
+						<li>From the <var>resolved <a>DID document</a></var>, select all
+							<a data-cite="did-core#services">services</a> which fulfill the following conditions:
+							<ol class="algorithm">
+								<li>If the <var>input <a>DID URL</a></var> contains the
+									<a data-cite="did-core#did-parameters">DID parameter</a> <code>service</code>:
+									Select the <a data-cite="did-core#services">service</a> if its <code>id</code>
+									property matches the value of the <code>service</code> DID parameter. If the <code>id</code>
+									property or the <code>service</code> DID parameter or both contain relative
+									references, the corresponding absolute URIs MUST be resolved and used for determining
+									the match, using the rules specified in <a data-cite="RFC3986#section-5">RFC3986 Section 5: Reference Resolution</a>
+									and in section <a data-cite="did-core#relative-did-urls">Relative DID URLs</a> in [[[DID-CORE]]].</li>
+								<li>If the <var>input <a>DID URL</a></var> contains the
+									<a data-cite="did-core#did-parameters">DID parameter</a> <code>serviceType</code>:
+									Select the <a data-cite="did-core#services">service</a> if its <code>type</code>
+									property matches the value of the <code>serviceType</code> DID parameter.</li>
+							</ol>
+							The selected <a data-cite="did-core#services">services</a> are a list called the <var>selected <a>services</a></var>.
+						</li>
+						<li>If the <var>input <a>DID URL</a></var> contains the
+							<a data-cite="did-core#did-parameters">DID parameter</a> <code>relativeRef</code>:
+							<ol class="algorithm">
+								<li>For each <var>selected <a>service</a></var>:
+									<ol class="algorithm">
+										<li>If the value of the <code>serviceEndpoint</code> property of the <var>selected <a>service</a></var>
+										is a <a data-cite="INFRA#maps">map</a>, skip this <var>selected <a>service</a></var>.</li>
+										<li>If the value of the <code>serviceEndpoint</code> property of the <var>selected <a>service</a></var>
+											is a <a data-cite="INFRA#string">string</a>, add this value to a list of
+											<var>selected <a>service endpoint</a> URLs</var>.</li>
+										<li>If the value of the <code>serviceEndpoint</code> property of the <var>selected <a>service</a></var>
+											is a <a data-cite="INFRA#ordered-set">set</a>, add all its items that are <a data-cite="INFRA#string">strings</a>
+											to a list of <var>selected <a>service endpoint</a> URLs</var>.</li>
+									</ol>
+								</li>
+								<li>For each <var>selected <a>service endpoint</a> URL</var>, execute the algorithm specified in
+									<a data-cite="RFC3986#section-5">RFC3986 Section 5: Reference Resolution</a> as follows:
+									<ol class="algorithm">
+										<li>The <strong>base URI</strong> value is the <var>selected <a>service endpoint</a> URL</var>.</li>
+										<li>The <strong>relative reference</strong> is the value of the
+											<a data-cite="did-core#did-parameters">DID parameter</a> <code>relativeRef</code>.</li>
+										<li>Update the <var>selected <a>service endpoint</a> URL</var> to
+										the result of the "Reference Resolution" algorithm.</li>
+									</ol>
+								</li>
+							</ol>
+						</li>
+						<li>If the <b>accept</b> <var>input <a href="#did-url-dereferencing-options">DID dereferencing option</a></var>
+							is missing, or if its value is the Media Type of a <a>representation</a> of a <a>DID document</a>:
+							<ol class="algorithm">
+								<li>Update the <a>services</a> in the <var>resolved <a>DID document</a></var> to contain only the
+									<var>selected <a>services</a></var>.</li>
+								<li>Return the following result:
+									<ol class="algorithm">
+										<li><b>dereferencingMetadata</b>: <code>«[ ... ]»</code></li>
+										<li><b>content</b>: <code>resolved DID document with selected services</code></li>
+										<li><b>contentMetadata</b>: <code>«[ <code>resolved DID document metadata</code> ]»</code></li>
+									</ol>
+								</li>
+							</ol>
+						</li>
+						<li>If the value of the <b>accept</b> <var>input <a href="#did-resolution-options">DID resolution option</a></var>
+							is <b>text/uri-list</b>:
+							<ol class="algorithm">
+								<li>Return the following result:
+									<ol class="algorithm">
+										<li><b>dereferencingMetadata</b>: <code>«[ ... ]»</code></li>
+										<li><b>content</b>: <code>« selected service endpoint URLs »</code></li>
+										<li><b>contentMetadata</b>: <code>«[ "contentType" → "text/uri-list", ... ]»</code></li>
+									</ol>
+								</li>
+							</ol>
+						</li>
+						<li>Otherwise, return the following result:
+							<ol class="algorithm">
+								<li><b>dereferencingMetadata</b>: <code>«[ "error" → "representationNotSupported", ... ]»</code></li>
+								<li><b>content</b>: <code>null</code></li>
+								<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
+							</ol>
+						</li>
 					</ol>
-					</li>
-					<li>Return the following result:
-						<ol class="algorithm">
-							<li><b>dereferencingMetadata</b>: <code>«[ ... ]»</code></li>
-							<li><b>content</b>: <var>output service endpoint URL</var></li>
-							<li><b>contentMetadata</b>: <code>«[ "contentType" → "text/uri-list", ... ]»</code></li>
-						</ol>
-					</li>
-				</ol>
 				</li>
 
 				<li>Otherwise, if the <var>input <a>DID URL</a></var> contains a <a>DID path</a> and/or <a>DID query</a>:
@@ -1216,16 +1297,47 @@ dereference(didUrl, dereferenceOptions) →
 			on the media type ([[RFC2046]]) of the resource, i.e., on the result of
 			<a href="#dereferencing-algorithm-resource"></a>.</p>
 			<ol class="algorithm">
-				<li>If the result of <a href="#dereferencing-algorithm-resource"></a> is an <var>output <a>service endpoint</a> URL</var>,
+				<li>If the result of <a href="#dereferencing-algorithm-resource"></a> is an <var>output <a>DID document</a></var>,
+				and the <var>input <a href="#did-url-dereferencing-options">DID URL dereferencing options</a></var> contain the
+				<code>verificationRelationship</code> option:
+				<ol class="algorithm">
+					<li>
+					Let <var>verificationRelationship</var> be the value of the <code>verificationRelationship</code> 
+					option.
+					</li>
+					<li>
+					Let <var>verificationMethod</var> be the result of dereferencing the
+					<a>DID fragment</a> from the <var>output <a>DID document</a></var> according to the
+					rules of the media type of the <var>DID document</var>.
+					</li>
+					<li>
+					If <var>verificationMethod</var> is not a <a data-cite="cid#dfn-conforming-verification-method">conforming verification method</a>,
+					an error MUST be raised and SHOULD convey an error type of
+					<a data-cite="cid#INVALID_VERIFICATION_METHOD">INVALID_VERIFICATION_METHOD</a>.
+					</li>					
+					<li>
+					If <var>verificationMethod</var> is not associated, either by reference
+					(URL) or by value (object), with the <a data-cite="cid#dfn-verification-relationship">verification relationship</a> array in the
+					<var>output <a>DID document</a></var> identified by <var>verificationRelationship</var>,
+					an error MUST be raised and SHOULD convey an error type of
+					<a data-cite="cid#INVALID_RELATIONSHIP_FOR_VERIFICATION_METHOD">
+					INVALID_RELATIONSHIP_FOR_VERIFICATION_METHOD</a>.
+					</li>
+					<li>
+					Return the <var>verificationMethod</var>.
+					</li>
+				</ol>
+				</li>
+				<li>If the result of <a href="#dereferencing-algorithm-resource"></a> is a <var>selected <a>service endpoint</a> URL</var>,
 				and the <var>input <a>DID URL</a></var> contains a <a>DID fragment</a>:
 				<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest#intro</pre>
 				<ol class="algorithm">
-					<li>If the <var>output <a>service endpoint</a> URL</var>
+					<li>If the <var>selected <a>service endpoint</a> URL</var>
 					contains a <code>fragment</code> component, raise an error.</li>
-					<li>Append the <a>DID fragment</a> to the <var>output <a>service endpoint</a> URL</var>. In other words,
-					the <var>output <a>service endpoint</a> URL</var> "inherits" the <a>DID fragment</a> of the
+					<li>Append the <a>DID fragment</a> to the <var>select <a>service endpoint</a> URL</var>. In other words,
+					the <var>select <a>service endpoint</a> URL</var> "inherits" the <a>DID fragment</a> of the
 					<var>input <a>DID URL</a></var>.</li>
-					<li>Return the <var>output <a>service endpoint</a> URL</var>.</li>
+					<li>Return the <var>select <a>service endpoint</a> URL</var>.</li>
 				</ol>
 				</li>
 				<li>Otherwise, dereference the DID fragment as defined by the media type ([[RFC2046]]) of the resource.
@@ -1294,7 +1406,7 @@ did:example:123456789abcdefghi#keys-1
 		<pre class="example nohighlight">
 did:example:123456789abcdefghi?service=messages&relativeRef=%2Fsome%2Fpath%3Fquery#frag
 </pre>
-		<p>... then the result of the <a href="#dereferencing"></a> algorithm is the following <var>output <a>service endpoint</a> URL</var>:</p>
+		<p>... then the result of the <a href="#dereferencing"></a> algorithm is the following <var>selected <a>service endpoint</a> URL</var>:</p>
 		<pre class="example nohighlight">
 https://example.com/messages/8377464/some/path?query#frag
 </pre>
@@ -2184,7 +2296,7 @@ the `proofPurpose` property in the [=proof=]. See Section
 						<ol class="algorithm">
 							<li>The HTTP response status code MUST be <code>303</code>.</li>
 							<li>The HTTP response MUST contain an <code>Location</code> header. The value of this header
-								MUST be the <var>output <a>service endpoint</a> URL</var>.</li>
+								MUST be the <var>selected <a>service endpoint</a> URL</var>.</li>
 							<li>the HTTP response body MUST be empty.</li>
 						</ol>
 					</li>
@@ -2267,80 +2379,8 @@ curl -X GET https://resolver.example/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX
 
 </section>
 
-<section id="service-endpoint-construction">
-	<h1>Service Endpoint Construction</h1>
-
-	<p>This section defines the inputs and the algorithm of <a>Service Endpoint Construction</a>,
-	which returns a <a>service endpoint</a> URL as output. This algorithm is used when service endpoints
-	are selected during <a>DID URL dereferencing</a> (see <a href="#dereferencing"></a>).</p>
-
-	<p>In this section, <code>path</code>, <code>query</code>, and <code>fragment</code> are understood as defined in [[RFC3986]].</p>
-
-	<section>
-		<h2>Input</h2>
-
-		<p>The inputs of the <a>Service Endpoint Construction</a> algorithm are an <var>input <a>DID URL</a></var> and an
-		<var>input <a>service endpoint</a> URL</var>.</p>
-
-		<p>The requirements for the inputs of the <a>Service Endpoint Construction</a> algorithm are as follows:</p>
-		<ul>
-			<li>The <var>input <a>DID URL</a></var> and <var>input <a>service endpoint</a> URL</var> MAY both have a <code>path</code> component.</li>
-			<li>The <var>input <a>DID URL</a></var> and <var>input <a>service endpoint</a> URL</var> MUST NOT both have a <code>query</code> component.</li>
-			<li>The <var>input <a>DID URL</a></var> and <var>input <a>service endpoint</a> URL</var> MUST NOT both have a <code>fragment</code> component.</li>
-			<li>The <var>input <a>service endpoint</a> URL</var> MUST be an HTTP(S) URL.</li>
-		</ul>
-
-	</section>
-
-	<section>
-		<h2>Algorithm</h2>
-		<ol class="algorithm">
-			<li>Initialize a string <var>output <a>service endpoint</a> URL</var> to the value of the <var>input <a>service endpoint</a> URL</var></li>
-			<li>If the <var>output <a>service endpoint</a> URL</var> has a <code>query</code> component, remove it.</li>
-			<li>If the <var>output <a>service endpoint</a> URL</var> has a <code>fragment</code> component, remove it.</li>
-			<li>Append the <code>path</code> component of the <var>input <a>DID URL</a></var> to the <var>output <a>service endpoint</a> URL</var>.</li>
-			<li>If the <var>input <a>service endpoint</a> URL</var> has a <code>query</code> component, append <code>?</code> plus the <code>query</code> to the <var>output <a>service endpoint</a> URL</var>.</li>
-			<li>If the <var>input <a>DID URL</a></var> has a <code>query</code> component, append <code>?</code> plus the <code>query</code> to the <var>output <a>service endpoint</a> URL</var>.</li>
-			<li>If the <var>input <a>service endpoint</a> URL</var> has a <code>fragment</code> component, append <code>#</code> plus the <code>fragment</code> to the <var>output <a>service endpoint</a> URL</var>.</li>
-			<li>If the <var>input <a>DID URL</a></var> has a <code>fragment</code> component, append <code>#</code> plus the <code>fragment</code> to the <var>output <a>service endpoint</a> URL</var>.</li>
-			<li>Return the <var>output <a>service endpoint</a> URL</var>.</li>
-		</ol>
-
-		<p class="issue">We could potentially allow <code>query</code> components on both the
-		<var>input <a>DID URL</a></var> and <var>input <a>service endpoint</a> URL</var>, if they both contain lists of
-		key/value parameters that can be merged.</p>
-
-		<p class="issue">Details of the Service Endpoint Construction algorithm have been discussed in April 2019
-		on the CCG mailing list, e.g., <a href="https://lists.w3.org/Archives/Public/public-credentials/2019Apr/0021.html">here</a>
-		or <a href="https://lists.w3.org/Archives/Public/public-credentials/2019Apr/0032.html">here</a>.</p>
-
-		<p class="issue">Instead of defining our own algorithm, we could potentially re-use the "Relative Resolution"
-		algorithm defined in [[RFC3986]].</p>
-
-		<p class="issue" data-number="61">See corresponding open issue.</p>
-
-	</section>
-
-	<section>
-		<h2>Example</h2>
-		<p>Given the following <var>input <a>service endpoint</a> URL</var>:<p>
-		<p><code>
-https://example.com/messages/8377464</code></p>
-		<p>And given the following <var>input <a>DID URL</a></var>:</p>
-		<p><code>
-did:example:123456789abcdefghi?service=messages&relativeRef=%2Fsome%2Fpath%3Fquery#frag
-</code></p>
-		<p>Then the <var>output <a>service endpoint</a> URL</var> is:</p>
-		<p><code>
-https://example.com/messages/8377464/some/path?query#frag
-</code></p>
-
-	</section>
-
-</section>
-
-<section id="security-privacy-considerations">
-	<h1>Security and Privacy Considerations</h1>
+<section id="security-considerations">
+	<h1>Security Considerations</h1>
 
 	<section id="authentication">
 		<h2>Authentication/Authorization</h2>
@@ -2418,13 +2458,22 @@ https://example.com/messages/8377464/some/path?query#frag
 	
 	</section>
 
-	<section id="did-method-governance">
-		<h2>DID Method Governance</h2>
-		<p class="issue" data-number="6">Describe which methods a <a>DID resolver</a> should support, and potential implications.</p>
+</section>
+<section id="privacy-considerations">
+	<h1>Privacy Considerations</h1>
 
+	<p class="issue">TODO: Define privacy considerations for DID resolution</p>
+
+	<section id="profiling-requesters">
+		<h2>Non-DID Identifiers</h2>
+		<p class="issue" data-number="95">There is discussion about minimizing the extent of profiling of requesters
+		from DID Resolvers.
+		</p>
+	
 	</section>
 
-</section>
+</section>	
+
 
 <section id="future-work">
 	<h1>Future Work</h1>
