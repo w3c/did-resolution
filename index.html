@@ -761,7 +761,7 @@ string">ASCII string</a>.
 			<li>Determine whether the DID method of the <var>input <a>DID</a></var> is supported by the <a>DID resolver</a>
 			that implements this algorithm. If not, the <a>DID resolver</a> MUST return the following result:
 			<ol class="algorithm">
-				<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <a href="#METHOD_NOT_SUPPORTED"></a></li>
+				<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <a href="#METHOD_NOT_SUPPORTED">METHOD_NOT_SUPPORTED</a></li>
 				<li><b>didDocument</b>: <code>null</code></li>
 				<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
 			</ol>
@@ -776,7 +776,7 @@ string">ASCII string</a>.
 				<var>input <a>DID method</a></var>.</li>
 				<li>If the <var>input <a>DID</a></var> does not exist, return the following result:
 				<ol class="algorithm">
-					<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <a href="#NOT_FOUND"></a></li>
+					<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <a href="#NOT_FOUND">NOT_FOUND</a></li>
 					<li><b>didDocument</b>: <code>null</code></li>
 					<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
 				</ol>
@@ -1075,10 +1075,7 @@ dereference(didUrl, dereferenceOptions) →
 				error
 			</dt>
 			<dd>
-                An error data structure defined in [[RFC9457]]. This property is REQUIRED when there is an error
-                in the dereferencing process. The errors defined by this specification and can be found in
-                Section <a href="#errors"></a>.
-				The error code from the dereferencing process. This property is REQUIRED when
+                An error data structure defined in [[RFC9457]]. This property is REQUIRED when
 				there is an error in the dereferencing process. The errors defined in this 
                 specification can be found in Section <a href="#errors"></a>. 
                 Additional errors SHOULD be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]].
@@ -1114,7 +1111,7 @@ dereference(didUrl, dereferenceOptions) →
 				<li>If the <var>input <a>DID</a></var> does not exist in the VDR, the <a>DID URL dereferencer</a>
 						MUST return the following result:
 						<ol class="algorithm">
-							<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#NOT_FOUND"></a></li>
+							<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#NOT_FOUND">NOT_FOUND</a></li>
 							<li><b>contentStream</b>: <code>null</code></li>
 							<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
 						</ol>
@@ -1247,7 +1244,7 @@ dereference(didUrl, dereferenceOptions) →
 				<li>If neither this algorithm, nor the applicable <a>DID method</a>, nor an extension, nor the client
 				is able to dereference the <var>input <a>DID URL</a></var>, return the following result:
 				<ol class="algorithm">
-					<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#NOT_FOUND"></a></li>
+					<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#NOT_FOUND">NOT_FOUND</a></li>
 					<li><b>contentStream</b>: <code>null</code></li>
 					<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
 				</ol>
@@ -1828,7 +1825,7 @@ https://example.com/messages/8377464/some/path?query#frag
 		<p>Examples of DID Resolution Metadata include:</p>
 		<ul>
 		<li>Media type of the returned content (the <b>contentType</b> metadata property).</li>
-		<li>Error code (the <b>error</b> metadata property).</li>
+		<li>Error object (the <b>error</b> metadata property).</li>
 		<li>Duration of the DID resolution process.</li>
 		<li>Caching information about the DID document (see Section <a href="#caching"></a>).</li>
 		<li>Various URLs, IP addresses or other network information that was used during the DID resolution process.</li>
