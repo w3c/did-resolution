@@ -2025,18 +2025,6 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 		<dd>
             The [=DID document=] was malformed. See Section <a href="#resolving-algorithm"></a>.
 		</dd>
-		<!-- <dt id="INVALID_VERIFICATION_METHOD">INVALID_VERIFICATION_METHOD</dt>
-		<dd>
-The [=verification method=] in a [=controlled identifier document=] was malformed. See Section
-[[[#retrieve-verification-method]]].
-		</dd>
-		<dt id="INVALID_RELATIONSHIP_FOR_VERIFICATION_METHOD">INVALID_RELATIONSHIP_FOR_VERIFICATION_METHOD</dt>
-		<dd>
-The [=verification method=] in a [=controlled identifier document=] was not
-associated using the expected [=verification relationship=] as expressed in
-the `proofPurpose` property in the [=proof=]. See Section
-[[[#retrieve-verification-method]]].
-		</dd> -->
         <dt id="NOT_FOUND">NOT_FOUND</dt>
 		<dd>
             The <a>DID resolver</a> was unable to find the <a>DID document</a>
@@ -2056,6 +2044,10 @@ the `proofPurpose` property in the [=proof=]. See Section
         <dt id="METHOD_NOT_SUPPORTED">METHOD_NOT_SUPPORTED</dt>
 		<dd>
 			The DID method of the DID is not supported by the <a>DID resolver</a>. See Section <a href="#resolving-algorithm"></a>.
+		</dd>
+        <dt id="INVALID_OPTIONS">INVALID_OPTIONS</dt>
+		<dd>
+			One or more of the options provided for <a>DID Resolution</a> or <a>DID URL dereferencing</a> are invalid.
 		</dd>
         <dt id="INTERNAL_ERROR">INTERNAL_ERROR</dt>
 		<dd>
