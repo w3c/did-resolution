@@ -753,7 +753,7 @@ string">ASCII string</a>.
 			<a href="https://www.w3.org/TR/did-core/#did-syntax">DID Syntax</a>.
 			If not, the <a>DID resolver</a> MUST return the following result:
 			<ol class="algorithm">
-				<li><b>didResolutionMetadata</b>: <code>«[ "error" → "invalidDid", ... ]»</code></li>
+				<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <a href="#INVALID_DID">INVALID_DID</a></li>
 				<li><b>didDocument</b>: <code>null</code></li>
 				<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
 			</ol>
@@ -761,7 +761,7 @@ string">ASCII string</a>.
 			<li>Determine whether the DID method of the <var>input <a>DID</a></var> is supported by the <a>DID resolver</a>
 			that implements this algorithm. If not, the <a>DID resolver</a> MUST return the following result:
 			<ol class="algorithm">
-				<li><b>didResolutionMetadata</b>: <code>«[ "error" → "methodNotSupported", ... ]»</code></li>
+				<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <a href="#METHOD_NOT_SUPPORTED"></a></li>
 				<li><b>didDocument</b>: <code>null</code></li>
 				<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
 			</ol>
@@ -776,7 +776,7 @@ string">ASCII string</a>.
 				<var>input <a>DID method</a></var>.</li>
 				<li>If the <var>input <a>DID</a></var> does not exist, return the following result:
 				<ol class="algorithm">
-					<li><b>didResolutionMetadata</b>: <code>«[ "error" → "notFound", ... ]»</code></li>
+					<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <a href="#NOT_FOUND"></a></li>
 					<li><b>didDocument</b>: <code>null</code></li>
 					<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
 				</ol>
@@ -978,7 +978,7 @@ dereference(didUrl, dereferenceOptions) →
 			this MUST NOT be empty. Properties defined by this specification are in <a
 				href="#did-url-dereferencing-metadata"></a>. If the dereferencing is not
 			successful, this structure MUST contain an <code>error</code> property
-			describing the error.
+			describing the error. See Section <a href="#errors"></a>.
 		</dd>
 		<dt>
 			contentStream
@@ -1075,28 +1075,13 @@ dereference(didUrl, dereferenceOptions) →
 				error
 			</dt>
 			<dd>
+                An error data structure defined in [[RFC9457]]. This property is REQUIRED when there is an error
+                in the dereferencing process. The errors defined by this specification and can be found in
+                Section <a href="#errors"></a>.
 				The error code from the dereferencing process. This property is REQUIRED when
-				there is an error in the dereferencing process. The value of this property
-				MUST be a single keyword expressed as an <a data-lt="ascii string">ASCII
-				string</a>. The possible property values of this field SHOULD be registered in
-				the DID Specification Registries [[?DID-SPEC-REGISTRIES]]. This specification
-				defines the following common error values:
-				<dl>
-					<dt>
-						invalidDidUrl
-					</dt>
-					<dd>
-						The <a>DID URL</a> supplied to the <a>DID URL dereferencing</a> function does
-						not conform to valid syntax. (See <a data-cite="did-core#did-url-syntax"></a>.)
-					</dd>
-					<dt>
-						notFound
-					</dt>
-					<dd>
-						The <a>DID URL dereferencer</a> was unable to find the
-						<code>contentStream</code> resulting from this dereferencing request.
-					</dd>
-				</dl>
+				there is an error in the dereferencing process. The errors defined in this 
+                specification can be found in Section <a href="#errors"></a>. 
+                Additional errors SHOULD be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]].
 			</dd>
 		</dl>
 	</section>
@@ -1115,7 +1100,7 @@ dereference(didUrl, dereferenceOptions) →
 					<a href="https://www.w3.org/TR/did-core/#did-url-syntax">DID URL Syntax</a>.
 					If not, the <a>DID URL dereferencer</a> MUST return the following result:
 					<ol class="algorithm">
-						<li><b>dereferencingMetadata</b>: <code>«[ "error" → "invalidDidUrl" ]»</code></li>
+						<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#INVALID_DID_URL">INVALID_DID_URL</a></li>
 						<li><b>contentStream</b>: <code>null</code></li>
 						<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
 					</ol>
@@ -1129,7 +1114,7 @@ dereference(didUrl, dereferenceOptions) →
 				<li>If the <var>input <a>DID</a></var> does not exist in the VDR, the <a>DID URL dereferencer</a>
 						MUST return the following result:
 						<ol class="algorithm">
-							<li><b>dereferencingMetadata</b>: <code>«[ "error" → "notFound", ... ]»</code></li>
+							<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#NOT_FOUND"></a></li>
 							<li><b>contentStream</b>: <code>null</code></li>
 							<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
 						</ol>
@@ -1232,7 +1217,7 @@ dereference(didUrl, dereferenceOptions) →
 						</li>
 						<li>Otherwise, return the following result:
 							<ol class="algorithm">
-								<li><b>dereferencingMetadata</b>: <code>«[ "error" → "representationNotSupported", ... ]»</code></li>
+								<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#REPRESENTATION_NOT_SUPPORTED">REPRESENTATION_NOT_SUPPORTED</a></li>
 								<li><b>content</b>: <code>null</code></li>
 								<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
 							</ol>
@@ -1262,7 +1247,7 @@ dereference(didUrl, dereferenceOptions) →
 				<li>If neither this algorithm, nor the applicable <a>DID method</a>, nor an extension, nor the client
 				is able to dereference the <var>input <a>DID URL</a></var>, return the following result:
 				<ol class="algorithm">
-					<li><b>dereferencingMetadata</b>: <code>«[ "error" → "notFound" ]»</code></li>
+					<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#NOT_FOUND"></a></li>
 					<li><b>contentStream</b>: <code>null</code></li>
 					<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
 				</ol>
@@ -1344,7 +1329,7 @@ dereference(didUrl, dereferenceOptions) →
 			<p class="note">
 				This behavior of the <a>DID fragment</a> is analogous to the handling of a fragment in an HTTP URL in the
 				case when dereferencing it returns an HTTP <code>3xx</code> (Redirection) response with a
-				<code>Location</code> header (see section 7.1.2 of [[RFC7231]].
+				<code>Location</code> header (see section 7.1.2 of [[RFC7231]]).
 			</p>
 
 		</section>
@@ -2154,7 +2139,7 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 					<tbody>
 					<tr>
 						<td>
-							<code>invalidDid</code>
+							<code>INVALID_DID</code>
 						</td>
 						<td>
 							<code>400</code>
@@ -2162,7 +2147,7 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 					</tr>
 					<tr>
 						<td>
-							<code>invalidDidUrl</code>
+							<code>INVALID_DID_URL</code>
 						</td>
 						<td>
 							<code>400</code>
@@ -2170,7 +2155,7 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 					</tr>
 					<tr>
 						<td>
-							<code>notFound</code>
+							<code>NOT_FOUND</code>
 						</td>
 						<td>
 							<code>404</code>
@@ -2178,7 +2163,7 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 					</tr>
 					<tr>
 						<td>
-							<code>representationNotSupported</code>
+							<code>REPRESENTATION_NOT_SUPPORTED</code>
 						</td>
 						<td>
 							<code>406</code>
@@ -2186,7 +2171,7 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 					</tr>
 					<tr>
 						<td>
-							<code>methodNotSupported</code>
+							<code>METHOD_NOT_SUPPORTED</code>
 						</td>
 						<td>
 							<code>501</code>
@@ -2194,7 +2179,7 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 					</tr>
 					<tr>
 						<td>
-							<code>internalError</code>
+							<code>INTERNAL_ERROR</code>
 						</td>
 						<td>
 							<code>500</code>
