@@ -460,7 +460,9 @@ resolve(did, resolutionOptions) →
 			error in the resolution process, this MUST NOT be empty. This metadata is
 			defined by <a href="#did-resolution-metadata"></a>. If the resolution is
 			not successful, this structure MUST contain an <code>error</code> property
-			describing the error. See Section <a href="#errors"></a>.
+			describing the error. See Section <a href="#errors"></a>. 
+      Additional errors SHOULD be registered in the DID Specification Registries 
+      [[?DID-SPEC-REGISTRIES]].
 		</dd>
 		<dt>
 			<dfn>didDocument</dfn>
