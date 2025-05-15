@@ -1654,7 +1654,7 @@ https://example.com/messages/8377464/some/path?query#frag
 			<p>In this case, the above considerations in <a href="#method-architectures"></a> about <a>verifiable read</a> and <a>unverifiable read</a>
 				implementations apply to each supported <a>DID method</a> individually.</p>
 
-		</section>
+	</section>
 
 	<section id="resolver-architectures-proxied">
 		<h2>Proxied Resolution</h2>
@@ -1692,9 +1692,12 @@ https://example.com/messages/8377464/some/path?query#frag
 		<a href="#dereferencing-algorithm-resource">Dereferencing the Resource</a> is done by
 		the <a>DID resolver</a>, and
 		<a href="#dereferencing-algorithm-fragment">Dereferencing the Fragment</a> is done by the <a>client</a>.</p>
+	</section>
 
-		<section>
-			<h3>Example</h3>
+	</section>
+
+	<section>
+		<h2>Examples</h2>
 
 		<p>Given the <a>DID URL</a> <code>did:xyz:1234#keys-1</code>, a <a>DID resolver</a> could be invoked
 		via <a>local binding</a>
@@ -1710,11 +1713,6 @@ https://example.com/messages/8377464/some/path?query#frag
 			</figcaption>
 		</figure>
 
-		</section>
-
-		<section>
-			<h3>Example</h3>
-
 		<p>Given the <a>DID URL</a> <code>did:xyz:1234?service=agent&relativeRef=%2Fsome%2Fpath%3Fquery#frag</code>, a <a>DID resolver</a> could be invoked
 			for <a href="#dereferencing-algorithm-resource">Dereferencing the Resource</a> (i.e., a <a>service endpoint</a> URL),
 			and the <a>client</a> could complete the <a>DID URL dereferencing</a> algorithm by
@@ -1727,11 +1725,6 @@ https://example.com/messages/8377464/some/path?query#frag
 				Client-side dereferencing of a <a>DID URL</a> by a <a>DID resolver</a> and a <a>client</a>.
 			</figcaption>
 		</figure>
-
-		</section>
-
-		<section>
-			<h3>Example</h3>
 
 		<p>Given the <a>DID URL</a> <code>did:xyz:1234#keys-1</code>, a <a>DID resolver</a> could be invoked via
 		<a>local binding</a>, which invokes another <a>DID resolver</a> via <a>remote binding</a>
@@ -1747,10 +1740,6 @@ https://example.com/messages/8377464/some/path?query#frag
 				of a <a>DID URL</a> by two <a>DID resolvers</a> and a <a>client</a>.
 			</figcaption>
 		</figure>
-
-		</section>
-
-	</section>
 
 	</section>
 
