@@ -1988,9 +1988,9 @@ https://example.com/messages/8377464/some/path?query#frag
 
 	<ul>
 		<li>
-The `type` value of the error object MUST be a URL that starts with the value
-`https://w3id.org/security#` and ends with the value in the section listed
-below.
+The `type` value of the error object MUST be a URL. Where the values listed
+in the section below do not define a URL, the values MUST be prepended with the
+URL `https://www.w3.org/ns/did#`.
 		</li>
 		<li>
 The `title` value SHOULD provide a short but specific human-readable string for
@@ -2038,20 +2038,20 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 		<dd>
 			An unexpected error occured during <a>DID Resolution</a> or <a>DID URL dereferencing</a>.
 		</dd>
-        <dt id="INVALID_PUBLIC_KEY">INVALID_PUBLIC_KEY</dt>
+        <dt id="INVALID_PUBLIC_KEY">https://w3id.org/security#INVALID_PUBLIC_KEY</dt>
 		<dd>
 			An invalid public key value is detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>. 
 		</dd>
-        <dt id="INVALID_PUBLIC_KEY_LENGTH">INVALID_PUBLIC_KEY_LENGTH</dt>
+        <dt id="INVALID_PUBLIC_KEY_LENGTH">https://w3id.org/security#INVALID_PUBLIC_KEY_LENGTH</dt>
 		<dd>
 			The byte length of <i>rawPublicKeyBytes</i> did not match the expected public key length for the associated multicodecValue 
             during <a>DID Resolution</a> or <a>DID URL dereferencing</a>.
 		</dd>
-        <dt id="INVALID_PUBLIC_KEY_TYPE">INVALID_PUBLIC_KEY_TYPE</dt>
+        <dt id="INVALID_PUBLIC_KEY_TYPE">https://w3id.org/security#INVALID_PUBLIC_KEY_TYPE</dt>
 		<dd>
 			An invalid public key type was detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>.
 		</dd>
-        <dt id="UNSUPPORTED_PUBLIC_KEY_TYPE">UNSUPPORTED_PUBLIC_KEY_TYPE</dt>
+        <dt id="UNSUPPORTED_PUBLIC_KEY_TYPE">https://w3id.org/security#UNSUPPORTED_PUBLIC_KEY_TYPE</dt>
 		<dd>
 			An unsupported public key type was detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>.
 		</dd>
