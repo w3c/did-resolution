@@ -1810,20 +1810,19 @@ dereference(didUrl, dereferenceOptions) →
 
 <section id="did-resolution-result">
 	<h1>DID Resolution Result</h1>
-	<p>This section defines a data structure that represents the result of the algorithm described
+	<p>This section defines a JSON data structure that represents the result of the algorithm described
 	in <a href="#resolving"></a>. A <a>DID resolution result</a> contains
 	a <a>DID document</a> as well as
 	<a href="#output-resolutionmetadata">DID resolution metadata</a> and <a href="#output-documentmetadata">DID
 	document metadata</a>.</p>
 
-	<p>The media type of this data structure is defined to be `application/ld+json;profile="https://w3id.org/did-resolution"`.</p>
+	<p>The media type of this data structure is defined to be `application/did-resolution`.</p>
 
 	<section>
 		<h2>Example</h2>
 
 		<pre class="example nohighlight" title="Example DID resolution result">
 {
-	"@context": "https://w3id.org/did-resolution/v1",
 	"didDocument": {
 		"@context": "https://www.w3.org/ns/did/v1",
 		"id": "did:example:123456789abcdefghi",
@@ -1941,21 +1940,20 @@ dereference(didUrl, dereferenceOptions) →
 
 	<section id="did-url-dereferencing-result">
 		<h1>DID URL Dereferencing Result</h1>
-		<p>This section defines a data structure that represents the result of the algorithm described
+		<p>This section defines a JSON data structure that represents the result of the algorithm described
 			in <a href="#dereferencing"></a>. A <a>DID URL dereferencing result</a> contains
 			arbitrary content as well as
 			<a href="#output-dereferencingmetadata">DID resolution metadata</a> and <a href="#output-contentmetadata">
 				content metadata</a>.</p>
 
 		<p class="issue" data-number="69">See corresponding open issue.</p>
-		<p>The media type of this data structure is defined to be `application/ld+json;profile="https://w3id.org/did-resolution"`.</p>
+		<p>The media type of this data structure is defined to be `application/did-url-dereferencing`.</p>
 
 		<section>
 			<h2>Example</h2>
 
 			<pre class="example nohighlight" title="Example DID URL dereferencing result">
 {
-	"@context": "https://w3id.org/did-resolution/v1",
 	"content": {
 		"@context": "https://www.w3.org/ns/did/v1",
 		"id": "did:example:123456789abcdefghi",
@@ -2114,7 +2112,7 @@ dereference(didUrl, dereferenceOptions) →
 				<ol class="algorithm">
 					<li>Append the <var>input <a>DID</a></var> to the <var>request HTTP(S) URL</var>.
 					<pre class="example nohighlight">https://resolver.example/1.0/identifiers/did:example:1234</pre></li>
-					<li>Set the <code>Accept</code> <var>HTTP request header</var> to `application/ld+json;profile="https://w3id.org/did-resolution"`
+					<li>Set the <code>Accept</code> <var>HTTP request header</var> to `application/did-resolution"`
 						in order to request a complete <a href="#did-resolution-result"></a>, OR</li>
 					<li>set the <code>Accept</code> <var>HTTP request header</var> to the value of the <b>accept</b> <var>resolution option</var>.</li>
 					<li>If any other <var>resolution options</var> are provided:
@@ -2132,7 +2130,7 @@ dereference(didUrl, dereferenceOptions) →
 				<ol class="algorithm">
 					<li>Append the <var>input <a>DID URL</a></var> to the <var>request HTTP(S) URL</var>.
 					<pre class="example nohighlight">https://resolver.example/1.0/identifiers/did:example:1234?service=files&relativeRef=/resume.pdf</pre></li>
-					<li>Set the <code>Accept</code> <var>HTTP request header</var> to `application/ld+json;profile="https://w3id.org/did-url-dereferencing"`
+					<li>Set the <code>Accept</code> <var>HTTP request header</var> to `application/did-url-dereferencing"`
 						in order to request a complete <a href="#did-url-dereferencing-result"></a>, OR</li>
 					<li>set the <code>Accept</code> <var>HTTP request header</var> to the value of the <b>accept</b> <var>dereferencing option</var>.</li>
 					<li>If any other <var>dereferencing options</var> are provided:
@@ -2231,7 +2229,7 @@ dereference(didUrl, dereferenceOptions) →
 			</li>
 			<li>For the <a>DID resolution</a> function:
 				<ol class="algorithm">
-					<li>If the value of the <code>Content-Type</code> <var>HTTP response header</var> is `application/ld+json;profile="https://w3id.org/did-resolution"`:
+					<li>If the value of the <code>Content-Type</code> <var>HTTP response header</var> is `application/did-resolution"`:
 						<ol class="algorithm">
 							<li>The <var>HTTP body</var> MUST contain a <a>DID resolution result</a> (see <a href="#did-resolution-result"></a>) that
 								is the result of the <a>DID resolution</a> function.</li>
@@ -2250,7 +2248,7 @@ dereference(didUrl, dereferenceOptions) →
 			</li>
 			<li>For the <a>DID URL dereferencing</a> function:
 				<ol class="algorithm">
-					<li>If the value of the <code>Content-Type</code> <var>HTTP response header</var> is `application/ld+json;profile="https://w3id.org/did-url-dereferencing"`:
+					<li>If the value of the <code>Content-Type</code> <var>HTTP response header</var> is `application/did-url-dereferencing"`:
 						<ol class="algorithm">
 							<li>The <var>HTTP body</var> MUST contain a <a>DID URL dereferencing result</a> (see <a href="#did-url-dereferencing-result"></a>) that
 								is the result of the <a>DID URL dereferencing</a> function.</li>
