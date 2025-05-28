@@ -886,7 +886,7 @@ string">ASCII string</a>.
 
 	<figure id="did-url-dereference-overview">
 		<img style="margin: auto; display: block; width: 75%;"
-			 src="diagrams/section-5/did-url-dereference-overview.svg" alt="
+			 src="diagrams/did_url_dereference_overview.svg" alt="
 DIDs resolve to DID documents; DID URLs contains a DID; DID URLs dereferenced to DID document fragments or
 external resources.
         " >
@@ -1380,77 +1380,58 @@ dereference(didUrl, dereferenceOptions) →
 
 	<section>
 		<h2>Examples</h2>
-
-		<section>
-			<h3>Example: Dereferencing to verification method</h3>
-			<p>Given the following <var>input <a>DID URL</a></var>:</p>
-			<pre class="example nohighlight">
-	did:example:123456789abcdefghi#keys-1
-	</pre>
-			<p>... and the following <var>resolved <a>DID document</a></var>:<p>
-			<pre class="example nohighlight">
-	{
-		"@context":[
-			"https://www.w3.org/ns/did/v1.1",
-			"https://didcomm.org/messaging/contexts/v2",
-			"https://identity.foundation/linked-vp/contexts/v1"
-		],
-		"id": "did:example:123456789abcdefghi",
-		"verificationMethod": [{
-			"id": "did:example:123456789abcdefghi#keys-1",
-			"type": "Multikey",
-			"controller": "did:example:123456789abcdefghi",
-			"publicKeyMultibase": "z6MkmM42vxfqZQsv4ehtTjFFxQ4sQKS2w6WR7emozFAn5cxu"
-		}],
-		"service": [{
-			"id": "did:example:123456789abcdefghi#messages",
-			"type": "DIDCommMessaging",
-			"serviceEndpoint": "https://example.com/messages/8377464"
-		}, {
-			"id": "did:example:123456789abcdefghi#linkedvp",
-			"type": "LinkedVerifiablePresentation",
-			"serviceEndpoint": "https://example.com/verifiable-presentation.jsonld"
-		}]
-	}
-	</pre>
-			<p>... then the result of the <a href="#dereferencing"></a> algorithm is the following <var>output resource</var>:</p>
-			<pre class="example nohighlight">
-	{
-		"@context": "https://www.w3.org/ns/did/v1.1",
+		<p>Given the following <var>input <a>DID URL</a></var>:</p>
+		<pre class="example nohighlight">
+did:example:123456789abcdefghi#keys-1
+</pre>
+		<p>... and the following <var>resolved <a>DID document</a></var>:<p>
+		<pre class="example nohighlight">
+{
+	"@context": "https://www.w3.org/ns/did/v1",
+	"id": "did:example:123456789abcdefghi",
+	"verificationMethod": [{
 		"id": "did:example:123456789abcdefghi#keys-1",
-		"type": "Multikey",
+		"type": "Ed25519VerificationKey2018",
 		"controller": "did:example:123456789abcdefghi",
-		"publicKeyMultibase": "z6MkmM42vxfqZQsv4ehtTjFFxQ4sQKS2w6WR7emozFAn5cxu"
-	}
-	</pre>
-			<figure id="figure-dereference-to-verification-method">
-				<img style="margin: auto; display: block; width: 100%;" src="diagrams/section-5/example-dereference-to-verification-method.svg"
-					 alt="Diagram showing how a DID URL can be dereferenced to a verification method">
-				<figcaption style="text-align: center;">
-					Dereferencing a DID URL to a verification method.
-				</figcaption>
-			</figure>
-		</section>
-
-		<section>
-			<h3>Example: Dereferencing to service endpoint URL</h3>
-			<p>Given the following <var>input <a>DID URL</a></var>:</p>
-			<pre class="example nohighlight">
-	did:example:123456789abcdefghi?service=messages&relativeRef=%2Fsome%2Fpath%3Fquery#frag
-	</pre>
-			<p>... and the same <var>resolved <a>DID document</a></var> as in the previous section.<p>
-			<p>... then the result of the <a href="#dereferencing"></a> algorithm is the following <var>selected <a>service endpoint</a> URL</var>:</p>
-			<pre class="example nohighlight">
-	https://example.com/messages/8377464/some/path?query#frag
-	</pre>
-			<figure id="figure-dereference-to-service-endpoint-url">
-				<img style="margin: auto; display: block; width: 100%;" src="diagrams/section-5/example-dereference-to-service-endpoint-url.svg"
-				alt="Diagram showing how a DID URL can be dereferenced to a service endpoint URL">
-				<figcaption style="text-align: center;">
-					Dereferencing a DID URL to a service endpoint URL.
-				</figcaption>
-			</figure>
-		</section>
+		"publicKeyBase58": "H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV"
+	}],
+	"service": [{
+		"id": "did:example:123456789abcdefghi#agent",
+		"type": "AgentService",
+		"serviceEndpoint": "https://agent.example.com/8377464"
+	}, {
+		"id": "did:example:123456789abcdefghi#messages",
+		"type": "MessagingService",
+		"serviceEndpoint": "https://example.com/messages/8377464"
+	}]
+}
+</pre>
+		<p>... then the result of the <a href="#dereferencing"></a> algorithm is the following <var>output resource</var>:</p>
+		<pre class="example nohighlight">
+{
+	"@context": "https://www.w3.org/ns/did/v1",
+	"id": "did:example:123456789abcdefghi#keys-1",
+	"type": "Ed25519VerificationKey2018",
+	"controller": "did:example:123456789abcdefghi",
+	"publicKeyBase58": "H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV"
+}
+</pre>
+		<p>Given the following <var>input <a>DID URL</a></var> and the same <var>resolved <a>DID document</a></var> as above:</p>
+		<pre class="example nohighlight">
+did:example:123456789abcdefghi?service=messages&relativeRef=%2Fsome%2Fpath%3Fquery#frag
+</pre>
+		<p>... then the result of the <a href="#dereferencing"></a> algorithm is the following <var>selected <a>service endpoint</a> URL</var>:</p>
+		<pre class="example nohighlight">
+https://example.com/messages/8377464/some/path?query#frag
+</pre>
+		<figure id="figure-dereferencing">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/did-url-dereferencing.png"
+			alt="Diagram showing how a DID URL can be dereferenced to a service endpoint URL">
+			<figcaption style="text-align: center;">
+				Dereferencing a DID URL to a service endpoint URL.
+			</figcaption>
+		</figure>
+		<p class="issue">Change the diagram and/or examples to make them consistent.</p>
 
 	</section>
 
@@ -1601,15 +1582,15 @@ dereference(didUrl, dereferenceOptions) →
 		<a>DID resolver</a> and the <a>verifiable data registry</a> may be implemented as a <a>verifiable read</a>
 		or <a>unverifiable read</a>:</p>
 
-		<figure id="figure-architecture-method-verifiable">
-			<img style="margin: auto; display: block; width: 100%; margin-bottom: 20px;" src="diagrams/section-7/architecture-method-verifiable.svg"
+		<figure id="figure-method-verifiable">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/method-verifiable.png"
 			alt="Diagram showing a 'verifiable read' implementation of a DID method.">
 			<figcaption style="text-align: center;">
 				A <a>verifiable read</a> implementation of a <a>DID method</a>.
 			</figcaption>
 		</figure>
-		<figure id="figure-architecture-method-unverifiable">
-			<img style="margin: auto; display: block; width: 100%; margin-bottom: 20px;" src="diagrams/section-7/architecture-method-unverifiable.svg"
+		<figure id="figure-method-unverifiable">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/method-unverifiable.png"
 			alt="Diagram showing an 'unverifiable read' implementation of a DID method.">
 			<figcaption style="text-align: center;">
 				An <a>unverifiable read</a> implementation of a <a>DID method</a>.
@@ -1661,6 +1642,19 @@ dereference(didUrl, dereferenceOptions) →
 		<p class="issue">TODO: Describe how a client can potentially verify the result of a "Read" operation independently even if it does
 		not trust the DID resolver (e.g., using state proofs).</p>
 
+		<p>A <a>DID resolver</a> MUST support the <a>DID resolution</a> algorithm for at least one <a>DID method</a> and
+		MAY support it for multiple <a>DID methods</a>:</p>
+		<figure id="figure-method-multiple">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/method-multiple.png"
+			alt="Diagram showing a DID resolver that supports multiple DID methods.">
+			<figcaption style="text-align: center;">
+				A <a>DID resolver</a> that supports multiple <a>DID methods</a>.
+			</figcaption>
+		</figure>
+
+		<p>In this case, the above considerations about <a>verifiable read</a> and <a>unverifiable read</a>
+		implementations apply to each supported <a>DID method</a> individually.</p>
+
 	</section>
 
 	<section id="resolver-architectures">
@@ -1673,15 +1667,15 @@ dereference(didUrl, dereferenceOptions) →
 		(such as a local command line tool or library API) and <a>remote bindings</a> (such as the
 		<a href="#bindings-https">HTTP(S) binding</a>).</p>
 
-		<figure id="figure-architecture-binding-local">
-			<img style="margin: auto; display: block; width: 100%; margin-bottom: 20px;" src="diagrams/section-7/architecture-binding-local.svg"
+		<figure id="figure-binding-local">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/binding-local.png"
 			alt="Diagram showing a DID resolver with a 'local binding'.">
 			<figcaption style="text-align: center;">
 				A <a>local binding</a> for a <a>DID resolver</a>.
 			</figcaption>
 		</figure>
-		<figure id="figure-architecture-binding-remote">
-			<img style="margin: auto; display: block; width: 100%; margin-bottom: 20px;" src="diagrams/section-7/architecture-binding-remote.svg"
+		<figure id="figure-binding-remote">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/binding-remote.png"
 			alt="Diagram showing a DID resolver with a 'remote binding'.">
 			<figcaption style="text-align: center;">
 				A <a>remote binding</a> for a <a>DID resolver</a>.
@@ -1701,24 +1695,6 @@ dereference(didUrl, dereferenceOptions) →
 		</div>
 		<p class="issue">TODO: Discuss DID resolution in constrained user agents such as mobile apps and browsers.</p>
 
-		<section id="resolver-architectures-multiple">
-			<h2>Multiple Methods</h2>
-
-			<p>A <a>DID resolver</a> MUST support the <a>DID resolution</a> algorithm for at least one <a>DID method</a> and
-				MAY support it for multiple <a>DID methods</a>:</p>
-			<figure id="figure-resolver-multiple">
-				<img style="margin: auto; display: block; width: 100%; margin-bottom: 20px;" src="diagrams/section-7/resolver-multiple.svg"
-					 alt="Diagram showing a DID resolver that supports multiple DID methods.">
-				<figcaption style="text-align: center;">
-					A <a>DID resolver</a> that supports multiple <a>DID methods</a>.
-				</figcaption>
-			</figure>
-
-			<p>In this case, the above considerations in <a href="#method-architectures"></a> about <a>verifiable read</a> and <a>unverifiable read</a>
-				implementations apply to each supported <a>DID method</a> individually.</p>
-
-	</section>
-
 	<section id="resolver-architectures-proxied">
 		<h2>Proxied Resolution</h2>
 
@@ -1730,12 +1706,12 @@ dereference(didUrl, dereferenceOptions) →
 		invoked via a <a>local binding</a> (such as a command line tool), which in turn invokes another <a>DID resolver</a>
 		via a <a>remote binding</a> (such as the <a href="#bindings-https">HTTP(S) binding</a>).</p>
 
-		<figure id="figure-resolver-proxied">
-			<img style="margin: auto; display: block; width: 100%; margin-bottom: 20px;" src="diagrams/section-7/resolver-proxied.svg"
+		<figure id="figure-proxied-dereferencing">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/proxied-dereferencing.png"
 			alt="Diagram showing two DID resolvers, one invoked via 'local binding', the other invoked via 'remote binding'.">
 			<figcaption style="text-align: center;">
-				A client invokes a <a>DID resolver</a> via <a>local binding</a>, which invokes another <a>DID resolver</a> via
-				<a>remote binding</a>, which in turn reads from a <a>DID method</a>.
+				A client invokes a <a>DID resolver</a> via <a>local binding</a> which invokes another <a>DID resolver</a> via
+				<a>remote binding</a>, which in turn supports resolving multiple <a>DID methods</a>.
 			</figcaption>
 		</figure>
 
@@ -1755,54 +1731,50 @@ dereference(didUrl, dereferenceOptions) →
 		<a href="#dereferencing-algorithm-resource">Dereferencing the Resource</a> is done by
 		the <a>DID resolver</a>, and
 		<a href="#dereferencing-algorithm-fragment">Dereferencing the Fragment</a> is done by the <a>client</a>.</p>
-	</section>
 
-	</section>
-
-	<section>
-		<h2>Examples</h2>
-
-		<p>Given the <a>DID URL</a> <code>did:xyz:1234#keys-1</code>, a <a>DID resolver</a> could be invoked
+		<p>Example: Given the <a>DID URL</a> <code>did:xyz:1234#keys-1</code>, a <a>DID resolver</a> could be invoked
 		via <a>local binding</a>
 		for <a href="#dereferencing-algorithm-resource">Dereferencing the Resource</a> (i.e., the <a>DID document</a>),
 		and the <a>client</a> could complete the <a>DID URL dereferencing</a> algorithm by
 		<a href="#dereferencing-algorithm-fragment">Dereferencing the Fragment</a> (i.e., a part of the <a>DID document</a>).</p>
 
 		<figure id="figure-client-side-dereferencing-1">
-			<img style="display: block; width: 100%; margin-bottom: 20px;" src="diagrams/section-7/client-side-dereferencing-1.svg"
+			<img style="display: block; width: 100%;" src="diagrams/client-side-dereferencing-1.png"
 			alt="Diagram showing client-side dereferencing of a DID URL by a DID resolver and a client">
 			<figcaption style="text-align: center;">
 				Client-side dereferencing of a <a>DID URL</a> by a <a>DID resolver</a> and a <a>client</a>.
 			</figcaption>
 		</figure>
 
-		<p>Given the <a>DID URL</a> <code>did:xyz:1234?service=agent&relativeRef=%2Fsome%2Fpath%3Fquery#frag</code>, a <a>DID resolver</a> could be invoked
-			for <a href="#dereferencing-algorithm-resource">Dereferencing the Resource</a> (i.e., a <a>service endpoint</a> URL),
-			and the <a>client</a> could complete the <a>DID URL dereferencing</a> algorithm by
-			<a href="#dereferencing-algorithm-fragment">Dereferencing the Fragment</a> (i.e., a <a>service endpoint</a> URL with a fragment).</p>
-
-		<figure id="figure-client-side-dereferencing-2">
-			<img style="margin: auto; display: block; width: 100%; margin-bottom: 20px;" src="diagrams/section-7/client-side-dereferencing-2.svg"
-				 alt="Diagram showing client-side dereferencing of a DID URL by a DID resolver and a client">
-			<figcaption style="text-align: center;">
-				Client-side dereferencing of a <a>DID URL</a> by a <a>DID resolver</a> and a <a>client</a>.
-			</figcaption>
-		</figure>
-
-		<p>Given the <a>DID URL</a> <code>did:xyz:1234#keys-1</code>, a <a>DID resolver</a> could be invoked via
-		<a>local binding</a>, which invokes another <a>DID resolver</a> via <a>remote binding</a>
+		<p>Example: Given the <a>DID URL</a> <code>did:xyz:1234#keys-1</code>, a <a>DID resolver</a> could be invoked via
+		<a>local binding</a> which invokes another <a>DID resolver</a> via <a>remote binding</a>
 		for <a href="#dereferencing-algorithm-resource">Dereferencing the Resource</a> (i.e., the <a>DID document</a>),
 		and the <a>client</a> could complete the <a>DID URL dereferencing</a> algorithm by
 		<a href="#dereferencing-algorithm-fragment">Dereferencing the Fragment</a> (i.e., a part of the <a>DID document</a>).</p>
 
 		<figure id="figure-client-side-dereferencing-3">
-			<img style="margin: auto; display: block; width: 100%; margin-bottom: 20px;" src="diagrams/section-7/client-side-dereferencing-3.svg"
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/client-side-dereferencing-2.png"
 			alt="Diagram showing client-side dereferencing of a DID URL by two DID resolvers and a client">
 			<figcaption style="text-align: center;">
 				Client-side dereferencing (in combination with <a href="#resolver-architectures-proxied">Proxied Resolution</a>)
 				of a <a>DID URL</a> by two <a>DID resolvers</a> and a <a>client</a>.
 			</figcaption>
 		</figure>
+
+		<p>Example: Given the <a>DID URL</a> <code>did:xyz:1234?service=agent&relativeRef=%2Fsome%2Fpath%3Fquery#frag</code>, a <a>DID resolver</a> could be invoked
+		for <a href="#dereferencing-algorithm-resource">Dereferencing the Resource</a> (i.e., a <a>service endpoint</a> URL),
+		and the <a>client</a> could complete the <a>DID URL dereferencing</a> algorithm by
+		<a href="#dereferencing-algorithm-fragment">Dereferencing the Fragment</a> (i.e., a <a>service endpoint</a> URL with a fragment).</p>
+
+		<figure id="figure-client-side-dereferencing-2">
+			<img style="margin: auto; display: block; width: 100%;" src="diagrams/client-side-dereferencing-3.png"
+			alt="Diagram showing client-side dereferencing of a DID URL by a DID resolver and a client">
+			<figcaption style="text-align: center;">
+				Client-side dereferencing of a <a>DID URL</a> by a <a>DID resolver</a> and a <a>client</a>.
+			</figcaption>
+		</figure>
+
+	</section>
 
 	</section>
 
