@@ -2365,7 +2365,7 @@ curl -X GET https://resolver.example/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX
 	<section id="json-ld-integrity">
 		<h2>JSON-LD Context Integrity</h2>
 			<p>If <a href="https://www.w3.org/TR/json-ld11/#the-context">JSON-LD Context</a> files are fetched from a remote location each time, an attacker could alter the context file (by compromising the server 
-				or intercepting the request via a man in the middle attack). Therefore a production <a>DID resolver</a> that uses JSON-LD MUST NOT retrieve context files from remote locations. Instead <a>DID resolver</a> SHOULD use a trusted copy of the context file (for instance a local copy of the JSON-LD file obtained prior to resolution).</p>
+				or intercepting the request via a man in the middle attack). Therefore a production <a>DID resolver</a> that uses JSON-LD MUST NOT retrieve context files from remote locations. Instead a <a>DID resolver</a> SHOULD use a trusted copy of the context file (for instance a local copy of the JSON-LD file obtained prior to resolution).</p>
 	</section>
 
 	<section id="versioning">
