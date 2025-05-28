@@ -2345,22 +2345,22 @@ curl -X GET https://resolver.example/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX
 
 	<section id="caching">
 		<h2>Caching</h2>
-			<p>A <a>DID resolver</a> may maintain a generic cache of <a>DID documents</a>. It may also
-				maintain caches specific to certain <a>DID methods</a>.</p>
-			<p>The <code>noCache</code> resolution option can be used to
-				request a certain kind of caching behavior.</p>
-				<p>This <var>resolution option</var> is OPTIONAL.</p>
-				<p>Possible values of this property are:</p>
-				<ul>
-				<li>`"false"` (default value): Caching of <a>DID documents</a> is allowed.</li>
-				<li>`"true"`: Request that caching is disabled and a fresh <a>DID document</a> is retrieved from
-				the <a>verifiable data registry</a>.</li>
-				</ul>
-			<p>Caching behavior can be controlled by configuration of the <a>DID resolver</a>,
-				by the <code>noCache</code> resolution option, or by contents of the DID document
-				(e.g., a `cacheMaxTtl` field), or by a combination of these properties.</p>
-			<p class="issue" data-number="10">See corresponding open issue.</p>
-			<p class="issue">Perhaps we can re-use caching mechanisms of other protocols such as HTTP.</p>
+		<p>A <a>DID resolver</a> may maintain a generic cache of <a>DID documents</a>. It may also
+			maintain caches specific to certain <a>DID methods</a>.</p>
+		<p>The <code>noCache</code> resolution option can be used to
+			request a certain kind of caching behavior.</p>
+			<p>This <var>resolution option</var> is OPTIONAL.</p>
+			<p>Possible values of this property are:</p>
+			<ul>
+			<li>`"false"` (default value): Caching of <a>DID documents</a> is allowed.</li>
+			<li>`"true"`: Request that caching is disabled and a fresh <a>DID document</a> is retrieved from
+			the <a>verifiable data registry</a>.</li>
+			</ul>
+		<p>Caching behavior can be controlled by configuration of the <a>DID resolver</a>,
+			by the <code>noCache</code> resolution option, or by contents of the DID document
+			(e.g., a `cacheMaxTtl` field), or by a combination of these properties.</p>
+		<p class="issue" data-number="10">See corresponding open issue.</p>
+		<p class="issue">Perhaps we can re-use caching mechanisms of other protocols such as HTTP.</p>
 	</section>
 	<section id="json-ld-integrity">
 		<h2>JSON-LD Context Integrity</h2>
