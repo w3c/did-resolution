@@ -2418,7 +2418,7 @@ curl -X GET https://resolver.example/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX
 		<p><a>DID methods</a> that utilize VDRs of distributed systems (such as distributed ledgers or other distributed systems) need to manage the potential for network forks taking place. A <a>DID method</a> that uses a distributed system as a <a>verifiable data registry</a> SHOULD disambiguate the VDR they are using in the case of such forks by either:</p>
 		<ul>
 			<li>Referencing a well-known public source or resolution library that can distinguish between forked networks in the DID method specification</li>
-			<li>Maintaining a manual mapping in the did method specification of the method-specific-id subdivisions to the various VDRs</li>
+			<li>Maintaining a manual mapping in the DID method specification of the <code>method-specific-id</code> subdivisions to the various VDRs</li>
 			<li>Adding a new did parameter to specify which VDR is being used when network forks occur</li>
 		</ul>
 		<p>In addition a <a>DID Resolver</a> that is aware of any VDR network forks SHOULD warn users that these forks may affect resolution results.</p>
