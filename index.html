@@ -2366,7 +2366,7 @@ curl -X GET https://resolver.example/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX
 		<h2>JSON-LD Context Integrity</h2>
 			<p>If <a href="https://www.w3.org/TR/json-ld11/#the-context">JSON-LD Context</a> files are fetched from a remote location, an attacker could alter the context file (for example, by compromising the server or intercepting the request via a man-in-the-middle attack). 
 			</p>
-			<p>Any <a>DID resolver</a> which performs remote retrieval of JSON-LD Context URLs is strongly advised to use a registry of context files and corresponding hashes (or a functionally equivalent mechanism) in order to ensure end-to-end security. Implementations are expected to throw errors if a cryptographic hash value for a resource does not match the expected hash value.</p>
+			<p>Therefore, any <a>DID resolver</a> which performs remote retrieval of JSON-LD Context URLs is strongly advised to use a registry of context files and corresponding hashes (or a functionally equivalent mechanism) to help ensure end-to-end security. Implementations are expected to throw errors if the cryptographic hash value for a resource does not match the expected hash value.</p>
 	</section>
 
 	<section id="versioning">
