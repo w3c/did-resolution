@@ -460,7 +460,9 @@ resolve(did, resolutionOptions) →
 			error in the resolution process, this MUST NOT be empty. This metadata is
 			defined by <a href="#did-resolution-metadata"></a>. If the resolution is
 			not successful, this structure MUST contain an <code>error</code> property
-			describing the error.
+			describing the error. See Section <a href="#errors"></a>. 
+      Additional errors SHOULD be registered in the DID Specification Registries 
+      [[?DID-SPEC-REGISTRIES]].
 		</dd>
 		<dt>
 			<dfn>didDocument</dfn>
@@ -565,36 +567,10 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 				error
 			</dt>
 			<dd>
-				The error code from the resolution process. This property is REQUIRED when there
-				is an error in the resolution process. The value of this property MUST be a
-				single keyword <a data-lt="ascii string">ASCII string</a>. The possible property
-				values of this field SHOULD be registered in the DID Specification Registries
-				[[?DID-SPEC-REGISTRIES]]. This specification defines the following
-				common error values:
-				<dl>
-					<dt>
-						invalidDid
-					</dt>
-					<dd>
-						The <a>DID</a> supplied to the <a>DID resolution</a> function does not conform
-						to valid syntax. (See <a data-cite="did-core#did-syntax"></a>.)
-					</dd>
-					<dt>
-						notFound
-					</dt>
-					<dd>
-						The <a>DID resolver</a> was unable to find the <a>DID document</a>
-						resulting from this resolution request.
-					</dd>
-					<dt>
-						representationNotSupported
-					</dt>
-					<dd>
-						This error code is returned if the <a>representation</a> requested via the
-						<code>accept</code> input metadata property is not supported by the <a>DID
-						method</a> and/or <a>DID resolver</a> implementation.
-					</dd>
-				</dl>
+				An error data structure defined in [[RFC9457]]. This property is REQUIRED when there is an error
+                in the resolution process. The errors defined by this specification and can be found in
+                Section <a href="#errors"></a>.
+                Additional errors SHOULD be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]].
 			</dd>
 		</dl>
 
@@ -773,14 +749,14 @@ string">ASCII string</a>.
 	</section>
 
 	<section id="resolving-algorithm">
-		<h2>Algorithm</h2>
+		<h2>DID Resolution Algorithm</h2>
 		<p>The following <a>DID resolution</a> algorithm MUST be implemented by a conformant <a>DID resolver</a>.</p>
 		<ol class="algorithm">
 			<li>Validate that the <var>input <a>DID</a></var> conforms to the `did` rule of the
 			<a href="https://www.w3.org/TR/did-core/#did-syntax">DID Syntax</a>.
 			If not, the <a>DID resolver</a> MUST return the following result:
 			<ol class="algorithm">
-				<li><b>didResolutionMetadata</b>: <code>«[ "error" → "invalidDid", ... ]»</code></li>
+				<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <a href="#INVALID_DID">INVALID_DID</a></li>
 				<li><b>didDocument</b>: <code>null</code></li>
 				<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
 			</ol>
@@ -788,7 +764,7 @@ string">ASCII string</a>.
 			<li>Determine whether the DID method of the <var>input <a>DID</a></var> is supported by the <a>DID resolver</a>
 			that implements this algorithm. If not, the <a>DID resolver</a> MUST return the following result:
 			<ol class="algorithm">
-				<li><b>didResolutionMetadata</b>: <code>«[ "error" → "methodNotSupported", ... ]»</code></li>
+				<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <a href="#METHOD_NOT_SUPPORTED">METHOD_NOT_SUPPORTED</a></li>
 				<li><b>didDocument</b>: <code>null</code></li>
 				<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
 			</ol>
@@ -803,7 +779,7 @@ string">ASCII string</a>.
 				<var>input <a>DID method</a></var>.</li>
 				<li>If the <var>input <a>DID</a></var> does not exist, return the following result:
 				<ol class="algorithm">
-					<li><b>didResolutionMetadata</b>: <code>«[ "error" → "notFound", ... ]»</code></li>
+					<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <a href="#NOT_FOUND">NOT_FOUND</a></li>
 					<li><b>didDocument</b>: <code>null</code></li>
 					<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
 				</ol>
@@ -1005,7 +981,7 @@ dereference(didUrl, dereferenceOptions) →
 			this MUST NOT be empty. Properties defined by this specification are in <a
 				href="#did-url-dereferencing-metadata"></a>. If the dereferencing is not
 			successful, this structure MUST contain an <code>error</code> property
-			describing the error.
+			describing the error. See Section <a href="#errors"></a>.
 		</dd>
 		<dt>
 			contentStream
@@ -1102,35 +1078,17 @@ dereference(didUrl, dereferenceOptions) →
 				error
 			</dt>
 			<dd>
-				The error code from the dereferencing process. This property is REQUIRED when
-				there is an error in the dereferencing process. The value of this property
-				MUST be a single keyword expressed as an <a data-lt="ascii string">ASCII
-				string</a>. The possible property values of this field SHOULD be registered in
-				the DID Specification Registries [[?DID-SPEC-REGISTRIES]]. This specification
-				defines the following common error values:
-				<dl>
-					<dt>
-						invalidDidUrl
-					</dt>
-					<dd>
-						The <a>DID URL</a> supplied to the <a>DID URL dereferencing</a> function does
-						not conform to valid syntax. (See <a data-cite="did-core#did-url-syntax"></a>.)
-					</dd>
-					<dt>
-						notFound
-					</dt>
-					<dd>
-						The <a>DID URL dereferencer</a> was unable to find the
-						<code>contentStream</code> resulting from this dereferencing request.
-					</dd>
-				</dl>
+                An error data structure defined in [[RFC9457]]. This property is REQUIRED when
+				there is an error in the dereferencing process. The errors defined in this 
+                specification can be found in Section <a href="#errors"></a>. 
+                Additional errors SHOULD be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]].
 			</dd>
 		</dl>
 	</section>
 
 
 	<section id="dereferencing-algorithm">
-		<h2>Algorithm</h2>
+		<h2>DID URL Dereferencing Algorithm</h2>
 		<p>The following <a>DID URL dereferencing</a> algorithm MUST be implemented by a conformant <a>DID resolver</a>.
 		In accordance with [[RFC3986]], it consists of the following three steps: resolving the DID; dereferencing the
 		resource; and dereferencing the fragment (only if the <var>input <a>DID URL</a></var> contains a <a>DID fragment</a>):</p>
@@ -1142,7 +1100,7 @@ dereference(didUrl, dereferenceOptions) →
 					<a href="https://www.w3.org/TR/did-core/#did-url-syntax">DID URL Syntax</a>.
 					If not, the <a>DID URL dereferencer</a> MUST return the following result:
 					<ol class="algorithm">
-						<li><b>dereferencingMetadata</b>: <code>«[ "error" → "invalidDidUrl" ]»</code></li>
+						<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#INVALID_DID_URL">INVALID_DID_URL</a></li>
 						<li><b>contentStream</b>: <code>null</code></li>
 						<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
 					</ol>
@@ -1156,7 +1114,7 @@ dereference(didUrl, dereferenceOptions) →
 				<li>If the <var>input <a>DID</a></var> does not exist in the VDR, the <a>DID URL dereferencer</a>
 						MUST return the following result:
 						<ol class="algorithm">
-							<li><b>dereferencingMetadata</b>: <code>«[ "error" → "notFound", ... ]»</code></li>
+							<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#NOT_FOUND">NOT_FOUND</a></li>
 							<li><b>contentStream</b>: <code>null</code></li>
 							<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
 						</ol>
@@ -1259,7 +1217,7 @@ dereference(didUrl, dereferenceOptions) →
 						</li>
 						<li>Otherwise, return the following result:
 							<ol class="algorithm">
-								<li><b>dereferencingMetadata</b>: <code>«[ "error" → "representationNotSupported", ... ]»</code></li>
+								<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#REPRESENTATION_NOT_SUPPORTED">REPRESENTATION_NOT_SUPPORTED</a></li>
 								<li><b>content</b>: <code>null</code></li>
 								<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
 							</ol>
@@ -1289,7 +1247,7 @@ dereference(didUrl, dereferenceOptions) →
 				<li>If neither this algorithm, nor the applicable <a>DID method</a>, nor an extension, nor the client
 				is able to dereference the <var>input <a>DID URL</a></var>, return the following result:
 				<ol class="algorithm">
-					<li><b>dereferencingMetadata</b>: <code>«[ "error" → "notFound" ]»</code></li>
+					<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#NOT_FOUND">NOT_FOUND</a></li>
 					<li><b>contentStream</b>: <code>null</code></li>
 					<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
 				</ol>
@@ -1371,7 +1329,7 @@ dereference(didUrl, dereferenceOptions) →
 			<p class="note">
 				This behavior of the <a>DID fragment</a> is analogous to the handling of a fragment in an HTTP URL in the
 				case when dereferencing it returns an HTTP <code>3xx</code> (Redirection) response with a
-				<code>Location</code> header (see section 7.1.2 of [[RFC7231]].
+				<code>Location</code> header (see section 7.1.2 of [[RFC7231]]).
 			</p>
 
 		</section>
@@ -1898,7 +1856,7 @@ dereference(didUrl, dereferenceOptions) →
 		<p>Examples of DID Resolution Metadata include:</p>
 		<ul>
 		<li>Media type of the returned content (the <b>contentType</b> metadata property).</li>
-		<li>Error code (the <b>error</b> metadata property).</li>
+		<li>Error object (the <b>error</b> metadata property).</li>
 		<li>Duration of the DID resolution process.</li>
 		<li>Caching information about the DID document (see Section <a href="#caching"></a>).</li>
 		<li>Various URLs, IP addresses or other network information that was used during the DID resolution process.</li>
@@ -2041,51 +1999,94 @@ dereference(didUrl, dereferenceOptions) →
 
 <section id="errors">
 	<h1>Errors</h1>
-    <h2>invalidDid</h2>
-	<p>If an invalid DID is detected during <a>DID Resolution</a>,
-		the value of the DID Resolution Metadata <strong>error</strong> property MUST be <strong>invalidDid</strong>
-        as defined in section <a href="#did-resolution-metadata"></a>.
-    </p>
-	<h2>invalidDidUrl</h2>
-	<p>If an invalid DID URL is detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
-		the value of the DID Resolution or DID URL Dereferencing Metadata <strong>error</strong> property MUST be <strong>invalidDidUrl</strong>
-        as defined in section <a href="#did-url-dereferencing-metadata"></a>.
-    </p>
-    <h2>notFound</h2>
-    <p> If during <a>DID Resolution</a> or <a>DID URL dereferencing</a> a DID or DID URL doesn't exist,
-        the value of the DID Resolution or DID URL dereferencing Metadata <strong>error</strong> property MUST be <strong>notFound</strong> as
-        defined in sections <a href="#did-resolution-metadata"></a> and
-        <a href="#did-url-dereferencing-metadata"></a>.
-    </p>
-    <h2>representationNotSupported</h2>
-    <p> If a DID document representation is not supported during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
-        the value of the DID Resolution Metadata <strong>error</strong> property MUST be <strong>representationNotSupported</strong> as
-        defined in section <a href="#did-resolution-metadata"></a>.
-    </p>
-	<h2>methodNotSupported</h2>
-	<p> If a DID method is not supported during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
-		the value of the DID Resolution or DID URL Dereferencing Metadata <strong>error</strong> property MUST be <strong>methodNotSupported</strong>.
+	<p>
+		The algorithms described in this specification throw specific types of errors.
+		Implementers might find it useful to convey these errors to other libraries or
+		software systems. This section provides specific URLs and descriptions for the errors,
+		such that an ecosystem implementing technologies described
+		by this specification might interoperate more effectively when errors occur. Additionally,
+		this specification uses some errors defined in <a data-cite="CID#processing-errors">Section 
+		3.5 Processing Errors</a> of the [[CID]] specification.
 	</p>
-	<h2>internalError</h2>
-	<p>When an unexpected error occurs during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
-		the value of the DID Resolution or DID URL Dereferencing Metadata <strong>error</strong> property MUST be <strong>internalError</strong>.
-    </p>
-	<h2>invalidPublicKey</h2>
-	<p>If an invalid public key value is detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
-		the value of the DID Resolution or DID URL Dereferencing Metadata <strong>error</strong> property MUST be <strong>invalidPublicKey</strong>.
-    </p>
-	<h2>invalidPublicKeyLength</h2>
-	<p>If the byte length of <i>rawPublicKeyBytes</i> does not match the expected public key length for the associated multicodecValue during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
-		the value of the DID Resolution or DID URL Dereferencing Metadata <strong>error</strong> property MUST be <strong>invalidPublicKeyLength</strong>.
-    </p>
-	<h2>invalidPublicKeyType</h2>
-	<p>If an invalid public key type is detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
-		the value of the DID Resolution or DID URL Dereferencing Metadata <strong>error</strong> property MUST be <strong>invalidPublicKeyType</strong>.
-    </p>
-	<h2>unsupportedPublicKeyType</h2>
-	<p>If an unsupported public key type is detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>,
-		the value of the DID Resolution or DID URL Dereferencing Metadata <strong>error</strong> property MUST be <strong>unsupportedPublicKeyType</strong>.
-    </p>
+		
+	<p>
+		Implementers SHOULD use
+		[[RFC9457]] to encode the error data structure. If [[RFC9457]] is used:
+	</p>
+
+	<ul>
+		<li>
+The `type` value of the error object MUST be a URL. Where the values listed
+in the section below do not define a URL, the values MUST be prepended with the
+URL `https://www.w3.org/ns/did#`.
+		</li>
+		<li>
+The `title` value SHOULD provide a short but specific human-readable string for
+the error.
+		</li>
+		<li>
+The `detail` value SHOULD provide a longer human-readable string for the error.
+		</li>
+	</ul>
+
+	<dl>
+		<dt id="INVALID_DID">INVALID_DID</dt>
+		<dd>
+			An invalid DID was detected during <a>DID Resolution</a>. See Section <a href="#resolving-algorithm"></a>.
+		</dd>
+		<dt id="INVALID_DID_DOCUMENT">INVALID_DID_DOCUMENT</dt>
+		<dd>
+            The [=DID document=] was malformed. See Section <a href="#resolving-algorithm"></a>.
+		</dd>
+        <dt id="NOT_FOUND">NOT_FOUND</dt>
+		<dd>
+            The <a>DID resolver</a> was unable to find the <a>DID document</a>
+			resulting from this resolution request. See Section <a href="#resolving-algorithm"></a>.
+		</dd>
+        <dt id="REPRESENTATION_NOT_SUPPORTED">REPRESENTATION_NOT_SUPPORTED</dt>
+		<dd>
+			The <a>representation</a> requested via the <code>accept</code> input metadata property 
+            is not supported by the <a>DID method</a> and/or <a>DID resolver</a> implementation. 
+            See Section <a href="#resolving-algorithm"></a>.
+		</dd>
+        <dt id="INVALID_DID_URL">INVALID_DID_URL</dt>
+		<dd>
+			An invalid <a>DID URL</a> was detected during <a>DID URL dereferencing</a>.
+            See Section <a href="#dereferencing-algorithm"></a>
+		</dd>
+        <dt id="METHOD_NOT_SUPPORTED">METHOD_NOT_SUPPORTED</dt>
+		<dd>
+			The DID method of the DID is not supported by the <a>DID resolver</a>. See Section <a href="#resolving-algorithm"></a>.
+		</dd>
+        <dt id="INVALID_OPTIONS">INVALID_OPTIONS</dt>
+		<dd>
+			One or more of the options provided for <a>DID Resolution</a> or <a>DID URL dereferencing</a> are invalid.
+		</dd>
+        <dt id="INTERNAL_ERROR">INTERNAL_ERROR</dt>
+		<dd>
+			An unexpected error occured during <a>DID Resolution</a> or <a>DID URL dereferencing</a>.
+		</dd>
+        <dt id="INVALID_PUBLIC_KEY">https://w3id.org/security#INVALID_PUBLIC_KEY</dt>
+		<dd>
+			An invalid public key value is detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>. 
+		</dd>
+        <dt id="INVALID_PUBLIC_KEY_LENGTH">https://w3id.org/security#INVALID_PUBLIC_KEY_LENGTH</dt>
+		<dd>
+			The byte length of <i>rawPublicKeyBytes</i> did not match the expected public key length for the associated multicodecValue 
+            during <a>DID Resolution</a> or <a>DID URL dereferencing</a>.
+		</dd>
+        <dt id="INVALID_PUBLIC_KEY_TYPE">https://w3id.org/security#INVALID_PUBLIC_KEY_TYPE</dt>
+		<dd>
+			An invalid public key type was detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>.
+		</dd>
+        <dt id="UNSUPPORTED_PUBLIC_KEY_TYPE">https://w3id.org/security#UNSUPPORTED_PUBLIC_KEY_TYPE</dt>
+		<dd>
+			An unsupported public key type was detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>.
+		</dd>
+	  </dl>
+	  <dl>
+	</dl>
+
 
 </section>
 
@@ -2166,7 +2167,7 @@ dereference(didUrl, dereferenceOptions) →
 					<tbody>
 					<tr>
 						<td>
-							<code>invalidDid</code>
+							<code>INVALID_DID</code>
 						</td>
 						<td>
 							<code>400</code>
@@ -2174,7 +2175,15 @@ dereference(didUrl, dereferenceOptions) →
 					</tr>
 					<tr>
 						<td>
-							<code>invalidDidUrl</code>
+							<code>INVALID_DID_URL</code>
+						</td>
+						<td>
+							<code>400</code>
+						</td>
+					</tr>
+          <tr>
+						<td>
+							<code>INVALID_OPTIONS</code>
 						</td>
 						<td>
 							<code>400</code>
@@ -2182,7 +2191,7 @@ dereference(didUrl, dereferenceOptions) →
 					</tr>
 					<tr>
 						<td>
-							<code>notFound</code>
+							<code>NOT_FOUND</code>
 						</td>
 						<td>
 							<code>404</code>
@@ -2190,15 +2199,55 @@ dereference(didUrl, dereferenceOptions) →
 					</tr>
 					<tr>
 						<td>
-							<code>representationNotSupported</code>
+							<code>REPRESENTATION_NOT_SUPPORTED</code>
 						</td>
 						<td>
 							<code>406</code>
 						</td>
 					</tr>
+          <tr>
+						<td>
+							<code>INVALID_DID_DOCUMENT</code>
+						</td>
+						<td>
+							<code>500</code>
+						</td>
+					</tr>
 					<tr>
 						<td>
-							<code>methodNotSupported</code>
+							<code>METHOD_NOT_SUPPORTED</code>
+						</td>
+						<td>
+							<code>501</code>
+						</td>
+					</tr>
+          <tr>
+						<td>
+							<code>INVALID_PUBLIC_KEY</code>
+						</td>
+						<td>
+							<code>500</code>
+						</td>
+					</tr>
+          <tr>
+						<td>
+							<code>INVALID_PUBLIC_KEY_LENGTH</code>
+						</td>
+						<td>
+							<code>500</code>
+						</td>
+					</tr>
+          <tr>
+						<td>
+							<code>INVALID_PUBLIC_KEY_TYPE</code>
+						</td>
+						<td>
+							<code>500</code>
+						</td>
+					</tr>
+          <tr>
+						<td>
+							<code>UNSUPPORTED_PUBLIC_KEY_TYPE</code>
 						</td>
 						<td>
 							<code>501</code>
@@ -2206,12 +2255,13 @@ dereference(didUrl, dereferenceOptions) →
 					</tr>
 					<tr>
 						<td>
-							<code>internalError</code>
+							<code>INTERNAL_ERROR</code>
 						</td>
 						<td>
 							<code>500</code>
 						</td>
 					</tr>
+          
 					<tr>
 						<td>
 							(any other value)
