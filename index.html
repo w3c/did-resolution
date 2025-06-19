@@ -2479,14 +2479,14 @@ curl -X GET https://resolver.example/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX
 	<p class="issue">TODO: Define privacy considerations for DID resolution</p>
 
 	<section id="profiling-requesters">
-		<h2>Profiling of DID Resolution and Dereferencing Requestors</h2>
-		<p><a>DID resolvers</a> and <a>DID URL dereferencers</a> will be able to log resolution
-			and dereferencing requests to their services. Over time these logs could be used to track 
-			and profile clients making requests to these services. To mitigate this privacy risk, 
-			clients should make requests to services they trust, for example 
+		<h2>Profiling of DID Resolution and Dereferencing Requesters</h2>
+		<p><a>DID resolvers</a> and <a>DID URL dereferencers</a> will be able to log requests
+			to their services for resolution and dereferencing. Over time, these logs could be used to track 
+			and profile the clients making requests for these services. To mitigate this privacy risk, 
+			clients should make such requests to services they trust, for example, 
 			because of an existing business relationship or because the service is running on 
-			infrastructure they control. Additionally, clients may take steps to obfuscate their 
-			requests to a service in order to limit the possibilities for correlation and profiling.
+			infrastructure they control. Clients can also take steps to obfuscate their 
+			requests to a service in order to limit the possibilities of correlation and profiling.
 		</p>
 	
 	</section>
