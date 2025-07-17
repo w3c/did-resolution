@@ -1634,7 +1634,7 @@ dereference(didUrl, dereferenceOptions) →
 		via a <a>binding</a>. Bindings define how the abstract functions are realized using concrete
 		programming or communication interfaces. It is possible to distinguish between <a>local bindings</a>
 		(such as a local command line tool or library API) and <a>remote bindings</a> (such as the
-		<a href="#bindings-https">HTTP(S) binding</a>).</p>
+		<a href="#bindings-https">HTTP(S) binding</a> executed on a remote network host).</p>
 
 		<figure id="figure-architecture-binding-local">
 			<img style="margin: auto; display: block; width: 100%; margin-bottom: 20px;" src="diagrams/section-7/architecture-binding-local.svg"
@@ -2104,8 +2104,11 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 			<a>DID resolution</a> and/or <a>DID URL dereferencing</a> functions (including all
 			resolution/dereferencing options and metadata) via an HTTP(S) endpoint. See <a href="#resolver-architectures"></a>.</p>
 
-		<p>The HTTP(S) binding is a <a>remote binding</a>. It requires a known HTTP(S) URL where a remote
-			<a>DID resolver</a> can be invoked. This URL is called the <var><a>DID resolver</a> HTTP(S) endpoint</var></p>
+		<p>The HTTP(S) binding requires a known HTTP(S) URL where a <a>DID resolver</a> can be invoked. This URL is called the
+			<var><a>DID resolver</a> HTTP(S) endpoint</var>.</p>
+
+		<p>This binding is generally considered a <a>remote binding</a>, but could
+			also be a <a>local binding</a> if the HTTP(S) endpoint is run in a local environment, such as on <code>localhost</code>.</p>
 
 		<p>Using this binding, the <a>DID resolution</a> function (see
 			<a href="#resolving"></a>) and/or <a>DID URL dereferencing</a> function (see <a href="#dereferencing"></a>)
