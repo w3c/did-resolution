@@ -2264,7 +2264,7 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 							<code>500</code>
 						</td>
 					</tr>
-          
+
 					<tr>
 						<td>
 							(any other value)
@@ -2343,54 +2343,111 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 https://resolver.example/1.0/identifiers/</code></p>
 		<p>And given the following <var>input <a>DID</a></var>:</p>
 		<p><code>
-did:sov:WRfXPg8dantKVubE3HX8pw</code></p>
+did:example:123</code></p>
 		<p>Then the <var>request HTTP(S) URL</var> is:</p>
 		<p><code>
-https://resolver.example/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8pw</code></p>
-		<p>The HTTP(S) binding can be invoked as follows:</p>
-		<pre class="example nohighlight" title="Example curl call to a DID resolver via HTTP(S) binding">
-curl -X GET https://resolver.example/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8pw</pre>
+https://resolver.example/1.0/identifiers/did:example:123</code></p>
+		<h3>Example: Returning a DID Resolution Result</h3>
+		<p>The <code>resolve()</code> function can be invoked over the HTTP(S) binding as follows:</p>
+		<pre class="example nohighlight" title="Example request to a DID resolver via HTTP(S) binding">
+GET https://resolver.example/1.0/identifiers/did:example:123 HTTP/1.1
+Accept: application/did-resolution</pre>
+		<p>The response is as follows:</p>
+		<pre class="example nohighlight" title="Example response from a DID resolver via HTTP(S) binding">
+HTTP 200 OK
+Content-Type: application/did-resolution
 
-		<p>Additional examples of the HTTP(S) binding:</p>
+{
+	"didDocument": {
+		"@context": [ "https://www.w3.org/ns/did/v1.1" ],
+		"id": "did:example:123",
+		"verificationMethod": [{
+			...
+		}],
+		"service": [{
+			...
+		}]
+	},
+	"didResolutionMetadata": {
+		"contentType": "application/did"
+	},
+	"didDocumentMetadata": {
+		...
+	}
+}</pre>
+		<h3>Example: Returning a DID Document</h3>
+		<p>The <code>resolve()</code> function can be invoked over the HTTP(S) binding as follows:</p>
+		<pre class="example nohighlight" title="Example request to a DID resolver via HTTP(S) binding">
+GET https://resolver.example/1.0/identifiers/did:example:123 HTTP/1.1
+Accept: application/did</pre>
+		<p>The response is as follows:</p>
+		<pre class="example nohighlight" title="Example response from a DID resolver via HTTP(S) binding">
+HTTP 200 OK
+Content-Type: application/did
 
-		<figure id="https-resolve-example-1">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/https-resolve-example-1.png"
-				 alt="Diagram showing the invocation of resolve() over HTTPS">
-			<figcaption style="text-align: center;">
-				Invocation of resolve() over HTTP(S).
-			</figcaption>
-		</figure>
-
-		<figure id="https-resolve-example-2">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/https-resolve-example-2.png"
-				 alt="Diagram showing the invocation of resolve() over HTTPS">
-			<figcaption style="text-align: center;">
-				Invocation of resolve() over HTTP(S).
-			</figcaption>
-		</figure>
+{
+	"@context": [ "https://www.w3.org/ns/did/v1.1" ],
+	"id": "did:example:123",
+	"verificationMethod": [{
+		...
+	}],
+	"service": [{
+		...
+	}]
+}</pre>
 
 	</section>
 
 	<section>
 		<h2>DID URL Dereferencing Examples</h2>
+		<h3>Example: Returning a DID URL Dereferencing Result</h3>
+		<p>The <code>dereference()</code> function can be invoked over the HTTP(S) binding as follows:</p>
+		<pre class="example nohighlight" title="Example request to a DID URL dereferencer via HTTP(S) binding">
+GET https://resolver.example/1.0/identifiers/did:example:123?versionId=2 HTTP/1.1
+Accept: application/did-url-dereferencing</pre>
+		<p>The response is as follows:</p>
+		<pre class="example nohighlight" title="Example response from a DID URL dereferencer via HTTP(S) binding">
+HTTP 200 OK
+Content-Type: application/did-url-dereferencing
 
-		<p>Additional examples of the HTTP(S) binding:</p>
+{
+	"content": {
+		"@context": [ "https://www.w3.org/ns/did/v1.1" ],
+		"id": "did:example:123",
+		"verificationMethod": [{
+			...
+		}],
+		"service": [{
+			...
+		}]
+	},
+	"dereferencingMetadata": {
+		"contentType": "application/did"
+	},
+	"contentMetadata": {
+		...
+	}
+}</pre>
+		<h3>Example: Returning a resource</h3>
+		<p>The <code>dereference()</code> function can be invoked over the HTTP(S) binding as follows:</p>
+		<pre class="example nohighlight" title="Example request to a DID URL dereferencer via HTTP(S) binding">
+GET https://resolver.example/1.0/identifiers/did:example:123?versionId=2 HTTP/1.1
+Accept: application/did</pre>
+		<p>The response is as follows:</p>
+		<pre class="example nohighlight" title="Example response from a DID URL dereferencer via HTTP(S) binding">
+HTTP 200 OK
+Content-Type: application/did
 
-		<figure id="https-dereference-example-1">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/https-dereference-example-1.png"
-				 alt="Diagram showing the invocation of dereference() over HTTPS">
-			<figcaption style="text-align: center;">
-				Invocation of dereference() over HTTP(S).
-			</figcaption>
-		</figure>
-
-		<figure id="https-dereference-example-2">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/https-dereference-example-2.png"
-				 alt="Diagram showing the invocation of dereference() over HTTPS">
-			<figcaption style="text-align: center;">
-				Invocation of dereference() over HTTP(S).
-			</figcaption>
-		</figure>
+{
+	"@context": [ "https://www.w3.org/ns/did/v1.1" ],
+	"id": "did:example:123",
+	"verificationMethod": [{
+		...
+	}],
+	"service": [{
+		...
+	}]
+}</pre>
 
 	</section>
 
