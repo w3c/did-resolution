@@ -834,10 +834,6 @@ string">ASCII string</a>.
 			</li>
 		</ol>
 
-		<p class="issue" data-number="5">There is discussion how a DID that has been
-		<a href="https://www.w3.org/TR/did-core/#method-operations">deactivated</a> should be treated during the <a>DID resolution</a>
-		process.</p>
-
 		<p class="issue" data-number="13">Specify how signatures/proofs on a DID document should be verified during the
 		DID resolution process.</p>
 
@@ -1258,12 +1254,6 @@ dereference(didUrl, dereferenceOptions) →
 				</ol>
 				</li>
 			</ol>
-
-			<p class="issue" data-number="85">There have been discussions whether in addition to the DID parameter <code>service</code>,
-				there could also be a DID parameter <code>serviceType</code> to select services based
-				on their type rather than ID.
-				See <a href="https://lists.w3.org/Archives/Public/public-credentials/2019Jun/0028.html">
-					comments by Dave Longley</a> about `serviceType`.</p>
 
 		</section>
 
@@ -1839,7 +1829,6 @@ dereference(didUrl, dereferenceOptions) →
 }
 </pre>
 
-	<p class="issue" data-number="23">See corresponding open issue.</p>
 	<p class="issue">Need to define how this data structure works exactly, and whether it always contains
 	a <a>DID document</a> or can also contain other results.</p>
 
@@ -1909,7 +1898,6 @@ dereference(didUrl, dereferenceOptions) →
 			<a href="#output-dereferencingmetadata">DID resolution metadata</a> and <a href="#output-contentmetadata">
 				content metadata</a>.</p>
 
-		<p class="issue" data-number="69">See corresponding open issue.</p>
 		<p>The media type of this data structure is defined to be `application/did-url-dereferencing`.</p>
 
 		<section>
@@ -2467,7 +2455,6 @@ curl -X GET https://resolver.example/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX
 		<p class="note">While most <a>DID methods</a> support the <a href="https://www.w3.org/TR/did-core/#method-operations">Update</a>
 			operation, there is no requirement for <a>DID methods</a> to keep all previous <a>DID document</a> versions, therefore
 			not all <a>DID methods</a> support versioning.</p>
-			<p class="issue" data-number="12">See corresponding open issue.</p>
 
 	</section>
 
