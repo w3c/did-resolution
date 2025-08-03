@@ -394,8 +394,9 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 	<p>
 		The <a>DID resolution</a> function resolves a <a>DID</a> into a <a>DID
 		document</a> by using the "Read" operation of the applicable <a>DID method</a>
-		as described in <a data-cite="did-core#method-operations">Method Operations</a>. All
-		conforming <a>DID resolvers</a> implement the function below, which has the
+		as described in <a data-cite="did-core#method-operations">Method Operations</a>.
+	</p>
+	<p>	All conforming <a>DID resolvers</a> implement the function below, which has the
 		following abstract form:
 	</p>
 
@@ -421,9 +422,7 @@ resolve(did, resolutionOptions) →
 	</p>
 
 	<p>
-		The input variables
-		of the <code>resolve</code> function are
-		as follows:
+		The input variables of the <code>resolve</code> function are as follows:
 	</p>
 
 	<dl>
@@ -438,9 +437,11 @@ resolve(did, resolutionOptions) →
 			resolutionOptions
 		</dt>
 		<dd>
-			A <a href="#metadata-structure">metadata structure</a> containing properties
-			defined in <a href="#did-resolution-options"></a>. This input is
-			REQUIRED, but the structure MAY be empty.
+			A <a href="#metadata-structure">metadata structure</a> consisting of input
+			options to the <code>resolve</code> function in addition to the
+			<code>did</code> itself. This structure is further defined in <a
+				href="#did-resolution-options"></a>. This input is REQUIRED, but the
+			structure MAY be empty.
 		</dd>
 	</dl>
 
@@ -458,16 +459,12 @@ resolve(did, resolutionOptions) →
 		</dt>
 		<dd>
 			A <a href="#metadata-structure">metadata structure</a> consisting of values
-			relating to the results of the <a>DID resolution</a> process which typically
-			changes between invocations of the <code>resolve</code>
-			function, as it represents data about the
-			resolution process itself. This structure is REQUIRED, and in the case of an
-			error in the resolution process, this MUST NOT be empty. This metadata is
-			defined by <a href="#did-resolution-metadata"></a>. If the resolution is
-			not successful, this structure MUST contain an <code>error</code> property
+			relating to the results of the <a>DID resolution</a> process. This
+			structure is REQUIRED, and in the case of an
+			error in the resolution process, this MUST NOT be empty. This structure is further
+			defined in <a href="#did-resolution-metadata"></a>. If the resolution is
+			unsuccessful, this structure MUST contain an <code>error</code> property
 			describing the error. See Section <a href="#errors"></a>. 
-      Additional errors SHOULD be registered in the DID Specification Registries 
-      [[?DID-SPEC-REGISTRIES]].
 		</dd>
 		<dt>
 			<dfn>didDocument</dfn>
@@ -487,22 +484,21 @@ resolve(did, resolutionOptions) →
 			If the resolution is successful, this MUST be a <a
 				href="#metadata-structure">metadata structure</a>. This structure contains
 			metadata about the <a>DID document</a> contained in the <code>didDocument</code>
-			property. This metadata typically does not change between invocations of the
-			<code>resolve</code> function unless the
-			<a>DID document</a> changes, as it represents metadata about the <a>DID
-			document</a>. If the resolution is unsuccessful, this output MUST be an empty <a
-				href="#metadata-structure">metadata structure</a>. Properties defined by this
-			specification are in <a href="#did-document-metadata"></a>.
+			property. If the resolution is unsuccessful, this output MUST be an empty <a
+				href="#metadata-structure">metadata structure</a>. This structure is further
+			defined in <a href="#did-document-metadata"></a>.
 		</dd>
 	</dl>
 
 	<section>
 		<h3>DID Resolution Options</h3>
 
+		<p>This is a <a href="#metadata-structure">metadata structure</a> that contains input options for the <a>DID Resolution</a> process.</p>
+
 		<p>
-			The possible properties within this structure and their possible values are
-			registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]]. This
-			specification defines the following common properties.
+			The possible properties within this structure and their possible values SHOULD
+			be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]].
+			This specification defines the following common input options:
 		</p>
 
 		<dl>
@@ -550,10 +546,23 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 	<section>
 		<h3>DID Resolution Metadata</h3>
 
+		<p>This is a <a href="#metadata-structure">metadata structure</a> that contains metadata about the <a>DID Resolution</a> process.</p>
+		<p>This metadata typically changes between invocations of the <a>DID Resolution</a> function as it represents data about the resolution process itself.</p>
+		<p>The source of this metadata is the <a>DID resolver</a>.</p>
+		<p>Examples of DID Resolution Metadata include:</p>
+		<ul>
+			<li>Media type of the returned content (the <b>contentType</b> metadata property).</li>
+			<li>Error object (the <b>error</b> metadata property).</li>
+			<li>Duration of the DID resolution process.</li>
+			<li>Caching information about the DID document (see Section <a href="#caching"></a>).</li>
+			<li>Various URLs, VDRs, IP addresses, and/or other network information that was used during the DID resolution process.</li>
+			<li>Proofs added by a DID resolver (e.g., to establish trusted resolution).</li>
+		</ul>
+
 		<p>
-			The possible properties within this structure and their possible values are
-			registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]]. This
-			specification defines the following DID resolution metadata properties:
+			The possible properties within this structure and their possible values SHOULD
+			be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]]. This
+			specification defines the following common metadata properties:
 		</p>
 
 		<dl>
@@ -584,10 +593,26 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 	<section>
 		<h3>DID Document Metadata</h3>
 
+		<p>This is a <a href="#metadata-structure">metadata structure</a> that contains metadata about the <a>DID Resolution</a> process.</p>
+		<p>This metadata typically does not change between invocations of the <a>DID Resolution</a> function unless the <a>DID document</a> changes, as it represents data about the <a>DID document</a>.</p>
+		<p>The sources of this metadata are the <a>DID controller</a> and/or the <a>DID method</a>.</p>
+		<p>Examples of DID Document Metadata include:</p>
+		<ul>
+			<li>Timestamps when the DID and its associated DID document were created or updated (the <b>created</b> and <b>updated</b> metadata properties).</li>
+			<li>Metadata about controllers, capabilities, delegations, etc.</li>
+			<li>Versioning information about the DID document (see Section <a href="#versioning"></a>).</li>
+			<li>Proofs added by a DID controller (e.g., to establish control authority).</li>
+		</ul>
+		<p>DID Document Metadata may also include method-specific metadata, e.g.:</p>
+		<ul>
+			<li>State proofs from the <a>verifiable data registry</a>.</li>
+			<li>Block number, index, transaction hash, number of confirmations, etc., of a record in the blockchain or other <a>verifiable data registry</a>.</li>
+		</ul>
+
 		<p>
 			The possible properties within this structure and their possible values SHOULD
 			be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]].
-			This specification defines the following common properties.
+			This specification defines the following common metadata properties.
 		</p>
 
 		<dl>
@@ -921,11 +946,11 @@ external resources.
 	</div>
 
 	<p>
-		All conforming <a>DID resolvers</a> implement
-		the following function which has the following abstract form:
+		All conforming <a>DID URL dereferencers</a> implement the
+		function below, which has the following abstract form:
 	</p>
 
-	<pre title="Abstract functions for DID URL Dereferencing">
+	<pre title="Abstract function for DID URL Dereferencing">
 dereference(didUrl, dereferenceOptions) →
    « dereferencingMetadata, contentStream, contentMetadata »
       </pre>
@@ -957,7 +982,7 @@ dereference(didUrl, dereferenceOptions) →
 		<dd>
 			A <a href="#metadata-structure">metadata structure</a> consisting of input
 			options to the <code>dereference</code> function in addition to the
-			<code>didUrl</code> itself. Properties defined by this specification are in <a
+			<code>didUrl</code> itself. This structure is further defined in <a
 				href="#did-url-dereferencing-options"></a>. This input is REQUIRED, but the
 			structure MAY be empty.
 		</dd>
@@ -966,26 +991,26 @@ dereference(didUrl, dereferenceOptions) →
 	<p>
 		This function returns multiple values, and no limitations
 		are placed on how these values are returned together.
-		The return values of the <code>dereference</code> include
-		<code>dereferencingMetadata</code>, <code>contentStream</code>,
-		and <code>contentMetadata</code>:
+		The return values of <code>dereference</code> are
+		<a>dereferencingMetadata</a>, <a>contentStream</a>, and
+		<a>contentMetadata</a>. These values are described below:
 	</p>
 
 	<dl>
 		<dt>
-			dereferencingMetadata
+			<dfn>dereferencingMetadata</dfn>
 		</dt>
 		<dd>
 			A <a href="#metadata-structure">metadata structure</a> consisting of values
 			relating to the results of the <a>DID URL dereferencing</a> process. This
 			structure is REQUIRED, and in the case of an error in the dereferencing process,
-			this MUST NOT be empty. Properties defined by this specification are in <a
-				href="#did-url-dereferencing-metadata"></a>. If the dereferencing is not
-			successful, this structure MUST contain an <code>error</code> property
+			this MUST NOT be empty. This structure is further defined in <a
+				href="#did-url-dereferencing-metadata"></a>. If the dereferencing is
+			unsuccessful, this structure MUST contain an <code>error</code> property
 			describing the error. See Section <a href="#errors"></a>.
 		</dd>
 		<dt>
-			contentStream
+			<dfn>contentStream</dfn>
 		</dt>
 		<dd>
 			If the <code>dereferencing</code> function was called and successful, this MUST
@@ -998,7 +1023,7 @@ dereference(didUrl, dereferenceOptions) →
 			If the dereferencing is unsuccessful, this value MUST be empty.
 		</dd>
 		<dt>
-			contentMetadata
+			<dfn>contentMetadata</dfn>
 		</dt>
 		<dd>
 			If the dereferencing is successful, this MUST be a <a href="#metadata-structure">
@@ -1007,6 +1032,7 @@ dereference(didUrl, dereferenceOptions) →
 			is a <a>DID document</a>, this MUST be a <a>didDocumentMetadata</a> structure as
 			described in <a>DID Resolution</a>. If the dereferencing is unsuccessful, this
 			output MUST be an empty <a href="#metadata-structure">metadata structure</a>.
+			This structure is further defined in <a href="#did-url-content-metadata"></a>.
 		</dd>
 	</dl>
 
@@ -1023,11 +1049,12 @@ dereference(didUrl, dereferenceOptions) →
 	<section>
 		<h3>DID URL Dereferencing Options</h3>
 
+		<p>This is a <a href="#metadata-structure">metadata structure</a> that contains input options for the <a>DID URL Dereferencing</a> process.</p>
+
 		<p>
 			The possible properties within this structure and their possible values SHOULD
 			be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]].
-			This specification defines the following common properties for
-			dereferencing options:
+			This specification defines the following common input options:
 		</p>
 
 		<dl>
@@ -1037,14 +1064,14 @@ dereference(didUrl, dereferenceOptions) →
 			<dd>
 				The Media Type that the caller prefers for <code>contentStream</code>. The Media
 				Type MUST be expressed as an <a data-lt="ascii string">ASCII string</a>. The
-				<a>DID URL dereferencing</a> implementation SHOULD use this value to determine
+				<a>DID URL dereferencer</a> implementation SHOULD use this value to determine
 				the <code>contentType</code> of the <a>representation</a> contained in the
 				returned value if such a <a>representation</a> is supported and available.
 			</dd>
 		</dl>
 		<dl>
 			<dt>
-				<code>verificationRelationship</code>
+				verificationRelationship
 			</dt>
 			<dd>
 				The verificationRelationship for which the caller expects the verificationMethod
@@ -1060,10 +1087,14 @@ dereference(didUrl, dereferenceOptions) →
 	<section>
 		<h3>DID URL Dereferencing Metadata</h3>
 
+		<p>This is a <a href="#metadata-structure">metadata structure</a> that contains metadata about the <a>DID URL Dereferencing</a> process.</p>
+		<p>This metadata typically changes between invocations of the <a>DID URL Dereferencing</a> function as it represents data about the dereferencing process itself.</p>
+		<p>The source of this metadata is the <a>DID URL dereferencer</a>.</p>
+
 		<p>
-			The possible properties within this structure and their possible values are
-			registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]]. This
-			specification defines the following common properties.
+			The possible properties within this structure and their possible values SHOULD
+			be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]]. This
+			specification defines the following common metadata properties:
 		</p>
 
 		<dl>
@@ -1081,12 +1112,25 @@ dereference(didUrl, dereferenceOptions) →
 			<dd>
                 An error data structure defined in [[RFC9457]]. This property is REQUIRED when
 				there is an error in the dereferencing process. The errors defined in this 
-                specification can be found in Section <a href="#errors"></a>. 
+                specification can be found in Section <a href="#errors"></a>.
                 Additional errors SHOULD be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]].
 			</dd>
 		</dl>
 	</section>
 
+	<section>
+		<h3>DID URL Content Metadata</h3>
+
+		<p>This is a <a href="#metadata-structure">metadata structure</a> that contains metadata about the <a>DID URL Dereferencing</a> process.</p>
+		<p>This metadata typically does not change between invocations of the <a>DID URL Dereferencing</a> function unless the content changes, as it represents data about the content.</p>
+		<p>The sources of this metadata are the <a>DID controller</a> and/or the <a>DID method</a>.</p>
+
+		<p>
+			The possible properties within this structure and their possible values SHOULD
+			be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]]. This
+			specification defines no common properties.
+		</p>
+	</section>
 
 	<section id="dereferencing-algorithm">
 		<h2>DID URL Dereferencing Algorithm</h2>
@@ -1765,8 +1809,8 @@ dereference(didUrl, dereferenceOptions) →
 	<h1>DID Resolution Result</h1>
 	<p>This section defines a JSON data structure that represents the result of the algorithm described
 	in <a href="#resolving"></a>. A <a>DID resolution result</a> contains
-	a <a>DID document</a> as well as
-	<a href="#output-resolutionmetadata">DID resolution metadata</a> and <a href="#output-documentmetadata">DID
+	the <a>DID document</a> as well as
+	<a href="#did-resolution-metadata">DID resolution metadata</a> and <a href="#did-document-metadata">DID
 	document metadata</a>.</p>
 
 	<p>The media type of this data structure is defined to be `application/did-resolution`.</p>
@@ -1834,55 +1878,6 @@ dereference(didUrl, dereferenceOptions) →
 
 	</section>
 
-	<section id="output-diddocument">
-		<h2>DID Document</h2>
-		<p>A <a>DID document</a> associated with a <a>DID</a>. The result of <a href="#resolving"></a>.</p>
-
-	</section>
-
-	<section id="output-resolutionmetadata">
-		<h2>DID Resolution Metadata</h2>
-		<p>This is a metadata structure (see section <a href="https://www.w3.org/TR/did-core/#metadata-structure">Metadata Structure</a>
-		in [[DID-CORE]]) that contains metadata about the <a>DID Resolution</a> process.</p>
-		<p>This metadata typically changes between invocations of the <a>DID Resolution</a> functions as it represents data about the resolution process itself.</p>
-		<p>The source of this metadata is the DID resolver.</p>
-		<p>Examples of DID Resolution Metadata include:</p>
-		<ul>
-		<li>Media type of the returned content (the <b>contentType</b> metadata property).</li>
-		<li>Error object (the <b>error</b> metadata property).</li>
-		<li>Duration of the DID resolution process.</li>
-		<li>Caching information about the DID document (see Section <a href="#caching"></a>).</li>
-		<li>Various URLs, IP addresses or other network information that was used during the DID resolution process.</li>
-		<li>Proofs added by a DID resolver (e.g., to establish trusted resolution).</li>
-		</ul>
-		<p>See also section <a href="https://www.w3.org/TR/did-core/#did-resolution-metadata">DID Resolution Metadata</a>
-		in [[DID-CORE]].</p>
-
-	</section>
-
-	<section id="output-documentmetadata">
-		<h2>DID Document Metadata</h2>
-		<p>This is a metadata structure (see section <a href="https://www.w3.org/TR/did-core/#metadata-structure">Metadata Structure</a>
-		in [[DID-CORE]]) that contains metadata about a <a>DID Document</a>.</p>
-		<p>This metadata typically does not change between invocations of the <a>DID Resolution</a> function unless the <a>DID document</a> changes, as it represents data about the <a>DID document</a>.</p>
-		<p>The sources of this metadata are the <a>DID controller</a> and/or the <a>DID method</a>.</p>
-		<p>Examples of DID Document Metadata include:</p>
-		<ul>
-		<li>Timestamps when the DID and its associated DID document were created or updated (the <b>created</b> and <b>updated</b> metadata properties).</li>
-		<li>Metadata about controllers, capabilities, delegations, etc.</li>
-		<li>Versioning information about the DID document (see Section <a href="#versioning"></a>).</li>
-		<li>Proofs added by a DID controller (e.g., to establish control authority).</li>
-		</ul>
-		<p>DID Document Metadata may also include method-specific metadata, e.g.:</p>
-		<ul>
-		<li>State proofs from the <a>verifiable data registry</a>.</li>
-		<li>Block number, index, transaction hash, number of confirmations, etc. of a record in the blockchain or other <a>verifiable data registry</a>.</li>
-		</ul>
-		<p>See also section <a href="https://www.w3.org/TR/did-core/#did-document-metadata">DID Document Metadata</a>
-		in [[DID-CORE]].</p>
-
-	</section>
-
 	<p class="issue">For certain data, it may be debatable whether it should be part of the DID document
 	(i.e., data that describes the DID Subject), or whether it is metadata (i.e., data about the DID document or about
 	the DID resolution process). For example the URL of the "Continuation DID document" in the BTCR method.
@@ -1894,9 +1889,9 @@ dereference(didUrl, dereferenceOptions) →
 		<h1>DID URL Dereferencing Result</h1>
 		<p>This section defines a JSON data structure that represents the result of the algorithm described
 			in <a href="#dereferencing"></a>. A <a>DID URL dereferencing result</a> contains
-			arbitrary content as well as
-			<a href="#output-dereferencingmetadata">DID resolution metadata</a> and <a href="#output-contentmetadata">
-				content metadata</a>.</p>
+			the content as well as
+			<a href="#did-url-dereferencing-metadata">DID URL dereferencing metadata</a> and <a href="#did-url-content-metadata">
+				DID URL content metadata</a>.</p>
 
 		<p>The media type of this data structure is defined to be `application/did-url-dereferencing`.</p>
 
@@ -1957,32 +1952,6 @@ dereference(didUrl, dereferenceOptions) →
 	}
 }
 </pre>
-
-		</section>
-
-		<section id="output-content">
-			<h2>Content</h2>
-			<p>Arbitrary content associated with a <a>DID URL</a>. The result of <a href="#dereferencing"></a>.</p>
-
-		</section>
-
-		<section id="output-dereferencingmetadata">
-			<h2>DID URL Dereferencing Metadata</h2>
-			<p>This is a metadata structure (see section <a href="https://www.w3.org/TR/did-core/#metadata-structure">Metadata Structure</a>
-				in [[DID-CORE]]) that contains metadata about the <a>DID URL Dereferencing</a> process.</p>
-			<p>This metadata typically changes between invocations of the <a>DID URL Dereferencing</a> functions as it represents data about the dereferencing process itself.</p>
-			<p class="issue">Add more details how DID URL dereferencing metadata works.</p>
-			<p>See also section <a href="https://www.w3.org/TR/did-core/#did-url-dereferencing-metadata">DID URL Dereferencing Metadata</a>
-				in [[DID-CORE]].</p>
-
-		</section>
-
-		<section id="output-contentmetadata">
-			<h2>Content Metadata</h2>
-			<p>This is a metadata structure (see section <a href="https://www.w3.org/TR/did-core/#metadata-structure">Metadata Structure</a>
-				in [[DID-CORE]]) that contains metadata about the content.</p>
-			<p>This metadata typically does not change between invocations of the <a>DID URL Dereferencing</a> function unless the content changes, as it represents data about the content.</p>
-			<p class="issue">Add more details how content metadata works.</p>
 
 		</section>
 
