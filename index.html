@@ -1803,10 +1803,13 @@ dereference(didUrl, dereferenceOptions) →
 		invoked via a <a>local binding</a> (such as a command line tool), which in turn invokes another <a>DID resolver</a>
 		via a <a>remote binding</a> (such as the <a href="#bindings-https">HTTP(S) binding</a>).</p>
 
-        <p>When using proxied resolution, a "downstream" resolver SHOULD preserve all <a href="#did-resolution-metadata">DID resolution metadata</a>
-        and <a href="#did-document-metadata">DID document metadata</a> from an "upstream" resolver in a transparent manner, including any proofs if present.
-        In this process, the "downstream" resolver MAY add its own <a href="#did-resolution-metadata">DID resolution metadata</a>, including any
-        metadata about the proxied resolution process itself.</p>
+        <p>When using proxied resolution, a "downstream" resolver SHOULD preserve all
+          <a href="#did-resolution-metadata">DID resolution metadata</a> and
+          <a href="#did-document-metadata">DID document metadata</a> from an
+          "upstream" resolver in a transparent manner, including any proofs that may be
+          present. In this process, the "downstream" resolver MAY add its own
+          <a href="#did-resolution-metadata">DID resolution metadata</a>, including
+          any metadata about the proxied resolution process itself.</p>
 
 		<figure id="figure-resolver-proxied">
 			<img style="margin: auto; display: block; width: 100%; margin-bottom: 20px;" src="diagrams/section-7/resolver-proxied.svg"
