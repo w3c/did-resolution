@@ -1462,21 +1462,46 @@ dereference(didUrl, dereferenceOptions) →
 		used to communicate this metadata MUST be a <a data-cite="INFRA#maps">map</a>
 		of properties. Each property name MUST be a <a
 			data-cite="INFRA#string">string</a>. Each property value MUST be a <a
-			data-cite="INFRA#string">string</a>, <a data-cite="INFRA#maps">map</a>, <a
-			data-cite="INFRA#list">list</a>, <a data-cite="INFRA#ordered-set">set</a>,
+			data-cite="INFRA#string">string</a>, <a data-cite="INFRA#numbers">number</a>,
+			<a data-cite="INFRA#maps">map</a>, <a data-cite="INFRA#list">list</a>,
+			<a data-cite="INFRA#ordered-set">set</a>,
 		<a data-cite="INFRA#boolean">boolean</a>, or
 		<a data-cite="INFRA#nulls">null</a>. The values within any complex data
 		structures such as maps and lists MUST be one of these data types as well.
 		All metadata property definitions registered in the DID Specification
 		Registries [[?DID-SPEC-REGISTRIES]] MUST define the value type, including any
 		additional formats or restrictions to that value (for example, a string
-		formatted as a date or as a decimal integer). It is RECOMMENDED that property
+		formatted as a date or as a floating point number). It is RECOMMENDED that property
 		definitions use strings for values. The entire metadata structure MUST be
 		serializable according to the <a
 			data-cite="INFRA#serialize-an-infra-value-to-json-bytes">JSON
 		serialization rules</a> in the [[INFRA]] specification. Implementations MAY
 		serialize the metadata structure to other data formats.
 	</p>
+
+	<aside class="note">
+		<p>
+			Numeric representations vary across platforms and serializations
+			(for example, IEEE-754 floating-point vs. fixed-width integers vs.
+			“bigint”/bignum types). The 
+			<a data-cite="INFRA#numbers">Infra</a> standard does not yet provide
+			comprehensive guidance for numbers. Implementers
+			<strong>SHOULD</strong> avoid metadata numbers that are likely to be
+			represented differently on different platforms — notably:
+		</p>
+		<ul>
+			<li>non-integer values (e.g., floating-point numbers or fractions), and</li>
+			<li>integers outside common fixed-width ranges (e.g., larger than a 32-bit unsigned integer).</li>
+		</ul>
+		<p>
+			Where such values are needed for interoperability,
+			it is <strong>RECOMMENDED</strong> that property definitions use
+			a canonical <strong>string</strong> serialization (for example, a
+			string formatted as a floating-point number using a clearly defined
+			precision and rounding strategy) and document any expected
+			range/format.
+		</p>
+	</aside>
 
 	<p>
 		All implementations of functions that use metadata structures as either input or
