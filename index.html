@@ -1485,23 +1485,23 @@ dereference(didUrl, dereferenceOptions) →
 			(for example, IEEE-754 floating-point vs. fixed-width integers vs.
 			“bigint”/bignum types). The 
 			<a data-cite="INFRA#numbers">Infra</a> standard does not yet provide
-			comprehensive guidance for numbers. Implementers
-			<strong>SHOULD</strong> avoid metadata numbers that are likely to be
-			represented differently on different platforms — notably the following:
+			comprehensive guidance for numbers. Implementers are advised to avoid
+			metadata numbers that are likely to be represented differently on
+			different platforms — notably the following:
 		</p>
 		<ul>
 			<li>non-integer values such as floating-point numbers or fractions</li>
-			<li>integers outside common fixed-width ranges, such as those larger than a 32-bit unsigned integer (maximum `2<sup>32</sup> - 1` or `4,294,967,295`)</li>
+			<li>integers outside common fixed-width ranges, such as those larger than a 32-bit unsigned integer (maximum <code>2<sup>32</sup> - 1</code> or <code>4,294,967,295</code>)</li>
 		</ul>
 		<p>
 			Where such values are needed for interoperability,
-			it is <strong>RECOMMENDED</strong> that property definitions use
+			a good practice is for property definitions to use
 			a canonical <strong>string</strong> serialization (for example, a
 			string formatted as a floating-point number using a clearly defined
-			precision and rounding strategy) and document any expected
-			range/format.
+			precision and rounding strategy) and to document any expected
+			range or format.
 		</p>
-	</aside>
+		</aside>
 
 	<p>
 		All implementations of functions that use metadata structures as either input or
