@@ -2457,7 +2457,14 @@ Content-Type: application/did
 		<p>Caching behavior can be controlled by configuration of the <a>DID resolver</a>,
 			by the <code>noCache</code> resolution option, or by contents of the DID document
 			(e.g., a `cacheMaxTtl` field), or by a combination of these properties.</p>
-		<p class="issue" data-number="10">See corresponding open issue.</p>
+
+		<p>Resolvers that implement noCache might be more vulnerable to denial of service attacks,
+			as malicious clients can bypass caching to force expensive network requests and resource consumption.
+			Clients requesting resolution with <code>noCache</code> expect that some resolvers will reject resolution requests that bypass caching.
+			Resolvers that deny resolution without caching can respond with an error that makes it clear that bypassing the cache was not permitted 
+			so the client can attempt to resolve without using <code>noCache</code>.</p>
+
+			<p class="issue" data-number="10">See corresponding open issue.</p>
 		<p class="issue">Perhaps we can re-use caching mechanisms of other protocols such as HTTP.</p>
 	</section>
 	<section id="json-ld-integrity">
