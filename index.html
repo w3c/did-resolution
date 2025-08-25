@@ -1467,7 +1467,7 @@ dereference(didUrl, dereferenceOptions) →
 			<a data-cite="INFRA#ordered-set">set</a>,
 		<a data-cite="INFRA#boolean">boolean</a>, or
 		<a data-cite="INFRA#nulls">null</a>. The values within any complex data
-		structures such as maps and lists MUST be one of these data types as well.
+		structure such as a map or list MUST be one of these data types as well.
 		All metadata property definitions registered in the DID Specification
 		Registries [[?DID-SPEC-REGISTRIES]] MUST define the value type, including any
 		additional formats or restrictions to that value (for example, a string
@@ -1491,11 +1491,13 @@ dereference(didUrl, dereferenceOptions) →
 		</p>
 		<ul>
 			<li>non-integer values such as floating-point numbers or fractions</li>
-			<li>integers outside common fixed-width ranges, such as those larger than a 32-bit unsigned integer (maximum <code>2<sup>32</sup> - 1</code> or <code>4,294,967,295</code>)</li>
+			<li>integers outside common fixed-width ranges, such as those larger
+			than a 32-bit unsigned integer (maximum <code>2<sup>32</sup> - 1</code>
+			or <code>4,294,967,295</code>)</li>
 		</ul>
 		<p>
 			Where such values are needed for interoperability,
-			a good practice is for property definitions to use
+			a good practice for property is definitions to use
 			a canonical <strong>string</strong> serialization (for example, a
 			string formatted as a floating-point number using a clearly defined
 			precision and rounding strategy) and to document any expected
