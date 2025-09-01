@@ -360,7 +360,7 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 		Implementers as well as <a>DID method</a> specification authors might use
 		additional DID parameters that are not listed here. For maximum
 		interoperability, it is RECOMMENDED that DID parameters use the DID
-		Specification Registries mechanism [[?DID-SPEC-REGISTRIES]], to avoid collision
+		Document Properties Extensions mechanism [[?DID-EXTENSION-PROPERTIES]], to avoid collision
 		with other uses of the same DID parameter with different semantics.
 	</p>
 
@@ -497,7 +497,7 @@ resolve(did, resolutionOptions) →
 
 		<p>
 			The possible properties within this structure and their possible values SHOULD
-			be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]].
+			be registered in the DID Resolution Extensions [[?DID-EXTENSION-RESOLUTION]].
 			This specification defines the following common input options:
 		</p>
 
@@ -561,7 +561,7 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 
 		<p>
 			The possible properties within this structure and their possible values SHOULD
-			be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]]. This
+			be registered in the DID Resolution Extensions [[?DID-EXTENSION-RESOLUTION]]. This
 			specification defines the following common metadata properties:
 		</p>
 
@@ -584,7 +584,7 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 				An error data structure defined in [[RFC9457]]. This property is REQUIRED when there is an error
                 in the resolution process. The errors defined by this specification and can be found in
                 Section <a href="#errors"></a>.
-                Additional errors SHOULD be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]].
+                Additional errors SHOULD be registered in the DID Resolution Extensions [[?DID-EXTENSION-RESOLUTION]].
 			</dd>
 		</dl>
 
@@ -611,7 +611,7 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 
 		<p>
 			The possible properties within this structure and their possible values SHOULD
-			be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]].
+			be registered in the DID Document Properties Extensions [[?DID-EXTENSION-PROPERTIES]].
 			This specification defines the following common metadata properties.
 		</p>
 
@@ -1053,7 +1053,7 @@ dereference(didUrl, dereferenceOptions) →
 
 		<p>
 			The possible properties within this structure and their possible values SHOULD
-			be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]].
+			be registered in the DID Resolution Extensions [[?DID-EXTENSION-RESOLUTION]].
 			This specification defines the following common input options:
 		</p>
 
@@ -1093,7 +1093,7 @@ dereference(didUrl, dereferenceOptions) →
 
 		<p>
 			The possible properties within this structure and their possible values SHOULD
-			be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]]. This
+			be registered in the DID Resolution Extensions [[?DID-EXTENSION-RESOLUTION]]. This
 			specification defines the following common metadata properties:
 		</p>
 
@@ -1113,7 +1113,7 @@ dereference(didUrl, dereferenceOptions) →
                 An error data structure defined in [[RFC9457]]. This property is REQUIRED when
 				there is an error in the dereferencing process. The errors defined in this 
                 specification can be found in Section <a href="#errors"></a>.
-                Additional errors SHOULD be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]].
+                Additional errors SHOULD be registered in the DID Resolution Extensions [[?DID-EXTENSION-RESOLUTION]].
 			</dd>
 		</dl>
 	</section>
@@ -1127,7 +1127,7 @@ dereference(didUrl, dereferenceOptions) →
 
 		<p>
 			The possible properties within this structure and their possible values SHOULD
-			be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]]. This
+			be registered in the DID Resolution Extensions [[?DID-EXTENSION-RESOLUTION]]. This
 			specification defines no common properties.
 		</p>
 	</section>
@@ -1467,8 +1467,8 @@ dereference(didUrl, dereferenceOptions) →
 		<a data-cite="INFRA#boolean">boolean</a>, or
 		<a data-cite="INFRA#nulls">null</a>. The values within any complex data
 		structures such as maps and lists MUST be one of these data types as well.
-		All metadata property definitions registered in the DID Specification
-		Registries [[?DID-SPEC-REGISTRIES]] MUST define the value type, including any
+		All metadata property definitions registered in the DID Resolution Extensions 
+		[[?DID-EXTENSION-RESOLUTION]] MUST define the value type, including any
 		additional formats or restrictions to that value (for example, a string
 		formatted as a date or as a decimal integer). It is RECOMMENDED that property
 		definitions use strings for values. The entire metadata structure MUST be
