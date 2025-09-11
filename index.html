@@ -2197,10 +2197,11 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 	<a href="#dereferencing"></a>.</p>
 
 	<p>
-		All conformant <a>DID methods</a> MUST implement at least one implementation of a resolver 
+		All remote <a>DID resolvers</a> MUST have at least one implementation of a resolver 
 		with <a href="#bindings-https">https binding</a>. Such implementations MUST use TLS. Use of DNS names 
 		in certificates is not required; resolvers MAY use certificates issued for IP addresses 
 		(e.g., Let's Encrypt-style IP certificates). Additional bindings MAY also be provided.
+		Local <a>DID resolvers</a> such as libraries are not required to implement <a href="#bindings-https">https binding</a>.
 	</p>
 
 	<section id="bindings-https">
