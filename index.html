@@ -2208,6 +2208,12 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 		<p>This binding is generally considered a <a>remote binding</a>, but could
 			also be a <a>local binding</a> if the HTTP(S) endpoint is run in a local environment, such as on <code>localhost</code>.</p>
 
+		<p>All conformant <a>DID resolvers</a> MUST implement an HTTP(S) binding using GET as described in the algorithm below.
+			In addition, <a>DID resolvers</a> MAY support an alternative HTTP(S) binding using POST.
+			Allowing clients to send POST request to the resolver endpoint may be useful in order to avoid URL length limitations,
+			and it also allows the DID (or DID URL) and resolution options to be kept out of the invoked URL 
+			(protecting them from exposure in logs, proxies, or monitoring).</p>
+
 		<p>Using this binding, the <a>DID resolution</a> function (see
 			<a href="#resolving"></a>) and/or <a>DID URL dereferencing</a> function (see <a href="#dereferencing"></a>)
 			can be executed as follows:</p>
