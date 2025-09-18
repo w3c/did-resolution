@@ -220,6 +220,49 @@ reading this specification.
   
 	  </section>
 
+			<section class="informative">
+		<h2>
+		  Use Cases
+		</h2>
+		<p>
+The DID resolution specification is intended to support a broad range of use cases
+by defining a standardized interface to resolve DIDs and dereference DID URLs
+independent of the DID method of any particular DID. These usecases include:
+
+<ul>
+<li>
+A decentralized address book: By using DIDs as identifiers for people and organizations
+within an address book, the controllers of those DIDs can independently update the contents of
+their DID documents. Through DID resolution these DIDs can be resolved to obtain the 
+current state of the DID document for any given contact, enabling persistent stable identifiers
+with updatable services and verification material necessary for continued verifiable interactions. 
+</li>
+<li>
+Verifying a Verifiable Credential: Verifiable Credentials are signed by an issuer and given to a 
+holder. The holder can then create a Verifiable Presentation that is presented to a verifier.
+Within the credential, if issuers and holders are identified using a DID, the verifier can 
+use DID resolution to resolve the DID documents of the identified issuer and holder to obtain
+the verification material necessary to verify the signatures on the Verifiable Presentation.
+</li>
+<li>
+Auditability: DID resolution can be used to obtain the historical state of a DID document either
+at a specific point in time or for a specific version. This can be used to audit the historical 
+verifiable actions of a DID controller. For example, the issuance of a verifiable receipt or the 
+signing of a contract.
+</li>
+<li>
+DID URL based resource retrieval: A DID controller can add service endpoints to their DID document
+that point to resources they control, for example a profile picture. By referencing these resources
+using a DID URL, a web application can use DID resolution and DID URL dereferencing to retrieve the 
+current version of the resource. The DID URL can act as a persistent, dereferencable identifier
+for this resource, while the DID controller can independently change the resource over time.
+</li>
+</ul>
+
+		</p>
+  
+	  </section>
+
 </section>
 
 <section id="terminology">
