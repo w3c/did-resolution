@@ -2221,16 +2221,8 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 					<pre class="example nohighlight">https://resolver.example/1.0/identifiers/did:example:1234</pre></li>
 					<li>Set the <code>Accept</code> <var>HTTP request header</var> to `application/did-resolution"`
 						in order to request a complete <a href="#did-resolution-result"></a>, OR</li>
-					<li>set the <code>Accept</code> <var>HTTP request header</var> to the value of the <b>accept</b> <var>resolution option</var>.</li>
-					<li>If any other <var>resolution options</var> are provided:
-						<ol class="algorithm">
-							<li>The <var>input <a>DID</a></var> MUST be URL-encoded (as specified in <a
-									data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>).</li>
-							<li>Encode all <var>resolution options</var> except <b>accept</b> as
-								query parameters in the <var>request HTTP(S) URL</var>.
-							<pre class="example nohighlight">https://resolver.example/1.0/identifiers/did%3Aexample%3A1234?option1=value1&option2=value2</pre></li>
-						</ol>
-					</li>
+					<li>set the <code>Accept</code> <var>HTTP request header</var> to the value of the <b>accept</b> <var>resolution option</var>
+                        in order to request only the <b>didDocument</b> value of the result.</li>
 				</ol>
 			</li>
 			<li>For the <a>DID URL dereferencing</a> function:
@@ -2239,20 +2231,57 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 					<pre class="example nohighlight">https://resolver.example/1.0/identifiers/did:example:1234?service=files&relativeRef=/resume.pdf</pre></li>
 					<li>Set the <code>Accept</code> <var>HTTP request header</var> to `application/did-url-dereferencing"`
 						in order to request a complete <a href="#did-url-dereferencing-result"></a>, OR</li>
-					<li>set the <code>Accept</code> <var>HTTP request header</var> to the value of the <b>accept</b> <var>dereferencing option</var>.</li>
-					<li>If any other <var>dereferencing options</var> are provided:
-						<ol class="algorithm">
-							<li>The <var>input <a>DID URL</a></var> MUST be URL-encoded (as specified in <a
-									data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>).</li>
-							<li>Encode all <var>dereferencing options</var> except <b>accept</b> as
-								query parameters in the <var>request HTTP(S) URL</var>.
-							<pre class="example nohighlight">https://resolver.example/1.0/identifiers/did%3Aexample%3A1234%3Fservice%3Dfiles%26relativeRef%3D%2Fresume.pdf?option1=value1&option2=value2</pre></li>
-						</ol>
-					</li>
+					<li>set the <code>Accept</code> <var>HTTP request header</var> to the value of the <b>accept</b> <var>dereferencing option</var>
+                        in order to request only the <b>contentStream</b> value of the result.</li>
 				</ol>
 			</li>
-			<li>Execute an HTTP <code>GET</code> request on the <var>request HTTP(S) URL</var>. This invokes the <a>DID resolution</a> or
-				<a>DID URL dereferencing</a> function at the remote <a>DID resolver</a>.</li>
+            <li>For the HTTP(S) GET binding:
+                <ol class="algorithm">
+                    <li>If any other <var>resolution options</var> or <var>dereferencing options</var> than <b>accept</b> are provided:
+                        <ol class="algorithm">
+                            <li>The <var>input <a>DID</a></var> MUST be URL-encoded (as specified in <a
+                                    data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>).</li>
+                            <li>Encode all <var>resolution options</var> except <b>accept</b> as
+                                query parameters in the <var>request HTTP(S) URL</var>.
+                        </ol>
+                    </li>
+                    <li>Execute an HTTP <code>GET</code> request on the <var>request HTTP(S) URL</var>. This invokes the <a>DID resolution</a> or
+                        <a>DID URL dereferencing</a> function at the remote <a>DID resolver</a>.
+                        <pre class="example nohighlight">GET https://resolver.example/1.0/identifiers/did%3Aexample%3A1234?option1=value1&option2=value2 HTTP/1.1
+Accept: application/did-resolution
+</pre>
+                        <pre class="example nohighlight">GET https://resolver.example/1.0/identifiers/did%3Aexample%3A1234%3Fservice%3Dfiles%26relativeRef%3D%2Fresume.pdf?option1=value1&option2=value2 HTTP/1.1
+Accept: application/did-url-dereferencing
+</pre>
+                    </li>
+                </ol>
+            </li>
+            <li>For the HTTP(S) POST binding:
+            <ol class="algorithm">
+                <li>If any other <var>resolution options</var> or <var>dereferencing options</var> than <b>accept</b> are provided:
+                    <ol class="algorithm">
+                        <li>Encode all <var>resolution options</var> except <b>accept</b> as
+                            a JSON structure in the HTTP request's POST body.
+                    </ol>
+                </li>
+                <li>Execute an HTTP <code>POST</code> request on the <var>request HTTP(S) URL</var>. This invokes the <a>DID resolution</a> or
+                    <a>DID URL dereferencing</a> function at the remote <a>DID resolver</a>.
+                    <pre class="example nohighlight">POST https://resolver.example/1.0/identifiers/did:example:1234 HTTP/1.1
+Accept: application/did-resolution
+
+{
+    "option1": "value1",
+    "option2": "value2"
+}</pre>
+                    <pre class="example nohighlight">POST https://resolver.example/1.0/identifiers/did:example:1234?service=files&relativeRef=/resume.pdf HTTP/1.1
+Accept: application/did-url-dereferencing
+
+{
+    "option1": "value1",
+    "option2": "value2"
+}</pre>
+            </ol>
+            </li>
 			<li>If the <a>DID resolution</a> or <a>DID URL dereferencing</a> function returns an <b>error</b> metadata property in the
 				<b>didResolutionMetadata</b> or <b>dereferencingMetadata</b>,
 				then the HTTP response status code MUST correspond to the value of the <b>error</b> metadata property,
