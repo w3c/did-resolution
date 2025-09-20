@@ -133,11 +133,11 @@ Documents — simple documents that describe how to use that specific DID.
 
       <p>
 This document specifies the algorithms and guidelines for resolving DIDs
-and dereferencing DID URLs. Additionally, this document describes the 
-input and output metadata related to the DID resolution processes and 
-further describes the data structures that may be returned from a DID resolution 
-request.  This document relies on the core DID specification, 
-<a href="https://www.w3.org/TR/did-1.1/">Decentralized Identifiers (DIDs) v1.1</a>, 
+and dereferencing DID URLs. Additionally, this document describes the
+input and output metadata related to the DID resolution processes and
+further describes the data structures that may be returned from a DID resolution
+request.  This document relies on the core DID specification,
+<a href="https://www.w3.org/TR/did-1.1/">Decentralized Identifiers (DIDs) v1.1</a>,
 which describes the underlying DID architecture in full detail.
       </p>
     </section>
@@ -178,7 +178,7 @@ which describes the underlying DID architecture in full detail.
 	Building on top of <a>DID resolution</a>, <a>DID URL dereferencing</a> is the process of retrieving a representation
 	of a resource for a given <a>DID URL</a>. Software and/or hardware that is able to execute these processes is called
 	a <a>DID resolver</a>.
-	
+
 	<p>This
 	specification defines common
 	requirements, algorithms including their inputs and results, architectural options, and various considerations for the
@@ -214,15 +214,15 @@ which describes the underlying DID architecture in full detail.
 		</h2>
 		<p>
 This specification has three primary audiences: implementers of conformant DID methods;
-implementers of conformant DID resolvers; and implementers of systems and services 
-that wish to resolve DIDs using DID resolvers. The intended audience includes, 
-but is not limited to, software architects, data modelers, application developers, 
-service developers, testers, operators, and user experience (UX) specialists. 
-Other people involved in a broad range of standards efforts related to decentralized 
-identity, verifiable credentials, and secure storage might also be interested in 
+implementers of conformant DID resolvers; and implementers of systems and services
+that wish to resolve DIDs using DID resolvers. The intended audience includes,
+but is not limited to, software architects, data modelers, application developers,
+service developers, testers, operators, and user experience (UX) specialists.
+Other people involved in a broad range of standards efforts related to decentralized
+identity, verifiable credentials, and secure storage might also be interested in
 reading this specification.
 		</p>
-  
+
 	  </section>
 
 </section>
@@ -331,7 +331,7 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 			</td>
 			<td>
 				Identifies a certain version timestamp of a <a>DID document</a> to be resolved.
-				That is, the most recent version of the <a>DID document</a> that was valid for a <a>DID</a> 
+				That is, the most recent version of the <a>DID document</a> that was valid for a <a>DID</a>
 				before the specified `versionTime`. If present, the associated value
 				MUST be an <a data-lt="ascii string">ASCII string</a> which is a valid XML
 				datetime value, as defined in section 3.3.7 of <a
@@ -464,7 +464,7 @@ resolve(did, resolutionOptions) →
 			error in the resolution process, this MUST NOT be empty. This structure is further
 			defined in <a href="#did-resolution-metadata"></a>. If the resolution is
 			unsuccessful, this structure MUST contain an <code>error</code> property
-			describing the error. See Section <a href="#errors"></a>. 
+			describing the error. See Section <a href="#errors"></a>.
 		</dd>
 		<dt>
 			<dfn>didDocument</dfn>
@@ -864,7 +864,7 @@ string">ASCII string</a>.
 						<a data-cite="did-core#verification-relationships">verification relationships</a>
 						in the <var>output <a>DID document</a></var>.</li>
 					<li>If the value of the <code>id</code> property of a <a data-cite="did-core#services">service</a> or
-						<a data-cite="did-core#verification-methods">verification method</a> 
+						<a data-cite="did-core#verification-methods">verification method</a>
 						(including those embedded in <a data-cite="did-core#verification-relationships">verification relationships</a>) is a
 						<a data-cite="did-core#relative-did-urls">relative DID URL</a>, or if a
 						<a data-cite="did-core#verification-relationships">verification relationship</a> is a
@@ -1107,7 +1107,7 @@ dereference(didUrl, dereferenceOptions) →
 				associated value MUST be an <a data-lt="ascii string">ASCII string</a>.
 				If the DID URL does not dereference to a verificationMethod, or the
 				DID document does not authorize the verificationMethod for the specified
-				verificationRelationship, then an error MUST be raised. 
+				verificationRelationship, then an error MUST be raised.
 			</dd>
 		</dl>
 	</section>
@@ -1139,7 +1139,7 @@ dereference(didUrl, dereferenceOptions) →
 			</dt>
 			<dd>
                 An error data structure defined in [[RFC9457]]. This property is REQUIRED when
-				there is an error in the dereferencing process. The errors defined in this 
+				there is an error in the dereferencing process. The errors defined in this
                 specification can be found in Section <a href="#errors"></a>.
                 Additional errors SHOULD be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]].
 			</dd>
@@ -1359,7 +1359,7 @@ dereference(didUrl, dereferenceOptions) →
 				<code>verificationRelationship</code> option:
 				<ol class="algorithm">
 					<li>
-					Let <var>verificationRelationship</var> be the value of the <code>verificationRelationship</code> 
+					Let <var>verificationRelationship</var> be the value of the <code>verificationRelationship</code>
 					option.
 					</li>
 					<li>
@@ -1371,7 +1371,7 @@ dereference(didUrl, dereferenceOptions) →
 					If <var>verificationMethod</var> is not a <a data-cite="cid#dfn-conforming-verification-method">conforming verification method</a>,
 					an error MUST be raised and SHOULD convey an error type of
 					<a data-cite="cid#INVALID_VERIFICATION_METHOD">INVALID_VERIFICATION_METHOD</a>.
-					</li>					
+					</li>
 					<li>
 					If <var>verificationMethod</var> is not associated, either by reference
 					(URL) or by value (object), with the <a data-cite="cid#dfn-verification-relationship">verification relationship</a> array in the
@@ -1529,7 +1529,7 @@ dereference(didUrl, dereferenceOptions) →
 		<p>
 			Numeric representations vary across platforms and serializations
 			(for example, IEEE-754 floating-point vs. fixed-width integers vs.
-			“bigint”/bignum types). The 
+			“bigint”/bignum types). The
 			<a data-cite="INFRA#numbers">Infra</a> standard does not yet provide
 			comprehensive guidance for numbers. Implementers are advised to avoid
 			metadata numbers that are likely to be represented differently on
@@ -2133,10 +2133,10 @@ dereference(didUrl, dereferenceOptions) →
 		software systems. This section provides specific URLs and descriptions for the errors,
 		such that an ecosystem implementing technologies described
 		by this specification might interoperate more effectively when errors occur. Additionally,
-		this specification uses some errors defined in <a data-cite="CID#processing-errors">Section 
+		this specification uses some errors defined in <a data-cite="CID#processing-errors">Section
 		3.5 Processing Errors</a> of the [[CID]] specification.
 	</p>
-		
+
 	<p>
 		Implementers SHOULD use
 		[[RFC9457]] to encode the error data structure. If [[RFC9457]] is used:
@@ -2173,8 +2173,8 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 		</dd>
         <dt id="REPRESENTATION_NOT_SUPPORTED">REPRESENTATION_NOT_SUPPORTED</dt>
 		<dd>
-			The <a>representation</a> requested via the <code>accept</code> input metadata property 
-            is not supported by the <a>DID method</a> and/or <a>DID resolver</a> implementation. 
+			The <a>representation</a> requested via the <code>accept</code> input metadata property
+            is not supported by the <a>DID method</a> and/or <a>DID resolver</a> implementation.
             See Section <a href="#resolving-algorithm"></a>.
 		</dd>
         <dt id="INVALID_DID_URL">INVALID_DID_URL</dt>
@@ -2196,11 +2196,11 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 		</dd>
         <dt id="INVALID_PUBLIC_KEY">https://w3id.org/security#INVALID_PUBLIC_KEY</dt>
 		<dd>
-			An invalid public key value is detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>. 
+			An invalid public key value is detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>.
 		</dd>
         <dt id="INVALID_PUBLIC_KEY_LENGTH">https://w3id.org/security#INVALID_PUBLIC_KEY_LENGTH</dt>
 		<dd>
-			The byte length of <i>rawPublicKeyBytes</i> did not match the expected public key length for the associated multicodecValue 
+			The byte length of <i>rawPublicKeyBytes</i> did not match the expected public key length for the associated multicodecValue
             during <a>DID Resolution</a> or <a>DID URL dereferencing</a>.
 		</dd>
         <dt id="INVALID_PUBLIC_KEY_TYPE">https://w3id.org/security#INVALID_PUBLIC_KEY_TYPE</dt>
@@ -2629,7 +2629,7 @@ Content-Type: application/did
 		<p>Resolvers that implement noCache might be more vulnerable to denial of service attacks,
 			as malicious clients can bypass caching to force expensive network requests and resource consumption.
 			Clients requesting resolution with <code>noCache</code> expect that some resolvers will reject resolution requests that bypass caching.
-			Resolvers that deny resolution without caching can respond with an error that makes it clear that bypassing the cache was not permitted 
+			Resolvers that deny resolution without caching can respond with an error that makes it clear that bypassing the cache was not permitted
 			so the client can attempt to resolve without using <code>noCache</code>.</p>
 
 			<p class="issue" data-number="10">See corresponding open issue.</p>
@@ -2637,7 +2637,7 @@ Content-Type: application/did
 	</section>
 	<section id="json-ld-integrity">
 		<h2>JSON-LD Context Integrity</h2>
-			<p>If <a href="https://www.w3.org/TR/json-ld11/#the-context">JSON-LD Context</a> files are fetched from a remote location, an attacker could alter the context file (for example, by compromising the server or intercepting the request via a man-in-the-middle attack). 
+			<p>If <a href="https://www.w3.org/TR/json-ld11/#the-context">JSON-LD Context</a> files are fetched from a remote location, an attacker could alter the context file (for example, by compromising the server or intercepting the request via a man-in-the-middle attack).
 			</p>
 			<p>Therefore, any <a>DID resolver</a> which performs remote retrieval of JSON-LD Context URLs is strongly advised to use a registry of context files and corresponding hashes (or a functionally equivalent mechanism) to help ensure end-to-end security. Implementations are expected to throw errors if the cryptographic hash value for a resource does not match the expected hash value.</p>
 	</section>
@@ -2664,9 +2664,9 @@ Content-Type: application/did
 
 	<section id="vdr-forks">
 		<h2>VDR Network Forks</h2>
-		<p><a>DID methods</a> that use a distributed system (such as a distributed ledger) as a 
-			VDR (<a>verifiable data registry</a>) need to manage the potential that network forks may occur. Therefore, 
-			the specification of a <a>DID method</a> that uses a distributed system as a VDR SHOULD specify a means by which 
+		<p><a>DID methods</a> that use a distributed system (such as a distributed ledger) as a
+			VDR (<a>verifiable data registry</a>) need to manage the potential that network forks may occur. Therefore,
+			the specification of a <a>DID method</a> that uses a distributed system as a VDR SHOULD specify a means by which
 			the VDR they are using can be disambiguated from such forks.</p>
 	</section>
 	<section id="non-did-identifiers">
@@ -2675,7 +2675,7 @@ Content-Type: application/did
 		resolution of non-DID identifiers such as domain names, HTTP URIs, or e-mail addresses. This includes the
 		questions how DIDs can be discovered from non-DID identifiers, and how links between identifiers can
 		be verifiable.</p>
-	
+
 	</section>
 
 </section>
@@ -2687,17 +2687,52 @@ Content-Type: application/did
 	<section id="profiling-requesters">
 		<h2>Profiling of DID Resolution and Dereferencing Requesters</h2>
 		<p><a>DID resolvers</a> and <a>DID URL dereferencers</a> will be able to log requests
-			to their services for resolution and dereferencing. Over time, these logs could be used to track 
-			and profile the clients making requests for these services. To mitigate this privacy risk, 
-			clients should make such requests to services they trust, for example, 
-			because of an existing business relationship or because the service is running on 
-			infrastructure they control. Clients can also take steps to obfuscate their 
+			to their services for resolution and dereferencing. Over time, these logs could be used to track
+			and profile the clients making requests for these services. To mitigate this privacy risk,
+			clients should make such requests to services they trust, for example,
+			because of an existing business relationship or because the service is running on
+			infrastructure they control. Clients can also take steps to obfuscate their
 			requests to a service in order to limit the possibilities of correlation and profiling.
 		</p>
-	
+
 	</section>
 
-</section>	
+</section>
+
+<section class="appendix">
+	<h1>Relationship to Other Technologies</h1>
+
+	<p>
+One of the most common mechanisms to resolve an identifier to an addresses on
+the Internet is the global Domain Name System (DNS) described in [[?RFC1034]].
+The DNS and the processes and systems used to map a Domain Name to an Internet
+Protocol address is a common requirement for hosting a website.
+	</p>
+	<p>
+The [[[DID]]] specification introduced a new type of identifier that removed
+the dependency on the global Domain Name System and introduced the concept of
+an identifier resolution process that did not require the centralization of
+any part of the architecture. This new architecture allows the decentralized
+creation and management of a globally-resolveable identifier that combats
+identifier rent-seeking and censorship. It enables an individual to fully
+own and control their identifiers instead of renting the identifier from a
+third party.
+	</p>
+	<p>
+Individuals that are provided [=DID URLs=] use them in their software much like
+they use DNS-based URLs today. The software uses a [=DID resolver=] interface
+(defined in this specification) to determine the location of the resource being
+retrieved. The process of [=DID resolution=], much like the process of DNS
+resolution, is opaque to the individual and happens within software without any
+direct involvement needed of the individual.
+	</p>
+	<p>
+The research related to DNS centralization and the corresponding invention of
+[=DIDs=] and [=DID resolution=] is documented by the [[[?DID]]] specification in
+the section related to the
+<a data-cite="DID#acknowledgements">history of DIDs</a>.
+	</p>
+</section>
 
 <section class="appendix">
 	<h1>DID Resolution Resources</h1>
