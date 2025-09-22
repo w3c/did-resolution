@@ -2678,6 +2678,41 @@ Content-Type: application/did
 	
 	</section>
 
+	<section id="security-cycles-resolution">
+		<h2>Cycles in Resolution Chains</h2>
+
+		<p>When DID resolver clients dereference identifiers and linked resources in DID Documents —
+			especially fields like <code>verificationMethod</code>, <code>controller</code>,
+			or <code>alsoKnownAs</code> — they may encounter <strong>cyclic resolution chains</strong>.
+			These can occur when a DID Document references another DID (or URL) that eventually leads
+			back to any previously dereferenced identifier, forming a loop.</p>
+
+		<div class="example" title="Cycle Through Controllers">
+			<pre><code>did:example:alice
+	└── verificationMethod.controller → did:example:bob
+		└── verificationMethod.controller → did:example:alice</code></pre>
+		</div>
+
+		<p>While a conforming DID Resolver resolves only a single DID URL at a time,
+			<strong>DID Resolver Clients</strong> that perform recursive dereferencing
+			across multiple resolutions should expect, detect, and handle such cycles.</p>
+
+		<p><strong>Security and performance risks:</strong> If cycles are not detected and mitigated,
+			recursive dereferencing could lead to:</p>
+		<ul>
+			<li><strong>Infinite loops</strong> or <strong>stack overflows</strong> in software.</li>
+			<li><strong>Resource exhaustion</strong> (e.g., memory, network, or CPU).</li>
+			<li><strong>Denial-of-service (DoS)</strong> vulnerabilities in clients or intermediaries.</li>
+		</ul>
+
+		<p><strong>Mitigation guidance:</strong> Clients that recursively
+			follow external references are encouraged to track identifiers that
+			have already been dereferenced and to detect when a cycle has
+			occurred. If a cycle is detected, clients should halt resolution and
+			take appropriate action. In addition, developers may wish to limit
+			recursion depth or breadth to reduce the potential attack surface.</p>
+	</section>
+
 </section>
 <section id="privacy-considerations">
 	<h1>Privacy Considerations</h1>
