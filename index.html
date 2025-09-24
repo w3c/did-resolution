@@ -205,6 +205,18 @@ which describes the underlying DID architecture in full detail.
 			algorithm realized as software and/or hardware that complies with the relevant
 			normative statements in <a href="#dereferencing"></a>.
 		</p>
+		<p>
+			A <dfn class="lint-ignore">remote DID resolver</dfn> is a resolver implementation that is permitted (and expected, if necessary) 
+			to perform network calls, remote registry lookups, or external protocol interactions associated with 
+			its resolution and de-referencing functions.
+		</p>
+		<p>
+			A <dfn class="lint-ignore">local DID resolver</dfn> is an implementation of a DID resolver and/or 
+			DID URL dereferencer that never performs remote HTTP(s), DNS, blockchain, or other network‐based 
+			lookups when executing the resolution or dereferencing functions. All operations are fulfilled by
+			 local resources: e.g. embedded keys/methods, cached/packaged DID Documents, or local verifiable
+			  registries or storage.
+		</p>
 
 	</section>
 
@@ -2224,7 +2236,7 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 	<a href="#dereferencing"></a>.</p>
 
 	<p>
-		All remote <a>DID resolvers</a> MUST implement the GET version of the
+		All <a href="#dfn-remote-did-resolver">remote DID resolvers</a> MUST implement the GET version of the
 		<a href="#bindings-https">HTTPS binding</a> and MAY implement the POST version. 
 		All <a href="#bindings-https">HTTPS bindings</a> MUST use TLS. Use of DNS names 
 		in certificates is NOT REQUIRED; resolvers MAY use TLS certificates issued for IP addresses 
