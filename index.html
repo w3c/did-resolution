@@ -2703,28 +2703,28 @@ Content-Type: application/did
 	<h1>Relationship to Other Technologies</h1>
 
 	<p>
-One of the most common mechanisms to resolve an identifier to an addresses on
+One of the most common mechanisms used to resolve an identifier to an address on
 the Internet is the global Domain Name System (DNS) described in [[?RFC1034]].
 The DNS and the processes and systems used to map a Domain Name to an Internet
 Protocol address is a common requirement for hosting a website.
 	</p>
 	<p>
-The [[[DID]]] specification introduced a new type of identifier that removed
-the dependency on the global Domain Name System and introduced the concept of
-an identifier resolution process that did not require the centralization of
+The [[[DID]]] specification introduced a new type of identifier that lacks
+any dependency on the global Domain Name System and introduced the concept of
+an identifier resolution process that does not require the centralization of
 any part of the architecture. This new architecture allows the decentralized
-creation and management of a globally-resolveable identifier that combats
-identifier rent-seeking and censorship. It enables an individual to fully
-own and control their identifiers instead of renting the identifier from a
+creation and management of globally-resolvable identifiers that combat
+identifier rent-seeking and censorship. It enables individuals to fully
+own and control their identifiers instead of renting the identifiers from a
 third party.
 	</p>
 	<p>
-Individuals that are provided [=DID URLs=] use them in their software much like
-they use DNS-based URLs today. The software uses a [=DID resolver=] interface
-(defined in this specification) to determine the location of the resource being
-retrieved. The process of [=DID resolution=], much like the process of DNS
-resolution, is opaque to the individual and happens within software without any
-direct involvement needed of the individual.
+Individuals that acquire [=DID URLs=] use them in their software much like
+they continue to use DNS-based URLs. The software uses a [=DID resolver=]
+interface (defined in this specification) to determine the location of the
+resources to be retrieved. The process of [=DID resolution=], much like the
+process of DNS resolution, is opaque to the individual and happens within
+the software without needing any direct involvement of the individual.
 	</p>
 	<p>
 The research related to DNS centralization and the corresponding invention of
