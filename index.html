@@ -2681,10 +2681,10 @@ Content-Type: application/did
 	<section id="security-cycles-resolution">
 		<h2>Cycles in Resolution Chains</h2>
 
-		<p>When DID resolver clients dereference identifiers and linked resources in DID Documents —
+		<p>When DID resolver clients dereference identifiers and linked resources in DID documents —
 			especially fields like <code>verificationMethod</code>, <code>controller</code>,
 			or <code>alsoKnownAs</code> — they may encounter <strong>cyclic resolution chains</strong>.
-			These can occur when a DID Document references another DID (or URL) that eventually leads
+			These can occur when a DID document references another DID (or URL) that eventually leads
 			back to any previously dereferenced identifier, forming a loop.</p>
 
 		<div class="example" title="Cycle Through Controllers">
