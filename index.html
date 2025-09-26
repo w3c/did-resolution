@@ -1279,14 +1279,13 @@ dereference(didUrl, dereferenceOptions) →
 									</ol>
 									<div class="note">
 										<p>
-											Resolving <a>service endpoints</a> — particularly ones that are DIDs — may
-											result in chains that include resolution cycles. For example, a
-											<a>service endpoint</a> might indirectly point back through a sequence of resolutions
-											to a previously dereferenced identifier. <a>DID resolvers</a> recursively resolving
-											<a>service endpoints</a> are advised to detect and handle such cycles to prevent
-											infinite loops or resolution failures. For further guidance, see
-										    <a href="#security-cycles-resolution">Security Considerations: Cycles in
-											Resolution Chains</a>.
+											Resolving <a>service endpoints</a> — particularly ones that are DIDs — might
+											result in a <dfn>resolution cycle</dfn>, which is a set of steps that result in
+											an infinite loop. For example, a <a>service endpoint</a> might indirectly point
+											back through a sequence of resolutions to a previously dereferenced identifier.
+											<a>DID resolvers</a> recursively resolving <a>service endpoints</a> are advised
+											to detect and handle such cycles to prevent infinite loops or resolution failures.
+											For further guidance, see [[[#resolution-cycles]]].
 										</p>
 									</div>
 								</li>
@@ -2691,11 +2690,11 @@ Content-Type: application/did
 	</section>
 
 	<section id="security-cycles-resolution">
-		<h2>Cycles in Resolution Chains</h2>
+		<h2>Resolution Cycles</h2>
 
 		<p>When <a>DID resolver</a> clients dereference identifiers and linked resources in DID documents —
 			especially fields like <code>verificationMethod</code>, <code>controller</code>,
-			or <code>alsoKnownAs</code> — they may encounter <strong>cyclic resolution chains</strong>.
+			or <code>alsoKnownAs</code> — they might encounter a <a>resolution cycle</a>.
 			These can occur when a <a>DID document</a> references another DID (or URL) that eventually leads
 			back to a previously dereferenced identifier, forming a loop. <a>DID resolvers</a> can
 			also encounter such situations when dereferencing <a>DID URLs</a> that reference
@@ -2708,7 +2707,7 @@ Content-Type: application/did
 		</div>
 
 		<p><strong><a>DID resolvers</a> and their clients that perform recursive dereferencing
-			should expect, detect, and handle such cycles</strong>.</p>
+			expect, detect, and handle such cycles</strong>.</p>
 
 		<p><strong>Security and performance risks:</strong> If cycles are not detected and mitigated,
 			recursive dereferencing could lead to:</p>
@@ -2721,8 +2720,7 @@ Content-Type: application/did
 		<p><strong>Mitigation guidance:</strong> Components that recursively
 			follow external <a>DID document</a> references are encouraged to
 			track identifiers that have already been dereferenced and to detect when a cycle has
-			occurred. If a cycle is detected, clients should halt resolution and
-			take appropriate action. In addition, developers may wish to limit
+			occurred and take appropriate action. In addition, developers might wish to limit
 			recursion depth or breadth to reduce the potential attack surface.</p>
 	</section>
 
