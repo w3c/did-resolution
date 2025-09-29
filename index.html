@@ -599,8 +599,8 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
                 <p>
                     <a>DID resolution</a> metadata MAY include a <code>proof</code> property.
                     If present, the value MUST be a <a
-                        data-cite="INFRA#ordered-set">set</a> where each item is a
-                    <a data-cite="INFRA#map">map</a> that contains a proof. The use of this property
+                        data-cite="INFRA#sets">set</a> where each item is a
+                    <a data-cite="INFRA#maps">map</a> that contains a proof. The use of this property
                     and the types of proofs are <a>DID method</a>-independent.
                 </p>
             </dd>
@@ -700,7 +700,7 @@ string">ASCII string</a>.
 				<p>
 					<a>DID document</a> metadata MAY include an <code>equivalentId</code> property.
 					If present, the value MUST be a <a
-						data-cite="INFRA#ordered-set">set</a> where each item is a
+						data-cite="INFRA#sets">set</a> where each item is a
 					<a data-cite="INFRA#string">string</a> that conforms to the rules in Section <a
 						data-cite="did-core#did-syntax"></a>. The relationship is a statement that each
 					<code><a>equivalentId</a></code> value is logically equivalent to the
@@ -800,8 +800,8 @@ string">ASCII string</a>.
                 <p>
                     <a>DID document</a> metadata MAY include a <code>proof</code> property.
                     If present, the value MUST be a <a
-                        data-cite="INFRA#ordered-set">set</a> where each item is a
-                    <a data-cite="INFRA#map">map</a> that contains a proof. The use of this property
+                        data-cite="INFRA#sets">set</a> where each item is a
+                    <a data-cite="INFRA#maps">map</a> that contains a proof. The use of this property
                     and the types of proofs are <a>DID method</a>-specific.
                 </p>
             </dd>
@@ -1156,8 +1156,8 @@ dereference(didUrl, dereferenceOptions) →
                 <p>
                     <a>DID URL dereferencing</a> metadata MAY include a <code>proof</code> property.
                     If present, the value MUST be a <a
-                        data-cite="INFRA#ordered-set">set</a> where each item is a
-                    <a data-cite="INFRA#map">map</a> that contains a proof. The use of this property
+                        data-cite="INFRA#sets">set</a> where each item is a
+                    <a data-cite="INFRA#maps">map</a> that contains a proof. The use of this property
                     and the types of proofs are <a>DID method</a>-independent.
                 </p>
             </dd>
@@ -1264,7 +1264,7 @@ dereference(didUrl, dereferenceOptions) →
 											is a <a data-cite="INFRA#string">string</a>, add this value to a list of
 											<var>selected <a>service endpoint</a> URLs</var>.</li>
 										<li>If the value of the <code>serviceEndpoint</code> property of the <var>selected <a>service</a></var>
-											is a <a data-cite="INFRA#ordered-set">set</a>, add all its items that are <a data-cite="INFRA#string">strings</a>
+											is a <a data-cite="INFRA#sets">set</a>, add all its items that are <a data-cite="INFRA#string">strings</a>
 											to a list of <var>selected <a>service endpoint</a> URLs</var>.</li>
 									</ol>
 								</li>
@@ -1509,8 +1509,8 @@ dereference(didUrl, dereferenceOptions) →
 		of properties. Each property name MUST be a <a
 			data-cite="INFRA#string">string</a>. Each property value MUST be a <a
 			data-cite="INFRA#string">string</a>, <a data-cite="INFRA#numbers">number</a>,
-			<a data-cite="INFRA#maps">map</a>, <a data-cite="INFRA#list">list</a>,
-			<a data-cite="INFRA#ordered-set">set</a>,
+			<a data-cite="INFRA#maps">map</a>, <a data-cite="INFRA#lists">list</a>,
+			<a data-cite="INFRA#sets">set</a>,
 		<a data-cite="INFRA#boolean">boolean</a>, or
 		<a data-cite="INFRA#nulls">null</a>. The values within any complex data
 		structure such as a map or list MUST be one of these data types as well.
