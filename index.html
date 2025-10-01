@@ -360,7 +360,7 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 		Implementers as well as <a>DID method</a> specification authors might use
 		additional DID parameters that are not listed here. For maximum
 		interoperability, it is RECOMMENDED that DID parameters use the DID
-		Specification Registries mechanism [[?DID-SPEC-REGISTRIES]], to avoid collision
+		Document Properties Extensions mechanism [[?DID-EXTENSIONS-PROPERTIES]], to avoid collision
 		with other uses of the same DID parameter with different semantics.
 	</p>
 
@@ -497,7 +497,7 @@ resolve(did, resolutionOptions) →
 
 		<p>
 			The possible properties within this structure and their possible values SHOULD
-			be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]].
+			be registered in the DID Resolution Extensions [[?DID-EXTENSIONS-RESOLUTION]].
 			This specification defines the following common input options:
 		</p>
 
@@ -561,7 +561,7 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 
 		<p>
 			The possible properties within this structure and their possible values SHOULD
-			be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]]. This
+			be registered in the DID Resolution Extensions [[?DID-EXTENSIONS-RESOLUTION]]. This
 			specification defines the following common metadata properties:
 		</p>
 
@@ -584,7 +584,7 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 				An error data structure defined in [[RFC9457]]. This property is REQUIRED when there is an error
                 in the resolution process. The errors defined by this specification and can be found in
                 Section <a href="#errors"></a>.
-                Additional errors SHOULD be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]].
+                Additional errors SHOULD be registered in the DID Resolution Extensions [[?DID-EXTENSIONS-RESOLUTION]].
 			</dd>
 
             <dt>
@@ -599,8 +599,8 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
                 <p>
                     <a>DID resolution</a> metadata MAY include a <code>proof</code> property.
                     If present, the value MUST be a <a
-                        data-cite="INFRA#ordered-set">set</a> where each item is a
-                    <a data-cite="INFRA#map">map</a> that contains a proof. The use of this property
+                        data-cite="INFRA#sets">set</a> where each item is a
+                    <a data-cite="INFRA#maps">map</a> that contains a proof. The use of this property
                     and the types of proofs are <a>DID method</a>-independent.
                 </p>
             </dd>
@@ -625,7 +625,7 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 
 		<p>
 			The possible properties within this structure and their possible values SHOULD
-			be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]].
+			be registered in the DID Document Properties Extensions [[?DID-EXTENSIONS-PROPERTIES]].
 			This specification defines the following common metadata properties.
 		</p>
 
@@ -700,7 +700,7 @@ string">ASCII string</a>.
 				<p>
 					<a>DID document</a> metadata MAY include an <code>equivalentId</code> property.
 					If present, the value MUST be a <a
-						data-cite="INFRA#ordered-set">set</a> where each item is a
+						data-cite="INFRA#sets">set</a> where each item is a
 					<a data-cite="INFRA#string">string</a> that conforms to the rules in Section <a
 						data-cite="did-core#did-syntax"></a>. The relationship is a statement that each
 					<code><a>equivalentId</a></code> value is logically equivalent to the
@@ -800,8 +800,8 @@ string">ASCII string</a>.
                 <p>
                     <a>DID document</a> metadata MAY include a <code>proof</code> property.
                     If present, the value MUST be a <a
-                        data-cite="INFRA#ordered-set">set</a> where each item is a
-                    <a data-cite="INFRA#map">map</a> that contains a proof. The use of this property
+                        data-cite="INFRA#sets">set</a> where each item is a
+                    <a data-cite="INFRA#maps">map</a> that contains a proof. The use of this property
                     and the types of proofs are <a>DID method</a>-specific.
                 </p>
             </dd>
@@ -1081,7 +1081,7 @@ dereference(didUrl, dereferenceOptions) →
 
 		<p>
 			The possible properties within this structure and their possible values SHOULD
-			be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]].
+			be registered in the DID Resolution Extensions [[?DID-EXTENSIONS-RESOLUTION]].
 			This specification defines the following common input options:
 		</p>
 
@@ -1121,7 +1121,7 @@ dereference(didUrl, dereferenceOptions) →
 
 		<p>
 			The possible properties within this structure and their possible values SHOULD
-			be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]]. This
+			be registered in the DID Resolution Extensions [[?DID-EXTENSIONS-RESOLUTION]]. This
 			specification defines the following common metadata properties:
 		</p>
 
@@ -1141,7 +1141,7 @@ dereference(didUrl, dereferenceOptions) →
                 An error data structure defined in [[RFC9457]]. This property is REQUIRED when
 				there is an error in the dereferencing process. The errors defined in this 
                 specification can be found in Section <a href="#errors"></a>.
-                Additional errors SHOULD be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]].
+                Additional errors SHOULD be registered in the DID Resolution Extensions [[?DID-EXTENSIONS-RESOLUTION]].
 			</dd>
 
             <dt>
@@ -1156,8 +1156,8 @@ dereference(didUrl, dereferenceOptions) →
                 <p>
                     <a>DID URL dereferencing</a> metadata MAY include a <code>proof</code> property.
                     If present, the value MUST be a <a
-                        data-cite="INFRA#ordered-set">set</a> where each item is a
-                    <a data-cite="INFRA#map">map</a> that contains a proof. The use of this property
+                        data-cite="INFRA#sets">set</a> where each item is a
+                    <a data-cite="INFRA#maps">map</a> that contains a proof. The use of this property
                     and the types of proofs are <a>DID method</a>-independent.
                 </p>
             </dd>
@@ -1173,7 +1173,7 @@ dereference(didUrl, dereferenceOptions) →
 
 		<p>
 			The possible properties within this structure and their possible values SHOULD
-			be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]]. This
+			be registered in the DID Resolution Extensions [[?DID-EXTENSIONS-RESOLUTION]]. This
 			specification defines no common properties.
 		</p>
 	</section>
@@ -1264,7 +1264,7 @@ dereference(didUrl, dereferenceOptions) →
 											is a <a data-cite="INFRA#string">string</a>, add this value to a list of
 											<var>selected <a>service endpoint</a> URLs</var>.</li>
 										<li>If the value of the <code>serviceEndpoint</code> property of the <var>selected <a>service</a></var>
-											is a <a data-cite="INFRA#ordered-set">set</a>, add all its items that are <a data-cite="INFRA#string">strings</a>
+											is a <a data-cite="INFRA#sets">set</a>, add all its items that are <a data-cite="INFRA#string">strings</a>
 											to a list of <var>selected <a>service endpoint</a> URLs</var>.</li>
 									</ol>
 								</li>
@@ -1508,21 +1508,48 @@ dereference(didUrl, dereferenceOptions) →
 		used to communicate this metadata MUST be a <a data-cite="INFRA#maps">map</a>
 		of properties. Each property name MUST be a <a
 			data-cite="INFRA#string">string</a>. Each property value MUST be a <a
-			data-cite="INFRA#string">string</a>, <a data-cite="INFRA#maps">map</a>, <a
-			data-cite="INFRA#list">list</a>, <a data-cite="INFRA#ordered-set">set</a>,
+			data-cite="INFRA#string">string</a>, <a data-cite="INFRA#numbers">number</a>,
+			<a data-cite="INFRA#maps">map</a>, <a data-cite="INFRA#lists">list</a>,
+			<a data-cite="INFRA#sets">set</a>,
 		<a data-cite="INFRA#boolean">boolean</a>, or
 		<a data-cite="INFRA#nulls">null</a>. The values within any complex data
-		structures such as maps and lists MUST be one of these data types as well.
-		All metadata property definitions registered in the DID Specification
-		Registries [[?DID-SPEC-REGISTRIES]] MUST define the value type, including any
+		structure such as a map or list MUST be one of these data types as well.
+		All metadata property definitions registered in the DID Resolution Extensions 
+		[[?DID-EXTENSIONS-RESOLUTION]] MUST define the value type, including any
 		additional formats or restrictions to that value (for example, a string
-		formatted as a date or as a decimal integer). It is RECOMMENDED that property
+		formatted as a date). It is RECOMMENDED that property
 		definitions use strings for values. The entire metadata structure MUST be
 		serializable according to the <a
 			data-cite="INFRA#serialize-an-infra-value-to-json-bytes">JSON
 		serialization rules</a> in the [[INFRA]] specification. Implementations MAY
 		serialize the metadata structure to other data formats.
 	</p>
+
+	<aside class="note">
+		<p>
+			Numeric representations vary across platforms and serializations
+			(for example, IEEE-754 floating-point vs. fixed-width integers vs.
+			“bigint”/bignum types). The 
+			<a data-cite="INFRA#numbers">Infra</a> standard does not yet provide
+			comprehensive guidance for numbers. Implementers are advised to avoid
+			metadata numbers that are likely to be represented differently on
+			different platforms — notably the following:
+		</p>
+		<ul>
+			<li>non-integer values such as floating-point numbers or fractions</li>
+			<li>integers outside common fixed-width ranges, such as those larger
+			than a 32-bit unsigned integer (maximum <code>2<sup>32</sup> - 1</code>
+			or <code>4,294,967,295</code>)</li>
+		</ul>
+		<p>
+			Where such values are needed for interoperability,
+			a good practice for property is definitions to use
+			a canonical <strong>string</strong> serialization (for example, a
+			string formatted as a floating-point number using a clearly defined
+			precision and rounding strategy) and to document any expected
+			range or format.
+		</p>
+		</aside>
 
 	<p>
 		All implementations of functions that use metadata structures as either input or
@@ -1542,7 +1569,7 @@ dereference(didUrl, dereferenceOptions) →
 	<pre class="example"
 		 title="JSON-encoded DID resolution input metadata example">
 {
-"accept": "application/did+ld+json"
+"accept": "application/did"
 }
   </pre>
 
@@ -1553,7 +1580,7 @@ dereference(didUrl, dereferenceOptions) →
 	<pre class="example"
 		 title="DID resolution input metadata example">
 «[
-"accept" → "application/did+ld+json"
+"accept" → "application/did"
 ]»
   </pre>
 
@@ -1977,7 +2004,7 @@ dereference(didUrl, dereferenceOptions) →
 		}]
 	},
 	"didResolutionMetadata": {
-		"contentType": "application/did+ld+json",
+		"contentType": "application/did",
 		"retrieved": "2024-06-01T19:73:24Z",
 	},
 	"didDocumentMetadata": {
@@ -2057,7 +2084,7 @@ dereference(didUrl, dereferenceOptions) →
 		}]
 	},
 	"didUrlDereferencingMetadata": {
-		"contentType": "application/did+ld+json",
+		"contentType": "application/did",
 		"retrieved": "2024-06-01T19:73:24Z",
 	},
 	"contentMetadata": {
@@ -2229,7 +2256,7 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 				<ol class="algorithm">
 					<li>Append the <var>input <a>DID</a></var> to the <var>request HTTP(S) URL</var>.
 					<pre class="example nohighlight">https://resolver.example/1.0/identifiers/did:example:1234</pre></li>
-					<li>Set the <code>Accept</code> <var>HTTP request header</var> to `application/did-resolution"`
+					<li>Set the <code>Accept</code> <var>HTTP request header</var> to `application/did-resolution`
 						in order to request a complete <a href="#did-resolution-result"></a>, OR</li>
 					<li>set the <code>Accept</code> <var>HTTP request header</var> to the value of the <b>accept</b> <var>resolution option</var>.</li>
 					<li>If any other <var>resolution options</var> are provided:
@@ -2247,7 +2274,7 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 				<ol class="algorithm">
 					<li>Append the <var>input <a>DID URL</a></var> to the <var>request HTTP(S) URL</var>.
 					<pre class="example nohighlight">https://resolver.example/1.0/identifiers/did:example:1234?service=files&relativeRef=/resume.pdf</pre></li>
-					<li>Set the <code>Accept</code> <var>HTTP request header</var> to `application/did-url-dereferencing"`
+					<li>Set the <code>Accept</code> <var>HTTP request header</var> to `application/did-url-dereferencing`
 						in order to request a complete <a href="#did-url-dereferencing-result"></a>, OR</li>
 					<li>set the <code>Accept</code> <var>HTTP request header</var> to the value of the <b>accept</b> <var>dereferencing option</var>.</li>
 					<li>If any other <var>dereferencing options</var> are provided:
@@ -2395,7 +2422,7 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 			</li>
 			<li>For the <a>DID resolution</a> function:
 				<ol class="algorithm">
-					<li>If the value of the <code>Content-Type</code> <var>HTTP response header</var> is `application/did-resolution"`:
+					<li>If the value of the <code>Content-Type</code> <var>HTTP response header</var> is `application/did-resolution`:
 						<ol class="algorithm">
 							<li>The <var>HTTP body</var> MUST contain a <a>DID resolution result</a> (see <a href="#did-resolution-result"></a>) that
 								is the result of the <a>DID resolution</a> function.</li>
@@ -2414,7 +2441,7 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 			</li>
 			<li>For the <a>DID URL dereferencing</a> function:
 				<ol class="algorithm">
-					<li>If the value of the <code>Content-Type</code> <var>HTTP response header</var> is `application/did-url-dereferencing"`:
+					<li>If the value of the <code>Content-Type</code> <var>HTTP response header</var> is `application/did-url-dereferencing`:
 						<ol class="algorithm">
 							<li>The <var>HTTP body</var> MUST contain a <a>DID URL dereferencing result</a> (see <a href="#did-url-dereferencing-result"></a>) that
 								is the result of the <a>DID URL dereferencing</a> function.</li>
