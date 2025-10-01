@@ -192,6 +192,34 @@ which describes the underlying DID architecture in full detail.
 	is being thoroughly discussed by the community. For example, see
 	<a href="https://github.com/w3c/did-spec/issues/166#issuecomment-464502719">this comment</a>.</p>
 
+	<section id="design-goals">
+		<h2>Design Goals and Rationale</h2>
+		<p><b>How DID resolution is used to address the needs from Software Developers:</b></p>
+		<p>
+			By invoking a <a>DID resolver</a> using the standard <code>resolve(did, resolutionOptions)</code> interface (as defined in 
+			the <a href="#resolving">DID Resolution section</a>) one can obtain a <a>DID Document</a> and accompanying metadata 
+			(e.g. contentType, proof, versioning) which an application can use to validate a user's cryptographic keys, 
+			service endpoints, or status. 
+		<p>
+			For example, a wallet app could resolve <code>did:example:123?versionTime=2021-05-10T17:00:00Z</code> 
+			(using the versionTime parameter) to retrieve the state of that DID at a past time, or a client could 
+			dereference a DID URL 
+			 like <code>did:example:123?service=files&relativeRef=/resume.pdf</code> 
+			 (see <a href="#example-dereferencing-to-service-endpoint-url">here for detailed example</a>) 
+			 to fetch a user's resume stored via a service declared in the DID Document. 
+		</p>
+		<p>
+			Further, the specification's <a href="#dereferencing-algorithm">DID URL dereferencing algorithm</a> shows how 
+			a client can follow a fragment (e.g. <code>#key-1</code>) to extract a particular verification method from 
+			the <a>DID Document</a> (see <a href="#example-dereferencing-to-verification-method">here for detailed example</a>). 
+			In practice, implementers validate their resolver against the 
+			<a href="https://github.com/w3c-ccg/did-resolution-test-suite">DID Resolution Test Suite</a>  which exercises 
+			normative MUST and error conditions (such as invalid DIDs, deactivated DIDs, unsupported methods, 
+			relative URL expansion, etc.) to ensure client applications can reliably depend on correct resolution behavior 
+			across different DID methods.
+		</p>
+	</section>
+
 	<section id="conformance">
 
 		<p>
