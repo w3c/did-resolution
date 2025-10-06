@@ -1279,12 +1279,12 @@ dereference(didUrl, dereferenceOptions) →
 									</ol>
 									<div class="note">
 										<p>
-											Resolving <a>service endpoints</a> — particularly ones that are DIDs — might
+											Resolving a <a>service endpoint</a> — particularly one that is a DID — might
 											result in a <dfn>resolution cycle</dfn>, which is a set of steps that result in
 											an infinite loop. For example, a <a>service endpoint</a> might indirectly point
 											back through a sequence of resolutions to a previously dereferenced identifier.
-											<a>DID resolvers</a> recursively resolving <a>service endpoints</a> are advised
-											to detect and handle such cycles to prevent infinite loops or resolution failures.
+											A <a>DID resolver</a> recursively resolving a <a>service endpoint</a> is advised
+											to detect and handle such a cycle to prevent an infinite loop or resolution failure.
 											For further guidance, see Section <a href="#security-cycles-resolution">Resolution Cycles</a>.
 										</p>
 									</div>
@@ -2692,13 +2692,13 @@ Content-Type: application/did
 	<section id="security-cycles-resolution">
 		<h2>Resolution Cycles</h2>
 
-		<p>When <a>DID resolver</a> clients dereference identifiers and linked resources in DID documents —
+		<p>When a <a>DID resolver</a> client dereferences identifiers and linked resources in a <a>DID document</a> —
 			especially fields like <code>verificationMethod</code>, <code>controller</code>,
-			or <code>alsoKnownAs</code> — they might encounter a <a>resolution cycle</a>.
+			or <code>alsoKnownAs</code> — it might encounter a <a>resolution cycle</a>.
 			These can occur when a <a>DID document</a> references another DID (or URL) that eventually leads
-			back to a previously dereferenced identifier, forming a loop. <a>DID resolvers</a> can
-			also encounter such situations when dereferencing <a>DID URLs</a> that reference
-			<a>service endpoints</a>.</p>
+			back to a previously dereferenced identifier, forming a loop. A <a>DID resolver</a> can
+			also encounter such a situation when dereferencing a <a>DID URL</a> that references
+			a <a>service endpoint</a>.</p>
 
 		<div class="example" title="Cycle Through Controllers">
 			<pre><code>did:example:alice
