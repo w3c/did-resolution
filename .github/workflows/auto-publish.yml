@@ -1,11 +1,8 @@
 # Example: Override respecConfig for W3C deployment and validators.
-name: Echidna Auto-publish
+name: Echidna auto-publish
 on:
-  pull_request:
-    paths: ["**"]
   push:
     branches: [gh-pages]
-    paths: ["**"]
 jobs:
   main:
     name: Echidna Auto-publish WD
