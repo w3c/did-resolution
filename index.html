@@ -2701,7 +2701,7 @@ Content-Type: application/did
 		<p>Resolvers that implement noCache might be more vulnerable to denial of service attacks,
 			as malicious clients can bypass caching to force expensive network requests and resource consumption.
 			Clients requesting resolution with <code>noCache</code> expect that some resolvers will reject resolution requests that bypass caching.
-			Resolvers that deny resolution without caching SHOULD respond with a <a href="#FEATURE_NOT_SUPPORTED">FEATURE_NOT_SUPPORTED</a> error that makes it clear that bypassing the cache was not permitted
+			Resolvers that deny resolution without caching MUST respond with a <a href="#FEATURE_NOT_SUPPORTED">FEATURE_NOT_SUPPORTED</a> error that makes it clear that bypassing the cache was not permitted
 			so the client can attempt to resolve without using <code>noCache</code>.</p>
 
 			<p class="issue" data-number="10">See corresponding open issue.</p>
