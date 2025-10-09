@@ -91,10 +91,22 @@ paths:
                 $ref: "#/components/schemas/DereferencingResult"
         "400":
           description: Invalid DID or DID URL.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/RFC9457ProblemDetails"
         "404":
           description: DID or DID URL not found.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/RFC9457ProblemDetails"
         "406":
           description: Representation not supported.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/RFC9457ProblemDetails"
         "410":
           description: Successfully resolved, but DID is deactivated.
           content:
@@ -108,10 +120,21 @@ paths:
             application/did-url-dereferencing:
               schema:
                 $ref: "#/components/schemas/DereferencingResult"
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/RFC9457ProblemDetails"
         "500":
           description: Internal Error.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/RFC9457ProblemDetails"
         "501":
           description: DID method not supported.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/RFC9457ProblemDetails"
 components:
   schemas:
     ResolutionOptions:
