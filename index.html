@@ -224,17 +224,13 @@ which describes the underlying DID architecture in full detail.
 		<p>
 			A <dfn class="lint-ignore">conforming DID resolver</dfn> is any algorithm
 			realized as software and/or hardware that complies with the relevant normative
-			statements in <a href="#resolving"></a> as well as implement <a>local binding</a>.
+			statements in <a href="#resolving">.
 		</p>
 
 		<p>
 			A <dfn class="lint-ignore">conforming DID URL dereferencer</dfn> is any
 			algorithm realized as software and/or hardware that complies with the relevant
 			normative statements in <a href="#dereferencing"></a>.
-		</p>
-		<p>
-			A <dfn class="lint-ignore">https DID resolver</dfn> is a <a>conforming DID resolver</a> that also implements
-			 <a href="#bindings-https">HTTP(S) Binding</a>.
 		</p>
 	</section>
 
@@ -2295,11 +2291,10 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 	<a href="#dereferencing"></a>.</p>
 
 	<p>
-		All <a href="#dfn-https-did-resolver">HTTP(S) DID resolvers</a> MUST implement the GET version of the
+		All <a href="#dfn-conforming-did-resolver">conforming DID resolvers</a> MUST implement the GET version of the
 		<a href="#bindings-https">HTTPS binding</a> and MAY implement the POST version. 
 		All <a href="#bindings-https">HTTPS bindings</a> MUST use TLS. Use of DNS names 
-		in certificates is NOT REQUIRED; resolvers MAY use TLS certificates issued for IP addresses 
-		(e.g., Let's Encrypt-style IP certificates).
+		in certificates is NOT REQUIRED; resolvers MAY use TLS certificates issued for IP addresses.
 	</p>
 
 	<section id="bindings-https">
