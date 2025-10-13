@@ -1345,6 +1345,17 @@ dereference(didUrl, dereferenceOptions) →
 										<li>Update the <var>selected <a>service endpoint</a> URL</var> to
 										the result of the "Reference Resolution" algorithm.</li>
 									</ol>
+									<div class="note">
+										<p>
+											Resolving a <a>service endpoint</a> — particularly one that is a DID — might
+											result in a <dfn>resolution cycle</dfn>, which is a set of steps that result in
+											an infinite loop. For example, a <a>service endpoint</a> might indirectly point
+											back through a sequence of resolutions to a previously dereferenced identifier.
+											A <a>DID resolver</a> recursively resolving a <a>service endpoint</a> is advised
+											to detect and handle such a cycle to prevent an infinite loop or resolution failure.
+											For further guidance, see Section <a href="#security-cycles-resolution">Resolution Cycles</a>.
+										</p>
+									</div>
 								</li>
 							</ol>
 						</li>
@@ -2773,6 +2784,41 @@ Content-Type: application/did
 		questions how DIDs can be discovered from non-DID identifiers, and how links between identifiers can
 		be verifiable.</p>
 
+	</section>
+
+	<section id="security-cycles-resolution">
+		<h2>Resolution Cycles</h2>
+
+		<p>When a <a>DID resolver</a> client dereferences identifiers and linked resources in a <a>DID document</a> —
+			especially fields like <code>verificationMethod</code>, <code>controller</code>,
+			or <code>alsoKnownAs</code> — it might encounter a <a>resolution cycle</a>.
+			These can occur when a <a>DID document</a> references another DID (or URL) that eventually leads
+			back to a previously dereferenced identifier, forming a loop. A <a>DID resolver</a> can
+			also encounter such a situation when dereferencing a <a>DID URL</a> that references
+			a <a>service endpoint</a>.</p>
+
+		<div class="example" title="Cycle Through Controllers">
+			<pre><code>did:example:alice
+	└── verificationMethod.controller → did:example:bob
+		└── verificationMethod.controller → did:example:alice</code></pre>
+		</div>
+
+		<p><strong><a>DID resolvers</a> and their clients that perform recursive dereferencing
+			are expected to expect, detect, and handle such cycles</strong>.</p>
+
+		<p><strong>Security and performance risks:</strong> If cycles are not detected and mitigated,
+			recursive dereferencing could lead to:</p>
+		<ul>
+			<li><strong>Infinite loops</strong> or <strong>stack overflows</strong> in software.</li>
+			<li><strong>Resource exhaustion</strong> (e.g., memory, network, or CPU).</li>
+			<li><strong>Denial-of-service (DoS)</strong> vulnerabilities in clients or intermediaries.</li>
+		</ul>
+
+		<p><strong>Mitigation guidance:</strong> Components that recursively
+			follow external <a>DID document</a> references are encouraged to
+			track identifiers that have already been dereferenced and to detect when a cycle has
+			occurred and take appropriate action. In addition, developers might wish to limit
+			recursion depth or breadth to reduce the potential attack surface.</p>
 	</section>
 
 </section>
