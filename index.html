@@ -224,7 +224,7 @@ which describes the underlying DID architecture in full detail.
 		<p>
 			A <dfn class="lint-ignore">conforming DID resolver</dfn> is any algorithm
 			realized as software and/or hardware that complies with the relevant normative
-			statements in <a href="#resolving">.
+			statements in <a href="#resolving"></a>.
 		</p>
 
 		<p>
@@ -332,6 +332,12 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 		function the same way across all <a>DID methods</a>. Support for all
 		<a href="#did-parameters">DID Parameters</a> is OPTIONAL.
 	</p>
+	<p>
+		For each DID parameter that is present, its associated value MUST be a 
+		<a data-cite="INFRA#scalar-value-string">scalar value</a>
+		 string serialized into ASCII according to <a data-cite="RFC3987#section-3.1">
+			section 3.1 of RFC3987.</a>
+	</p>
 
 	<table class="simple">
 		<thead>
@@ -352,8 +358,6 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 			</td>
 			<td>
 				Identifies a <a data-cite="did-core#services">service</a> from the <a>DID document</a> by service ID.
-				If present, the associated value MUST be an <a
-					data-lt="ascii string">ASCII string</a>.
 			</td>
 		</tr>
 		<tr>
@@ -362,8 +366,6 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 			</td>
 			<td>
 				Identifies a set of one or more <a data-cite="did-core#services">services</a> from the <a>DID document</a> by service type.
-				If present, the associated value MUST be an <a
-					data-lt="ascii string">ASCII string</a>.
 			</td>
 		</tr>
 		<tr>
@@ -375,10 +377,6 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 					data-cite="RFC3986#section-4.2">RFC3986 Section 4.2</a> that identifies a
 				<a>resource</a> at a <a>service endpoint</a>, which is selected from a <a>DID
 				document</a> by using the <code>service</code> parameter.
-				If present, the associated value MUST be an <a
-					data-lt="ascii string">ASCII string</a> and MUST use percent-encoding for
-				certain characters as specified in <a data-cite="RFC3986#section-2.1">RFC3986
-				Section 2.1</a>.
 			</td>
 		</tr>
 		<tr>
@@ -388,8 +386,6 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 			<td>
 				Identifies a specific version of a <a>DID document</a> to be resolved (the
 				version ID could be sequential, or a <a>UUID</a>, or method-specific).
-				If present, the associated value MUST be an <a
-					data-lt="ascii string">ASCII string</a>.
 			</td>
 		</tr>
 		<tr>
@@ -415,8 +411,6 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 			<td>
 				A resource hash of the <a>DID document</a> to add integrity protection, as
 				specified in [[?HASHLINK]]. This parameter is non-normative.
-				If present, the associated value MUST be an
-				<a data-lt="ascii string">ASCII string</a>.
 			</td>
 		</tr>
 
