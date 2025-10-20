@@ -14,15 +14,15 @@ var ccg = {
       ],
       publisher: "University of California, Irvine."
     },
-    "DID-METHOD-REGISTRY": {
-      title: "The Decentralized Identifier Method Registry",
-      href: "https://w3c-ccg.github.io/did-method-registry/",
+    "DID-METHODS": {
+      title: "Decentralized Identifier Methods",
+      href: "https://www.w3.org/TR/did-extensions-methods/",
       authors: [
         "Manu Sporny",
         "Drummond Reed"
       ],
-      status: "CG-DRAFT",
-      publisher: "Digital Verification Community Group"
+      status: "WG-NOTE",
+      publisher: "W3C Decentralized Identifier Working Group"
     },
     "HASHLINK": {
       title: "Cryptographic Hyperlinks",
@@ -101,8 +101,8 @@ var ccg = {
     "DID-KEY": {
       title: "The did:key Method",
       subtitle: "A DID Method for Static Cryptographic Keys",
-      date: " 09 June 2020",
-      href: "https://w3c-ccg.github.io/did-method-key/",
+      date: " 26 March 2025",
+      href: "https://w3c-ccg.github.io/did-key-spec/",
       editors: [
         "Manu Sporny",
         "Dmitri Zagidulin",
@@ -113,7 +113,7 @@ var ccg = {
         "Dmitri Zagidulin",
         "Dave Longley"
       ],
-      status: "unofficial"
+      status: "CG-DRAFT"
     }
   }
 };
