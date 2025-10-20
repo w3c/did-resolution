@@ -14,16 +14,6 @@ var ccg = {
       ],
       publisher: "University of California, Irvine."
     },
-    "DID-METHODS": {
-      title: "Decentralized Identifier Methods",
-      href: "https://www.w3.org/TR/did-extensions-methods/",
-      authors: [
-        "Manu Sporny",
-        "Drummond Reed"
-      ],
-      status: "WG-NOTE",
-      publisher: "W3C Decentralized Identifier Working Group"
-    },
     "HASHLINK": {
       title: "Cryptographic Hyperlinks",
       date: "December 2018",
