@@ -1102,7 +1102,7 @@ dereference(didUrl, dereferenceOptions) →
 			— as defined in
 			<a
 			href="https://www.rfc-editor.org/rfc/rfc3986#section-3">RFC3986</a>.
-			This section defines how these components <strong>MUST</strong> be
+			This section defines how these components MUST be
 			interpreted by <a>DID Resolvers</a> when dereferencing a DID URL.
 		</p>
 
@@ -1148,14 +1148,14 @@ dereference(didUrl, dereferenceOptions) →
 			<h4>Fragment</h4>
 
 			<p>
-			A <a>DID URL</a> <strong>MAY</strong> include a
+			A <a>DID URL</a> MUST include a
 			single fragment component, as defined in
 			<a href="https://www.rfc-editor.org/rfc/rfc3986#section-3.5">RFC3986, Section 3.5</a>.
 			If present, the fragment component appears after all other components of the DID URL.
 			</p>
 
 			<p>
-			The fragment <strong>MUST NOT</strong> be processed
+			The fragment MUST be processed
 			by the <a>DID Resolver</a>. Instead, its interpretation is the
 			responsibility of the client that receives the dereferenced resource
 			from the resolver. The meaning of the fragment depends on the media
@@ -1168,7 +1168,7 @@ dereference(didUrl, dereferenceOptions) →
 
 			<p>
 			<a>DID Method</a>-specific and DID Document Properties Extensions
-			[[?DID-EXTENSIONS-PROPERTIES]] <strong>MAY</strong> define guidance
+			[[?DID-EXTENSIONS-PROPERTIES]] MUST define guidance
 			for how a <a>DID Resolver Client</a> should process a node in a <a>DID Document</a>
 			that is referenced by a fragment. Such guidance can specify
 			how to interpret the node's structure, expected data type, or its
@@ -1181,12 +1181,12 @@ dereference(didUrl, dereferenceOptions) →
 			<h4>Query Parameters</h4>
 
 			<p>
-			A <a>DID URL</a> <strong>MAY</strong> include a single query
+			A <a>DID URL</a> MUST include a single query
 			component, as defined in
 			<a
 			href="https://www.rfc-editor.org/rfc/rfc3986#section-3.4">RFC3986,
 			Section 3.4</a>. Query parameters appear after the DID and any path
-			component, and their structure and encoding <strong>MUST</strong>
+			component, and their structure and encoding MUST
 			follow standard URL syntax conventions. Their interpretation depends
 			on the context in which the DID URL is used and can influence the
 			dereferencing result.
@@ -1195,7 +1195,7 @@ dereference(didUrl, dereferenceOptions) →
 			<p>
 			Unlike HTTP query parameters, which are interpreted by web server
 			implementations, query parameters in <a>DID URLs</a>
-			<strong>MUST</strong> have defined semantics. Query parameters may
+			MUST have defined semantics. Query parameters may
 			be defined in:
 			</p>
 
@@ -1206,7 +1206,7 @@ dereference(didUrl, dereferenceOptions) →
 			</ul>
 
 			<p>
-			A <a>DID Resolver</a> <strong>MUST</strong> process only recognized
+			A <a>DID Resolver</a> MUST process only recognized
 			query parameters — specifically those defined in this specification
 			(see <a href="#did-url-query-parameters">Section 5.4.2</a>), the
 			applicable <a>DID method</a> specification, or DID Document
@@ -1229,14 +1229,14 @@ dereference(didUrl, dereferenceOptions) →
 			<h4>Path</h4>
 
 			<p>
-			A <a>DID URL</a> <strong>MAY</strong> include a path component, as defined in
+			A <a>DID URL</a> MUST include a path component, as defined in
 			<a href="https://www.rfc-editor.org/rfc/rfc3986#section-3.3">RFC3986, Section 3.3</a>.
 			The path component appears immediately after the DID and before any query or fragment component.
-			Its structure and encoding <strong>MUST</strong> conform to URI syntax rules.
+			Its structure and encoding MUST conform to URI syntax rules.
 			</p>
 
 			<p>When a path is present, the following processing steps
-			<strong>MUST</strong> be followed:</p>
+			MUST be followed:</p>
 
 			<ol>
 				<li>
@@ -1244,7 +1244,7 @@ dereference(didUrl, dereferenceOptions) →
 					DID-specific query parameters to retrieve a DID Document.
 					<ol>
 						<li>If resolution of the DID Document fails, the resolver
-						<strong>MUST</strong> return an error and abort the
+						MUST return an error and abort the
 						dereferencing process.</li>
 					</ol>
 				</li>
@@ -1255,8 +1255,8 @@ dereference(didUrl, dereferenceOptions) →
 					DID Document that includes a <code>prefix</code> attribute.
 					If the <code>service</code> DID-specific parameter is
 					present, only services of the specified type
-					<strong>MUST</strong> be considered. Otherwise, all
-					<code>service</code> entries <strong>MUST</strong> be
+					MUST be considered. Otherwise, all
+					<code>service</code> entries MUST be
 					included in the matching process. Track the length of the
 					matching prefix for each service.
 				</li>
@@ -1265,10 +1265,10 @@ dereference(didUrl, dereferenceOptions) →
 					<ol>
 						<li>If more than one <code>service</code> has the same
 						longest matching prefix, the resolver
-						<strong>MUST</strong> fail resolution with an
+						MUST fail resolution with an
 						appropriate error.</li>
 						<li>If no matching service is found, the resolver
-						<strong>MUST</strong> return an error indicating that no
+						MUST return an error indicating that no
 						applicable service was found.</li>
 					</ol>
 				</li>
@@ -1276,7 +1276,7 @@ dereference(didUrl, dereferenceOptions) →
 					Use the <code>type</code> of the selected service to
 					dereference the DID URL path, according to the specification
 					for that service type. The specification for a service type
-					<strong>MAY</strong> be defined in this document, in a
+					MUST be defined in this document, in a
 					<a>DID method</a> specification, or in a <a>DID
 					extension</a>.
 					<ol>
@@ -1285,7 +1285,7 @@ dereference(didUrl, dereferenceOptions) →
 							See <a href="#fileservice">Section X.X FileService</a> for its definition.
 							<a>DID method</a>-specific or DID Document
 							Properties Extensions [[?DID-EXTENSIONS-PROPERTIES]]
-							service types <strong>MAY</strong> specify alternate
+							service types MUST specify alternate
 							behaviors.
 						</li>
 					</ol>
@@ -1450,8 +1450,8 @@ dereference(didUrl, dereferenceOptions) →
 			<li>
 				<strong>Handle Fragments:</strong>
 				<ul>
-					<li>If the <a>DID URL</a> contains a fragment, <strong>DO
-					NOT</strong> process or interpret it.</li>
+					<li>If the <a>DID URL</a> contains a fragment, DO NOT
+					process or interpret it.</li>
 					<li>A <a>DID resolver</a> does not process the fragment as part
 					of its dereferencing behavior. Interpretation is the client's
 					responsibility based on the resolved document and media
@@ -1503,9 +1503,9 @@ dereference(didUrl, dereferenceOptions) →
 				</ul>
 				<ul>
 					<li>If the resolution of the URL fails, an error
-					<strong>MUST</strong> be returned.</li>
+					MUST be returned.</li>
 					<li>If the <a>DID Resolver</a> is unable to resolve the
-					URL, an error <strong>MUST</strong> be returned.</li>
+					URL, an error MUST be returned.</li>
 				</ul>
 			</li>
 
@@ -1549,10 +1549,10 @@ dereference(didUrl, dereferenceOptions) →
 		dereferencing</a> process defined in this specification.</p>
 		<p>These values are not <a>DID Method</a>-specific. All <a>DID
 		Methods</a> that are capable of implementing these query parameters and
-		service types <strong>SHOULD</strong> recognize and correctly process
+		service types SHOULD recognize and correctly process
 		them. <a>DID Methods</a> that do not support the capabilities required for a
 		specific query parameter (e.g., historical <a>DID Document</a> version
-		resolution) <strong>SHOULD</strong> recognize these query parameters and
+		resolution) SHOULD recognize these query parameters and
 		return an appropriate error.</p>
 
 		<section id="did-resolution-query-parameters">
@@ -1561,12 +1561,12 @@ dereference(didUrl, dereferenceOptions) →
 			<section id="versionid-query-parameters">
 				<h5>versionID</h5>
 				<p>Identifies a specific version of a <a>DID Document</a> to be
-				resolved. If present, the associated value <strong>MUST</strong> be
+				resolved. If present, the associated value MUST be
 				an ASCII string. If the <a>DID Method</a> does not support updating
 				or the tracking of <a>DID Document</a> versions, or if the specified
 				version does not match any <a>DID Document</a>'s
 				<code>versionId</code> property, the <a>DID Resolver</a>
-				<strong>MUST</strong> return a <strong>Not Found</strong> error
+				MUST return a <code>Not Found</code> error
 				indicating that the requested version could not be found.</p>
 				<p><strong>Example:</strong> <code>did:example:123456789abcdefghi?versionId=5e3b</code><br>
 				Resolves the <a>DID Document</a> with the specific version ID "5e3b".</p>
@@ -1576,13 +1576,12 @@ dereference(didUrl, dereferenceOptions) →
 				<h5>versionTime</h5>
 				<p>Identifies a point in time to resolve the version of the
 				<a>DID Document</a> at that timestamp. The value
-				<strong>MUST</strong> be a valid XML datetime normalized to UTC and
+				MUST be a valid XML datetime normalized to UTC and
 				without sub-second precision. If the <a>DID Method</a> does not
 				support updating or the tracking of <a>DID Document</a> versions or
 				version times, or if the DID did not exist at the specified time the
-				<a>DID Resolver</a> <strong>MUST</strong> return a <strong>Not
-				Found</strong> error indicating that the requested version could not
-				be found.</p>
+				<a>DID Resolver</a> MUST return a <code>Not Found</code> error
+				indicating that the requested version could not be found.</p>
 				<p><strong>Example:</strong> <code>did:example:123456789abcdefghi?versionTime=2025-10-01T12:00:00Z</code><br>
 				Resolves the <a>DID Document</a> valid on October 1, 2025 at noon UTC.</p>
 			</section>
@@ -1592,12 +1591,12 @@ dereference(didUrl, dereferenceOptions) →
 				<p>Indicates that only the <code>service</code> entry or entries with the specified
 				<code>id</code> are to be considered when processing the path
 				component of a <a>DID URL</a>. If present, each value
-				<strong>MUST</strong> be an ASCII string that is percent-encoded as
-				required by <a>RFC3986</a>, and <strong>MAY</strong> be either a
+				MUST be an ASCII string that is percent-encoded as
+				required by <a>RFC3986</a>, and MUST be either a
 				relative or absolute URI reference. The <code>service</code> query
-				parameter <strong>MAY</strong> appear multiple times in a <a>DID
+				parameter MUST appear multiple times in a <a>DID
 				URL</a>. If no matching services are found, the dereferencing
-				process <strong>MUST</strong> fail.</p>
+				process MUST fail.</p>
 				<p>A <code>service</code> query parameter can also be used in
 				conjunction with the deprecated <code>relativeRef</code> parameter.
 				See the <code>relativeRef</code> ADD-LINK section for more details.</p>
@@ -1613,10 +1612,10 @@ dereference(didUrl, dereferenceOptions) →
 				<p>Indicates that only the <code>service</code> entry or entries with the specified
 				<code>type</code> are to be considered when processing the path
 				component of a <a>DID URL</a>. If present, each value
-				<strong>MUST</strong> be an ASCII string. The <code>service</code> query
-				parameter <strong>MAY</strong> appear multiple times in a <a>DID
+				MUST be an ASCII string. The <code>service</code> query
+				parameter MUST appear multiple times in a <a>DID
 				URL</a>. If no matching services are found, the dereferencing
-				process <strong>MUST</strong> fail.</p>
+				process MUST fail.</p>
 				<p><strong>Example:</strong> <code>did:example:123456789abcdefghi/path/to/file.txt?serviceType=FileService</code><br>
 				Considers only the <code>service</code> in the resolved <a>DID
 				Document</a> with the <code>type</code> value of <code>FileService</code> in determining how to process the
@@ -1629,10 +1628,10 @@ dereference(didUrl, dereferenceOptions) →
 				This parameter is deprecated and replaced by explicit
 				<a href="#did-url-components">path-based dereferencing</a>.</p>
 				<p>If present, each value
-				<strong>MUST</strong> be an ASCII string representing a relative
+				MUST be an ASCII string representing a relative
 				URL path that is percent-encoded as required by <a>RFC3986</a>.
 				The <code>relativeRef</code> query parameter
-				<strong>MUST</strong> be used in conjunction with a single
+				MUST be used in conjunction with a single
 				<code>service</code> query parameter. The <code>service</code>
 				query parameter is used to identify a specific
 				<code>service</code> entry in the <a>DID Document</a>, and the
@@ -1642,7 +1641,7 @@ dereference(didUrl, dereferenceOptions) →
 				resolved, and if successful, the resolved resource and metadata
 				are returned. If there is no <code>service</code> parameter, or
 				no <code>service</code> is identified in the resolved <a>DID
-				Document</a>, the dereferencing process <strong>MUST</strong>
+				Document</a>, the dereferencing process MUST
 				fail with an error.</p>
 				<p><strong>Example:</strong> <code>did:example:123456789abcdefghi&service=storage&relativeRef=invoices%2Fnov2025.pdf</code><br>
 				Append "invoices/nov2025.pdf" to the <code>serviceEndpoint</code> of
@@ -1658,12 +1657,12 @@ dereference(didUrl, dereferenceOptions) →
 				href="https://tools.ietf.org/html/draft-sporny-hashlink">Hashlink</a>).
 				If present, be an ASCII string representing the expected
 				multihash of the resource content. The <a>DID
-				Resolver</a> <strong>MUST</strong> calculate the
+				Resolver</a> MUST calculate the
 				multihash of the dereferenced content using the steps
 				below and compare the result to the provided hashlink. If the
 				values match, proceed with returning the resource and metadata.
 				If the values do not match, the <a>DID Resolver</a>
-				<strong>MUST</strong> return an error.</p>
+				MUST return an error.</p>
 				<p>Hash calculation steps:</p>
 				<ol>
 					<li>Determine from the query parameter multihash value's
@@ -1692,7 +1691,7 @@ dereference(didUrl, dereferenceOptions) →
 				includes a <code>prefix</code> attributes that enables participation in the deterministic mapping of the <a>DID URL</a> path component
 				to a resolvable resource URL as described in <a href="#did-url-path-processing">ADD LINK</a>.
 				When a <code>FileService</code> is selected during that process, the
-				resolver <strong>MUST</strong> perform the following steps to construct and dereference
+				resolver MUST perform the following steps to construct and dereference
 				the resulting resource URL based on the selected <code>service</code>.</p>
 
 				<ol>
@@ -1704,8 +1703,8 @@ dereference(didUrl, dereferenceOptions) →
 				<li>If resolution fails, return an appropriate error.</li>
 				</ol>
 
-				<p>The <code>prefix</code> value <strong>MUST</strong> begin
-				with a forward slash (<code>/</code>) and <strong>MAY</strong>
+				<p>The <code>prefix</code> value MUST begin
+				with a forward slash (<code>/</code>) and MUST
 				represent any valid path prefix.</p>
 
 				<p>The <code>serviceEndpoint</code> value must be a valid URL
