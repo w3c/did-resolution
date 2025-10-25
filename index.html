@@ -1508,7 +1508,7 @@ dereference(didUrl, dereferenceOptions) →
 
 			<li>
 				<strong>With Path Component:</strong>
-				<ul>
+				<ol>
 					<li>Construct a target URL using the
 					<a href="#did-url-path">DID URL path resolution rules</a>.</li>
 					<li>Remove any consumed query parameters from the
@@ -1520,13 +1520,11 @@ dereference(didUrl, dereferenceOptions) →
 					3.4</a>.</li>
 					<li>Attempt to resolve the resulting URL to retrieve the
 					resource and metadata to be returned to the client.</li>
-				</ul>
-				<ul>
 					<li>If the resolution of the URL fails, an error
 					MUST be returned.</li>
 					<li>If the <a>DID Resolver</a> is unable to resolve the
 					URL, an error MUST be returned.</li>
-				</ul>
+				</ol>
 			</li>
 
 			<li>
