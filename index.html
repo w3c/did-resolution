@@ -1531,10 +1531,10 @@ dereference(didUrl, dereferenceOptions) →
 
 			<li>
 				<strong>Return the dereferencing result:</strong>
-				<ul>
+				<ol>
 				<li>
 					If the resolution result is a <a>DID Document</a>,
-					return:
+					return the following:
 					<ul>
 						<li><code>content</code>: the resolved DID document
 						with selected services</li>
@@ -1545,17 +1545,16 @@ dereference(didUrl, dereferenceOptions) →
 					</ul>
 				</li>
 				<li>
-					If the resolution result is a resource resolved via DID URL path processing, return:
+					If the resolution result is a resource resolved via DID URL path processing, return the following:
 					<ul>
-						<li><code>content</code>: the resolved
-						resource</li>
+						<li><code>content</code>: the resolved resource</li>
 						<li><code>contentType</code>: the media type of the
 						resolved resource</li>
 						<li><code>dereferencingMetadata</code>: any metadata
 						about the dereferencing process</li>
 					</ul>
 				</li>
-				</ul>
+				</ol>
 			</li>
 		</ol>
 	</section>
