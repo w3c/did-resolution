@@ -1103,8 +1103,8 @@ dereference(didUrl, dereferenceOptions) →
 
 		<p>
 			A <a>DID URL</a> consists of a <a>DID</a>, optionally followed by
-			additional URL components — a path, query parameters, and a fragment
-			— as defined in
+			additional URL components — any combination of a path, zero or more query
+			parameters, and/or a fragment identifier — as defined in
 			<a
 			href="https://www.rfc-editor.org/rfc/rfc3986#section-3">RFC3986</a>.
 			This section defines how these components MUST be
@@ -1160,7 +1160,8 @@ dereference(didUrl, dereferenceOptions) →
 			</p>
 
 			<p>
-			The fragment is not processed by the <a>DID Resolver</a>. Instead,
+			As with HTTP/S dereferencing, 
+			the fragment is not processed by the <a>DID Resolver</a>. Instead,
 			its interpretation is the responsibility of the client that receives
 			the dereferenced resource from the resolver. The meaning of the
 			fragment depends on the media type of the resolved content and may
@@ -1198,10 +1199,10 @@ dereference(didUrl, dereferenceOptions) →
 			<p>
 			Unlike HTTP query parameters, which are interpreted by customized web server
 			implementations, <a href="#did-resolution-parameters">DID parameters</a> in DID
-			URLs MUST have defined semantics. A <a>DID Resolver</a> MUST process
+			URLs MUST have predefined semantics. A <a>DID Resolver</a> MUST process
 			only recognized query parameters — specifically those defined in
 			this specification (see the <a href="#did-resolution-parameters">DID Parameter
-			definitions</a>), the applicable <a>DID method</a> specification, or
+			definitions</a>), the applicable <a>DID method</a> specification, and/or
 			DID Document Properties Extensions [[?DID-EXTENSIONS-PROPERTIES]].
 			All other query parameters MAY be passed through unchanged for
 			downstream processing, such as <a>dereferencing</a> a
@@ -1209,11 +1210,11 @@ dereference(didUrl, dereferenceOptions) →
 			</p>
 
 			<p>
-			Query parameters may affect dereferencing behavior, such as
-			selecting a versioned resource or influencing how a path is
+			Query parameters may affect dereferencing behavior, such as by
+			specifying a versioned resource or by influencing how a path is
 			to be processed. The impact of specific query parameters defined in this
 			specification in combination with a <a>DID URL</a> path is described
-			in the <a href="#did-url-path">next</a> section of this.
+			in the <a href="#did-url-path">next section of this specification</a>.
 			</p>
 		</section>
 
@@ -1224,7 +1225,7 @@ dereference(didUrl, dereferenceOptions) →
 			A <a>DID URL</a> MAY include a single path component, as defined in
 			<a data-cite="RFC3986#section-3.3">RFC3986 Section 3.3</a>. If
 			present, the path component appears immediately after the DID and
-			before any query or fragment component. Its structure and encoding
+			before any query or fragment component(s). Its structure and encoding
 			MUST conform to URI syntax rules.
 			</p>
 
@@ -1234,7 +1235,7 @@ dereference(didUrl, dereferenceOptions) →
 			<ol>
 				<li>
 					Resolve the DID portion of the <a>DID URL</a>, applying all
-					<a>DID Resolution</a> specific <a
+					<a>DID Resolution</a>-specific <a
 					href="#did-resolution-parameters">DID Parameters</a> to
 					retrieve a <a>DID Document</a>.
 					<ol>
@@ -1247,12 +1248,12 @@ dereference(didUrl, dereferenceOptions) →
 				<li>
 					Match the extracted path against the <code>prefix</code>
 					attribute of each relevant <code>service</code> entry in the
-					DID Document that includes a <code>prefix</code> attribute.
+					DID Document that includes such an attribute.
 					If the <code>service</code> and/or <code>serviceType</code>
 					<a href="#did-resolution-parameters">DID Parameters</a> are
 					present, the <a>DID Resolver</a> MUST consider only services
-					with the specified <code>id</code> or <code>type</code>
-					(respectively) values. Otherwise, all
+					with the respectively specified <code>id</code> and/or
+					<code>type</code> values. Otherwise, all
 					<code>service</code> entries MUST be considered in the
 					matching process. In matching the path and
 					<code>prefix</code>, the <a>DID Resolver</a> MUST track the
@@ -1261,7 +1262,7 @@ dereference(didUrl, dereferenceOptions) →
 				<li>
 					Select the <code>service</code> with the longest matching prefix.
 					<ol>
-						<li>If more than one <code>service</code> has the same
+						<li>If two or more <code>services</code> have the same
 						longest matching prefix, the resolver
 						MUST fail resolution with an
 						appropriate error.</li>
@@ -1273,7 +1274,7 @@ dereference(didUrl, dereferenceOptions) →
 				<li>
 					Use the <code>type</code> of the selected
 					<code>service</code> to determine how the
-					<a>DID URL</a> path is used in assembling the URL of the
+					<a>DID URL</a> path is to be used in assembling the URL of the
 					resource to be resolved. The algorithm for assembling this
 					URL MUST be defined in the corresponding service type
 					specification. A service type specification MAY appear in
@@ -1286,7 +1287,7 @@ dereference(didUrl, dereferenceOptions) →
 							The <code>FileService</code> type is currently the
 							only service type defined in this specification. See
 							the <a href="#fileservice-service-type">FileService
-							Service Type</a> for its definition.
+							Service Type</a> section for its definition.
 						</li>
 					</ol>
 				</li>
@@ -1308,9 +1309,10 @@ dereference(didUrl, dereferenceOptions) →
 						For example, a <a>service endpoint</a> might indirectly
 						point back through a sequence of resolutions to a
 						previously dereferenced identifier. A <a>DID
-						resolver</a> recursively resolving a <a>service
-						endpoint</a> is advised to detect and handle such a
-						cycle to prevent an infinite loop or resolution failure.
+						resolver</a> is expected to detect and handle
+						recursive cycles when resolving a <a>service
+						endpoint</a>, to prevent an infinite loop or
+						other resolution failure.
 						For further guidance, see Section <a
 						href="#security-cycles-resolution">Resolution
 						Cycles</a>.
