@@ -1478,14 +1478,14 @@ dereference(didUrl, dereferenceOptions) →
 
 			<li>
 				<strong>Resolve the DID:</strong>
-				<ul>
+				<ol>
 					<li>Identify and apply <a href="#did-parameters">DID
 					parameters</a> from <code>qp</code>
 					that affect DID Resolution (e.g., <a href="#versionid-query-parameters">versionId</a>,
 					<a href="#versiontime-query-parameters">versionTime</a>),
 					including any <a>DID Method</a>-specific and DID Document
-					Properties Extensions [[?DID-EXTENSIONS-PROPERTIES]] <a
-					href="#did-parameters">DID parameters</a> understood by the
+					Property Extension [[?DID-EXTENSIONS-PROPERTIES]] <a
+					href="#did-parameters">DID parameters</a> that are understood by the
 					<a>DID Resolver</a>.</li>
 					<li>Use these to resolve the <code>did</code> into a
 					<code>didDocument</code> and
@@ -1495,7 +1495,7 @@ dereference(didUrl, dereferenceOptions) →
 					<li>Remove any consumed <a href="#did-parameters">DID
 					parameters</a> from the
 					<code>qp</code> working set.</li>
-				</ul>
+				</ol>
 			</li>
 
 			<li>
