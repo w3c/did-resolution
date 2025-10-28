@@ -1206,7 +1206,7 @@ dereference(didUrl, dereferenceOptions) →
 			definitions</a>), the applicable <a>DID method</a> specification, and/or
 			DID Document Properties Extensions [[?DID-EXTENSIONS-PROPERTIES]].
 			All other query parameters MAY be passed through unchanged for
-			downstream processing, such as <a>dereferencing</a> a
+			downstream processing, such as dereferencing a
 			<a>DID URL</a> path.
 			</p>
 
@@ -1246,6 +1246,13 @@ dereference(didUrl, dereferenceOptions) →
 					</ol>
 				</li>
 				<li>Extract the path component from the <a>DID URL</a>.</li>
+				<li>
+					If the <a>DID Method</a> specifies its own path handling
+					algorithm, it MUST be applied, and the rest of this
+					algorithm skipped. Creators of <a>DID method</a>
+					specifications are encouraged to use this algorithm where
+					possible to increase interoperability.
+				</li>
 				<li>
 					Match the extracted path against the <code>prefix</code>
 					attribute of each relevant <code>service</code> entry in the
@@ -1292,35 +1299,7 @@ dereference(didUrl, dereferenceOptions) →
 						</li>
 					</ol>
 				</li>
-				<li>
-					Resolve the assembled URL to obtain the final resource.
-					<ol>
-						<li>If the resource cannot be retrieved, the resolver
-						MUST return a <strong>NOT FOUND</strong> error.</li>
-						<li>If the <a>DID Resolver</a> does not support the
-						protocol of the assembled URL, the <a>DID Resolver</a>
-						must return an error.</li>
-					</ol>
-					
-					<div class="note">
-						<p>
-						Resolving an assembled URL — particularly one that is a
-						DID — might result in a <dfn>resolution cycle</dfn>,
-						which is a set of steps that result in an infinite loop.
-						For example, a <a>service endpoint</a> might indirectly
-						point back through a sequence of resolutions to a
-						previously dereferenced identifier. A <a>DID
-						resolver</a> is expected to detect and handle
-						recursive cycles when resolving a <a>service
-						endpoint</a>, to prevent an infinite loop or
-						other resolution failure.
-						For further guidance, see Section <a
-						href="#security-cycles-resolution">Resolution
-						Cycles</a>.
-						</p>
-					</div>
-
-				</li>
+				<li>Return the assembled URL for processing.</li>
 			</ol>
 
 			<section id="did-url-path-examples">
@@ -1470,8 +1449,8 @@ dereference(didUrl, dereferenceOptions) →
 			<li>
 				<strong>Handle Fragments:</strong>
 				<ul>
-					<li>As noted in the <a href="#did-url-fragments">DID URL
-					fragments handling</a> section, if a <a>DID URL</a>
+					<li>As noted in the <a href="#did-url-fragment">DID URL
+					fragment handling</a> section, if a <a>DID URL</a>
 					contains a fragment, a <a>DID Resolver</a> SHOULD NOT process
 					or interpret it. Fragment handling is the client's
 					responsibility, based on the resolved document and its media
@@ -1525,6 +1504,23 @@ dereference(didUrl, dereferenceOptions) →
 					MUST be returned.</li>
 					<li>If the <a>DID Resolver</a> is unable to resolve the
 					URL, an error MUST be returned.</li>
+
+					<div class="note">
+						<p>
+						Resolving an assembled URL from a path might result in a
+						<dfn>resolution cycle</dfn>, which is a set of steps
+						that result in an infinite loop. For example, a URL
+						assembled from a path might indirectly point back
+						through a sequence of resolutions to a previously
+						dereferenced URL. A <a>DID resolver</a> is expected to
+						detect and handle recursive cycles when resolving a URL
+						assembled from a path, to prevent an infinite loop or
+						other resolution failure. For further guidance, see
+						Section <a href="#security-cycles-resolution">Resolution
+						Cycles</a>.
+						</p>
+					</div>
+
 				</ol>
 			</li>
 
@@ -1618,7 +1614,7 @@ dereference(didUrl, dereferenceOptions) →
 				dereferencing process MUST fail.</p>
 				<p>A <code>service</code> query parameter can also be used in
 				conjunction with the deprecated <code>relativeRef</code>
-				parameter. See the <a href="#relativeRef-query-parameter">relativeRef</a>
+				parameter. See the <a href="#relativeref-query-parameter">relativeRef</a>
 				section for more details.</p>
 				<p><strong>Example:</strong> <code>did:example:123456789abcdefghi/path/to/file.txt?service=%23files</code><br>
 				Considers only the <code>service</code> in the resolved <a>DID
@@ -2297,9 +2293,9 @@ dereference(didUrl, dereferenceOptions) →
 		algorithm may be performed by different components of a <a href="#resolver-architectures">Resolver Architecture</a>.</p>
 
 		<p>Specifically, when a <a>DID URL</a> with a <a>DID fragment</a> is dereferenced, then
-		<a href="#dereferencing-algorithm-resource">Dereferencing the Resource</a> is done by
+		<a href="#dereferencing-algorithm">dereferencing the resource</a> is done by
 		the <a>DID resolver</a>, and
-		<a href="#dereferencing-algorithm-fragment">Dereferencing the Fragment</a> is done by the <a>client</a>.</p>
+		<a href="#did-url-fragment">dereferencing the fragment</a> is done by the <a>client</a>.</p>
 	</section>
 
 	</section>
@@ -2309,9 +2305,9 @@ dereference(didUrl, dereferenceOptions) →
 
 		<p>Given the <a>DID URL</a> <code>did:xyz:1234#keys-1</code>, a <a>DID resolver</a> could be invoked
 		via <a>local binding</a>
-		for <a href="#dereferencing-algorithm-resource">Dereferencing the Resource</a> (i.e., the <a>DID document</a>),
+		for <a href="#dereferencing-algorithm">dereferencing the resource</a> (i.e., the <a>DID document</a>),
 		and the <a>client</a> could complete the <a>DID URL dereferencing</a> algorithm by
-		<a href="#dereferencing-algorithm-fragment">Dereferencing the Fragment</a> (i.e., a part of the <a>DID document</a>).</p>
+		<a href="#did-url-fragment">dereferencing the fragment</a> (i.e., a part of the <a>DID document</a>).</p>
 
 		<figure id="figure-client-side-dereferencing-1">
 			<img style="display: block; width: 100%; margin-bottom: 20px;" src="diagrams/section-7/client-side-dereferencing-1.svg"
@@ -2322,9 +2318,9 @@ dereference(didUrl, dereferenceOptions) →
 		</figure>
 
 		<p>Given the <a>DID URL</a> <code>did:xyz:1234?service=agent&relativeRef=%2Fsome%2Fpath%3Fquery#frag</code>, a <a>DID resolver</a> could be invoked
-			for <a href="#dereferencing-algorithm-resource">Dereferencing the Resource</a> (i.e., a <a>service endpoint</a> URL),
+			for <a href="#dereferencing-algorithm">dereferencing the resource</a> (i.e., a <a>service endpoint</a> URL),
 			and the <a>client</a> could complete the <a>DID URL dereferencing</a> algorithm by
-			<a href="#dereferencing-algorithm-fragment">Dereferencing the Fragment</a> (i.e., a <a>service endpoint</a> URL with a fragment).</p>
+			<a href="#did-url-fragment">dereferencing the fragment</a> (i.e., a <a>service endpoint</a> URL with a fragment).</p>
 
 		<figure id="figure-client-side-dereferencing-2">
 			<img style="margin: auto; display: block; width: 100%; margin-bottom: 20px;" src="diagrams/section-7/client-side-dereferencing-2.svg"
@@ -2336,9 +2332,9 @@ dereference(didUrl, dereferenceOptions) →
 
 		<p>Given the <a>DID URL</a> <code>did:xyz:1234#keys-1</code>, a <a>DID resolver</a> could be invoked via
 		<a>local binding</a>, which invokes another <a>DID resolver</a> via <a>remote binding</a>
-		for <a href="#dereferencing-algorithm-resource">Dereferencing the Resource</a> (i.e., the <a>DID document</a>),
+		for <a href="#dereferencing-algorithm">dereferencing the resource</a> (i.e., the <a>DID document</a>),
 		and the <a>client</a> could complete the <a>DID URL dereferencing</a> algorithm by
-		<a href="#dereferencing-algorithm-fragment">Dereferencing the Fragment</a> (i.e., a part of the <a>DID document</a>).</p>
+		<a href="#did-url-fragment">dereferencing the fragment</a> (i.e., a part of the <a>DID document</a>).</p>
 
 		<figure id="figure-client-side-dereferencing-3">
 			<img style="margin: auto; display: block; width: 100%; margin-bottom: 20px;" src="diagrams/section-7/client-side-dereferencing-3.svg"
