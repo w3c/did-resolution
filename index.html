@@ -228,9 +228,21 @@ which describes the underlying DID architecture in full detail.
 		</p>
 
 		<p>
+			A <dfn class="lint-ignore">conforming network-based DID resolver</dfn> is a
+			[=conforming DID resolver=] that additionally complies with the normative statements
+			in [[[#bindings-https]]].
+		</p>
+
+		<p>
 			A <dfn class="lint-ignore">conforming DID URL dereferencer</dfn> is any
 			algorithm realized as software and/or hardware that complies with the relevant
 			normative statements in <a href="#dereferencing"></a>.
+		</p>
+
+		<p>
+			A <dfn class="lint-ignore">conforming network-based DID URL dereferencer</dfn> is a
+			[=conforming DID URL dereferencer=] that additionally complies with the normative
+			statements in [[[#bindings-https]]].
 		</p>
 
 	</section>
@@ -450,7 +462,7 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 		document</a> by using the "Read" operation of the applicable <a>DID method</a>
 		as described in <a data-cite="did-core#method-operations">Method Operations</a>.
 	</p>
-	<p>	All conforming <a>DID resolvers</a> implement the function below, which has the
+	<p>	All [=conforming DID resolvers=] implement the function below, which has the
 		following abstract form:
 	</p>
 
@@ -460,9 +472,12 @@ resolve(did, resolutionOptions) →
       </pre>
 
 	<p>
-		All conformant <a>DID resolvers</a> MUST implement the <a>DID resolution</a>
+		All [=conforming DID resolvers=] MUST implement the <a>DID resolution</a>
 		function for at least one <a>DID method</a> and MUST be able to return a
-		<a>DID document</a> in at least one conformant <a>representation</a>.
+		<a>DID document</a> in at least one conformant <a>representation</a>. All 
+		inputs and outputs of the <code>resolve</code> function are MUST be serializable
+		to JSON.
+
 	</p>
 
 	<p>
@@ -1025,7 +1040,7 @@ external resources.
 	</div>
 
 	<p>
-		All conforming <a>DID URL dereferencers</a> implement the
+		All [=conforming DID URL dereferencers=] implement the
 		function below, which has the following abstract form:
 	</p>
 
@@ -1033,6 +1048,12 @@ external resources.
 dereference(didUrl, dereferenceOptions) →
    « dereferencingMetadata, contentStream, contentMetadata »
       </pre>
+
+	<p>
+		All [=conforming DID URL dereferencers=] MUST implement the [=DID URL dereferencing=]
+		function for at least one [=DID method=]. All inputs and outputs of the <code>dereference</code> 
+		function apart from [=contentStream=] MUST be serializable to JSON.
+	</p>
 
 	<p>
 		The input variables of the <code>dereference</code> function are as follows:
