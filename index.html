@@ -954,11 +954,6 @@ string">ASCII string</a>.
 			</li>
 		</ol>
 
-		<p class="issue">Should we define functionality that enables discovery of the list of <a>DID methods</a> or other
-		capabilities that are supported by a <a>DID resolver</a>? Or is this implementation-specific and out-of-scope
-		for this spec? For example, see <a href="https://github.com/w3c/did-resolution/issues/26">here</a> and
-		<a href="https://github.com/w3c/did-resolution/issues/25">here</a>.</p>
-
 	</section>
 
 </section>
@@ -1712,9 +1707,6 @@ dereference(didUrl, dereferenceOptions) →
 
 <section id="architectures">
 	<h1>DID Resolution Architectures</h1>
-	<p class="issue">TODO: Describe how <a>DID resolvers</a> are implemented and used, describe the relevance
-	of <a>DID methods</a>.
-	Explain the difference between "method architectures" and "resolver architectures".</p>
 
 	<section id="method-architectures">
 		<h2>Method Architectures</h2>
@@ -2115,16 +2107,6 @@ dereference(didUrl, dereferenceOptions) →
 	}
 }
 </pre>
-
-	<p class="issue">Need to define how this data structure works exactly, and whether it always contains
-	a <a>DID document</a> or can also contain other results.</p>
-
-	</section>
-
-	<p class="issue">For certain data, it may be debatable whether it should be part of the DID document
-	(i.e., data that describes the DID Subject), or whether it is metadata (i.e., data about the DID document or about
-	the DID resolution process). For example the URL of the "Continuation DID document" in the BTCR method.
-	</p>
 
 </section>
 
@@ -2740,8 +2722,6 @@ Content-Type: application/did
 			Resolvers that deny resolution without caching MUST respond with a <a href="#FEATURE_NOT_SUPPORTED">FEATURE_NOT_SUPPORTED</a> error that makes it clear that bypassing the cache was not permitted
 			so the client can attempt to resolve without using <code>noCache</code>.</p>
 
-			<p class="issue" data-number="10">See corresponding open issue.</p>
-		<p class="issue">Perhaps we can re-use caching mechanisms of other protocols such as HTTP.</p>
 	</section>
 	<section id="json-ld-integrity">
 		<h2>JSON-LD Context Integrity</h2>
@@ -2776,14 +2756,6 @@ Content-Type: application/did
 			VDR (<a>verifiable data registry</a>) need to manage the potential that network forks may occur. Therefore,
 			the specification of a <a>DID method</a> that uses a distributed system as a VDR SHOULD specify a means by which
 			the VDR they are using can be disambiguated from such forks.</p>
-	</section>
-	<section id="non-did-identifiers">
-		<h2>Non-DID Identifiers</h2>
-		<p class="issue" data-number="8">There is discussion on the relationship between <a>DID resolution</a> and
-		resolution of non-DID identifiers such as domain names, HTTP URIs, or e-mail addresses. This includes the
-		questions how DIDs can be discovered from non-DID identifiers, and how links between identifiers can
-		be verifiable.</p>
-
 	</section>
 
 	<section id="security-cycles-resolution">
@@ -2824,8 +2796,6 @@ Content-Type: application/did
 </section>
 <section id="privacy-considerations">
 	<h1>Privacy Considerations</h1>
-
-	<p class="issue">TODO: Define privacy considerations for DID resolution</p>
 
 	<section id="profiling-requesters">
 		<h2>Profiling of DID Resolution and Dereferencing Requesters</h2>
