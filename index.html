@@ -406,12 +406,7 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 				Identifies a certain version timestamp of a <a>DID document</a> to be resolved.
 				That is, the most recent version of the <a>DID document</a> that was valid for a <a>DID</a>
 				before the specified `versionTime`. If present, the associated value
-				MUST be an <a data-lt="ascii string">ASCII string</a> which is a valid XML
-				datetime value, as defined in section 3.3.7 of <a
-					href="https://www.w3.org/TR/xmlschema11-2/">W3C XML Schema Definition Language
-				(XSD) 1.1 Part 2: Datatypes</a> [[XMLSCHEMA11-2]]. This datetime value MUST be
-				normalized to UTC 00:00:00 and without sub-second decimal precision.
-				For example: <code>2020-12-20T19:17:47Z</code>.
+				MUST be represented in the datetime formate as defined in <a href="#datetime"></a>.
 			</td>
 		</tr>
 
@@ -447,6 +442,19 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 		should be used to control <em>how that <a>resource</a> is resolved or
 		dereferenced</em>.
 	</p>
+
+	<section id="datetime">
+		<h3>Datetime</h3>
+
+		<p>
+			All Datetime values in this specification MUST be an <a	data-lt="ascii string">
+				ASCII string</a> which is a valid XML datetime value defined by the 
+			[[VC-DATA-MODEL]] in <a data-cite="vc-data-model#representing-time"></a>. 
+			Additionally, timestamps used in DID Resolution MUST be adjusted to UTC 
+			without sub-second decimal precision. For example: <code>2020-12-20T19:17:47Z</code>
+		</p>
+
+	</section>
 
 </section>
 
