@@ -476,7 +476,7 @@ resolve(did, resolutionOptions) →
 	<p>
 		All conformant <a>DID resolvers</a> MUST implement the <a>DID resolution</a>
 		function for at least one <a>DID method</a> and MUST be able to return a
-		<a>DID document</a> in at least one conformant <a>representation</a>.
+		<a>DID document</a>.
 	</p>
 
 	<p>
@@ -1933,8 +1933,7 @@ dereference(didUrl, dereferenceOptions) →
 		<section id="resolver-architectures-multiple">
 			<h2>Multiple Methods</h2>
 
-			<p>A <a>DID resolver</a> MUST support the <a>DID resolution</a> algorithm for at least one <a>DID method</a> and
-				MAY support it for multiple <a>DID methods</a>:</p>
+			<p>A <a>DID resolver</a> might support the <a>DID resolution</a> algorithm for multiple <a>DID methods</a>:</p>
 			<figure id="figure-resolver-multiple">
 				<img style="margin: auto; display: block; width: 100%; margin-bottom: 20px;" src="diagrams/section-7/resolver-multiple.svg"
 					 alt="Diagram showing a DID resolver that supports multiple DID methods.">
