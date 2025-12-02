@@ -470,8 +470,7 @@ resolve(did, resolutionOptions) →
 	<p>
 		All [=conforming DID resolvers=] MUST implement the <a>DID resolution</a>
 		function for at least one <a>DID method</a> and MUST be able to return a
-		<a>DID document</a> in at least one conformant <a>representation</a>.
-
+		<a>DID document</a>.
 	</p>
 
 	<p>
@@ -1045,7 +1044,7 @@ dereference(didUrl, dereferenceOptions) →
 
 	<p>
 		All [=conforming DID URL dereferencers=] MUST implement the [=DID URL dereferencing=]
-		function for at least one [=DID method=]. All inputs and outputs of the <code>dereference</code> 
+		function for at least one [=DID method=]. All inputs and outputs of the <code>dereference</code>
 		function apart from [=contentStream=] MUST be serializable to JSON.
 	</p>
 
@@ -1590,7 +1589,7 @@ dereference(didUrl, dereferenceOptions) →
 			<a data-cite="INFRA#sets">set</a>,
 		<a data-cite="INFRA#boolean">boolean</a>, or
 		<a data-cite="INFRA#nulls">null</a>. The values within any complex data
-		structure such as a map or list MUST be one of these data types as well. 
+		structure such as a map or list MUST be one of these data types as well.
 		The entire metadata structure MUST be serializable according to the <a
 			data-cite="INFRA#serialize-an-infra-value-to-json-bytes">JSON
 		serialization rules</a> in the [[INFRA]] specification. Implementations MAY
@@ -1928,8 +1927,7 @@ dereference(didUrl, dereferenceOptions) →
 		<section id="resolver-architectures-multiple">
 			<h2>Multiple Methods</h2>
 
-			<p>A <a>DID resolver</a> MUST support the <a>DID resolution</a> algorithm for at least one <a>DID method</a> and
-				MAY support it for multiple <a>DID methods</a>:</p>
+			<p>A <a>DID resolver</a> might support the <a>DID resolution</a> algorithm for multiple <a>DID methods</a>:</p>
 			<figure id="figure-resolver-multiple">
 				<img style="margin: auto; display: block; width: 100%; margin-bottom: 20px;" src="diagrams/section-7/resolver-multiple.svg"
 					 alt="Diagram showing a DID resolver that supports multiple DID methods.">
@@ -2792,7 +2790,7 @@ Content-Type: application/did
 	<h1>Privacy Considerations</h1>
 
 	<p>
-	This section details the privacy considerations specific to DID Resolution. 
+	This section details the privacy considerations specific to DID Resolution.
 	Readers are urged to familiarize themselves with the general
 	privacy advice provided in the
 	<a href="https://www.w3.org/TR/did-1.1/#privacy-considerations">
