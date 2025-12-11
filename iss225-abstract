@@ -224,7 +224,7 @@ which describes the underlying DID architecture in full detail.
 		</p>
 
 		<p>
-			A <dfn class="lint-ignore">conforming HTTPS-based DID resolver</dfn> is a
+			A <dfn class="lint-ignore">conforming network-based DID resolver</dfn> is a
 			[=conforming DID resolver=] that additionally complies with the normative statements
 			in [[[#bindings-https]]].
 		</p>
@@ -236,7 +236,7 @@ which describes the underlying DID architecture in full detail.
 		</p>
 
 		<p>
-			A <dfn class="lint-ignore">conforming HTTPS-based DID URL dereferencer</dfn> is a
+			A <dfn class="lint-ignore">conforming network-based DID URL dereferencer</dfn> is a
 			[=conforming DID URL dereferencer=] that additionally complies with the normative
 			statements in [[[#bindings-https]]].
 		</p>
