@@ -466,43 +466,43 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 	<h2>DID Service Types</h2>
 
 	<p>
-		DID Documents MAY contain <code>services</code> each of which MUST have
-		a <code>type</code>. The <code>type</code> is to define the kind of
-		service being described by the service endpoint. Such a specification
-		may define the semantics of the service, the protocol(s) to be used to
-		interact with the service, the attributes in <code>service</code>
-		object. Such specifications MAY be defined here, within a DID Method
-		Specification, or as a DID Extensions. DID Resolvers SHOULD support the
-		service <code>type</code> values defined here, plus any others defined
-		elsewhere.
+		DID Documents can contain `services` each of which have a `type`. The
+		`type` defines the kind of service being described by the
+		`serviceEndpoint` attribute. Such a specification can define the
+		semantics of the service, the protocol(s) to be used to interact with
+		the service, the attributes in `service` object. Service Types can
+		be specified in this section of this specification, within a <a>DID
+		Method</a> specification, or in a DID Resolution Extension
+		[[?DID-EXTENSIONS-RESOLUTION]]. <a>DID Resolvers</a> SHOULD support the
+		service `type` values defined in this specification.
 	</p>
 	<section id="pathservice-service-type">
-		<h3><code>pathService</code> Service Type</h3>
+		<h3>`PathService` Service Type</h3>
 
-		<p>The <code>pathService</code> is a service type used to generate the
+		<p>The `PathService` is a service type used to generate the
 		URL for a resource that can be resolved based on the DID URL path.</p>
 		<p>The service MUST have the following attributes:
 			<ul>
-				<li><code>type</code>: MUST be <code>pathService</code></li>
-				<li><code>serviceEndpoint</code>: MUST be a URL that MUST NOT have a fragment component</li>
-				<li><code>prefix</code>: MUST be a valid path component of a URL</li>
+				<li>`type`: MUST be `PathService`</li>
+				<li>`serviceEndpoint`: MUST be a URL that MUST NOT have a fragment component</li>
+				<li>`basePath`: MUST be a valid path component of a URL</li>
 			</ul>
 		</p>
 		<p>During the <a href="#dereferencing-algorithm"></a> where a DID URL
 		path is present, if the selected service to be used for DID URL path
-		handling is of type <code>pathService</code>, the following MUST be
+		handling is of type `PathService`, the following MUST be
 		performed to generate the resource URL. The input to this algorithm is
-		a calculated path obtained by removing the selected <code>prefix</code> as a
+		a calculated path obtained by removing the selected `basePath` as a
 		case‑sensitive string match from the beginning of the DID URL path.
 			<ol class="algorithm">
-				<li>Obtain the <code>serviceEndpoint</code> attribute from the
+				<li>Obtain the `serviceEndpoint` attribute from the
 				selected service.</li>
 				<li>Append the input calculated path to the
-				<code>serviceEndpoint</code> path (if any), accounting for any
-				query parameters in the <code>serviceEndpoint</code>, to form a
+				`serviceEndpoint` path (if any), accounting for any
+				query parameters in the `serviceEndpoint`, to form a
 				valid URL</li>
 				<li>The result is the resource URL to be returned to continue
-				the DID URL path handling.</li>
+				the DID URL path handling algorithm.</li>
 			</ol>
 		</p>
 	</section>
@@ -1382,20 +1382,18 @@ dereference(didUrl, dereferenceOptions) →
 				<li>If the <var>input <a>DID URL</a></var> contains one or more
 				query parameters a <a>DID URL dereferencer</a> MUST examine all
 				query parameters present in the input <a>DID URL</a> and
-				determine whether they affect dereferencing behavior.
+				process those that affect dereferencing behavior.
 				
-				<p>Some query
-				parameters are defined by this specification (<a
-				href="#did-parameters">here</a>), others MAY be defined by the
-				applicable <a>DID Method</a> specification, and others MAY be
-				defined in the DID Resolution Extensions
-				[[?DID-EXTENSIONS-RESOLUTION]]. Query parameters that are not
-				supported by the <a>DID URL dereferencer</a> MUST NOT affect
-				dereferencing behavior. Supported query parameters MAY
+				<p>Some query parameters are defined by this specification (<a
+				href="#did-parameters">here</a>), while others can be defined by
+				the applicable <a>DID Method</a> specification, or in the DID
+				Resolution Extensions [[?DID-EXTENSIONS-RESOLUTION]]. Query
+				parameters that are not supported by the <a>DID URL
+				dereferencer</a> MUST be ignored. Supported query parameters MAY
 				influence service selection, resource construction, or the form
 				of the dereferencing result.</p>
 				
-				The following process defines the processing
+				The following algorithm defines the processing
 				rules defined for the <a
 				href="https://www.w3.org/TR/did-core/#did-parameters">
 					DID parameter</a> <code>service</code> and/or the <a href="https://www.w3.org/TR/did-core/#did-parameters">
@@ -1508,55 +1506,55 @@ dereference(didUrl, dereferenceOptions) →
 						possible to increase interoperability.
 					</li>
 					<li>
-						Collect from the resolved <a>DID Document</a> a list of <code>service</code>
-						objects with <code>type</code> values that the DID
+						Collect from the resolved <a>DID Document</a> a list of `service`
+						objects with `type` values that the DID
 						Resolver supports for path handling. At minimum, that
-						will include the <code>type</code> values defined in
+						will include the `type` values defined in
 						this specification (<a
 						href="#did-service-types">here</a>), plus any
-						<code>type</code> values that are DID Method-specific or
+						`type` values that are DID Method-specific or
 						DID Resolution Extensions [[?DID-EXTENSIONS-RESOLUTION]]
 						supported by the DID Resolver. Such
-						<code>service</code> objects MUST have a
-						<code>prefix</code> attribute in addition to the
-						<code>type</code> attribute.
+						`service` objects MUST have
+						`basePath` and `serviceEndpoint` attributes in addition to the
+						`type` attribute.
 					</li>
 					<li>
-						Find the service whose <code>prefix</code> value is a
+						Find the services whose `basePath` value is a
 						case-sensitive string prefix of the extracted path.
 						Among all matching services, select the one with the
 						longest matching prefix. That service MUST be used for
 						path resolution.
 						<ol class="algorithm">
-							<li>If two or more <code>services</code> have the
-							same longest matching prefix, the resolver MUST fail
-							resolution with an appropriate error.</li>
+							<li>If two or more services have the
+							same longest matching prefix, the resolver MUST return
+							an error indicating that duplicate services were found.</li>
 							<li>If no matching service is found, the resolver
 							MUST return an error indicating that no applicable
 							service was found.</li>
 						</ol>
 					</li>
 					<li>
-						Use the <code>type</code> of the selected
-						<code>service</code> to assemble the URL of the resource
+						Use the `type` of the selected
+						`service` to assemble the URL of the resource
 						to be resolved. The algorithm for assembling this URL
-						MUST be defined by <code>type</code> of the selected
-						<code>service</code>. A service type
-						specification MAY appear in the <a
+						MUST be defined by the `type` of the selected
+						`service`. A service type
+						specification can appear in the <a
 						href="#did-service-types"></a> section of this document,
 						in the applicable <a>DID method</a>
 						specification, or in the DID Resolution Extensions
 						[[?DID-EXTENSIONS-RESOLUTION]].
 						<ol class="algorithm">
 							<li>
-								The <code>pathService</code> type is (currently) the
+								The `PathService` type is (currently) the
 								only service type defined in this specification. See
-								the <a href="#pathservice-service-type">PathService
+								the <a href="#pathservice-service-type">`PathService`
 								Service Type</a> section for its definition.
 							</li>
 						</ol>
 					</li>
-					<li>Resolve the assembled URL for processing.
+					<li>Dereference the assembled URL for processing.
 						<ol class="algorithm">
 							<li>
 								If the resolution of the assembled URL fails, the
