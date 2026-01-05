@@ -45,7 +45,11 @@
         // only "name" is required
         editors: [
           { name: "Markus Sabadello", url: "https://www.linkedin.com/in/markus-sabadello-353a0821",
-            company: "Danube Tech", companyURL: "https://danubetech.com/", w3cid: 46729 },
+            company: "Danube Tech", companyURL: "https://danubetech.com/", w3cid: 46729,
+						extras: [
+							{name: "until 2025-12-10", class: "former"},
+						]
+				 },
           { name: "Dmitri Zagidulin", url: "https://www.linkedin.com/in/dzagidulin",
             company: "MIT CSAIL", companyURL: "http://computingjoy.com/", w3cid: 86708 }
         ],
@@ -188,33 +192,29 @@ which describes the underlying DID architecture in full detail.
 	required to communicate with a DID's <a>verifiable data registry</a> are defined by the applicable
 	<a>DID method</a> specification.</p>
 
-	<p class="note">The difference between "resolving" a <a>DID</a> and "dereferencing" a <a>DID URL</a>
-	is being thoroughly discussed by the community. For example, see
-	<a href="https://github.com/w3c/did-spec/issues/166#issuecomment-464502719">this comment</a>.</p>
-
 	<section id="implementer-overview" class="informative">
 		<h2>Implementer Overview</h2>
 		<p>
-			By invoking a <a>DID resolver</a> using the standard <code>resolve(did, resolutionOptions)</code> interface (as defined in 
-			the <a href="#resolving">DID Resolution section</a>) one can obtain a <a>DID document</a> and accompanying metadata 
-			(e.g., `contentType`, proof, versioning) which an application can use to validate a user's cryptographic keys, 
-			service endpoints, or status. 
+			By invoking a <a>DID resolver</a> using the standard <code>resolve(did, resolutionOptions)</code> interface (as defined in
+			the <a href="#resolving">DID Resolution section</a>) one can obtain a <a>DID document</a> and accompanying metadata
+			(e.g., `contentType`, proof, versioning) which an application can use to validate a user's cryptographic keys,
+			service endpoints, or status.
 		<p>
-			For example, a wallet app could resolve <code>did:example:123?versionTime=2021-05-10T17:00:00Z</code> 
-			using the `versionTime` parameter to retrieve the state of that DID at a past time, or a client could 
-			dereference a DID URL 
-			 like <code>did:example:123?service=files&relativeRef=/resume.pdf</code> 
-			 (see <a href="#example-dereferencing-to-service-endpoint-url">here for detailed example</a>) 
-			 to fetch a user's resume stored via a service declared in the DID document. 
+			For example, a wallet app could resolve <code>did:example:123?versionTime=2021-05-10T17:00:00Z</code>
+			using the `versionTime` parameter to retrieve the state of that DID at a past time, or a client could
+			dereference a DID URL
+			 like <code>did:example:123?service=files&relativeRef=/resume.pdf</code>
+			 (see <a href="#example-dereferencing-to-service-endpoint-url">here for detailed example</a>)
+			 to fetch a user's resume stored via a service declared in the DID document.
 		</p>
 		<p>
-			Further, the specification's <a href="#dereferencing-algorithm">DID URL dereferencing algorithm</a> shows how 
-			a client can follow a fragment (e.g., <code>#key-1</code>) to extract a particular verification method from 
-			the <a>DID document</a> (see <a href="#example-dereferencing-to-verification-method">here for detailed example</a>). 
-			In practice, implementers validate their resolver against the 
-			<a href="https://github.com/w3c-ccg/did-resolution-test-suite">DID Resolution Test Suite</a> which exercises 
-			normative MUSTs and error conditions (such as invalid DIDs, deactivated DIDs, unsupported methods, 
-			relative URL expansion, etc.) to ensure that client applications can reliably depend on correct resolution behavior 
+			Further, the specification's <a href="#dereferencing-algorithm">DID URL dereferencing algorithm</a> shows how
+			a client can follow a fragment (e.g., <code>#key-1</code>) to extract a particular verification method from
+			the <a>DID document</a> (see <a href="#example-dereferencing-to-verification-method">here for detailed example</a>).
+			In practice, implementers validate their resolver against the
+			<a href="https://github.com/w3c-ccg/did-resolution-test-suite">DID Resolution Test Suite</a> which exercises
+			normative MUSTs and error conditions (such as invalid DIDs, deactivated DIDs, unsupported methods,
+			relative URL expansion, etc.) to ensure that client applications can reliably depend on correct resolution behavior
 			across different DID methods.
 		</p>
 	</section>
@@ -265,32 +265,32 @@ independent of the DID method of any particular DID. These usecases include:
 			<li>
 A decentralized address book: By using DIDs as identifiers for people and organizations
 within an address book, the controllers of those DIDs can independently update the contents of
-their DID documents. Through DID resolution these DIDs can be resolved to obtain the 
+their DID documents. Through DID resolution these DIDs can be resolved to obtain the
 current state of the DID document for any given contact, enabling persistent stable identifiers
-with updatable services and verification material necessary for continued verifiable interactions. 
+with updatable services and verification material necessary for continued verifiable interactions.
 			</li>
 			<li>
-Verifying a Verifiable Credential: Verifiable Credentials are signed by an issuer and given to a 
+Verifying a Verifiable Credential: Verifiable Credentials are signed by an issuer and given to a
 holder. The holder can then create a Verifiable Presentation that is presented to a verifier.
-Within the credential, if issuers and holders are identified using a DID, the verifier can 
+Within the credential, if issuers and holders are identified using a DID, the verifier can
 use DID resolution to resolve the DID documents of the identified issuer and holder to obtain
 the verification material necessary to verify the signatures on the Verifiable Presentation.
 			</li>
 			<li>
 Auditability: DID resolution can be used to obtain the historical state of a DID document either
-at a specific point in time or for a specific version. This can be used to audit the historical 
-verifiable actions of a DID controller. For example, the issuance of a verifiable receipt or the 
+at a specific point in time or for a specific version. This can be used to audit the historical
+verifiable actions of a DID controller. For example, the issuance of a verifiable receipt or the
 signing of a contract.
 			</li>
 			<li>
 DID URL based resource retrieval: A DID controller can add service endpoints to their DID document
 that point to resources they control, for example a profile picture. By referencing these resources
-using a DID URL, a web application can use DID resolution and DID URL dereferencing to retrieve the 
+using a DID URL, a web application can use DID resolution and DID URL dereferencing to retrieve the
 current version of the resource. The DID URL can act as a persistent, dereferencable identifier
 for this resource, while the DID controller can independently change the resource over time.
 			</li>
 		</ul>
-  
+
 	  </section>
 
 </section>
@@ -325,6 +325,13 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 	</pre>
 
 	<p>
+		For each DID parameter that is present, its associated value MUST be a 
+		<a data-cite="INFRA#scalar-value-string">scalar value</a>
+		 string serialized into ASCII according to <a data-cite="RFC3987#section-3.1">
+			section 3.1 of RFC3987.</a>
+	</p>
+
+	<p>
 		Some DID parameters are completely independent of any specific <a>DID
 		method</a> and function the same way for all <a>DIDs</a>. Other DID parameters
 		are not supported by all <a>DID methods</a>. Where optional parameters are
@@ -353,8 +360,6 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 			</td>
 			<td>
 				Identifies a <a data-cite="did-core#services">service</a> from the <a>DID document</a> by service ID.
-				If present, the associated value MUST be an <a
-					data-lt="ascii string">ASCII string</a>.
 			</td>
 		</tr>
 		<tr>
@@ -363,8 +368,6 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 			</td>
 			<td>
 				Identifies a set of one or more <a data-cite="did-core#services">services</a> from the <a>DID document</a> by service type.
-				If present, the associated value MUST be an <a
-					data-lt="ascii string">ASCII string</a>.
 			</td>
 		</tr>
 		<tr>
@@ -376,10 +379,6 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 					data-cite="RFC3986#section-4.2">RFC3986 Section 4.2</a> that identifies a
 				<a>resource</a> at a <a>service endpoint</a>, which is selected from a <a>DID
 				document</a> by using the <code>service</code> parameter.
-				If present, the associated value MUST be an <a
-					data-lt="ascii string">ASCII string</a> and MUST use percent-encoding for
-				certain characters as specified in <a data-cite="RFC3986#section-2.1">RFC3986
-				Section 2.1</a>.
 			</td>
 		</tr>
 		<tr>
@@ -389,8 +388,6 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 			<td>
 				Identifies a specific version of a <a>DID document</a> to be resolved (the
 				version ID could be sequential, or a <a>UUID</a>, or method-specific).
-				If present, the associated value MUST be an <a
-					data-lt="ascii string">ASCII string</a>.
 			</td>
 		</tr>
 		<tr>
@@ -416,8 +413,6 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 			<td>
 				A resource hash of the <a>DID document</a> to add integrity protection, as
 				specified in [[?HASHLINK]]. This parameter is non-normative.
-				If present, the associated value MUST be an
-				<a data-lt="ascii string">ASCII string</a>.
 			</td>
 		</tr>
 
@@ -540,10 +535,10 @@ resolve(did, resolutionOptions) →
 		<dd>
 			If the resolution is successful, this MUST be a <a>DID document</a> that
 			is capable of being represented in one of the conformant
-			<a data-cite="did-core#representations">representations</a> of the [[[DID]]] specification.
-			The value of <code><a data-cite="did-core#dfn-id">id</a></code> in the resolved <a>DID document</a> MUST
-			match the <a>DID</a> that was resolved. If the resolution is unsuccessful, this
-			value MUST be empty.
+			<a data-cite="did#representations">representations</a> of the <a data-cite="did#data-model"></a> 
+			specification. The value of <code><a data-cite="did#dfn-id">id</a></code> 
+			in the resolved <a>DID document</a> MUST be string equivalent to the <a>DID</a> that was resolved. 
+			If the resolution is unsuccessful, this	value MUST be empty.
 		</dd>
 		<dt>
 			<dfn>didDocumentMetadata</dfn>
@@ -667,7 +662,7 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
                     <a>DID resolution</a> metadata MAY include a <code>proof</code> property.
                     If present, the value MUST be a <a
                         data-cite="INFRA#sets">set</a> where each item is a
-                    <a data-cite="INFRA#maps">map</a> that contains a proof. The use of this property
+                    <a data-cite="INFRA#maps">map</a> that represents a proof. The use of this property
                     and the types of proofs are <a>DID method</a>-independent.
                 </p>
             </dd>
@@ -680,7 +675,10 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 
 		<p>This is a <a href="#metadata-structure">metadata structure</a> that contains metadata about the <a>DID Resolution</a> process.</p>
 		<p>This metadata typically does not change between invocations of the <a>DID Resolution</a> function unless the <a>DID document</a> changes, as it represents data about the <a>DID document</a>.</p>
-		<p>The sources of this metadata are the <a>DID controller</a> and/or the <a>DID method</a>.</p>
+		<p>The sources of this metadata are the <a>DID controller</a> and/or the <a>DID method</a>. 
+			DID document metadata attested to by the DID controller comes with no inherent guarantee of accuracy.
+			Clients are advised to proceed with caution when relying on DID document metadata to inform business logic.
+		</p>
 		<p>Examples of DID document metadata include:</p>
 		<ul>
 			<li>Timestamps when the <a>DID</a> and its associated <a>DID document</a> were created or updated (e.g., `created`, `updated`, `nextUpdate`).</li>
@@ -868,7 +866,7 @@ string">ASCII string</a>.
                     <a>DID document</a> metadata MAY include a <code>proof</code> property.
                     If present, the value MUST be a <a
                         data-cite="INFRA#sets">set</a> where each item is a
-                    <a data-cite="INFRA#maps">map</a> that contains a proof. The use of this property
+                    <a data-cite="INFRA#maps">map</a> that represents a proof. The use of this property
                     and the types of proofs are <a>DID method</a>-specific.
                 </p>
             </dd>
@@ -952,11 +950,6 @@ string">ASCII string</a>.
 				</ol>
 			</li>
 		</ol>
-
-		<p class="issue">Should we define functionality that enables discovery of the list of <a>DID methods</a> or other
-		capabilities that are supported by a <a>DID resolver</a>? Or is this implementation-specific and out-of-scope
-		for this spec? For example, see <a href="https://github.com/w3c/did-resolution/issues/26">here</a> and
-		<a href="https://github.com/w3c/did-resolution/issues/25">here</a>.</p>
 
 	</section>
 
@@ -1220,7 +1213,7 @@ dereference(didUrl, dereferenceOptions) →
                     <a>DID URL dereferencing</a> metadata MAY include a <code>proof</code> property.
                     If present, the value MUST be a <a
                         data-cite="INFRA#sets">set</a> where each item is a
-                    <a data-cite="INFRA#maps">map</a> that contains a proof. The use of this property
+                    <a data-cite="INFRA#maps">map</a> that represents a proof. The use of this property
                     and the types of proofs are <a>DID method</a>-independent.
                 </p>
             </dd>
@@ -1587,8 +1580,18 @@ dereference(didUrl, dereferenceOptions) →
 			<a data-cite="INFRA#sets">set</a>,
 		<a data-cite="INFRA#boolean">boolean</a>, or
 		<a data-cite="INFRA#nulls">null</a>. The values within any complex data
+<<<<<<< HEAD
 		structure such as a map or list MUST be one of these data types as well. 
 		The entire metadata structure MUST be serializable according to the <a
+=======
+		structure such as a map or list MUST be one of these data types as well.
+		All metadata property definitions registered in the DID Resolution Extensions
+		[[?DID-EXTENSIONS-RESOLUTION]] MUST define the value type, including any
+		additional formats or restrictions to that value (for example, a string
+		formatted as a date). It is RECOMMENDED that property
+		definitions use strings for values. The entire metadata structure MUST be
+		serializable according to the <a
+>>>>>>> gh-pages
 			data-cite="INFRA#serialize-an-infra-value-to-json-bytes">JSON
 		serialization rules</a> in the [[INFRA]] specification. Implementations MAY
 		serialize the metadata structure to other data formats.
@@ -1706,9 +1709,6 @@ dereference(didUrl, dereferenceOptions) →
 
 <section id="architectures">
 	<h1>DID Resolution Architectures</h1>
-	<p class="issue">TODO: Describe how <a>DID resolvers</a> are implemented and used, describe the relevance
-	of <a>DID methods</a>.
-	Explain the difference between "method architectures" and "resolver architectures".</p>
 
 	<section id="method-architectures">
 		<h2>Method Architectures</h2>
@@ -2107,16 +2107,6 @@ dereference(didUrl, dereferenceOptions) →
 }
 </pre>
 
-	<p class="issue">Need to define how this data structure works exactly, and whether it always contains
-	a <a>DID document</a> or can also contain other results.</p>
-
-	</section>
-
-	<p class="issue">For certain data, it may be debatable whether it should be part of the DID document
-	(i.e., data that describes the DID Subject), or whether it is metadata (i.e., data about the DID document or about
-	the DID resolution process). For example the URL of the "Continuation DID document" in the BTCR method.
-	</p>
-
 </section>
 
 	<section id="did-url-dereferencing-result">
@@ -2187,6 +2177,7 @@ dereference(didUrl, dereferenceOptions) →
 }
 </pre>
 
+		</section>
 		</section>
 
 	</section>
@@ -2679,6 +2670,7 @@ Content-Type: application/did
 	</section>
 
 </section>
+</section>
 
 <section id="security-considerations">
 	<h1>Security Considerations</h1>
@@ -2731,8 +2723,6 @@ Content-Type: application/did
 			Resolvers that deny resolution without caching MUST respond with a <a href="#FEATURE_NOT_SUPPORTED">FEATURE_NOT_SUPPORTED</a> error that makes it clear that bypassing the cache was not permitted
 			so the client can attempt to resolve without using <code>noCache</code>.</p>
 
-			<p class="issue" data-number="10">See corresponding open issue.</p>
-		<p class="issue">Perhaps we can re-use caching mechanisms of other protocols such as HTTP.</p>
 	</section>
 	<section id="json-ld-integrity">
 		<h2>JSON-LD Context Integrity</h2>
@@ -2767,14 +2757,6 @@ Content-Type: application/did
 			VDR (<a>verifiable data registry</a>) need to manage the potential that network forks may occur. Therefore,
 			the specification of a <a>DID method</a> that uses a distributed system as a VDR SHOULD specify a means by which
 			the VDR they are using can be disambiguated from such forks.</p>
-	</section>
-	<section id="non-did-identifiers">
-		<h2>Non-DID Identifiers</h2>
-		<p class="issue" data-number="8">There is discussion on the relationship between <a>DID resolution</a> and
-		resolution of non-DID identifiers such as domain names, HTTP URIs, or e-mail addresses. This includes the
-		questions how DIDs can be discovered from non-DID identifiers, and how links between identifiers can
-		be verifiable.</p>
-
 	</section>
 
 	<section id="security-cycles-resolution">
@@ -2815,8 +2797,6 @@ Content-Type: application/did
 </section>
 <section id="privacy-considerations">
 	<h1>Privacy Considerations</h1>
-
-	<p class="issue">TODO: Define privacy considerations for DID resolution</p>
 
 	<section id="profiling-requesters">
 		<h2>Profiling of DID Resolution and Dereferencing Requesters</h2>
