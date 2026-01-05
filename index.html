@@ -644,7 +644,8 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 				error
 			</dt>
 			<dd>
-				An error data structure defined in [[RFC9457]]. The errors defined by this specification can be found in
+				An error data structure defined in [[RFC9457]]. This property is REQUIRED when there is an error
+                in the resolution process. The errors defined by this specification and can be found in
                 Section <a href="#errors"></a>.
                 Additional errors SHOULD be registered in the DID Resolution Extensions [[?DID-EXTENSIONS-RESOLUTION]].
 			</dd>
@@ -876,7 +877,7 @@ string">ASCII string</a>.
 
 	<section id="resolving-algorithm">
 		<h2>DID Resolution Algorithm</h2>
-		<p>A <a>DID resolver</a> implements the following <a>DID resolution</a> algorithm.</p>
+		<p>The following <a>DID resolution</a> algorithm MUST be implemented by a conformant <a>DID resolver</a>.</p>
 		<ol class="algorithm">
 			<li>Validate that the <var>input <a>DID</a></var> conforms to the `did` rule of the
 			<a href="https://www.w3.org/TR/did-core/#did-syntax">DID Syntax</a>.
@@ -899,6 +900,10 @@ string">ASCII string</a>.
 			<a href="https://www.w3.org/TR/did-core/#method-operations">Read</a> operation against the
 			<var>input <a>DID</a>'s</var> <a>verifiable data registry</a>, as defined by the <var>input <a>DID method</a></var>:
 			<ol class="algorithm">
+				<li>Besides the <var>input <a>DID</a></var>, all additional <var>resolution options</var> of
+				this algorithm MUST be passed to the
+				<a href="https://www.w3.org/TR/did-core/#method-operations">Read</a> operation of the
+				<var>input <a>DID method</a></var>.</li>
 				<li>If the <var>input <a>DID</a></var> does not exist, return the following result:
 				<ol class="algorithm">
 					<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <a href="#NOT_FOUND">NOT_FOUND</a></li>
@@ -1236,7 +1241,7 @@ dereference(didUrl, dereferenceOptions) →
 
 	<section id="dereferencing-algorithm">
 		<h2>DID URL Dereferencing Algorithm</h2>
-		<p>A <a>DID URL dereferencer</a> implements the following <a>DID URL dereferencing</a> algorithm.
+		<p>The following <a>DID URL dereferencing</a> algorithm MUST be implemented by a conformant <a>DID resolver</a>.
 		In accordance with [[RFC3986]], it consists of the following three steps: resolving the DID; dereferencing the
 		resource; and dereferencing the fragment (only if the <var>input <a>DID URL</a></var> contains a <a>DID fragment</a>):</p>
 
@@ -1580,23 +1585,8 @@ dereference(didUrl, dereferenceOptions) →
 			<a data-cite="INFRA#sets">set</a>,
 		<a data-cite="INFRA#boolean">boolean</a>, or
 		<a data-cite="INFRA#nulls">null</a>. The values within any complex data
-<<<<<<< HEAD
-<<<<<<< HEAD
-		structure such as a map or list MUST be one of these data types as well.
-		All metadata property definitions registered in the DID Resolution Extensions 
-		[[?DID-EXTENSIONS-RESOLUTION]] MUST define the value type, including any
-		additional formats or restrictions to that value (for example, a string
-		formatted as a date). It is RECOMMENDED that property
-		definitions use strings for values. The entire metadata structure MUST be
-		serializable according to the <a
-=======
 		structure such as a map or list MUST be one of these data types as well. 
 		The entire metadata structure MUST be serializable according to the <a
->>>>>>> 180796f (remove requirement on did extensions registry for did resolution metadata)
-=======
-		structure such as a map or list MUST be one of these data types as well. 
-		The entire metadata structure MUST be serializable according to the <a
->>>>>>> 4e698ac (merge with gh-pages)
 			data-cite="INFRA#serialize-an-infra-value-to-json-bytes">JSON
 		serialization rules</a> in the [[INFRA]] specification. Implementations MAY
 		serialize the metadata structure to other data formats.
@@ -1933,7 +1923,8 @@ dereference(didUrl, dereferenceOptions) →
 		<section id="resolver-architectures-multiple">
 			<h2>Multiple Methods</h2>
 
-			<p>A <a>DID resolver</a> might support the <a>DID resolution</a> algorithm for multiple <a>DID methods</a>:</p>
+			<p>A <a>DID resolver</a> MUST support the <a>DID resolution</a> algorithm for at least one <a>DID method</a> and
+				MAY support it for multiple <a>DID methods</a>:</p>
 			<figure id="figure-resolver-multiple">
 				<img style="margin: auto; display: block; width: 100%; margin-bottom: 20px;" src="diagrams/section-7/resolver-multiple.svg"
 					 alt="Diagram showing a DID resolver that supports multiple DID methods.">
