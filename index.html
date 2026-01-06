@@ -71,7 +71,11 @@
         // name (with the @w3c.org) of the public mailing to which comments are due
         wgPublicList: "public-did-wg",
 
-        maxTocLevel: 4,
+		//disable warning for informative definitions, as we link to did-core for those
+		//this avoids having to use lint-ignore on every such link
+		lint: {"informative-dfn": false },
+
+		maxTocLevel: 4,
         inlineCSS: true
       };
     </script>
@@ -125,6 +129,7 @@
 
     </style>
   </head>
+  <body data-cite="infra rfc3986 did">
   <body data-cite="infra rfc3986 did">
     <section id='abstract'>
       <p>
@@ -196,10 +201,11 @@ which describes the underlying DID architecture in full detail.
 			(e.g., `contentType`, proof, versioning), which an application can use to validate a user's cryptographic keys,
 			service endpoints, or status.
 		<p>
-			For example, a wallet app could resolve `did:example:123?versionTime=2021-05-10T17:00:00Z`
-			using the `versionTime` parameter to retrieve the state of that DID at a past time, or a client could
-			dereference a DID URL
-			 like `did:example:123?service=files&relativeRef=/resume.pdf`
+			For example, a wallet app could resolve <code>did:example:123</code>
+			using the `versionTime` resolution option for instance:
+			<code>resolve("did:example:123", {"versionTime":"2021-05-10T17:00:00Z"})</code>
+			to retrieve the state of that DID at a past time. Or a client could dereference a DID URL
+			 like <code>did:example:123?service=files&relativeRef=/resume.pdf</code>
 			 (see <a href="#example-dereferencing-to-service-endpoint-url">here for detailed example</a>)
 			 to fetch a user's resume stored via a service declared in the DID document.
 		</p>
@@ -576,14 +582,14 @@ resolve(did, resolutionOptions) →
 				accept
 			</dt>
 			<dd>
-				The media type of the caller's preferred <a>representation</a> of the
-				<a>DID document</a>. The value MUST be expressed according to the
-				`Accept` header value as defined in [[[RFC9110]]], <a
-				data-cite="RFC9110#section-12.5.1">Section 12.5.1</a>. The <a>DID
-				resolver</a> implementation SHOULD use this value to determine the
-				<a>representation</a> of the returned
-				<code>didDocument</code> if such a <a>representation</a> is supported
-				and available. This property is OPTIONAL.
+				The Media Type of the caller's preferred <a>representation</a> of the <a>DID
+				document</a>. The Media Type MUST be expressed as an <a data-lt="ascii
+string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
+				value to determine the <a>representation</a> of the returned
+				<code>didDocument</code> if such a <a>representation</a> is supported and
+				available. Any <a>representation</a> MUST be able to be translated into
+				the representation defined by the <code>application/did</code> mediaType.
+				This property is OPTIONAL.
 			</dd>
 		</dl>
 
@@ -1619,14 +1625,15 @@ dereference(didUrl, dereferenceOptions) →
 		used to communicate this metadata MUST be a <a data-cite="INFRA#maps">map</a>
 		of properties. Each property name MUST be a <a
 			data-cite="INFRA#string">string</a>. Each property value, and each
-		value within any complex data structure such as a map or list, 
-		MUST be a <a data-cite="INFRA#string">string</a>, 
+		value within any complex data structure such as a map or list,
+		MUST be a <a data-cite="INFRA#string">string</a>,
 			<a data-cite="INFRA#numbers">number</a>,
-			<a data-cite="INFRA#maps">map</a>, 
+			<a data-cite="INFRA#maps">map</a>,
 			<a data-cite="INFRA#lists">list</a>,
 			<a data-cite="INFRA#sets">set</a>,
 		<a data-cite="INFRA#boolean">boolean</a>, or
-		<a data-cite="INFRA#nulls">null</a>.
+		<a data-cite="INFRA#nulls">null</a>. The values within any complex data
+		structure such as a map or list MUST also be one of these data types.
 		The entire metadata structure MUST be serializable according to the <a
 			data-cite="INFRA#serialize-an-infra-value-to-json-bytes">JSON
 		serialization rules</a> in the [[INFRA]] specification. Implementations MAY
