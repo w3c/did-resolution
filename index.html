@@ -904,6 +904,25 @@ string">ASCII string</a>.
 				<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
 			</ol>
 			</li>
+			<li>
+				Determine whether the <var>input <a href="#did-resolution-options">DID resolution options</a></var>
+				are supported by the <a>DID resolver</a> that implements this algorithm. If not, the <a>DID resolver</a>
+				MUST return the following result:
+				<ol class="algorithm">
+					<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <a href="#FEATURE_NOT_SUPPORTED">FEATURE_NOT_SUPPORTED</a></li>
+					<li><b>didDocument</b>: <code>null</code></li>
+					<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
+				</ol>
+			</li>
+			<li>
+				Determine whether the <var>input <a href="#did-resolution-options">DID resolution options</a></var>
+				are valid. If not, the <a>DID resolver</a> MUST return the following result:
+				<ol class="algorithm">
+					<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <a href="#INVALID_OPTIONS">INVALID_OPTIONS</a></li>
+					<li><b>didDocument</b>: <code>null</code></li>
+					<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
+				</ol>
+			</li>
 			<li>Obtain the <a>DID document</a> for the <var>input <a>DID</a></var> by executing the
 			<a href="https://www.w3.org/TR/did-core/#method-operations">Read</a> operation, as defined by the <var>input <a>DID method</a></var>:
 			<ol class="algorithm">
@@ -957,6 +976,16 @@ string">ASCII string</a>.
 				</ol>
 			</li>
 		</ol>
+
+		<p>
+			If the <a>DID resolver</a> encounters any unexpected errors during the execution of the DID Resolution algorithm,
+			it MUST return the following result:
+			<ol class="algorithm">
+				<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <a href="#INTERNAL_ERROR">INTERNAL_ERROR</a></li>
+				<li><b>didDocument</b>: <code>null</code></li>
+				<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
+			</ol>
+		</p>
 
 	</section>
 
@@ -2428,6 +2457,14 @@ Accept: application/did-url-dereferencing
 					<tr>
 						<td>
 							<code>METHOD_NOT_SUPPORTED</code>
+						</td>
+						<td>
+							<code>501</code>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<code>FEATURE_NOT_SUPPORTED</code>
 						</td>
 						<td>
 							<code>501</code>
