@@ -64,8 +64,8 @@ included whenever they appear in this specification.
 
   <dt><dfn data-lt="DID fragments">DID fragment</dfn></dt>
   <dd>
-    The portion of a <a>DID URL</a> that follows the first hash sign character
-    (<code>#</code>). DID fragment syntax is identical to URI fragment syntax.
+    The portion of a <a>DID URL</a> that follows the first `#` character
+    (`U+0023 NUMBER SIGN`). DID fragment syntax is identical to URI fragment syntax.
   </dd>
 
   <dt><dfn data-lt="DID method's">DID method</dfn></dt>
@@ -78,17 +78,15 @@ included whenever they appear in this specification.
 
   <dt><dfn data-lt="DID paths">DID path</dfn></dt>
   <dd>
-    The portion of a <a>DID URL</a> that begins with and includes the first forward
-    slash (<code>/</code>) character and ends with either a question mark
-    (<code>?</code>) character, a fragment hash sign (<code>#</code>) character,
+    The portion of a <a>DID URL</a> that begins with and includes the first <code>/</code>
+    character (`U+002F SOLIDUS`) and ends with either a <code>?</code> character (`U+003F QUESTION MARK`), a <code>#</code> character (`U+0023 NUMBER SIGN`),
     or the end of the <a>DID URL</a>. DID path syntax is identical to URI path syntax.
     See <a data-cite="did-core#path"></a>.
   </dd>
 
   <dt><dfn data-lt="DID queries">DID query</dfn></dt>
   <dd>
-    The portion of a <a>DID URL</a> that follows and includes the first question
-    mark character (<code>?</code>). DID query syntax is identical to URI query
+    The portion of a <a>DID URL</a> that follows and includes the `?` character (`U+003F QUESTION MARK`). DID query syntax is identical to URI query
     syntax. See <a data-cite="did-core#query"></a>.
   </dd>
 
@@ -135,9 +133,9 @@ included whenever they appear in this specification.
   <dd>
     A <a>DID</a> plus any additional syntactic component that conforms to the
     definition in <a data-cite="did-core#did-url-syntax"></a>. This includes an optional <a>DID
-    path</a> (with its leading <code>/</code> character), optional <a>DID query</a>
-    (with its leading <code>?</code> character), and optional <a>DID fragment</a>
-    (with its leading <code>#</code> character).
+    path</a> with its leading <code>/</code> character (`U+002F SOLIDUS`), optional <a>DID query</a>
+    with its leading <code>?</code> character (`U+003F QUESTION MARK`), and optional <a>DID fragment</a>
+    with its leading <code>#</code> character (`U+0023 NUMBER SIGN`).
   </dd>
 
   <dt><dfn>DID URL dereferencing</dfn></dt>
