@@ -574,12 +574,14 @@ resolve(did, resolutionOptions) →
 				accept
 			</dt>
 			<dd>
-				The Media Type of the caller's preferred <a>representation</a> of the <a>DID
-				document</a>. The Media Type MUST be expressed as an <a data-lt="ascii
-string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
-				value to determine the <a>representation</a> of the returned
-				<code>didDocument</code> if such a <a>representation</a> is supported and
-				available. This property is OPTIONAL.
+				The media type of the caller's preferred <a>representation</a> of the
+				<a>DID document</a>. The value MUST be expressed according to the
+				`Accept` header value as defined in [[[RFC9110]]], <a
+				data-cite="RFC9110#section-12.5.1">Section 12.5.1</a>. The <a>DID
+				resolver</a> implementation SHOULD use this value to determine the
+				<a>representation</a> of the returned
+				<code>didDocument</code> if such a <a>representation</a> is supported
+				and available. This property is OPTIONAL.
 			</dd>
 		</dl>
 
@@ -1152,11 +1154,13 @@ dereference(didUrl, dereferenceOptions) →
 				accept
 			</dt>
 			<dd>
-				The Media Type that the caller prefers for <code>contentStream</code>. The Media
-				Type MUST be expressed as an <a data-lt="ascii string">ASCII string</a>. The
-				<a>DID URL dereferencer</a> implementation SHOULD use this value to determine
-				the <code>contentType</code> of the <a>representation</a> contained in the
-				returned value if such a <a>representation</a> is supported and available.
+				The media type that the caller prefers for <code>contentStream</code>.
+				The value MUST be expressed according to the `Accept` header value as
+				defined in [[[RFC9110]]], <a data-cite="RFC9110#section-12.5.1">Section
+				12.5.1</a>. The <a>DID URL dereferencer</a> implementation SHOULD use
+				this value to determine the <code>contentType</code> of the
+				<a>representation</a> contained in the returned value if such a
+				<a>representation</a> is supported and available.
 			</dd>
 		</dl>
 		<dl>
