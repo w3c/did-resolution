@@ -201,10 +201,13 @@ which describes the underlying DID architecture in full detail.
 			(e.g., `contentType`, proof, versioning), which an application can use to validate a user's cryptographic keys,
 			service endpoints, or status.
 		<p>
-			For example, a wallet app could resolve <code>did:example:123</code>
-			using the `versionTime` resolution option for instance:
-			<code>resolve("did:example:123", {"versionTime":"2021-05-10T17:00:00Z"})</code>
-			to retrieve the state of that DID at a past time. Or a client could dereference a DID URL
+			For example, to retrieve the state of the DID `did:example:123`
+             at a past time, a wallet app could resolve the DID with the `versionTime`
+             resolution option, as in the following:<br>
+             `resolve("did:example:123", {"versionTime":"2021-05-10T17:00:00Z"})`
+
+			Or a client could
+			dereference a DID URL
 			 like <code>did:example:123?service=files&relativeRef=/resume.pdf</code>
 			 (see <a href="#example-dereferencing-to-service-endpoint-url">here for detailed example</a>)
 			 to fetch a user's resume stored via a service declared in the DID document.
