@@ -149,10 +149,31 @@ paths:
                 $ref: "#/components/schemas/DereferencingResult"
         "400":
           description: Invalid DID or DID URL.
+          content:
+            application/did-resolution:
+              schema:
+                $ref: "#/components/schemas/ResolutionResult"
+            application/did-url-dereferencing:
+              schema:
+                $ref: "#/components/schemas/DereferencingResult"
         "404":
           description: DID or DID URL not found.
+          content:
+            application/did-resolution:
+              schema:
+                $ref: "#/components/schemas/ResolutionResult"
+            application/did-url-dereferencing:
+              schema:
+                $ref: "#/components/schemas/DereferencingResult"
         "406":
           description: Representation not supported.
+          content:
+            application/did-resolution:
+              schema:
+                $ref: "#/components/schemas/ResolutionResult"
+            application/did-url-dereferencing:
+              schema:
+                $ref: "#/components/schemas/DereferencingResult"
         "410":
           description: Successfully resolved, but DID is deactivated.
           content:
@@ -168,8 +189,22 @@ paths:
                 $ref: "#/components/schemas/DereferencingResult"
         "500":
           description: Internal Error.
+          content:
+            application/did-resolution:
+              schema:
+                $ref: "#/components/schemas/ResolutionResult"
+            application/did-url-dereferencing:
+              schema:
+                $ref: "#/components/schemas/DereferencingResult"
         "501":
           description: DID method not supported.
+          content:
+            application/did-resolution:
+              schema:
+                $ref: "#/components/schemas/ResolutionResult"
+            application/did-url-dereferencing:
+              schema:
+                $ref: "#/components/schemas/DereferencingResult"
 components:
   schemas:
     ResolutionOptions:
