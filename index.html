@@ -325,6 +325,13 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 	</pre>
 
 	<p>
+		For each DID parameter that is present, its associated value MUST be a
+		<a data-cite="INFRA#scalar-value-string">scalar value</a>
+		 string serialized into ASCII according to <a data-cite="RFC3987#section-3.1">
+			section 3.1 of RFC3987.</a>
+	</p>
+
+	<p>
 		Some DID parameters are completely independent of any specific <a>DID
 		method</a> and function the same way for all <a>DIDs</a>. Other DID parameters
 		are not supported by all <a>DID methods</a>. Where optional parameters are
@@ -353,8 +360,6 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 			</td>
 			<td>
 				Identifies a <a data-cite="did-core#services">service</a> from the <a>DID document</a> by service ID.
-				If present, the associated value MUST be an <a
-					data-lt="ascii string">ASCII string</a>.
 			</td>
 		</tr>
 		<tr>
@@ -363,8 +368,6 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 			</td>
 			<td>
 				Identifies a set of one or more <a data-cite="did-core#services">services</a> from the <a>DID document</a> by service type.
-				If present, the associated value MUST be an <a
-					data-lt="ascii string">ASCII string</a>.
 			</td>
 		</tr>
 		<tr>
@@ -376,10 +379,6 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 					data-cite="RFC3986#section-4.2">RFC3986 Section 4.2</a> that identifies a
 				<a>resource</a> at a <a>service endpoint</a>, which is selected from a <a>DID
 				document</a> by using the <code>service</code> parameter.
-				If present, the associated value MUST be an <a
-					data-lt="ascii string">ASCII string</a> and MUST use percent-encoding for
-				certain characters as specified in <a data-cite="RFC3986#section-2.1">RFC3986
-				Section 2.1</a>.
 			</td>
 		</tr>
 		<tr>
@@ -389,8 +388,6 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 			<td>
 				Identifies a specific version of a <a>DID document</a> to be resolved (the
 				version ID could be sequential, or a <a>UUID</a>, or method-specific).
-				If present, the associated value MUST be an <a
-					data-lt="ascii string">ASCII string</a>.
 			</td>
 		</tr>
 		<tr>
@@ -529,10 +526,10 @@ resolve(did, resolutionOptions) →
 		<dd>
 			If the resolution is successful, this MUST be a <a>DID document</a> that
 			is capable of being represented in one of the conformant
-			<a data-cite="did-core#representations">representations</a> of the [[[DID]]] specification.
-			The value of <code><a data-cite="did-core#dfn-id">id</a></code> in the resolved <a>DID document</a> MUST
-			match the <a>DID</a> that was resolved. If the resolution is unsuccessful, this
-			value MUST be empty.
+			<a data-cite="did#representations">representations</a> of the <a data-cite="did#data-model"></a>
+			specification. The value of <code><a data-cite="did#dfn-id">id</a></code>
+			in the resolved <a>DID document</a> MUST be string equivalent to the <a>DID</a> that was resolved.
+			If the resolution is unsuccessful, this	value MUST be empty.
 		</dd>
 		<dt>
 			<dfn>didDocumentMetadata</dfn>
@@ -657,7 +654,7 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
                     <a>DID resolution</a> metadata MAY include a <code>proof</code> property.
                     If present, the value MUST be a <a
                         data-cite="INFRA#sets">set</a> where each item is a
-                    <a data-cite="INFRA#maps">map</a> that contains a proof. The use of this property
+                    <a data-cite="INFRA#maps">map</a> that represents a proof. The use of this property
                     and the types of proofs are <a>DID method</a>-independent.
                 </p>
             </dd>
@@ -670,7 +667,10 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 
 		<p>This is a <a href="#metadata-structure">metadata structure</a> that contains metadata about the <a>DID Resolution</a> process.</p>
 		<p>This metadata typically does not change between invocations of the <a>DID Resolution</a> function unless the <a>DID document</a> changes, as it represents data about the <a>DID document</a>.</p>
-		<p>The sources of this metadata are the <a>DID controller</a> and/or the <a>DID method</a>.</p>
+		<p>The sources of this metadata are the <a>DID controller</a> and/or the <a>DID method</a>.
+			DID document metadata attested to by the DID controller comes with no inherent guarantee of accuracy.
+			Clients are advised to proceed with caution when relying on DID document metadata to inform business logic.
+		</p>
 		<p>Examples of DID document metadata include:</p>
 		<ul>
 			<li>Timestamps when the <a>DID</a> and its associated <a>DID document</a> were created or updated (e.g., `created`, `updated`, `nextUpdate`).</li>
@@ -858,7 +858,7 @@ string">ASCII string</a>.
                     <a>DID document</a> metadata MAY include a <code>proof</code> property.
                     If present, the value MUST be a <a
                         data-cite="INFRA#sets">set</a> where each item is a
-                    <a data-cite="INFRA#maps">map</a> that contains a proof. The use of this property
+                    <a data-cite="INFRA#maps">map</a> that represents a proof. The use of this property
                     and the types of proofs are <a>DID method</a>-specific.
                 </p>
             </dd>
@@ -888,8 +888,7 @@ string">ASCII string</a>.
 			</ol>
 			</li>
 			<li>Obtain the <a>DID document</a> for the <var>input <a>DID</a></var> by executing the
-			<a href="https://www.w3.org/TR/did-core/#method-operations">Read</a> operation against the
-			<var>input <a>DID</a>'s</var> <a>verifiable data registry</a>, as defined by the <var>input <a>DID method</a></var>:
+			<a href="https://www.w3.org/TR/did-core/#method-operations">Read</a> operation, as defined by the <var>input <a>DID method</a></var>:
 			<ol class="algorithm">
 				<li>Besides the <var>input <a>DID</a></var>, all additional <var>resolution options</var> of
 				this algorithm MUST be passed to the
@@ -1209,7 +1208,7 @@ dereference(didUrl, dereferenceOptions) →
                     <a>DID URL dereferencing</a> metadata MAY include a <code>proof</code> property.
                     If present, the value MUST be a <a
                         data-cite="INFRA#sets">set</a> where each item is a
-                    <a data-cite="INFRA#maps">map</a> that contains a proof. The use of this property
+                    <a data-cite="INFRA#maps">map</a> that represents a proof. The use of this property
                     and the types of proofs are <a>DID method</a>-independent.
                 </p>
             </dd>
