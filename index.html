@@ -325,7 +325,7 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 	</pre>
 
 	<p>
-		For each DID parameter that is present, its associated value MUST be a 
+		For each DID parameter that is present, its associated value MUST be a
 		<a data-cite="INFRA#scalar-value-string">scalar value</a>
 		 string serialized into ASCII according to <a data-cite="RFC3987#section-3.1">
 			section 3.1 of RFC3987.</a>
@@ -535,9 +535,9 @@ resolve(did, resolutionOptions) →
 		<dd>
 			If the resolution is successful, this MUST be a <a>DID document</a> that
 			is capable of being represented in one of the conformant
-			<a data-cite="did#representations">representations</a> of the <a data-cite="did#data-model"></a> 
-			specification. The value of <code><a data-cite="did#dfn-id">id</a></code> 
-			in the resolved <a>DID document</a> MUST be string equivalent to the <a>DID</a> that was resolved. 
+			<a data-cite="did#representations">representations</a> of the <a data-cite="did#data-model"></a>
+			specification. The value of <code><a data-cite="did#dfn-id">id</a></code>
+			in the resolved <a>DID document</a> MUST be string equivalent to the <a>DID</a> that was resolved.
 			If the resolution is unsuccessful, this	value MUST be empty.
 		</dd>
 		<dt>
@@ -676,7 +676,7 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 
 		<p>This is a <a href="#metadata-structure">metadata structure</a> that contains metadata about the <a>DID Resolution</a> process.</p>
 		<p>This metadata typically does not change between invocations of the <a>DID Resolution</a> function unless the <a>DID document</a> changes, as it represents data about the <a>DID document</a>.</p>
-		<p>The sources of this metadata are the <a>DID controller</a> and/or the <a>DID method</a>. 
+		<p>The sources of this metadata are the <a>DID controller</a> and/or the <a>DID method</a>.
 			DID document metadata attested to by the DID controller comes with no inherent guarantee of accuracy.
 			Clients are advised to proceed with caution when relying on DID document metadata to inform business logic.
 		</p>
