@@ -131,10 +131,11 @@
 Decentralized identifier (DID) resolution is the process of obtaining
 a DID document and accompanying metadata for a specific DID. The process
 takes a DID and a set of resolution options as its input and returns a
-DID document, a set of data describing the DID subject, including mechanisms
-such as cryptographic public keys, that the DID subject or a DID delegate
-can use to authenticate itself and prove its association with the DID. This 
-document specifies the algorithms and guidelines for DID resolution and
+DID document and associated metadata about the resolved document and the 
+resolution request. A resolved DID document is a set of information which
+enables cryptographically verifiable interactions with the DID subject,
+including mechanisms such as cryptographic public keys. This specification
+covers the algorithms and guidelines to be used for DID resolution and
 relies on the core DID specification,
 [[[DID]]],
 which describes the underlying DID architecture in full detail.
