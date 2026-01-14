@@ -372,10 +372,15 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 				<code>relativeRef</code>
 			</td>
 			<td>
-				A relative <a>URI</a> reference according to <a
-					data-cite="RFC3986#section-4.2">RFC3986 Section 4.2</a> that identifies a
-				<a>resource</a> at a <a>service endpoint</a>, which is selected from a <a>DID
-				document</a> by using the <code>service</code> parameter.
+				A relative reference (path and query parameters and/or fragment) as defined by <a
+					data-cite="RFC3986#section-4.2">RFC3986 Section 4.2</a> that is appended to either:
+					<ul>
+						<li>the <a>service endpoint</a>(s), selected from a
+						<a>DID document</a> by using the `service` or
+						`serviceType` query parameters.</li>
+						<li>a resource URL generated from DID URL that contains
+						a path component.</li>
+					</ul>
 				If present, the associated value MUST be an <a
 					data-lt="ascii string">ASCII string</a> and MUST use percent-encoding for
 				certain characters as specified in <a data-cite="RFC3986#section-2.1">RFC3986
@@ -494,7 +499,7 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 				<li>Append the input calculated path to the
 				`serviceEndpoint` path (if any), accounting for any
 				query parameters in the `serviceEndpoint`, to form a
-				valid URL</li>
+				valid resource URL</li>
 				<li>The result is the resource URL to be returned to continue
 				the DID URL path handling algorithm.</li>
 			</ol>
@@ -1355,9 +1360,9 @@ dereference(didUrl, dereferenceOptions) →
 				The following algorithm defines the processing
 				rules defined for the <a
 				href="https://www.w3.org/TR/did-core/#did-parameters">
-					DID parameter</a> <code>service</code> and/or the <a href="https://www.w3.org/TR/did-core/#did-parameters">
-					DID parameter</a> <code>serviceType</code>, and optionally the
-					<a data-cite="did-core#did-parameters">DID parameter</a> <code>relativeRef</code>:</p>
+					DID parameter</a> `service` and/or the <a href="https://www.w3.org/TR/did-core/#did-parameters">
+					DID parameter</a> `serviceType`, and optionally the
+					<a data-cite="did-core#did-parameters">DID parameter</a> `relativeRef`:</p>
 
 					<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest</pre>
 					<ol class="algorithm">
@@ -1458,13 +1463,6 @@ dereference(didUrl, dereferenceOptions) →
 				<ol class="algorithm">
 					<li>Extract the path component from the <a>DID URL</a>.</li>
 					<li>
-						If the <a>DID Method</a> specifies its own path handling
-						algorithm, it MUST be applied, and the rest of this
-						algorithm skipped. Creators of <a>DID method</a>
-						specifications are encouraged to use this algorithm where
-						possible to increase interoperability.
-					</li>
-					<li>
 						Collect from the resolved <a>DID Document</a> a list of `service`
 						objects with `type` values that the DID
 						Resolver supports for path handling. At minimum, that
@@ -1488,18 +1486,21 @@ dereference(didUrl, dereferenceOptions) →
 							<li>If two or more services have the
 							same longest matching prefix, the resolver MUST return
 							an error indicating that duplicate services were found.</li>
-							<li>If no matching service is found, the resolver
-							MUST return an error indicating that no applicable
-							service was found.</li>
+							<li>If no matching service is found and the <a>DID
+							Method</a> specifies its own path handling
+							algorithm, use that algorithm, skipping the rest of
+							this path handling.</li>
+							<li>If no matching service is found and there is no
+							<a>DID Method</a> specific path handling, the
+							resolver MUST return an error indicating that no
+							applicable service was found.</li>
 						</ol>
 					</li>
 					<li>
-						Use the `type` of the selected
-						`service` to assemble the URL of the resource
-						to be resolved. The algorithm for assembling this URL
-						MUST be defined by the `type` of the selected
-						`service`. A service type
-						specification can appear in the <a
+						Use the `type` of the selected `service` to assemble the
+						resource URL. The algorithm for assembling the resource URL MUST
+						be defined by the `type` of the selected `service`. A
+						service type specification can appear in the <a
 						href="#did-service-types"></a> section of this document,
 						in the applicable <a>DID method</a>
 						specification, or in the DID Resolution Extensions
@@ -1513,15 +1514,11 @@ dereference(didUrl, dereferenceOptions) →
 							</li>
 						</ol>
 					</li>
-					<li>Dereference the assembled URL for processing.
-						<ol class="algorithm">
-							<li>
-								If the resolution of the assembled URL fails, the
-								resolver MUST return an appropriate error.
-							</li>
-						</ol>
-					</li>
-					<li>Return the resolved resource as the resolution of the
+					<li>If the query parameter `relativeRef` is present, decode
+					its percent-encoded (as specified in <a
+					data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>)
+					value and append it to the resource URL.</li>
+					<li>Return the resource URL as the result of the
 					DID URL Resolution, along with the appropriate DID
 					Resolution Metadata.</li>
 			</ol>
