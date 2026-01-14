@@ -136,7 +136,7 @@ such as cryptographic public keys, that the DID subject or a DID delegate
 can use to authenticate itself and prove its association with the DID. This 
 document specifies the algorithms and guidelines for DID resolution and
 relies on the core DID specification,
-<a href="https://www.w3.org/TR/did-1.1/">Decentralized Identifiers (DIDs) v1.1</a>,
+[[[DID]]],
 which describes the underlying DID architecture in full detail.
       </p>
     </section>
