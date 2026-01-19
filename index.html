@@ -580,14 +580,14 @@ resolve(did, resolutionOptions) →
 				accept
 			</dt>
 			<dd>
-				The media type of the caller's preferred <a>representation</a> of the
-				<a>DID document</a>. The value MUST be expressed according to the
-				`Accept` header value as defined in [[[RFC9110]]], <a
-				data-cite="RFC9110#section-12.5.1">Section 12.5.1</a>. The <a>DID
-				resolver</a> implementation SHOULD use this value to determine the
-				<a>representation</a> of the returned
-				<code>didDocument</code> if such a <a>representation</a> is supported
-				and available. This property is OPTIONAL.
+				The Media Type of the caller's preferred <a>representation</a> of the <a>DID
+				document</a>. The Media Type MUST be expressed as an <a data-lt="ascii
+string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
+				value to determine the <a>representation</a> of the returned
+				<code>didDocument</code> if such a <a>representation</a> is supported and
+				available. Any <a>representation</a> MUST be able to be translated into
+				the representation defined by the <code>application/did</code> mediaType.
+				This property is OPTIONAL.
 			</dd>
 		</dl>
 
@@ -1630,8 +1630,8 @@ dereference(didUrl, dereferenceOptions) →
 			<a data-cite="INFRA#lists">list</a>,
 			<a data-cite="INFRA#sets">set</a>,
 		<a data-cite="INFRA#boolean">boolean</a>, or
-		<a data-cite="INFRA#nulls">null</a>.
-
+s		<a data-cite="INFRA#nulls">null</a>. The values within any complex data
+		structure such as a map or list MUST also be one of these data types.
 		The entire metadata structure MUST be serializable according to the <a
 			data-cite="INFRA#serialize-an-infra-value-to-json-bytes">JSON
 		serialization rules</a> in the [[INFRA]] specification. Implementations MAY
@@ -2328,6 +2328,13 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 
 		<p>This binding is generally considered a <a>remote binding</a>, but could
 			also be a <a>local binding</a> if the HTTP(S) endpoint is run in a local environment, such as on <code>localhost</code>.</p>
+
+		<p>
+			All <a href="#dfn-conforming-network-based-did-resolver">conforming DID resolvers</a> MUST implement the GET version of the
+			<a href="#bindings-https">HTTPS binding</a> and MAY implement the POST version.
+			All <a href="#bindings-https">HTTPS bindings</a> MUST use TLS. Use of DNS names
+			in certificates is NOT REQUIRED; resolvers MAY use TLS certificates issued for IP addresses.
+		</p>
 
 		<p>Using this binding, the <a>DID resolution</a> function (see
 			<a href="#resolving"></a>) and/or <a>DID URL dereferencing</a> function (see <a href="#dereferencing"></a>)
