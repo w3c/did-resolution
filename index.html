@@ -131,7 +131,7 @@
 Decentralized identifier (DID) resolution is the process of obtaining
 a DID document and accompanying metadata for a specific DID. The process
 takes a DID and a set of resolution options as its input and returns a
-DID document and associated metadata about the resolved document and the 
+DID document and associated metadata about the resolved document and the
 resolution request. A resolved DID document is a set of information which
 enables cryptographically verifiable interactions with the DID subject,
 including mechanisms such as cryptographic public keys. This specification
@@ -448,9 +448,9 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 
 		<p>
 			All datetime values in this specification MUST be an <a	data-lt="ascii string">
-				ASCII string</a> which is a valid XML datetime value defined by the 
-			[[VC-DATA-MODEL]] in <a data-cite="vc-data-model#representing-time"></a>. 
-			Additionally, timestamps used in DID Resolution MUST be adjusted to UTC 
+				ASCII string</a> which is a valid XML datetime value defined by the
+			[[VC-DATA-MODEL]] in <a data-cite="vc-data-model#representing-time"></a>.
+			Additionally, timestamps used in DID Resolution MUST be adjusted to UTC
 			without sub-second decimal precision. For example: <code>2020-12-20T19:17:47Z</code>
 		</p>
 
@@ -582,7 +582,7 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 				value to determine the <a>representation</a> of the returned
 				<code>didDocument</code> if such a <a>representation</a> is supported and
 				available. Any <a>representation</a> MUST be able to be translated into
-				the representation defined by the <code>application/did</code> mediaType. 
+				the representation defined by the <code>application/did</code> mediaType.
 				This property is OPTIONAL.
 			</dd>
 		</dl>
@@ -2302,6 +2302,13 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 
 		<p>This binding is generally considered a <a>remote binding</a>, but could
 			also be a <a>local binding</a> if the HTTP(S) endpoint is run in a local environment, such as on <code>localhost</code>.</p>
+
+		<p>
+			All <a href="#dfn-conforming-network-based-did-resolver">conforming network-based DID resolvers</a> MUST implement the GET version of the
+			<a href="#bindings-https">HTTPS binding</a> and MAY implement the POST version.
+			All <a href="#bindings-https">HTTPS bindings</a> MUST use TLS. Use of DNS names
+			in certificates is NOT REQUIRED; resolvers MAY use TLS certificates issued for IP addresses.
+		</p>
 
 		<p>Using this binding, the <a>DID resolution</a> function (see
 			<a href="#resolving"></a>) and/or <a>DID URL dereferencing</a> function (see <a href="#dereferencing"></a>)
