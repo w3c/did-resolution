@@ -383,7 +383,7 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 				<code>relativeRef</code>
 			</td>
 			<td>
-				A relative reference (path and query parameters and/or fragment) as defined by <a
+				A relative reference (path, query parameters and/or fragment) as defined by <a
 					data-cite="RFC3986#section-4.2">RFC3986 Section 4.2</a> that is appended to either:
 					<ul>
 						<li>the <a>service endpoint</a>(s), selected from a
@@ -471,11 +471,11 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 	<h2>DID Service Types</h2>
 
 	<p>
-		DID Documents can contain `services` each of which have a `type`. The
+		DID Documents can contain `services`, each of which have a `type`. The
 		`type` defines the kind of service being described by the
 		`serviceEndpoint` attribute. Such a specification can define the
 		semantics of the service, the protocol(s) to be used to interact with
-		the service, the attributes in `service` object. Service Types can
+		the service, and the attributes in a `service` object. Service Types can
 		be specified in this section of this specification, within a <a>DID
 		Method</a> specification, or in a DID Resolution Extension
 		[[?DID-EXTENSIONS-RESOLUTION]]. <a>DID Resolvers</a> SHOULD support the
@@ -1354,7 +1354,7 @@ dereference(didUrl, dereferenceOptions) →
 					<p class="issue">TODO: Specify the algorithm for processing the `hl` DID parameter.</p>
 				</li>
 				<li>If the <var>input <a>DID URL</a></var> contains one or more
-				query parameters a <a>DID URL dereferencer</a> MUST examine all
+				query parameters, a <a>DID URL dereferencer</a> MUST examine all
 				query parameters present in the input <a>DID URL</a> and
 				process those that affect dereferencing behavior.
 				
