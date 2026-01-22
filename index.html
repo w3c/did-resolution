@@ -128,20 +128,16 @@
   <body data-cite="infra rfc3986">
     <section id='abstract'>
       <p>
-Decentralized identifiers (DIDs) are a new type of identifier for
-verifiable, "self-sovereign" digital identity. DIDs are fully under the
-control of the DID controller, independent from any centralized registry,
-identity provider, or certificate authority. DIDs resolve to DID
-Documents — simple documents that describe how to use that specific DID.
-      </p>
-
-      <p>
-This document specifies the algorithms and guidelines for resolving DIDs
-and dereferencing DID URLs. Additionally, this document describes the
-input and output metadata related to the DID resolution processes and
-further describes the data structures that may be returned from a DID resolution
-request.  This document relies on the core DID specification,
-<a href="https://www.w3.org/TR/did-1.1/">Decentralized Identifiers (DIDs) v1.1</a>,
+Decentralized identifier (DID) resolution is the process of obtaining
+a DID document and accompanying metadata for a specific DID. The process
+takes a DID and a set of resolution options as its input and returns a
+DID document and associated metadata about the resolved document and the 
+resolution request. A resolved DID document is a set of information which
+enables cryptographically verifiable interactions with the DID subject,
+including mechanisms such as cryptographic public keys. This specification
+covers the algorithms and guidelines to be used for DID resolution and
+relies on the core DID specification,
+[[[DID]]],
 which describes the underlying DID architecture in full detail.
       </p>
     </section>
@@ -228,9 +224,21 @@ which describes the underlying DID architecture in full detail.
 		</p>
 
 		<p>
+			A <dfn class="lint-ignore">conforming network-based DID resolver</dfn> is a
+			[=conforming DID resolver=] that additionally complies with the normative statements
+			in [[[#bindings-https]]].
+		</p>
+
+		<p>
 			A <dfn class="lint-ignore">conforming DID URL dereferencer</dfn> is any
 			algorithm realized as software and/or hardware that complies with the relevant
 			normative statements in <a href="#dereferencing"></a>.
+		</p>
+
+		<p>
+			A <dfn class="lint-ignore">conforming network-based DID URL dereferencer</dfn> is a
+			[=conforming DID URL dereferencer=] that additionally complies with the normative
+			statements in [[[#bindings-https]]].
 		</p>
 
 	</section>
@@ -398,12 +406,7 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 				Identifies a certain version timestamp of a <a>DID document</a> to be resolved.
 				That is, the most recent version of the <a>DID document</a> that was valid for a <a>DID</a>
 				before the specified `versionTime`. If present, the associated value
-				MUST be an <a data-lt="ascii string">ASCII string</a> which is a valid XML
-				datetime value, as defined in section 3.3.7 of <a
-					href="https://www.w3.org/TR/xmlschema11-2/">W3C XML Schema Definition Language
-				(XSD) 1.1 Part 2: Datatypes</a> [[XMLSCHEMA11-2]]. This datetime value MUST be
-				normalized to UTC 00:00:00 and without sub-second decimal precision.
-				For example: <code>2020-12-20T19:17:47Z</code>.
+				MUST be represented in the datetime format as defined in <a href="#datetime"></a>.
 			</td>
 		</tr>
 
@@ -440,6 +443,19 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 		dereferenced</em>.
 	</p>
 
+	<section id="datetime">
+		<h3>Datetime</h3>
+
+		<p>
+			All datetime values in this specification MUST be an <a	data-lt="ascii string">
+				ASCII string</a> which is a valid XML datetime value defined by the 
+			[[VC-DATA-MODEL]] in <a data-cite="vc-data-model#representing-time"></a>. 
+			Additionally, timestamps used in DID Resolution MUST be adjusted to UTC 
+			without sub-second decimal precision. For example: <code>2020-12-20T19:17:47Z</code>
+		</p>
+
+	</section>
+
 </section>
 
 <section id="resolving">
@@ -450,7 +466,7 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 		document</a> by using the "Read" operation of the applicable <a>DID method</a>
 		as described in <a data-cite="did-core#method-operations">Method Operations</a>.
 	</p>
-	<p>	All conforming <a>DID resolvers</a> implement the function below, which has the
+	<p>	All [=conforming DID resolvers=] implement the function below, which has the
 		following abstract form:
 	</p>
 
@@ -460,9 +476,9 @@ resolve(did, resolutionOptions) →
       </pre>
 
 	<p>
-		All conformant <a>DID resolvers</a> MUST implement the <a>DID resolution</a>
+		All [=conforming DID resolvers=] MUST implement the <a>DID resolution</a>
 		function for at least one <a>DID method</a> and MUST be able to return a
-		<a>DID document</a> in at least one conformant <a>representation</a>.
+		<a>DID document</a>.
 	</p>
 
 	<p>
@@ -637,9 +653,8 @@ resolve(did, resolutionOptions) →
 				error
 			</dt>
 			<dd>
-				An error data structure defined in [[RFC9457]]. This property is REQUIRED when there is an error
-                in the resolution process. The errors defined by this specification and can be found in
-                Section <a href="#errors"></a>.
+				An error data structure is defined in [[RFC9457]]. The errors defined by this specification can
+				be found in Section <a href="#errors"></a>.
                 Additional errors SHOULD be registered in the DID Resolution Extensions [[?DID-EXTENSIONS-RESOLUTION]].
 			</dd>
 
@@ -870,7 +885,7 @@ string">ASCII string</a>.
 
 	<section id="resolving-algorithm">
 		<h2>DID Resolution Algorithm</h2>
-		<p>The following <a>DID resolution</a> algorithm MUST be implemented by a conformant <a>DID resolver</a>.</p>
+		<p>A <a>DID resolver</a> implements the following <a>DID resolution</a> algorithm.</p>
 		<ol class="algorithm">
 			<li>Validate that the <var>input <a>DID</a></var> conforms to the `did` rule of the
 			<a href="https://www.w3.org/TR/did-core/#did-syntax">DID Syntax</a>.
@@ -889,13 +904,28 @@ string">ASCII string</a>.
 				<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
 			</ol>
 			</li>
+			<li>
+				Determine whether the <var>input <a href="#did-resolution-options">DID resolution options</a></var>
+				are supported by the <a>DID resolver</a> that implements this algorithm. If not, the <a>DID resolver</a>
+				MUST return the following result:
+				<ol class="algorithm">
+					<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <a href="#FEATURE_NOT_SUPPORTED">FEATURE_NOT_SUPPORTED</a></li>
+					<li><b>didDocument</b>: <code>null</code></li>
+					<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
+				</ol>
+			</li>
+			<li>
+				Determine whether the <var>input <a href="#did-resolution-options">DID resolution options</a></var>
+				are valid. If not, the <a>DID resolver</a> MUST return the following result:
+				<ol class="algorithm">
+					<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <a href="#INVALID_OPTIONS">INVALID_OPTIONS</a></li>
+					<li><b>didDocument</b>: <code>null</code></li>
+					<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
+				</ol>
+			</li>
 			<li>Obtain the <a>DID document</a> for the <var>input <a>DID</a></var> by executing the
 			<a href="https://www.w3.org/TR/did-core/#method-operations">Read</a> operation, as defined by the <var>input <a>DID method</a></var>:
 			<ol class="algorithm">
-				<li>Besides the <var>input <a>DID</a></var>, all additional <var>resolution options</var> of
-				this algorithm MUST be passed to the
-				<a href="https://www.w3.org/TR/did-core/#method-operations">Read</a> operation of the
-				<var>input <a>DID method</a></var>.</li>
 				<li>If the <var>input <a>DID</a></var> does not exist, return the following result:
 				<ol class="algorithm">
 					<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <a href="#NOT_FOUND">NOT_FOUND</a></li>
@@ -912,8 +942,7 @@ string">ASCII string</a>.
 				</li>
 				<li>Otherwise, the result of the <a href="https://www.w3.org/TR/did-core/#method-operations">Read</a> operation
 					is called the <var>output <a>DID document</a></var>. This result MUST be represented in a
-					<a href="https://www.w3.org/TR/did-core/#representations">conformant representation</a> that
-					corresponds to the <b>accept</b> <var>input <a href="#did-resolution-options">DID resolution option</a></var>.</li>
+					<a href="https://www.w3.org/TR/did-core/#representations">conformant representation</a>.</li>
 			</ol>
 			<li>If the <var>input <a href="#did-resolution-options">DID resolution options</a></var> contain the <code>expandRelativeUrls</code> option with a value of <code>true</code>:
 				<ol class="algorithm">
@@ -947,6 +976,16 @@ string">ASCII string</a>.
 				</ol>
 			</li>
 		</ol>
+
+		<p>
+			If the <a>DID resolver</a> encounters any unexpected errors during the execution of the DID Resolution algorithm,
+			it MUST return the following result:
+			<ol class="algorithm">
+				<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <a href="#INTERNAL_ERROR">INTERNAL_ERROR</a></li>
+				<li><b>didDocument</b>: <code>null</code></li>
+				<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
+			</ol>
+		</p>
 
 	</section>
 
@@ -1027,7 +1066,7 @@ external resources.
 	</div>
 
 	<p>
-		All conforming <a>DID URL dereferencers</a> implement the
+		All [=conforming DID URL dereferencers=] implement the
 		function below, which has the following abstract form:
 	</p>
 
@@ -1035,6 +1074,12 @@ external resources.
 dereference(didUrl, dereferenceOptions) →
    « dereferencingMetadata, contentStream, contentMetadata »
       </pre>
+
+	<p>
+		All [=conforming DID URL dereferencers=] MUST implement the [=DID URL dereferencing=]
+		function for at least one [=DID method=]. All inputs and outputs of the <code>dereference</code>
+		function apart from [=contentStream=] MUST be serializable to JSON.
+	</p>
 
 	<p>
 		The input variables of the <code>dereference</code> function are as follows:
@@ -1235,7 +1280,7 @@ dereference(didUrl, dereferenceOptions) →
 
 	<section id="dereferencing-algorithm">
 		<h2>DID URL Dereferencing Algorithm</h2>
-		<p>The following <a>DID URL dereferencing</a> algorithm MUST be implemented by a conformant <a>DID resolver</a>.
+		<p>A <a>DID URL dereferencer</a> implements the following <a>DID URL dereferencing</a> algorithm.
 		In accordance with [[RFC3986]], it consists of the following three steps: resolving the DID; dereferencing the
 		resource; and dereferencing the fragment (only if the <var>input <a>DID URL</a></var> contains a <a>DID fragment</a>):</p>
 
@@ -1579,13 +1624,8 @@ dereference(didUrl, dereferenceOptions) →
 			<a data-cite="INFRA#sets">set</a>,
 		<a data-cite="INFRA#boolean">boolean</a>, or
 		<a data-cite="INFRA#nulls">null</a>. The values within any complex data
-		structure such as a map or list MUST be one of these data types as well.
-		All metadata property definitions registered in the DID Resolution Extensions
-		[[?DID-EXTENSIONS-RESOLUTION]] MUST define the value type, including any
-		additional formats or restrictions to that value (for example, a string
-		formatted as a date). It is RECOMMENDED that property
-		definitions use strings for values. The entire metadata structure MUST be
-		serializable according to the <a
+		structure such as a map or list MUST also be one of these data types.
+		The entire metadata structure MUST be serializable according to the <a
 			data-cite="INFRA#serialize-an-infra-value-to-json-bytes">JSON
 		serialization rules</a> in the [[INFRA]] specification. Implementations MAY
 		serialize the metadata structure to other data formats.
@@ -1815,9 +1855,7 @@ dereference(didUrl, dereferenceOptions) →
 
         <p>
             To enable <a>verifiable reads</a>, many DID methods use digital signatures, state proofs, proofs of
-            inclusion in Merkle trees, cryptographic event logs, or other types of proofs. If a <a>DID method</a>
-            uses such proofs, it MUST specify in its DID method specification how they are used for
-            verification of the correctness of the result of a "Read" operation.
+            inclusion in Merkle trees, cryptographic event logs, or other types of proofs.
         </p>
 
         <p>
@@ -1924,8 +1962,7 @@ dereference(didUrl, dereferenceOptions) →
 		<section id="resolver-architectures-multiple">
 			<h2>Multiple Methods</h2>
 
-			<p>A <a>DID resolver</a> MUST support the <a>DID resolution</a> algorithm for at least one <a>DID method</a> and
-				MAY support it for multiple <a>DID methods</a>:</p>
+			<p>A <a>DID resolver</a> might support the <a>DID resolution</a> algorithm for multiple <a>DID methods</a>:</p>
 			<figure id="figure-resolver-multiple">
 				<img style="margin: auto; display: block; width: 100%; margin-bottom: 20px;" src="diagrams/section-7/resolver-multiple.svg"
 					 alt="Diagram showing a DID resolver that supports multiple DID methods.">
@@ -2250,26 +2287,10 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 		</dd>
 		<dt id="FEATURE_NOT_SUPPORTED">FEATURE_NOT_SUPPORTED</dt>
 		<dd>
-		The <a>DID resolver</a> does not support the requested feature. The value of the `detail` field SHOULD provide a longer description of the feature that is not supported by the resolver.
+		The <a>DID resolver</a> does not support the requested feature. The value of the `detail` field
+		SHOULD provide a longer description of the feature that is not supported by the resolver.
 		</dd>
-        <dt id="INVALID_PUBLIC_KEY">https://w3id.org/security#INVALID_PUBLIC_KEY</dt>
-		<dd>
-			An invalid public key value is detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>.
-		</dd>
-        <dt id="INVALID_PUBLIC_KEY_LENGTH">https://w3id.org/security#INVALID_PUBLIC_KEY_LENGTH</dt>
-		<dd>
-			The byte length of <i>rawPublicKeyBytes</i> did not match the expected public key length for the associated multicodecValue
-            during <a>DID Resolution</a> or <a>DID URL dereferencing</a>.
-		</dd>
-        <dt id="INVALID_PUBLIC_KEY_TYPE">https://w3id.org/security#INVALID_PUBLIC_KEY_TYPE</dt>
-		<dd>
-			An invalid public key type was detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>.
-		</dd>
-        <dt id="UNSUPPORTED_PUBLIC_KEY_TYPE">https://w3id.org/security#UNSUPPORTED_PUBLIC_KEY_TYPE</dt>
-		<dd>
-			An unsupported public key type was detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>.
-		</dd>
-	  </dl>
+		</dl>
 	  <dl>
 	</dl>
 
@@ -2439,33 +2460,9 @@ Accept: application/did-url-dereferencing
 							<code>501</code>
 						</td>
 					</tr>
-          <tr>
+					<tr>
 						<td>
-							<code>INVALID_PUBLIC_KEY</code>
-						</td>
-						<td>
-							<code>500</code>
-						</td>
-					</tr>
-          <tr>
-						<td>
-							<code>INVALID_PUBLIC_KEY_LENGTH</code>
-						</td>
-						<td>
-							<code>500</code>
-						</td>
-					</tr>
-          <tr>
-						<td>
-							<code>INVALID_PUBLIC_KEY_TYPE</code>
-						</td>
-						<td>
-							<code>500</code>
-						</td>
-					</tr>
-          <tr>
-						<td>
-							<code>UNSUPPORTED_PUBLIC_KEY_TYPE</code>
+							<code>FEATURE_NOT_SUPPORTED</code>
 						</td>
 						<td>
 							<code>501</code>
@@ -2672,28 +2669,20 @@ Content-Type: application/did
 <section id="security-considerations">
 	<h1>Security Considerations</h1>
 
+		<p>
+	This section contains a variety of security considerations that people using DID Resolution in production
+	settings are advised to consider.	Readers are urged to familiarize themselves with the general
+	security advice provided in the
+	<a href="https://www.w3.org/TR/did-1.1/#security-considerations">
+	Security Considerations section of the Decentralized Identifiers
+	specification</a> before reading this section.
+	</p>
+
 	<section id="authentication">
 		<h2>Authentication/Authorization</h2>
 		<p><a>DID resolution</a> and <a>DID URL dereferencing</a> do not involve any authentication or authorization
 		functionality. Similar to DNS resolution, anybody can perform the process, without requiring any credentials
 		or non-public knowledge.</p>
-
-		<p class="issue" data-number="38"></p>
-
-		<div class="issue">
-		<p>Explain that DIDs are not necessarily <em>globally</em> resolvable, such as pairwise or N-wise
-		"peer" DIDs.</p>
-		<p>See [[RFC3339]]:
-		<em> URIs have a global scope and are interpreted consistently regardless of context, though the
-		result of that interpretation may be in relation to the end-user's context.</em>
-		</p>
-		<p>An advanced idea is that the result of DID resolution could be contextual or depend on policies,
-		see <a href="https://github.com/w3c/did-resolution/issues/28#issuecomment-510592199">this comment</a>.</p>
-		</div>
-
-		<p class="issue">A related topic is whether (parts of) DID document could be encrypted, e.g.,
-		<a href="https://github.com/w3c/did-core/issues/25">w3c/did-core/issues/25</a>. Also see the use
-		of the fragment in the <a href="https://did-ipid.github.io/ipid-did-method/">IPID</a> DID method.</p>
 
 	</section>
 
@@ -2794,6 +2783,15 @@ Content-Type: application/did
 </section>
 <section id="privacy-considerations">
 	<h1>Privacy Considerations</h1>
+
+	<p>
+	This section details the privacy considerations specific to DID Resolution.
+	Readers are urged to familiarize themselves with the general
+	privacy advice provided in the
+	<a href="https://www.w3.org/TR/did-1.1/#privacy-considerations">
+	Privacy Considerations section of the Decentralized Identifiers
+	specification</a> before reading this section.
+	</p>
 
 	<section id="profiling-requesters">
 		<h2>Profiling of DID Resolution and Dereferencing Requesters</h2>
