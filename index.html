@@ -2252,43 +2252,52 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 		<dt id="INVALID_DID">INVALID_DID</dt>
 		<dd>
 			An invalid DID was detected during <a>DID Resolution</a>. See Section <a href="#resolving-algorithm"></a>.
+			<div><code>https://www.w3.org/ns/did#INVALID_DID</code></div>
 		</dd>
 		<dt id="INVALID_DID_DOCUMENT">INVALID_DID_DOCUMENT</dt>
 		<dd>
             The [=DID document=] was malformed. See Section <a href="#resolving-algorithm"></a>.
+			<div><code>https://www.w3.org/ns/did#INVALID_DID_DOCUMENT</code></div>
 		</dd>
         <dt id="NOT_FOUND">NOT_FOUND</dt>
 		<dd>
             The <a>DID resolver</a> was unable to find the <a>DID document</a>
 			resulting from this resolution request. See Section <a href="#resolving-algorithm"></a>.
+			<div><code>https://www.w3.org/ns/did#NOT_FOUND</code></div>
 		</dd>
         <dt id="REPRESENTATION_NOT_SUPPORTED">REPRESENTATION_NOT_SUPPORTED</dt>
 		<dd>
 			The <a>representation</a> requested via the <code>accept</code> input metadata property
             is not supported by the <a>DID method</a> and/or <a>DID resolver</a> implementation.
             See Section <a href="#resolving-algorithm"></a>.
+			<div><code>https://www.w3.org/ns/did#REPRESENTATION_NOT_SUPPORTED</code></div>
 		</dd>
         <dt id="INVALID_DID_URL">INVALID_DID_URL</dt>
 		<dd>
 			An invalid <a>DID URL</a> was detected during <a>DID URL dereferencing</a>.
             See Section <a href="#dereferencing-algorithm"></a>
+			<div><code>https://www.w3.org/ns/did#INVALID_DID_URL</code></div>
 		</dd>
         <dt id="METHOD_NOT_SUPPORTED">METHOD_NOT_SUPPORTED</dt>
 		<dd>
 			The DID method of the DID is not supported by the <a>DID resolver</a>. See Section <a href="#resolving-algorithm"></a>.
+			<div><code>https://www.w3.org/ns/did#METHOD_NOT_SUPPORTED</code></div>
 		</dd>
         <dt id="INVALID_OPTIONS">INVALID_OPTIONS</dt>
 		<dd>
 			One or more of the options provided for <a>DID Resolution</a> or <a>DID URL dereferencing</a> are invalid.
+			<div><code>https://www.w3.org/ns/did#INVALID_OPTIONS</code></div>
 		</dd>
         <dt id="INTERNAL_ERROR">INTERNAL_ERROR</dt>
 		<dd>
 			An unexpected error occured during <a>DID Resolution</a> or <a>DID URL dereferencing</a>.
+			<div><code>https://www.w3.org/ns/did#INTERNAL_ERROR</code></div>
 		</dd>
 		<dt id="FEATURE_NOT_SUPPORTED">FEATURE_NOT_SUPPORTED</dt>
 		<dd>
 		The <a>DID resolver</a> does not support the requested feature. The value of the `detail` field
 		SHOULD provide a longer description of the feature that is not supported by the resolver.
+			<div><code>https://www.w3.org/ns/did#FEATURE_NOT_SUPPORTED</code></div>
 		</dd>
 		</dl>
 	  <dl>
