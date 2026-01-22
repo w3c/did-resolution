@@ -1493,17 +1493,28 @@ dereference(didUrl, dereferenceOptions) →
 						longest matching prefix. That service MUST be used for
 						path resolution.
 						<ol class="algorithm">
-							<li>If two or more services have the
-							same longest matching prefix, the resolver MUST return
-							an error indicating that duplicate services were found.</li>
+							<li>If two or more services have the same longest
+							matching prefix, the resolver MUST return the
+							following result:
+								<ol class="algorithm">
+									<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#DUPLICATE_SERVICES_FOUND">DUPLICATE_SERVICES_FOUND</a></li>
+									<li><b>contentStream</b>: <code>null</code></li>
+									<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
+								</ol>
+							</li>
 							<li>If no matching service is found and the <a>DID
 							Method</a> specifies its own path handling
 							algorithm, use that algorithm, skipping the rest of
 							this path handling.</li>
 							<li>If no matching service is found and there is no
 							<a>DID Method</a> specific path handling, the
-							resolver MUST return an error indicating that no
-							applicable service was found.</li>
+							resolver MUST return the following result:
+								<ol class="algorithm">
+									<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#NOT_FOUND">NOT_FOUND</a></li>
+									<li><b>contentStream</b>: <code>null</code></li>
+									<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
+								</ol>
+							</li>
 						</ol>
 					</li>
 					<li>
@@ -1522,17 +1533,29 @@ dereference(didUrl, dereferenceOptions) →
 								the <a href="#pathservice-service-type">`PathService`
 								Service Type</a> section for its definition.
 							</li>
+							<li>If no `service` is found with a known `type` the
+							resolver MUST return the following result:
+								<ol class="algorithm">
+									<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#NOT_FOUND">NOT_FOUND</a></li>
+									<li><b>contentStream</b>: <code>null</code></li>
+									<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
+								</ol>
+							</li>
 						</ol>
 					</li>
 					<li>If the query parameter `relativeRef` is present, decode
 					its percent-encoded (as specified in <a
 					data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>)
 					value and append it to the resource URL.</li>
-					<li>Return the resource URL as the result of the
-					DID URL Resolution, along with the appropriate DID
-					Resolution Metadata.</li>
+					<li>Return the following result:
+						<ol class="algorithm">
+							<li><b>dereferencingMetadata</b>: <code>«[ ... ]»</code></li>
+							<li><b>content</b>: <code>« the resource URL »</code></li>
+							<li><b>contentMetadata</b>: <code>«[ "contentType" → "text/uri-list", ... ]»</code></li>
+						</ol>
+					</li>
+				</ol>
 			</ol>
-
 		</section>
 
 		<section id="dereferencing-algorithm-fragment">
@@ -2353,6 +2376,10 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
         <dt id="METHOD_NOT_SUPPORTED">METHOD_NOT_SUPPORTED</dt>
 		<dd>
 			The DID method of the DID is not supported by the <a>DID resolver</a>. See Section <a href="#resolving-algorithm"></a>.
+		</dd>
+        <dt id="DUPLICATE_SERVICES_FOUND">DUPLICATE_SERVICES_FOUND</dt>
+		<dd>
+			In  <a>DID URL dereferencing</a> with a path component, multiple `service` entries were found identical `basePath` values. See Section <a href="#dereferencing-algorithm"></a>.
 		</dd>
         <dt id="INVALID_OPTIONS">INVALID_OPTIONS</dt>
 		<dd>
