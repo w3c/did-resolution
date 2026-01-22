@@ -387,17 +387,17 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 				<code>relativeRef</code>
 			</td>
 			<td>
-				A relative reference (path, query parameters and/or fragment) as defined by <a
+				A relative reference (path, query parameters, and/or fragment) as defined by <a
 					data-cite="RFC3986#section-4.2">RFC3986 Section 4.2</a> that is appended to either:
 					<ul>
 						<li>the [=DID service endpoint=](s), selected from a
 						<a>DID document</a> by using the `service` or
 						`serviceType` query parameters.</li>
-						<li>a resource URL generated from DID URL that contains
+						<li>a <a>DID resource URL</a> generated from DID URL that contains
 						a path component.</li>
 					</ul>
 				If present, the associated value MUST be an <a
-					data-lt="ascii string">ASCII string</a> and MUST use percent-encoding for
+				data-lt="ascii string">ASCII string</a> and MUST use percent-encoding for
 				certain characters as specified in <a data-cite="RFC3986#section-2.1">RFC3986
 				Section 2.1</a>.
 			</td>
@@ -475,7 +475,7 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 	<h2>DID Service Types</h2>
 
 	<p>
-		DID Documents can contain `services`, each of which have a `type`. The
+		DID Documents can contain `services`, each of which has a `type`. The
 		`type` defines the kind of service being described by the
 		`serviceEndpoint` attribute. Such a specification can define the
 		semantics of the service, the protocol(s) to be used to interact with
