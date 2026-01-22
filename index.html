@@ -895,7 +895,7 @@ string">ASCII string</a>.
 			<a href="https://www.w3.org/TR/did-core/#did-syntax">DID Syntax</a>.
 			If not, the <a>DID resolver</a> MUST return the following result:
 			<ol class="algorithm">
-				<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <a href="#INVALID_DID">INVALID_DID</a></li>
+				<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <code><a href="#INVALID_DID">https://www.w3.org/ns/did#INVALID_DID</a></code></li>
 				<li><b>didDocument</b>: <code>null</code></li>
 				<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
 			</ol>
@@ -903,7 +903,7 @@ string">ASCII string</a>.
 			<li>Determine whether the DID method of the <var>input <a>DID</a></var> is supported by the <a>DID resolver</a>
 			that implements this algorithm. If not, the <a>DID resolver</a> MUST return the following result:
 			<ol class="algorithm">
-				<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <a href="#METHOD_NOT_SUPPORTED">METHOD_NOT_SUPPORTED</a></li>
+				<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <code><a href="#METHOD_NOT_SUPPORTED">https://www.w3.org/ns/did#METHOD_NOT_SUPPORTED</a></code></li>
 				<li><b>didDocument</b>: <code>null</code></li>
 				<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
 			</ol>
@@ -913,7 +913,7 @@ string">ASCII string</a>.
 				are supported by the <a>DID resolver</a> that implements this algorithm. If not, the <a>DID resolver</a>
 				MUST return the following result:
 				<ol class="algorithm">
-					<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <a href="#FEATURE_NOT_SUPPORTED">FEATURE_NOT_SUPPORTED</a></li>
+					<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <code><a href="#FEATURE_NOT_SUPPORTED">https://www.w3.org/ns/did#FEATURE_NOT_SUPPORTED</a></code></li>
 					<li><b>didDocument</b>: <code>null</code></li>
 					<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
 				</ol>
@@ -922,7 +922,7 @@ string">ASCII string</a>.
 				Determine whether the <var>input <a href="#did-resolution-options">DID resolution options</a></var>
 				are valid. If not, the <a>DID resolver</a> MUST return the following result:
 				<ol class="algorithm">
-					<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <a href="#INVALID_OPTIONS">INVALID_OPTIONS</a></li>
+					<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <code><a href="#INVALID_OPTIONS">https://www.w3.org/ns/did#INVALID_OPTIONS</a></code></li>
 					<li><b>didDocument</b>: <code>null</code></li>
 					<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
 				</ol>
@@ -932,7 +932,7 @@ string">ASCII string</a>.
 			<ol class="algorithm">
 				<li>If the <var>input <a>DID</a></var> does not exist, return the following result:
 				<ol class="algorithm">
-					<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <a href="#NOT_FOUND">NOT_FOUND</a></li>
+					<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <code><a href="#NOT_FOUND">https://www.w3.org/ns/did#NOT_FOUND</a></code></li>
 					<li><b>didDocument</b>: <code>null</code></li>
 					<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
 				</ol>
@@ -985,7 +985,7 @@ string">ASCII string</a>.
 			If the <a>DID resolver</a> encounters any unexpected errors during the execution of the DID Resolution algorithm,
 			it MUST return the following result:
 			<ol class="algorithm">
-				<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <a href="#INTERNAL_ERROR">INTERNAL_ERROR</a></li>
+				<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <code><a href="#INTERNAL_ERROR">https://www.w3.org/ns/did#INTERNAL_ERROR</a></code></li>
 				<li><b>didDocument</b>: <code>null</code></li>
 				<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
 			</ol>
@@ -1295,7 +1295,7 @@ dereference(didUrl, dereferenceOptions) →
 					<a href="https://www.w3.org/TR/did-core/#did-url-syntax">DID URL Syntax</a>.
 					If not, the <a>DID URL dereferencer</a> MUST return the following result:
 					<ol class="algorithm">
-						<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#INVALID_DID_URL">INVALID_DID_URL</a></li>
+						<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <code><a href="#INVALID_DID_URL">https://www.w3.org/ns/did#INVALID_DID_URL</a></code></li>
 						<li><b>contentStream</b>: <code>null</code></li>
 						<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
 					</ol>
@@ -1309,7 +1309,7 @@ dereference(didUrl, dereferenceOptions) →
 				<li>If the <var>input <a>DID</a></var> does not exist in the VDR, the <a>DID URL dereferencer</a>
 						MUST return the following result:
 						<ol class="algorithm">
-							<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#NOT_FOUND">NOT_FOUND</a></li>
+							<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <code><a href="#NOT_FOUND">https://www.w3.org/ns/did#NOT_FOUND</a></code></li>
 							<li><b>contentStream</b>: <code>null</code></li>
 							<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
 						</ol>
@@ -1423,7 +1423,7 @@ dereference(didUrl, dereferenceOptions) →
 						</li>
 						<li>Otherwise, return the following result:
 							<ol class="algorithm">
-								<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#REPRESENTATION_NOT_SUPPORTED">REPRESENTATION_NOT_SUPPORTED</a></li>
+								<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <code><a href="#REPRESENTATION_NOT_SUPPORTED">https://www.w3.org/ns/did#REPRESENTATION_NOT_SUPPORTED</a></code></li>
 								<li><b>content</b>: <code>null</code></li>
 								<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
 							</ol>
@@ -1453,7 +1453,7 @@ dereference(didUrl, dereferenceOptions) →
 				<li>If neither this algorithm, nor the applicable <a>DID method</a>, nor an extension, nor the client
 				is able to dereference the <var>input <a>DID URL</a></var>, return the following result:
 				<ol class="algorithm">
-					<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#NOT_FOUND">NOT_FOUND</a></li>
+					<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <code><a href="#NOT_FOUND">https://www.w3.org/ns/did#NOT_FOUND</a></code></li>
 					<li><b>contentStream</b>: <code>null</code></li>
 					<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
 				</ol>
