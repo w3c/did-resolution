@@ -383,17 +383,17 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 				<code>relativeRef</code>
 			</td>
 			<td>
-				A relative reference (path, query parameters and/or fragment) as defined by <a
+				A relative reference (path, query parameters, and/or fragment) as defined by <a
 					data-cite="RFC3986#section-4.2">RFC3986 Section 4.2</a> that is appended to either:
 					<ul>
 						<li>the <a>service endpoint</a>(s), selected from a
 						<a>DID document</a> by using the `service` or
 						`serviceType` query parameters.</li>
-						<li>a resource URL generated from DID URL that contains
+						<li>a <a>DID resource URL</a> generated from DID URL that contains
 						a path component.</li>
 					</ul>
 				If present, the associated value MUST be an <a
-					data-lt="ascii string">ASCII string</a> and MUST use percent-encoding for
+				data-lt="ascii string">ASCII string</a> and MUST use percent-encoding for
 				certain characters as specified in <a data-cite="RFC3986#section-2.1">RFC3986
 				Section 2.1</a>.
 			</td>
@@ -471,7 +471,7 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 	<h2>DID Service Types</h2>
 
 	<p>
-		DID Documents can contain `services`, each of which have a `type`. The
+		DID Documents can contain `services`, each of which has a `type`. The
 		`type` defines the kind of service being described by the
 		`serviceEndpoint` attribute. Such a specification can define the
 		semantics of the service, the protocol(s) to be used to interact with
@@ -496,7 +496,7 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 		<p>During the <a href="#dereferencing-algorithm"></a> where a DID URL
 		path is present, if the selected service to be used for DID URL path
 		handling is of type `PathService`, the following MUST be
-		performed to generate the resource URL. The input to this algorithm is
+		performed to generate the <a>DID resource URL</a>. The input to this algorithm is
 		a calculated path obtained by removing the selected `basePath` as a
 		case‑sensitive string match from the beginning of the DID URL path.
 			<ol class="algorithm">
@@ -505,8 +505,8 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 				<li>Append the input calculated path to the
 				`serviceEndpoint` path (if any), accounting for any
 				query parameters in the `serviceEndpoint`, to form a
-				valid resource URL</li>
-				<li>The result is the resource URL to be returned to continue
+				valid <a>DID resource URL</a></li>
+				<li>The result is the <a>DID resource URL</a> to be returned to continue
 				the DID URL path handling algorithm.</li>
 			</ol>
 		</p>
@@ -1353,27 +1353,11 @@ dereference(didUrl, dereferenceOptions) →
 					<pre class="example nohighlight">did:example:1234?hl=zQmWvQxTqbG2Z9HPJgG57jjwR154cKhbtJenbyYTWkjgF3e</pre>
 					<p class="issue">TODO: Specify the algorithm for processing the `hl` DID parameter.</p>
 				</li>
-				<li>If the <var>input <a>DID URL</a></var> contains one or more
-				query parameters, a <a>DID URL dereferencer</a> MUST examine all
-				query parameters present in the input <a>DID URL</a> and
-				process those that affect dereferencing behavior.
-				
-				<p>Some query parameters are defined by this specification (<a
-				href="#did-parameters">here</a>), while others can be defined by
-				the applicable <a>DID Method</a> specification, or in the DID
-				Resolution Extensions [[?DID-EXTENSIONS-RESOLUTION]]. Query
-				parameters that are not supported by the <a>DID URL
-				dereferencer</a> MUST be ignored. Supported query parameters MAY
-				influence service selection, resource construction, or the form
-				of the dereferencing result.</p>
-				
-				The following algorithm defines the processing
-				rules defined for the <a
-				href="https://www.w3.org/TR/did-core/#did-parameters">
-					DID parameter</a> `service` and/or the <a href="https://www.w3.org/TR/did-core/#did-parameters">
-					DID parameter</a> `serviceType`, and optionally the
-					<a data-cite="did-core#did-parameters">DID parameter</a> `relativeRef`:</p>
-
+				<li>If the <var>input <a>DID URL</a></var> contains the
+				<a href="https://www.w3.org/TR/did-core/#did-parameters">
+					DID parameter</a> <code>service</code> and/or the <a href="https://www.w3.org/TR/did-core/#did-parameters">
+					DID parameter</a> <code>serviceType</code>, and optionally the
+					<a data-cite="did-core#did-parameters">DID parameter</a> <code>relativeRef</code>:
 					<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest</pre>
 					<ol class="algorithm">
 						<li>From the <var>resolved <a>DID document</a></var>, select all
@@ -1468,7 +1452,7 @@ dereference(didUrl, dereferenceOptions) →
 					</ol>
 				</li>
 
-				<li>If the <var>input <a>DID URL</a></var> contains a <a>DID path</a>:
+				<li>If the <var>input <a>DID URL</a></var> contains a <a>DID path</a> calculate and return a <a>DID resource URL</a> as follows:
 				<pre class="example nohighlight">did:example:1234/path/to/resource</pre>
 				<ol class="algorithm">
 					<li>Extract the path component from the <a>DID URL</a>.</li>
@@ -1476,9 +1460,8 @@ dereference(didUrl, dereferenceOptions) →
 						Collect from the resolved <a>DID Document</a> a list of `service`
 						objects with `type` values that the DID
 						Resolver supports for path handling. At minimum, that
-						will include the `type` values defined in
-						this specification (<a
-						href="#did-service-types">here</a>), plus any
+						will include the `type` values <a
+						href="#did-service-types">defined in this specification</a>), plus any
 						`type` values that are DID Method-specific or
 						DID Resolution Extensions [[?DID-EXTENSIONS-RESOLUTION]]
 						supported by the DID Resolver. Such
@@ -1490,12 +1473,12 @@ dereference(didUrl, dereferenceOptions) →
 						Find the services whose `basePath` value is a
 						case-sensitive string prefix of the extracted path.
 						Among all matching services, select the one with the
-						longest matching prefix. That service MUST be used for
+						longest-matching prefix. That service MUST be used for
 						path resolution.
 						<ol class="algorithm">
-							<li>If two or more services have the same longest
-							matching prefix, the resolver MUST return the
-							following result:
+							<li>If two or more services have the same
+							longest-matching prefix, the resolver MUST return
+							the following result:
 								<ol class="algorithm">
 									<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#DUPLICATE_SERVICES_FOUND">DUPLICATE_SERVICES_FOUND</a></li>
 									<li><b>contentStream</b>: <code>null</code></li>
@@ -1519,7 +1502,7 @@ dereference(didUrl, dereferenceOptions) →
 					</li>
 					<li>
 						Use the `type` of the selected `service` to assemble the
-						resource URL. The algorithm for assembling the resource URL MUST
+						<a>DID resource URL</a>. The algorithm for assembling the <a>DID resource URL</a> MUST
 						be defined by the `type` of the selected `service`. A
 						service type specification can appear in the <a
 						href="#did-service-types"></a> section of this document,
@@ -1546,11 +1529,26 @@ dereference(didUrl, dereferenceOptions) →
 					<li>If the query parameter `relativeRef` is present, decode
 					its percent-encoded (as specified in <a
 					data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>)
-					value and append it to the resource URL.</li>
+					value and append it to the <a>DID resource URL</a>.</li>
+					<li>If the query parameter `relativeRef` is present,
+					execute the algorithm specified in
+					<a data-cite="RFC3986#section-5">RFC3986 Section 5: Reference Resolution</a> as follows:
+						<ol class="algorithm">
+							<li>The <strong>base URI</strong> value is the <a>DID resource URL</a></var>.</li>
+							<li>The <strong>relative reference</strong> is the value of the
+								<a data-cite="did-core#did-parameters">DID
+								parameter</a> <code>relativeRef</code>
+								(percent-decoded as specified in <a
+								data-cite="RFC3986#section-2.1">RFC3986 Section
+								2.1</a>)).</li>
+							<li>Update the <a>DID resource URL</a> to the result of the
+							"Reference Resolution" algorithm.</li>
+						</ol>
+					</li>
 					<li>Return the following result:
 						<ol class="algorithm">
 							<li><b>dereferencingMetadata</b>: <code>«[ ... ]»</code></li>
-							<li><b>content</b>: <code>« the resource URL »</code></li>
+							<li><b>content</b>: <code>« the <a>DID resource URL</a> »</code></li>
 							<li><b>contentMetadata</b>: <code>«[ "contentType" → "text/uri-list", ... ]»</code></li>
 						</ol>
 					</li>
@@ -2379,7 +2377,7 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 		</dd>
         <dt id="DUPLICATE_SERVICES_FOUND">DUPLICATE_SERVICES_FOUND</dt>
 		<dd>
-			In  <a>DID URL dereferencing</a> with a path component, multiple `service` entries were found identical `basePath` values. See Section <a href="#dereferencing-algorithm"></a>.
+			In <a>DID URL dereferencing</a> with a path component, multiple `service` entries were found with identical `basePath` values. See Section <a href="#dereferencing-algorithm"></a>.
 		</dd>
         <dt id="INVALID_OPTIONS">INVALID_OPTIONS</dt>
 		<dd>
