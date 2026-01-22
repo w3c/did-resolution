@@ -131,7 +131,7 @@
 Decentralized identifier (DID) resolution is the process of obtaining
 a DID document and accompanying metadata for a specific DID. The process
 takes a DID and a set of resolution options as its input and returns a
-DID document and associated metadata about the resolved document and the 
+DID document and associated metadata about the resolved document and the
 resolution request. A resolved DID document is a set of information which
 enables cryptographically verifiable interactions with the DID subject,
 including mechanisms such as cryptographic public keys. This specification
@@ -448,9 +448,9 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 
 		<p>
 			All datetime values in this specification MUST be an <a	data-lt="ascii string">
-				ASCII string</a> which is a valid XML datetime value defined by the 
-			[[VC-DATA-MODEL]] in <a data-cite="vc-data-model#representing-time"></a>. 
-			Additionally, timestamps used in DID Resolution MUST be adjusted to UTC 
+				ASCII string</a> which is a valid XML datetime value defined by the
+			[[VC-DATA-MODEL]] in <a data-cite="vc-data-model#representing-time"></a>.
+			Additionally, timestamps used in DID Resolution MUST be adjusted to UTC
 			without sub-second decimal precision. For example: <code>2020-12-20T19:17:47Z</code>
 		</p>
 
@@ -1624,7 +1624,12 @@ dereference(didUrl, dereferenceOptions) →
 			<a data-cite="INFRA#sets">set</a>,
 		<a data-cite="INFRA#boolean">boolean</a>, or
 		<a data-cite="INFRA#nulls">null</a>. The values within any complex data
-		structure such as a map or list MUST also be one of these data types.
+		structure such as a map or list MUST be a
+		<a data-cite="INFRA#string">string</a>, <a data-cite="INFRA#numbers">number</a>,
+			<a data-cite="INFRA#maps">map</a>, <a data-cite="INFRA#lists">list</a>,
+			<a data-cite="INFRA#sets">set</a>,
+		<a data-cite="INFRA#boolean">boolean</a>, or
+		<a data-cite="INFRA#nulls">null</a>.
 		The entire metadata structure MUST be serializable according to the <a
 			data-cite="INFRA#serialize-an-infra-value-to-json-bytes">JSON
 		serialization rules</a> in the [[INFRA]] specification. Implementations MAY
