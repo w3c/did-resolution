@@ -387,15 +387,19 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 				<code>relativeRef</code>
 			</td>
 			<td>
-				A relative reference (path, query parameters, and/or fragment) as defined by <a
-					data-cite="RFC3986#section-4.2">RFC3986 Section 4.2</a> that is appended to either:
+				A relative reference (path, query parameters, and/or fragment)
+				as defined by <a data-cite="RFC3986#section-4.2">RFC3986 Section
+				4.2</a> combined (via the execution of the algorithm specified in
+				<a data-cite="RFC3986#section-5">RFC3986 Section 5:
+				Reference Resolution</a>) with the following `baseURI`
+				strings during <a>DID URL dereferencing</a>:
 					<ul>
 						<li>the [=DID service endpoint=](s), selected from a
 						<a>DID document</a> by using the `service` or
 						`serviceType` query parameters.</li>
 						<li>a <a>DID resource URL</a> generated from DID URL that contains
 						a path component.</li>
-					</ul>
+					</ul>		
 				If present, the associated value MUST be an <a
 				data-lt="ascii string">ASCII string</a> and MUST use percent-encoding for
 				certain characters as specified in <a data-cite="RFC3986#section-2.1">RFC3986
