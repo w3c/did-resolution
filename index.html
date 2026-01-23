@@ -131,7 +131,7 @@
 Decentralized identifier (DID) resolution is the process of obtaining
 a DID document and accompanying metadata for a specific DID. The process
 takes a DID and a set of resolution options as its input and returns a
-DID document and associated metadata about the resolved document and the 
+DID document and associated metadata about the resolved document and the
 resolution request. A resolved DID document is a set of information which
 enables cryptographically verifiable interactions with the DID subject,
 including mechanisms such as cryptographic public keys. This specification
@@ -448,9 +448,9 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 
 		<p>
 			All datetime values in this specification MUST be an <a	data-lt="ascii string">
-				ASCII string</a> which is a valid XML datetime value defined by the 
-			[[VC-DATA-MODEL]] in <a data-cite="vc-data-model#representing-time"></a>. 
-			Additionally, timestamps used in DID Resolution MUST be adjusted to UTC 
+				ASCII string</a> which is a valid XML datetime value defined by the
+			[[VC-DATA-MODEL]] in <a data-cite="vc-data-model#representing-time"></a>.
+			Additionally, timestamps used in DID Resolution MUST be adjusted to UTC
 			without sub-second decimal precision. For example: <code>2020-12-20T19:17:47Z</code>
 		</p>
 
@@ -544,7 +544,7 @@ resolve(did, resolutionOptions) →
 			is capable of being represented in one of the conformant
 			<a data-cite="did#representations">representations</a> of the <a data-cite="did#data-model"></a>
 			specification. The value of <code><a data-cite="did#dfn-id">id</a></code>
-			in the resolved <a>DID document</a> MUST be string equivalent to the <a>DID</a> that was resolved.
+			in the resolved <a>DID document</a> MUST be string equal to the <a>DID</a> that was resolved.
 			If the resolution is unsuccessful, this	value MUST be empty.
 		</dd>
 		<dt>
