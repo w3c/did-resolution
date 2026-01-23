@@ -383,15 +383,19 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 				<code>relativeRef</code>
 			</td>
 			<td>
-				A relative reference (path, query parameters, and/or fragment) as defined by <a
-					data-cite="RFC3986#section-4.2">RFC3986 Section 4.2</a> that is appended to either:
+				A relative reference (path, query parameters, and/or fragment)
+				as defined by <a data-cite="RFC3986#section-4.2">RFC3986 Section
+				4.2</a> combined (via the execution of the algorithm specified in
+				<a data-cite="RFC3986#section-5">RFC3986 Section 5:
+				Reference Resolution</a>) with the following `baseURI`
+				strings during <a>DID URL dereferencing</a>:
 					<ul>
 						<li>the <a>service endpoint</a>(s), selected from a
 						<a>DID document</a> by using the `service` or
 						`serviceType` query parameters.</li>
 						<li>a <a>DID resource URL</a> generated from DID URL that contains
 						a path component.</li>
-					</ul>
+					</ul>		
 				If present, the associated value MUST be an <a
 				data-lt="ascii string">ASCII string</a> and MUST use percent-encoding for
 				certain characters as specified in <a data-cite="RFC3986#section-2.1">RFC3986
@@ -484,28 +488,26 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 	<section id="pathservice-service-type">
 		<h3>`PathService` Service Type</h3>
 
-		<p>The `PathService` is a service type used to generate the
-		URL for a resource that can be resolved based on the DID URL path.</p>
-		<p>The service MUST have the following attributes:
+		<p>`PathService` is the `type` of a `service` object used to generate a <a>DID
+		resource URL</a> from a DID URL path.</p>
+		<p>The `service` MUST have the following attributes:
 			<ul>
 				<li>`type`: MUST be `PathService`</li>
 				<li>`serviceEndpoint`: MUST be a URL that MUST NOT have a fragment component</li>
-				<li>`basePath`: MUST be a valid path component of a URL</li>
+				<li>`basePath`: MUST be a valid path component of a URL (as
+				specified in <a data-cite="RFC3986#section-3.3">RFC3986 Section
+				3.3</a>)</li>
 			</ul>
 		</p>
 		<p>During the <a href="#dereferencing-algorithm"></a> where a DID URL
-		path is present, if the selected service to be used for DID URL path
-		handling is of type `PathService`, the following MUST be
-		performed to generate the <a>DID resource URL</a>. The input to this algorithm is
-		a calculated path obtained by removing the selected `basePath` as a
-		case‑sensitive string match from the beginning of the DID URL path.
+		path is present, if the selected `service` to be used for DID URL path
+		handling is of `type` `PathService`, execute the algorithm specified in
+		<a data-cite="RFC3986#section-5">RFC3986 Section 5: Reference Resolution</a> as follows:
 			<ol class="algorithm">
-				<li>Obtain the `serviceEndpoint` attribute from the
-				selected service.</li>
-				<li>Append the input calculated path to the
-				`serviceEndpoint` path (if any), accounting for any
-				query parameters in the `serviceEndpoint`, to form a
-				valid <a>DID resource URL</a></li>
+				<li>The <strong>base URI</strong> value is the <var>selected <a>service endpoint</a> URL</var>.</li>
+				<li>The <strong>relative reference</strong> is the path obtained by
+				removing the selected `basePath` as a case‑sensitive string match
+				from the beginning of the DID URL path.</li>
 				<li>The result is the <a>DID resource URL</a> to be returned to continue
 				the DID URL path handling algorithm.</li>
 			</ol>
@@ -1457,30 +1459,34 @@ dereference(didUrl, dereferenceOptions) →
 				<ol class="algorithm">
 					<li>Extract the path component from the <a>DID URL</a>.</li>
 					<li>
-						Collect from the resolved <a>DID Document</a> a list of `service`
-						objects with `type` values that the DID
-						Resolver supports for path handling. At minimum, that
-						will include the `type` values <a
-						href="#did-service-types">defined in this specification</a>), plus any
-						`type` values that are DID Method-specific or
-						DID Resolution Extensions [[?DID-EXTENSIONS-RESOLUTION]]
-						supported by the DID Resolver. Such
-						`service` objects MUST have
-						`basePath` and `serviceEndpoint` attributes in addition to the
-						`type` attribute.
+						Collect from the resolved <a>DID Document</a> a list of
+						`service` objects with `type` values that the <a>DID URL
+						dereferencer</a> supports for path handling and that has
+						an attribute `basePath` whose value MUST be a valid path
+						component of a URL (as specified in <a
+						data-cite="RFC3986#section-3.3">RFC3986 Section
+						3.3</a>). At minimum, consider `service` objects with
+						`type` values <a href="#did-service-types">defined in
+						this specification</a>, plus any that are DID
+						Method-specific or DID Resolution Extensions
+						[[?DID-EXTENSIONS-RESOLUTION]] supported by the <a>DID
+						URL dereferencer</a>. Such `service` objects MUST have a
+						`serviceEndpoint` attribute in addition to the `type`
+						and `basePath` attributes.
 					</li>
 					<li>
 						Find the services whose `basePath` value is a
 						case-sensitive string prefix of the extracted path.
 						Among all matching services, select the one with the
-						longest-matching prefix. That service MUST be used for
-						path resolution.
+						longest-matching prefix, where "longest" is by number of
+						characters. That service MUST be used for path
+						resolution.
 						<ol class="algorithm">
 							<li>If two or more services have the same
 							longest-matching prefix, the resolver MUST return
 							the following result:
 								<ol class="algorithm">
-									<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#DUPLICATE_SERVICES_FOUND">DUPLICATE_SERVICES_FOUND</a></li>
+									<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#PATH_SERVICE_NOT_FOUND">PATH_SERVICE_NOT_FOUND</a></li>
 									<li><b>contentStream</b>: <code>null</code></li>
 									<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
 								</ol>
@@ -1493,7 +1499,7 @@ dereference(didUrl, dereferenceOptions) →
 							<a>DID Method</a> specific path handling, the
 							resolver MUST return the following result:
 								<ol class="algorithm">
-									<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#NOT_FOUND">NOT_FOUND</a></li>
+									<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#PATH_SERVICE_NOT_FOUND">PATH_SERVICE_NOT_FOUND</a></li>
 									<li><b>contentStream</b>: <code>null</code></li>
 									<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
 								</ol>
@@ -1511,25 +1517,22 @@ dereference(didUrl, dereferenceOptions) →
 						[[?DID-EXTENSIONS-RESOLUTION]].
 						<ol class="algorithm">
 							<li>
-								The `PathService` type is (currently) the
-								only service type defined in this specification. See
-								the <a href="#pathservice-service-type">`PathService`
+								The `PathService` type is (currently) the only
+								`service` object type defined in this
+								specification. See the <a
+								href="#pathservice-service-type">`PathService`
 								Service Type</a> section for its definition.
 							</li>
 							<li>If no `service` is found with a known `type` the
 							resolver MUST return the following result:
 								<ol class="algorithm">
-									<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#NOT_FOUND">NOT_FOUND</a></li>
+									<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#PATH_SERVICE_NOT_FOUND">PATH_SERVICE_NOT_FOUND</a></li>
 									<li><b>contentStream</b>: <code>null</code></li>
 									<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
 								</ol>
 							</li>
 						</ol>
 					</li>
-					<li>If the query parameter `relativeRef` is present, decode
-					its percent-encoded (as specified in <a
-					data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>)
-					value and append it to the <a>DID resource URL</a>.</li>
 					<li>If the query parameter `relativeRef` is present,
 					execute the algorithm specified in
 					<a data-cite="RFC3986#section-5">RFC3986 Section 5: Reference Resolution</a> as follows:
@@ -2375,9 +2378,16 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 		<dd>
 			The DID method of the DID is not supported by the <a>DID resolver</a>. See Section <a href="#resolving-algorithm"></a>.
 		</dd>
-        <dt id="DUPLICATE_SERVICES_FOUND">DUPLICATE_SERVICES_FOUND</dt>
+        <dt id="PATH_SERVICE_NOT_FOUND">PATH_SERVICE_NOT_FOUND</dt>
 		<dd>
-			In <a>DID URL dereferencing</a> with a path component, multiple `service` entries were found with identical `basePath` values. See Section <a href="#dereferencing-algorithm"></a>.
+			In <a>DID URL dereferencing</a> with a path component, no suitable
+			`service` entry was found for the provided path. This could be
+			because there were no suitable service entries in the resolved
+			<a>DID document</a>, because no matching `service` was found for the
+			provided path, because multiple matching `service` objects were
+			found for the provided path, or because the matched `service` had a
+			`type` value not known to the <a>DID URL dereferencer</a>. See
+			Section <a href="#dereferencing-algorithm"></a>.
 		</dd>
         <dt id="INVALID_OPTIONS">INVALID_OPTIONS</dt>
 		<dd>
