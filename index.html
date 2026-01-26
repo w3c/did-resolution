@@ -125,13 +125,13 @@
 
     </style>
   </head>
-  <body data-cite="infra rfc3986">
+  <body data-cite="infra rfc3986 did-core">
     <section id='abstract'>
       <p>
 Decentralized identifier (DID) resolution is the process of obtaining
 a DID document and accompanying metadata for a specific DID. The process
 takes a DID and a set of resolution options as its input and returns a
-DID document and associated metadata about the resolved document and the 
+DID document and associated metadata about the resolved document and the
 resolution request. A resolved DID document is a set of information which
 enables cryptographically verifiable interactions with the DID subject,
 including mechanisms such as cryptographic public keys. This specification
@@ -448,9 +448,9 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 
 		<p>
 			All datetime values in this specification MUST be an <a	data-lt="ascii string">
-				ASCII string</a> which is a valid XML datetime value defined by the 
-			[[VC-DATA-MODEL]] in <a data-cite="vc-data-model#representing-time"></a>. 
-			Additionally, timestamps used in DID Resolution MUST be adjusted to UTC 
+				ASCII string</a> which is a valid XML datetime value defined by the
+			[[VC-DATA-MODEL]] in <a data-cite="vc-data-model#representing-time"></a>.
+			Additionally, timestamps used in DID Resolution MUST be adjusted to UTC
 			without sub-second decimal precision. For example: <code>2020-12-20T19:17:47Z</code>
 		</p>
 
@@ -582,7 +582,7 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 				value to determine the <a>representation</a> of the returned
 				<code>didDocument</code> if such a <a>representation</a> is supported and
 				available. Any <a>representation</a> MUST be able to be translated into
-				the representation defined by the <code>application/did</code> mediaType. 
+				the representation defined by the <code>application/did</code> mediaType.
 				This property is OPTIONAL.
 			</dd>
 		</dl>
