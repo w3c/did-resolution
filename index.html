@@ -576,14 +576,14 @@ resolve(did, resolutionOptions) →
 				accept
 			</dt>
 			<dd>
-				The Media Type of the caller's preferred <a>representation</a> of the <a>DID
-				document</a>. The Media Type MUST be expressed as an <a data-lt="ascii
-string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
-				value to determine the <a>representation</a> of the returned
-				<code>didDocument</code> if such a <a>representation</a> is supported and
-				available. Any <a>representation</a> MUST be able to be translated into
-				the representation defined by the <code>application/did</code> mediaType.
-				This property is OPTIONAL.
+				The media type of the caller's preferred <a>representation</a> of the
+				<a>DID document</a>. The value MUST be expressed according to the
+				`Accept` header value as defined in [[[RFC9110]]], <a
+				data-cite="RFC9110#section-12.5.1">Section 12.5.1</a>. The <a>DID
+				resolver</a> implementation SHOULD use this value to determine the
+				<a>representation</a> of the returned
+				<code>didDocument</code> if such a <a>representation</a> is supported
+				and available. This property is OPTIONAL.
 			</dd>
 		</dl>
 
@@ -904,6 +904,25 @@ string">ASCII string</a>.
 				<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
 			</ol>
 			</li>
+			<li>
+				Determine whether the <var>input <a href="#did-resolution-options">DID resolution options</a></var>
+				are supported by the <a>DID resolver</a> that implements this algorithm. If not, the <a>DID resolver</a>
+				MUST return the following result:
+				<ol class="algorithm">
+					<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <a href="#FEATURE_NOT_SUPPORTED">FEATURE_NOT_SUPPORTED</a></li>
+					<li><b>didDocument</b>: <code>null</code></li>
+					<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
+				</ol>
+			</li>
+			<li>
+				Determine whether the <var>input <a href="#did-resolution-options">DID resolution options</a></var>
+				are valid. If not, the <a>DID resolver</a> MUST return the following result:
+				<ol class="algorithm">
+					<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <a href="#INVALID_OPTIONS">INVALID_OPTIONS</a></li>
+					<li><b>didDocument</b>: <code>null</code></li>
+					<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
+				</ol>
+			</li>
 			<li>Obtain the <a>DID document</a> for the <var>input <a>DID</a></var> by executing the
 			<a href="https://www.w3.org/TR/did-core/#method-operations">Read</a> operation, as defined by the <var>input <a>DID method</a></var>:
 			<ol class="algorithm">
@@ -957,6 +976,16 @@ string">ASCII string</a>.
 				</ol>
 			</li>
 		</ol>
+
+		<p>
+			If the <a>DID resolver</a> encounters any unexpected errors during the execution of the DID Resolution algorithm,
+			it MUST return the following result:
+			<ol class="algorithm">
+				<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <a href="#INTERNAL_ERROR">INTERNAL_ERROR</a></li>
+				<li><b>didDocument</b>: <code>null</code></li>
+				<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
+			</ol>
+		</p>
 
 	</section>
 
@@ -1159,11 +1188,13 @@ dereference(didUrl, dereferenceOptions) →
 				accept
 			</dt>
 			<dd>
-				The Media Type that the caller prefers for <code>contentStream</code>. The Media
-				Type MUST be expressed as an <a data-lt="ascii string">ASCII string</a>. The
-				<a>DID URL dereferencer</a> implementation SHOULD use this value to determine
-				the <code>contentType</code> of the <a>representation</a> contained in the
-				returned value if such a <a>representation</a> is supported and available.
+				The media type that the caller prefers for <code>contentStream</code>.
+				The value MUST be expressed according to the `Accept` header value as
+				defined in [[[RFC9110]]], <a data-cite="RFC9110#section-12.5.1">Section
+				12.5.1</a>. The <a>DID URL dereferencer</a> implementation SHOULD use
+				this value to determine the <code>contentType</code> of the
+				<a>representation</a> contained in the returned value if such a
+				<a>representation</a> is supported and available.
 			</dd>
 		</dl>
 		<dl>
@@ -2256,26 +2287,10 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 		</dd>
 		<dt id="FEATURE_NOT_SUPPORTED">FEATURE_NOT_SUPPORTED</dt>
 		<dd>
-		The <a>DID resolver</a> does not support the requested feature. The value of the `detail` field SHOULD provide a longer description of the feature that is not supported by the resolver.
+		The <a>DID resolver</a> does not support the requested feature. The value of the `detail` field
+		SHOULD provide a longer description of the feature that is not supported by the resolver.
 		</dd>
-        <dt id="INVALID_PUBLIC_KEY">https://w3id.org/security#INVALID_PUBLIC_KEY</dt>
-		<dd>
-			An invalid public key value is detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>.
-		</dd>
-        <dt id="INVALID_PUBLIC_KEY_LENGTH">https://w3id.org/security#INVALID_PUBLIC_KEY_LENGTH</dt>
-		<dd>
-			The byte length of <i>rawPublicKeyBytes</i> did not match the expected public key length for the associated multicodecValue
-            during <a>DID Resolution</a> or <a>DID URL dereferencing</a>.
-		</dd>
-        <dt id="INVALID_PUBLIC_KEY_TYPE">https://w3id.org/security#INVALID_PUBLIC_KEY_TYPE</dt>
-		<dd>
-			An invalid public key type was detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>.
-		</dd>
-        <dt id="UNSUPPORTED_PUBLIC_KEY_TYPE">https://w3id.org/security#UNSUPPORTED_PUBLIC_KEY_TYPE</dt>
-		<dd>
-			An unsupported public key type was detected during <a>DID Resolution</a> or <a>DID URL dereferencing</a>.
-		</dd>
-	  </dl>
+		</dl>
 	  <dl>
 	</dl>
 
@@ -2445,33 +2460,9 @@ Accept: application/did-url-dereferencing
 							<code>501</code>
 						</td>
 					</tr>
-          <tr>
+					<tr>
 						<td>
-							<code>INVALID_PUBLIC_KEY</code>
-						</td>
-						<td>
-							<code>500</code>
-						</td>
-					</tr>
-          <tr>
-						<td>
-							<code>INVALID_PUBLIC_KEY_LENGTH</code>
-						</td>
-						<td>
-							<code>500</code>
-						</td>
-					</tr>
-          <tr>
-						<td>
-							<code>INVALID_PUBLIC_KEY_TYPE</code>
-						</td>
-						<td>
-							<code>500</code>
-						</td>
-					</tr>
-          <tr>
-						<td>
-							<code>UNSUPPORTED_PUBLIC_KEY_TYPE</code>
+							<code>FEATURE_NOT_SUPPORTED</code>
 						</td>
 						<td>
 							<code>501</code>
