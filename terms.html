@@ -21,67 +21,10 @@ included whenever they appear in this specification.
   <dt><dfn>client</dfn></dt>
   <dd>Software and/or hardware that invokes a <a>DID resolver</a> in order to execute the <a>DID resolution</a> and/or <a>DID URL dereferencing</a> algorithms. This invocation is done via a <a>binding</a>. The term <a>client</a> does not imply any specific network topology.</dd>
 
-  <dt><dfn data-lt="decentralized identifiers|DID|DIDs">decentralized identifier</dfn> (DID)</dt>
-  <dd>
-    A globally unique persistent identifier that does not require a centralized
-    registration authority and is often generated and/or registered
-    cryptographically. The generic format of a DID is defined in <a
-          data-cite="did-core#did-syntax"></a>. A specific <a>DID scheme</a> is defined in a <a>DID
-    method</a> specification. Many—but not all—DID methods make use of
-    <a>distributed ledger technology</a> (DLT) or some other form of decentralized
-    network.
-  </dd>
-
-  <dt><dfn data-lt="did controllers|did controller(s)">DID controller</dfn></dt>
-  <dd>
-    An entity that has the capability to make changes to a <a>DID document</a>. A
-    <a>DID</a> might have more than one DID controller. The DID controller(s)
-    can be denoted by the optional `controller` property at the top level of the
-    <a>DID document</a>. Note that a DID controller might be the <a>DID
-    subject</a>.
-  </dd>
-
-  <dt><dfn>DID delegate</dfn></dt>
-  <dd>
-    An entity to whom a <a>DID controller</a> has granted permission to use a
-    <a>verification method</a> associated with a <a>DID</a> via a <a>DID
-    document</a>. For example, a parent who controls a child's <a>DID document</a>
-    might permit the child to use their personal device in order to
-    <a>authenticate</a>. In this case, the child is the <a>DID delegate</a>. The
-    child's personal device would contain the private cryptographic material
-    enabling the child to <a>authenticate</a> using the <a>DID</a>. However, the child
-    might not be permitted to add other personal devices without the parent's
-    permission.
-  </dd>
-
-  <dt><dfn data-lt="DID documents">DID document</dfn></dt>
-  <dd>
-    A set of data describing the <a>DID subject</a>, including mechanisms, such as
-    cryptographic public keys, that the <a>DID subject</a> or a <a>DID delegate</a>
-    can use to <a>authenticate</a> itself and prove its association with the
-    <a>DID</a>.
-  </dd>
-
-  <dt><dfn data-lt="DID fragments">DID fragment</dfn></dt>
-  <dd>
-    The portion of a <a>DID URL</a> that follows the first
-    <span class="codepoint" translate="no"><bdi lang="en">&#x23;</bdi> character
-    (<code class="uname">U+0023 NUMBER SIGN</code>)</span>. DID fragment syntax
-    is identical to URI fragment syntax.
-  </dd>
-
-  <dt><dfn data-lt="DID method's">DID method</dfn></dt>
-  <dd>
-    A definition of how a specific <a>DID method scheme</a> is implemented. A DID method is
-    defined by a DID method specification, which specifies the precise operations by
-    which <a>DIDs</a> and <a>DID documents</a> are created, resolved, updated,
-    and deactivated. See <a data-cite="did-core#methods"></a>.
-  </dd>
-
   <dt><dfn data-lt="DID paths">DID path</dfn></dt>
   <dd>
-    The portion of a <a>DID URL</a> that begins with and includes the first 
-    <span class="codepoint" translate="no"><bdi lang="en">&#x2f;</bdi> character 
+    The portion of a <a>DID URL</a> that begins with and includes the first
+    <span class="codepoint" translate="no"><bdi lang="en">&#x2f;</bdi> character
     (<code class="uname">U+002F SOLIDUS</code>)</span> and ends with but does
     not include either a
     <span class="codepoint" translate="no"><bdi lang="en">&#x3f;</bdi> character
@@ -144,12 +87,12 @@ included whenever they appear in this specification.
   <dd>
     A <a>DID</a> plus any additional syntactic component that conforms to the
     definition in <a data-cite="did-core#did-url-syntax"></a>. This includes an optional <a>DID
-    path</a> with its leading 
-    <span class="codepoint" translate="no"><bdi lang="en">&#x2f;</bdi> character 
-    (<code class="uname">U+002F SOLIDUS</code>)</span>, 
+    path</a> with its leading
+    <span class="codepoint" translate="no"><bdi lang="en">&#x2f;</bdi> character
+    (<code class="uname">U+002F SOLIDUS</code>)</span>,
     optional <a>DID query</a> with its leading
     <span class="codepoint" translate="no"><bdi lang="en">&#x3f;</bdi> character
-    (<code class="uname">U+003F QUESTION MARK</code>)</span>, 
+    (<code class="uname">U+003F QUESTION MARK</code>)</span>,
     and optional <a>DID fragment</a> with its leading
     <span class="codepoint" translate="no"><bdi lang="en">&#x23;</bdi> character
     (<code class="uname">U+0023 NUMBER SIGN</code>)</span>.
