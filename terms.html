@@ -168,10 +168,12 @@ included whenever they appear in this specification.
     services, file storage services, and verifiable credential repository services.
   </dd>
 
-  <dt><dfn data-lt="service endpoints">service endpoint</dfn></dt>
+  <dt><dfn data-lt="service endpoints|service endpoint(s)">service endpoint</dfn></dt>
   <dd>
     A network address, such as an HTTP URL, at which <a>services</a> operate on
-    behalf of a <a>DID subject</a>.
+    behalf of a <a>DID subject</a>. May also be the base URL for one more
+    resources referenced via a <a>DID URL</a> path, and/or a `relativeRef`
+    <a>DID URL</a> query parameter.
   </dd>
 
   <dt><dfn data-lt="">unverifiable read</dfn></dt>
