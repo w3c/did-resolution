@@ -2,7 +2,7 @@
 name: Echidna auto-publish
 on:
   push:
-    branches: [gh-pages]
+    branches: [main]
 jobs:
   main:
     name: Echidna Auto-publish WD
