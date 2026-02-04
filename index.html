@@ -196,10 +196,14 @@ which describes the underlying DID architecture in full detail.
 			(e.g., `contentType`, proof, versioning), which an application can use to validate a user's cryptographic keys,
 			service endpoints, or status.
 		<p>
-			For example, a wallet app could resolve `did:example:123?versionTime=2021-05-10T17:00:00Z`
-			using the `versionTime` parameter to retrieve the state of that DID at a past time, or a client could
+			For example, to retrieve the state of the DID `did:example:123`
+             at a time in the past, a client application could resolve the DID with the `versionTime`
+             resolution option, as in the following:<br>
+             `resolve("did:example:123", {"versionTime":"2021-05-10T17:00:00Z"})`
+
+			Or a client could
 			dereference a DID URL
-			 like `did:example:123?service=files&relativeRef=/resume.pdf`
+			 like <code>did:example:123?service=files&relativeRef=/resume.pdf</code>
 			 (see <a href="#example-dereferencing-to-service-endpoint-url">here for detailed example</a>)
 			 to fetch a user's resume stored via a service declared in the DID document.
 		</p>
@@ -208,7 +212,7 @@ which describes the underlying DID architecture in full detail.
 			a client can follow a fragment (e.g., `#key-1`) to extract a particular verification method from
 			the <a>DID document</a> (see <a href="#example-dereferencing-to-verification-method">here for detailed example</a>).
 			In practice, implementers validate their resolver against the
-			<a href="https://github.com/w3c-ccg/did-resolution-test-suite">DID Resolution Test Suite</a> which exercises
+			<a href="https://github.com/w3c-ccg/did-resolution-mocha-test-suite">DID Resolution Test Suite</a> which exercises
 			normative MUSTs and error conditions (such as invalid DIDs, deactivated DIDs, unsupported methods,
 			relative URL expansion, etc.) to ensure that client applications can reliably depend on correct resolution behavior
 			across different DID methods.
@@ -1619,14 +1623,15 @@ dereference(didUrl, dereferenceOptions) →
 		used to communicate this metadata MUST be a <a data-cite="INFRA#maps">map</a>
 		of properties. Each property name MUST be a <a
 			data-cite="INFRA#string">string</a>. Each property value, and each
-		value within any complex data structure such as a map or list, 
-		MUST be a <a data-cite="INFRA#string">string</a>, 
+		value within any complex data structure such as a map or list,
+		MUST be a <a data-cite="INFRA#string">string</a>,
 			<a data-cite="INFRA#numbers">number</a>,
-			<a data-cite="INFRA#maps">map</a>, 
+			<a data-cite="INFRA#maps">map</a>,
 			<a data-cite="INFRA#lists">list</a>,
 			<a data-cite="INFRA#sets">set</a>,
 		<a data-cite="INFRA#boolean">boolean</a>, or
 		<a data-cite="INFRA#nulls">null</a>.
+
 		The entire metadata structure MUST be serializable according to the <a
 			data-cite="INFRA#serialize-an-infra-value-to-json-bytes">JSON
 		serialization rules</a> in the [[INFRA]] specification. Implementations MAY
