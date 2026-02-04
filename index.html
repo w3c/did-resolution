@@ -1299,7 +1299,7 @@ dereference(didUrl, dereferenceOptions) →
 				<li>Obtain the <a>DID document</a> for the <var>input <a>DID</a></var> by executing the
 					<a>DID resolution</a> algorithm as defined in <a href="#resolving"></a>. All
 					<var>dereferencing options</var> and all
-					<a href="https://www.w3.org/TR/did-core/#did-parameters">
+					<a href="#did-parameters">
 						DID parameters</a> of the <var>input <a>DID URL</a></var> MUST be passed as <var>resolution options</var> to the
 						<a>DID Resolution</a> algorithm.</li>
 				<li>If the <var>input <a>DID</a></var> does not exist in the VDR, the <a>DID URL dereferencer</a>
@@ -1324,17 +1324,17 @@ dereference(didUrl, dereferenceOptions) →
 					</ol>
 				</li>
 				<li>If the <var>input <a>DID URL</a></var> contains the
-				<a href="https://www.w3.org/TR/did-core/#did-parameters">
-					DID parameter</a> <code>service</code> and/or the <a href="https://www.w3.org/TR/did-core/#did-parameters">
+				<a href="#did-parameters">
+					DID parameter</a> <code>service</code> and/or the <a href="#did-parameters">
 					DID parameter</a> <code>serviceType</code>, and optionally the
-					<a data-cite="did-core#did-parameters">DID parameter</a> <code>relativeRef</code>:
+					<a href="#did-parameters">DID parameter</a> <code>relativeRef</code>:
 					<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest</pre>
 					<ol class="algorithm">
 						<li>From the <var>resolved <a>DID document</a></var>, select all
 							<a data-cite="did-core#services">services</a> which fulfill the following conditions:
 							<ol class="algorithm">
 								<li>If the <var>input <a>DID URL</a></var> contains the
-									<a data-cite="did-core#did-parameters">DID parameter</a> <code>service</code>:
+									<a href="#did-parameters">DID parameter</a> <code>service</code>:
 									Select the <a data-cite="did-core#services">service</a> if its <code>id</code>
 									property matches the value of the <code>service</code> DID parameter. If the <code>id</code>
 									property or the <code>service</code> DID parameter or both contain relative
@@ -1342,14 +1342,14 @@ dereference(didUrl, dereferenceOptions) →
 									the match, using the rules specified in <a data-cite="RFC3986#section-5">RFC3986 Section 5: Reference Resolution</a>
 									and in section <a data-cite="did-core#relative-did-urls">Relative DID URLs</a> in [[[DID-CORE]]].</li>
 								<li>If the <var>input <a>DID URL</a></var> contains the
-									<a data-cite="did-core#did-parameters">DID parameter</a> <code>serviceType</code>:
+									<a href="#did-parameters">DID parameter</a> <code>serviceType</code>:
 									Select the <a data-cite="did-core#services">service</a> if its <code>type</code>
 									property matches the value of the <code>serviceType</code> DID parameter.</li>
 							</ol>
 							The selected <a data-cite="did-core#services">services</a> are a list called the <var>selected <a>services</a></var>.
 						</li>
 						<li>If the <var>input <a>DID URL</a></var> contains the
-							<a data-cite="did-core#did-parameters">DID parameter</a> <code>relativeRef</code>:
+							<a href="#did-parameters">DID parameter</a> <code>relativeRef</code>:
 							<ol class="algorithm">
 								<li>For each <var>selected <a>service</a></var>:
 									<ol class="algorithm">
@@ -1368,7 +1368,7 @@ dereference(didUrl, dereferenceOptions) →
 									<ol class="algorithm">
 										<li>The <strong>base URI</strong> value is the <var>selected [=DID service endpoint=] URL</var>.</li>
 										<li>The <strong>relative reference</strong> is the value of the
-											<a data-cite="did-core#did-parameters">DID parameter</a> <code>relativeRef</code>.</li>
+											<a href="#did-parameters">DID parameter</a> <code>relativeRef</code>.</li>
 										<li>Update the <var>selected [=DID service endpoint=] URL</var> to
 										the result of the "Reference Resolution" algorithm.</li>
 									</ol>
@@ -2716,16 +2716,16 @@ Content-Type: application/did
 
 	<section id="versioning">
 		<h2>Versioning</h2>
-		<p>If a <a href="https://www.w3.org/TR/did-core/#did-parameters"><code>versionId</code></a> or
-			<a href="https://www.w3.org/TR/did-core/#did-parameters"><code>versionTime</code></a> DID parameter
+		<p>If a <a href="#did-parameters"><code>versionId</code></a> or
+			<a href="#did-parameters"><code>versionTime</code></a> DID parameter
 			is provided, the <a>DID resolution</a>
 			algorithm returns a specific version of the <a>DID document</a>.</p>
-		<p>The DID parameters <a href="https://www.w3.org/TR/did-core/#did-parameters"><code>versionId</code></a>
-			and <a href="https://www.w3.org/TR/did-core/#did-parameters"><code>versionTime</code></a>
+		<p>The DID parameters <a href="#did-parameters"><code>versionId</code></a>
+			and <a href="#did-parameters"><code>versionTime</code></a>
 			are mutually exclusive.</p>
-		<p>The use of the <a href="https://www.w3.org/TR/did-core/#did-parameters"><code>versionId</code></a> DID parameter is specific to the <a>DID method</a>.
+		<p>The use of the <a href="#did-parameters"><code>versionId</code></a> DID parameter is specific to the <a>DID method</a>.
 			Its possible values may include sequential numbers, random UUIDs, content hashes, etc..</p>
-		<p>DID document metadata MAY contain a <a href="https://www.w3.org/TR/did-core/#did-parameters"><code>versionId</code></a>
+		<p>DID document metadata MAY contain a <a href="#did-parameters"><code>versionId</code></a>
 			property that changes with each  <a href="https://www.w3.org/TR/did-core/#method-operations">Update</a> operation that is performed
 			on a DID document.</p>
 		<p class="note">While most <a>DID methods</a> support the <a href="https://www.w3.org/TR/did-core/#method-operations">Update</a>
