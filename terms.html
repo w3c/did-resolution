@@ -25,60 +25,6 @@ included whenever they appear in this specification.
   <dd>A data structure that represents the result of the <a>DID resolution</a> algorithm.
     May contain a <a>DID document</a>. See Section <a href="#did-resolution-result"></a>.</dd>
 
-  <dt><dfn data-lt="DID schemes|DID method scheme">DID scheme</dfn></dt>
-
-  <dd>
-    The formal syntax of a <a>decentralized identifier</a>. The generic DID scheme
-    begins with the prefix <code>did:</code> as defined in <a
-          data-cite="did-core#did-syntax"></a>. Each <a>DID method</a> specification defines a specific
-    DID method scheme that works with that specific <a>DID method</a>. In a specific DID
-    method scheme, the DID method name follows the first colon and terminates with
-    the second colon, e.g., <code>did:example:</code>
-  </dd>
-
-  <dt><dfn data-lt="DID subjects">DID subject</dfn></dt>
-
-  <dd>
-    The entity identified by a <a>DID</a> and described by a <a>DID document</a>.
-    Anything can be a DID subject: person, group, organization, physical thing,
-    digital thing, logical thing, etc.
-  </dd>
-
-  <dt><dfn data-lt="DID URLs">DID URL</dfn></dt>
-  <dd>
-    A <a>DID</a> plus any additional syntactic component that conforms to the
-    definition in <a data-cite="did-core#did-url-syntax"></a>. This includes an optional <a>DID
-    path</a> with its leading 
-    <span class="codepoint" translate="no"><bdi lang="en">&#x2f;</bdi> character 
-    (<code class="uname">U+002F SOLIDUS</code>)</span>, 
-    optional <a>DID query</a> with its leading
-    <span class="codepoint" translate="no"><bdi lang="en">&#x3f;</bdi> character
-    (<code class="uname">U+003F QUESTION MARK</code>)</span>, 
-    and optional <a>DID fragment</a> with its leading
-    <span class="codepoint" translate="no"><bdi lang="en">&#x23;</bdi> character
-    (<code class="uname">U+0023 NUMBER SIGN</code>)</span>.
-  </dd>
-
-  <dt><dfn>DID URL dereferencing</dfn></dt>
-  <dd>
-    The process that takes as its input a <a>DID URL</a> and a set of input
-    metadata, and returns a <a>resource</a>. This resource might be a <a>DID
-    document</a> plus additional metadata, a secondary resource
-    contained within the <a>DID document</a>, or a resource entirely
-    external to the <a>DID document</a>. The process uses <a>DID resolution</a> to
-    fetch a <a>DID document</a> indicated by the <a>DID</a> contained within the
-    <a>DID URL</a>. The dereferencing process can then perform additional processing
-    on the <a>DID document</a> to return the dereferenced resource indicated by the
-    <a>DID URL</a>. The inputs and outputs of this process are defined in
-    <a href="#dereferencing"></a>.
-  </dd>
-
-  <dt><dfn data-lt="DID URL dereferencers">DID URL dereferencer</dfn></dt>
-  <dd>
-    A software and/or hardware system that performs the <a>DID URL dereferencing</a>
-    function for a given <a>DID URL</a> or <a>DID document</a>.
-  </dd>
-
   <dt><dfn data-lt="">DID URL dereferencing result</dfn></dt>
   <dd>A data structure that represents the result of the <a>DID URL dereferencing</a> algorithm.
     May contain a <a>DID document</a> or other content. See Section <a href="#did-url-dereferencing-result"></a>.</dd>
@@ -118,17 +64,6 @@ included whenever they appear in this specification.
     services, file storage services, and verifiable credential repository services.
   </dd>
 
-<<<<<<< HEAD
-=======
-  <dt><dfn data-lt="service endpoints|service endpoint(s)">service endpoint</dfn></dt>
-  <dd>
-    A network address, such as an HTTP URL, at which <a>services</a> operate on
-    behalf of a <a>DID subject</a>. May also be the base URL for one more
-    resources referenced via a <a>DID URL</a> path, and/or a `relativeRef`
-    <a>DID URL</a> query parameter.
-  </dd>
-
->>>>>>> 3866184 (Added alias to serviceEndpoint definition, fix reference to non-definition)
   <dt><dfn data-lt="">unverifiable read</dfn></dt>
   <dd> A low confidence implementation of a <a>DID method's</a> "Read" operation between the
     <a>DID resolver</a> and the <a>verifiable data registry</a>, to obtain the <a>DID document</a>.
