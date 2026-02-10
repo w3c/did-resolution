@@ -498,9 +498,9 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 		determines how a <a>DID URL</a> path is to be processed when its
 		`service` is selected. The processing to be used when the
 		`pathAlgorithm` value is `relative-ref-2026` (the default value) is
-		defined below. Other values can be defined for `pathAlgorithm` with
-		different processing rules within a <a>DID Method</a> specification, or in a
-		Document Property Extension [[?DID-EXTENSIONS-PROPERTIES]].
+		defined below. A <a>DID Method</a> specification or a Document Property
+        Extension [[?DID-EXTENSIONS-PROPERTIES]] can define other values for
+        `pathAlgorithm` with their own processing rules.
 		</p>
 		<p>A `PathService` type of `service` object has the following attributes:
 			<ul>
@@ -1419,10 +1419,21 @@ dereference(didUrl, dereferenceOptions) →
 					<p class="issue">TODO: Specify the algorithm for processing the `hl` DID parameter.</p>
 				</li>
 
-				<li>If the <var>input <a>DID URL</a></var> contains a <a>DID path</a> and/or `service`<a href="https://www.w3.org/TR/did-core/#did-parameters">
-				DID parameter(s)</a> and/or `serviceType`<a href="https://www.w3.org/TR/did-core/#did-parameters">
-				DID parameter(s)</a> and/or a `relativeRef`<a href="https://www.w3.org/TR/did-core/#did-parameters">
-				DID parameter</a>:
+				<li>If the <var>input <a>DID URL</a></var> contains one or more of the following:
+					<ul>
+						<li>a <a>DID URL</a> path</li>
+						<li>one or more `service` <a
+						href="https://www.w3.org/TR/did-core/#did-parameters">DID
+						parameters</a></li>
+						<li>one or more `serviceType` <a
+						href="https://www.w3.org/TR/did-core/#did-parameters">DID
+						parameters</a></li>
+						<li>a `relativeRef` <a
+						href="https://www.w3.org/TR/did-core/#did-parameters">DID
+						parameter</a></li>
+					</ul>
+					The <a>DID URL dereferencer</a> MUST use the following algorithm to
+					dereference the <var>input <a>DID URL</a></var>:
 				</li>
 				<pre class="example nohighlight">did:example:1234/path/to/resource</pre>
 					<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest</pre>
