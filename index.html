@@ -712,19 +712,17 @@ resolve(did, resolutionOptions) →
 			<dd>
 				<a>DID document</a> metadata SHOULD include a <code>created</code> property to
 				indicate the timestamp of the <a data-cite="did-core#method-operations">Create operation</a>.
-				The value of the property MUST be a <a data-cite="INFRA#string">string</a>
-				formatted as an <a data-cite="XMLSCHEMA11-2#dateTime">XML Datetime</a>
-				normalized to UTC 00:00:00 and without sub-second decimal precision. For
-				example: <code>2020-12-20T19:17:47Z</code>.
+				The value of the property MUST be represented in the datetime	format as
+				defined in <a href="#datetime"></a>.
 			</dd>
 
 			<dt><dfn class="lint-ignore">updated</dfn></dt>
 			<dd>
 				<a>DID document</a> metadata SHOULD include an <code>updated</code> property to
 				indicate the timestamp of the last <a data-cite="did-core#method-operations">Update
-				operation</a> for the document version which was resolved. The value of the
-				property MUST follow the same formatting rules as the <code>created</code>
-				property. The <code>updated</code> property is omitted if an Update operation
+				operation</a> for the document version which was resolved. The value of the property
+				MUST be represented in the datetime format as defined in <a href="#datetime"></a>.
+				The <code>updated</code> property is omitted if an Update operation
 				has never been performed on the <a>DID document</a>. If an <code>updated</code>
 				property exists, it can be the same value as the <code>created</code> property
 				when the difference between the two timestamps is less than one second.
@@ -743,8 +741,8 @@ resolve(did, resolutionOptions) →
 				<a>DID document</a> metadata MAY include a <code>nextUpdate</code> property if
 				the resolved document version is not the latest version of the document. It
 				indicates the timestamp of the next <a data-cite="did-core#method-operations">Update
-				operation</a>. The value of the property MUST follow the same formatting rules
-				as the <code>created</code> property.
+				operation</a>. The value of the property MUST be represented in the datetime
+				format as defined in <a href="#datetime"></a>.
 			</dd>
 
 			<dt><dfn class="lint-ignore">versionId</dfn></dt>
