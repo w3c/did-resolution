@@ -2329,6 +2329,13 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 		<p>This binding is generally considered a <a>remote binding</a>, but could
 			also be a <a>local binding</a> if the HTTP(S) endpoint is run in a local environment, such as on <code>localhost</code>.</p>
 
+		<p>
+			All <a href="#dfn-conforming-network-based-did-resolver">conforming DID resolvers</a> MUST implement the GET version of the
+			<a href="#bindings-https">HTTPS binding</a> and MAY implement the POST version.
+			All <a href="#bindings-https">HTTPS bindings</a> MUST use TLS. Use of DNS names
+			in certificates is NOT REQUIRED; resolvers MAY use TLS certificates issued for IP addresses.
+		</p>
+
 		<p>Using this binding, the <a>DID resolution</a> function (see
 			<a href="#resolving"></a>) and/or <a>DID URL dereferencing</a> function (see <a href="#dereferencing"></a>)
 			can be executed as follows:</p>
