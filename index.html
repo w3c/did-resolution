@@ -2410,106 +2410,105 @@ Accept: application/did-url-dereferencing
 }</pre>
             </ol>
             </li>
-			<li>If the <a>DID resolution</a> or <a>DID URL dereferencing</a> function returns an <b>error</b> metadata property in the
-				<b>didResolutionMetadata</b> or <b>dereferencingMetadata</b>,
-				then the HTTP response status code MUST correspond to the value of the <b>error</b> metadata property,
-				according to the following table:
-				<table class="simple">
-					<thead>
-					<tr>
-						<th>
-							error
-						</th>
-						<th>
-							HTTP status code
-						</th>
-					</tr>
-					</thead>
-					<tbody>
-					<tr>
-						<td>
-							<code>INVALID_DID</code>
-						</td>
-						<td>
-							<code>400</code>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<code>INVALID_DID_URL</code>
-						</td>
-						<td>
-							<code>400</code>
-						</td>
-					</tr>
-          <tr>
-						<td>
-							<code>INVALID_OPTIONS</code>
-						</td>
-						<td>
-							<code>400</code>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<code>NOT_FOUND</code>
-						</td>
-						<td>
-							<code>404</code>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<code>REPRESENTATION_NOT_SUPPORTED</code>
-						</td>
-						<td>
-							<code>406</code>
-						</td>
-					</tr>
-          <tr>
-						<td>
-							<code>INVALID_DID_DOCUMENT</code>
-						</td>
-						<td>
-							<code>500</code>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<code>METHOD_NOT_SUPPORTED</code>
-						</td>
-						<td>
-							<code>501</code>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<code>FEATURE_NOT_SUPPORTED</code>
-						</td>
-						<td>
-							<code>501</code>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<code>INTERNAL_ERROR</code>
-						</td>
-						<td>
-							<code>500</code>
-						</td>
-					</tr>
-
-					<tr>
-						<td>
-							(any other value)
-						</td>
-						<td>
-							<code>500</code>
-						</td>
-					</tr>
-					</tbody>
-				</table>
-			</li>
+						<li>If the <a>DID resolution</a> or <a>DID URL dereferencing</a> function returns an <b>error</b> metadata property in the
+                <b>didResolutionMetadata</b> or <b>dereferencingMetadata</b>,
+                then the HTTP response status code MUST correspond to the <code>type</code> property of the <b>error object</b>,
+                according to the following table:
+                <table class="simple">
+                    <thead>
+                        <tr>
+                            <th>
+                                error <code>type</code> URI
+                            </th>
+                            <th>
+                                HTTP status code
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <code><a href="https://www.w3.org/ns/did#INVALID_DID">https://www.w3.org/ns/did#INVALID_DID</a></code>
+                            </td>
+                            <td>
+                                <code>400</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <code><a href="https://www.w3.org/ns/did#INVALID_DID_URL">https://www.w3.org/ns/did#INVALID_DID_URL</a></code>
+                            </td>
+                            <td>
+                                <code>400</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <code><a href="https://www.w3.org/ns/did#INVALID_OPTIONS">https://www.w3.org/ns/did#INVALID_OPTIONS</a></code>
+                            </td>
+                            <td>
+                                <code>400</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <code><a href="https://www.w3.org/ns/did#NOT_FOUND">https://www.w3.org/ns/did#NOT_FOUND</a></code>
+                            </td>
+                            <td>
+                                <code>404</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <code><a href="https://www.w3.org/ns/did#REPRESENTATION_NOT_SUPPORTED">https://www.w3.org/ns/did#REPRESENTATION_NOT_SUPPORTED</a></code>
+                            </td>
+                            <td>
+                                <code>406</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <code><a href="https://www.w3.org/ns/did#INVALID_DID_DOCUMENT">https://www.w3.org/ns/did#INVALID_DID_DOCUMENT</a></code>
+                            </td>
+                            <td>
+                                <code>500</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <code><a href="https://www.w3.org/ns/did#METHOD_NOT_SUPPORTED">https://www.w3.org/ns/did#METHOD_NOT_SUPPORTED</a></code>
+                            </td>
+                            <td>
+                                <code>501</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <code><a href="https://www.w3.org/ns/did#FEATURE_NOT_SUPPORTED">https://www.w3.org/ns/did#FEATURE_NOT_SUPPORTED</a></code>
+                            </td>
+                            <td>
+                                <code>501</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <code><a href="https://www.w3.org/ns/did#INTERNAL_ERROR">https://www.w3.org/ns/did#INTERNAL_ERROR</a></code>
+                            </td>
+                            <td>
+                                <code>500</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                (any other error URI)
+                            </td>
+                            <td>
+                                <code>500</code>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </li>
 			<li>If the <a>DID resolution</a> or <a>DID URL dereferencing</a> function returns a <b>deactivated</b> metadata property with
 				the value <code>true</code> in the <b>didDocumentMetadata</b> or <b>contentMetadata</b>:
 				<ol class="algorithm">
