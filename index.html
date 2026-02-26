@@ -2323,6 +2323,14 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 			<a>DID resolution</a> and/or <a>DID URL dereferencing</a> functions (including all
 			resolution/dereferencing options and metadata) via an HTTP(S) endpoint. See <a href="#resolver-architectures"></a>.</p>
 
+		<p class="note">
+			Use of an HTTP(S) resolver creates a reliance on a remote party and the
+			privacy of the requestor may be reduced through the inclusion of various
+			HTTP headers such as `Referer`, `Origin`, `Cookies`, and `Authorization`.
+			Additionally, caching between the <a>client</a> and the <a>DID
+			resolver</a> may further reduce the privacy of the request.
+		</p>
+
 		<p>The HTTP(S) binding requires a known HTTP(S) URL where a <a>DID resolver</a> can be invoked. This URL is called the
 			<var><a>DID resolver</a> HTTP(S) endpoint</var>.</p>
 
