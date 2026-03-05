@@ -1045,12 +1045,10 @@ string">ASCII string</a>.
 			<li>If the <var>input <a href="#did-resolution-options">DID resolution options</a></var> contain the <code>expandRelativeUrls</code> option with a value of <code>true</code>:
 				<ol class="algorithm">
 					<li>Iterate over all <a data-cite="did-core#services">services</a>,
-						<a data-cite="did-core#verification-methods">verification methods</a>, and
+						<a data-cite="did-core#verification-methods">verification methods</a>,
 						<a data-cite="did-core#verification-relationships">verification relationships</a>
-						in the <var>output <a>DID document</a></var>.</li>
-					<li>If the value of the <code>id</code> property of a <a data-cite="did-core#services">service</a> or
-						<a data-cite="did-core#verification-methods">verification method</a>
-						(including those embedded in <a data-cite="did-core#verification-relationships">verification relationships</a>) is a
+						and any extension-defined properties in the <var>output <a>DID document</a></var>.</li>
+					<li>For each item, if the item is an object and the value of the <code>id</code> property is a
 						<a data-cite="did-core#relative-did-urls">relative DID URL</a>, or if a
 						<a data-cite="did-core#verification-relationships">verification relationship</a> is a
 						<a data-cite="did-core#relative-did-urls">relative DID URL</a>:
