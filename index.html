@@ -122,12 +122,6 @@
 		table.simple tbody tr:last-of-type {
 			border-bottom: 2px solid #005a9c;
 		}
-		/* Prevent ReSpec algorithm counters from numbering nested condition lists */
-		ol.algorithm ul.no-algo-num > li::before { content: none !important; }
-		ol.algorithm ul.no-algo-num > li::marker { content: "• " !important; }
-
-		/* Ensure normal bullet styling */
-		ol.algorithm ul.no-algo-num { list-style: disc; margin-left: 1.5em; }
     </style>
   </head>
   <body data-cite="infra rfc3986 did">
@@ -1424,7 +1418,7 @@ dereference(didUrl, dereferenceOptions) →
 
 				<li>If the <var>input <a>DID URL</a></var> contains one or more of the following:
 					<div>
-						<ul class="no-algo-num">
+						<ul>
 							<li>a <a>DID URL</a> path</li>
 							<li>one or more `service` <a
 							href="https://www.w3.org/TR/did-core/#did-parameters">DID
