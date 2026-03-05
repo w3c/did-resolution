@@ -507,10 +507,10 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 				<li>`basePath`: MUST be a valid path component of a URL (as
 				specified in <a data-cite="RFC3986#section-3.3">RFC3986 Section
 				3.3</a>)</li>
-				<li>`pathAlgorithm`</li> OPTIONAL. A string value identifying
+				<li>`pathAlgorithm`: OPTIONAL. A string value identifying
 				the algorithm used to process the DID URL path. If the
-				`pathAlgorithm` attribute is not present, its value MUST be
-				assumed to be `relative-ref-2026`.
+				`pathAlgorithm` attribute is not present, it MUST be
+				treated as if set to `relative-ref-2026`.</li>
 			</ul>
 		</p>
 		<pre class="example nohighlight"
@@ -539,8 +539,8 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 		</p>
 		<pre class="example nohighlight" title="A DID URL with a Path and the
 		returned URL, assuming the `service` object from the example above">
-			did:example.com:123/path/to/resume.pdf
-			https://example.com/123/DIDResources/path/to/resume.pdf
+did:example.com:123/path/to/resume.pdf
+https://example.com/123/DIDResources/path/to/resume.pdf
 		</pre>
 	</section>
 
@@ -1462,11 +1462,11 @@ dereference(didUrl, dereferenceOptions) →
                         <p>Path handling `service` objects
                         will include a `basePath` attribute whose value is a
                         valid URL path component (
-                        data-cite="RFC3986#section-3.3">RFC3986 Section
+                        <a data-cite="RFC3986#section-3.3">RFC3986 Section
                         3.3</a>), and a `serviceEndpoint` attribute.
                         <a>DID URL dereferencers</a> SHOULD support `service`
                         objects with `type` values
-                        href="#did-service-types">defined in this
+                        <a href="#did-service-types">defined in this
                         specification</a>, plus any that are DID Method-specific
                         or Document Property Extensions
                         [[?DID-EXTENSIONS-PROPERTIES]]; any such `service`
