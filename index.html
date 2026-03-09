@@ -482,9 +482,10 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 			The guidance in this section concerns how a DID URL query string is
 			normalized for the purposes of parsing, comparison, and forwarding.
 			It is distinct from the question of which parameters are passed as
-			resolution options versus embedded in the DID URL, which is
-			addressed in the note at the end of <a href="#did-parameters"></a>
-			on the distinction between DID parameters and resolution options.
+			resolution options as opposed to being embedded in the <a>DID URL</a>, which is
+			addressed at the end of <a href="#did-parameters"></a>
+			in the note on the distinction between DID parameters and resolution
+			options.
 		</p>
 
 		<section id="percent-encoding-normalization">
@@ -569,8 +570,8 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 				The set of query parameters defined in <a
 				href="#did-parameters"></a> is not exhaustive. DID methods may
 				define additional method-specific query parameters, and the
-				canonical form of those parameters — including their names,
-				value formats, and ordering — may vary by method.
+				canonical form of those parameters (including their names,
+				value formats, and ordering) may vary by method.
 			</p>
 			<p>
 				DID method specifications are encouraged to specify a canonical
@@ -596,10 +597,10 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 			</p>
 			<p>
 				Implementations that need to test two DID URLs for logical
-				equivalence — for example, for cache lookup — are encouraged to
-				apply parameter-ordering- independent comparison after applying
+				equivalence (for example, for cache lookup) are encouraged to
+				apply parameter-ordering-independent comparison after applying
 				the percent-encoding normalization described in <a
-				href="#percent-encoding-normalization"></a>. unless the
+				href="#percent-encoding-normalization"></a>, unless the
 				applicable DID method specification defines a canonical
 				parameter ordering with semantic significance.
 			</p>
@@ -3011,8 +3012,8 @@ Content-Type: application/did
 			<a>DID URL</a> can be represented by multiple syntactically distinct
 			strings. In a proxied or multi-component resolution architecture
 			(see <a href="#resolver-architectures-proxied"></a>), different
-			components may apply different normalization rules — or no
-			normalization at all.</p>
+			components may apply different normalization rules (or no
+			normalization at all).</p>
 
 			<p>An attacker aware of normalization inconsistencies between
 			components may be able to:</p>
@@ -3046,8 +3047,8 @@ Content-Type: application/did
 			<h3>Parameter Injection via Concatenation</h3>
 
 			<p>Implementations that construct <a>DID URLs</a> programmatically
-			by string concatenation — for example, appending a caller-supplied
-			value as a DID parameter — may be vulnerable to parameter injection
+			by string concatenation (for example, appending a caller-supplied
+			value as a DID parameter) may be vulnerable to parameter injection
 			if the input is not validated and encoded prior to
 			concatenation.</p>
 			<p>For example, a caller-supplied `service` value of
@@ -3063,7 +3064,7 @@ Content-Type: application/did
 			decoding, conform to the expected value format for the parameter as
 			defined in this specification (see <a href="#did-parameters"></a>),
 			in the applicable DID method specification, or in the DID Document
-			Properties Extensions [[?DID-EXTENSIONS-PROPERTIES]].</p>
+			Resolution Extensions [[?DID-EXTENSIONS-RESOLUTION]].</p>
 		</section>
 	</section>
 </section>
