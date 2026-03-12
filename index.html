@@ -463,6 +463,150 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 
 	</section>
 
+	<section id="query-normalization">
+		<h3>Query Normalization</h3>
+
+		<p>
+			<a>DID URL</a> query strings are routinely constructed, parsed, logged,
+			cached, and compared by multiple independent components across a
+			resolution pipeline — for example, a client, a caching proxy, a
+			downstream resolver, and a DID method-specific resolver (see
+			<a href="#resolver-architectures"></a>). Inconsistent normalization
+			of <a>DID URL</a> query strings across these components can silently
+			produce incorrect resolution results, cache poisoning, or broken
+			interoperability. This section enumerates edge cases that
+			implementers and DID method specification authors are encouraged to
+			address explicitly.
+		</p>
+		<p class="note" title="DID URL query string normalization">
+			The guidance in this section concerns how a DID URL query string is
+			normalized for the purposes of parsing, comparison, and forwarding.
+			It is distinct from the question of which parameters are passed as
+			resolution options as opposed to being embedded in the <a>DID URL</a>, which is
+			addressed at the end of <a href="#did-parameters"></a>
+			in the note on the distinction between DID parameters and resolution
+			options.
+		</p>
+
+		<section id="percent-encoding-normalization" class="informative">
+			<h4>Percent-Encoding Normalization</h4>
+
+			<p>
+				The percent-encoding of a character in a <a>DID URL</a> query string
+				does not change the identity of the resource being identified,
+				but different encodings of the same logical value could be treated
+				as distinct strings by implementations that perform naive string
+				comparison.
+			</p>
+			<p>
+				Implementations that compare, cache, or forward DID URLs are
+				encouraged to normalize percent-encoding before comparison or
+				storage. The following rules, consistent with <a
+				data-cite="RFC3986#section-6.2.2">RFC3986 Section 6.2.2:
+				Syntax-Based Normalization</a>, are suggested as a baseline:
+			</p>
+			<ol>
+				<li>Percent-encoded octets that correspond to unreserved characters
+				(as defined in <a data-cite="RFC3986#section-2.3">RFC3986 Section
+				2.3: Unreserved Characters</a>) can be decoded to their literal
+				character form.</li>
+				<li>All remaining percent-encoded octets are best represented using
+				uppercase hexadecimal digits (e.g., `%2F` rather than `%2f`).</li>
+				<li>Avoid decoding percent-encoded characters that are reserved
+				delimiters within the query component (e.g., `%26` for `&`,
+				`%3D` for `=`), as doing so would alter the parsed structure of
+				the query string.</li>
+			</ol>
+			<p>
+				DID method specifications are encouraged to document which
+				characters in their method-specific DID parameters are safe to
+				decode during normalization.
+			</p>
+			<p class="note" title="relativeRef-percent-encoding">
+				The `relativeRef` DID parameter value will typically contain
+				percent-encoded path separators and query characters (e.g.,
+				`relativeRef=%2Fresume.pdf%3Fversion%3D2`). Avoid decoding these
+				as part of query-level normalization, as the encoded form is
+				intentional and necessary for the value to be correctly
+				interpreted as a relative reference during dereferencing (see
+				<a href="#dereferencing-algorithm-resource">Dereferencing the
+				Resource</a>).
+			</p>
+		</section>
+
+		<section id="duplicate-parameter-handling">
+			<h4>Duplicate Parameter Handling</h4>
+
+			<p>
+				The <a>DID URL</a> syntax does not prohibit duplicate occurrences of
+				the same query parameter name within a single DID URL (e.g.,
+				`did:example:123?service=files&service=agent`). The behavior of
+				resolution and dereferencing functions when duplicate parameters
+				are present is otherwise unspecified by this document.
+			</p>
+			<p>
+				Implementers are encouraged to define and document the behavior
+				of their implementations when a <a>DID URL</a> contains duplicate query
+				parameter names. Because all DID parameters defined in this
+				specification have scalar values (see <a href="#did-parameters"></a>), a duplicate
+				occurrence of any of these parameters represents an ambiguous
+				input with no well-defined resolution behavior. One reasonable
+				approach is to treat such a <a>DID URL</a> as invalid and return an
+				`INVALID_DID_URL` error (see <a href="#errors"></a>).
+			</p>
+			<p>
+				DID method specifications that define method-specific query
+				parameters are encouraged to explicitly state whether duplicate
+				occurrences of those parameters are permitted, and if so, to
+				define the resolution semantics (e.g., first value wins, last
+				value wins, set union).
+			</p>
+
+		</section>
+		<section id="canonicalization-by-did-method">
+			<h4>Canonicalization by DID Method</h4>
+
+			<p>
+				The set of query parameters defined in <a
+				href="#did-parameters"></a> is not exhaustive. DID methods can
+				define additional method-specific query parameters, and the
+				canonical form of those parameters (including their names,
+				value formats, and ordering) can vary by method.
+			</p>
+			<p>
+				DID method specifications are encouraged to specify a canonical
+				form for any method-specific query parameters they define,
+				covering the following considerations:
+				<ol>
+					<li><strong>Value format:</strong> The expected encoding,
+					character set, and range of valid values for each
+					parameter.</li>
+					<li><strong>Parameter ordering:</strong> Whether the
+					relative ordering of query parameters has semantic
+					significance, and if so, what the canonical ordering is. In
+					the absence of explicit guidance, it is reasonable to treat
+					parameter ordering as insignificant when comparing DID URLs
+					for logical equivalence.</li>
+					<li><strong>Case sensitivity:</strong> Whether parameter
+					names or values are case-sensitive. The parameter names
+					defined in this specification are case-sensitive ASCII
+					strings. In the absence of contrary guidance from a DID
+					method specification, parameter values are best treated as
+					case-sensitive.</li>
+				</ol>
+			</p>
+			<p>
+				Implementations that need to test two DID URLs for logical
+				equivalence (for example, for cache lookup) are encouraged to
+				apply parameter-ordering-independent comparison after applying
+				the percent-encoding normalization described in <a
+				href="#percent-encoding-normalization"></a>, unless the
+				applicable DID method specification defines a canonical
+				parameter ordering with semantic significance.
+			</p>
+		</section>
+	</section>
+
 </section>
 
 <section id="resolving">
@@ -2801,6 +2945,125 @@ Content-Type: application/did
 			recursion depth or breadth to reduce the potential attack surface.</p>
 	</section>
 
+	<section id="security-query-string-normalization-and-injection-risks" class="informative">
+		<h2>Query String Normalization and Injection Risks</h2>
+
+		<p>The query component of a <a>DID URL</a> is used to pass DID
+		parameters that affect resolution and dereferencing behavior (see <a
+		href="#did-parameters"></a>). Several aspects of query string handling
+		carry security implications that implementers are advised to consider
+		carefully.</p>
+
+		<section id="path-traversal-via-relativeref">
+			<h3>Path Traversal via `relativeRef`</h3>
+
+			<p>The percent-decoded value of the `relativeRef` DID parameter is
+			combined with the `serviceEndpoint` URL as the base URI using the
+			reference resolution algorithm defined in <a
+			data-cite="RFC3986#section-5">RFC3986 Section 5</a>, to construct a
+			final resource URL (see <a
+			href="#dereferencing-algorithm-resource"></a>). If the value of
+			`relativeRef` contains path traversal sequences, an attacker might be
+			able to cause the resolver to construct a resource URL that escapes
+			the intended path scope of the service endpoint.</p>
+
+			<p>Path traversal could be attempted using a variety of encodings. The
+			following are non-exhaustive examples of sequences an attacker might
+			use:</p>
+			<ul>
+				<li>Literal dot-dot-slash: `../`</li>
+				<li>Percent-encoded variants: `%2E%2E%2F`, `%2E%2E/`, .`%2E/`, `%2E./`</li>
+				<li>Doubly-encoded variants: `%252E%252E%252F`</li>
+				<li>Platform-specific variants (e.g., `..\` on Windows-derived path libraries)</li>
+			</ul>
+
+			<p>Implementers are encouraged to:</p>
+			<ul>
+				<li>Normalize the resolved path after applying the <a
+				data-cite="RFC3986#section-5">RFC3986 Section 5</a> Reference
+				Resolution algorithm, and verify that the resulting path does
+				not traverse above the base path of the service endpoint
+				URL.</li>
+				<li>Treat `relativeRef` values that, after normalization, would
+				produce a resource URL whose path is not prefixed by the base
+				path of the `serviceEndpoint` URL as invalid inputs, for example
+				by returning an `INVALID_DID_URL` error (see <a href="#errors"></a>).</li>
+				<li>Apply normalization and validation after full
+				percent-decoding, to guard against encoded traversal variants.
+				Superficial string matching (e.g., checking only for the literal
+				string `../`) is not a reliable traversal detection
+				mechanism.</li>
+			</ul>
+			<p class="note" title="relativeRef Resolution Cycles">This concern is
+			particularly acute when the service endpoint URL is itself a DID URL
+			that will be recursively resolved. In such cases, a traversal
+			sequence in `relativeRef` could affect the resolution of a different
+			DID document than intended. See also
+			<a href="#security-cycles-resolution"></a>.</p>
+			
+		</section>
+		<section id="normalization-inconsistency-cache-bypass">
+			<h3>Normalization Inconsistency as a Cache Bypass Vector</h3>
+
+			<p>As described in <a href="#query-normalization"></a>, the same logical
+			<a>DID URL</a> can be represented by multiple syntactically distinct
+			strings. In a proxied or multi-component resolution architecture
+			(see <a href="#resolver-architectures-proxied"></a>), different
+			components can apply different normalization rules (or no
+			normalization at all).</p>
+
+			<p>An attacker aware of normalization inconsistencies between
+			components could:</p>
+			<ul>
+				<li>Construct a <a>DID URL</a> that is served from cache by one
+				component but re-resolved from the <a>verifiable data registry</a> by
+				another, potentially bypassing content integrity checks
+				associated with cached responses.</li>
+				<li>Cause two logically identical <a>DID URLs</a> to be cached
+				as distinct entries, inflating cache size and potentially
+				enabling cache exhaustion.</li>
+				<li>Exploit differing duplicate-parameter handling between a
+				caching proxy and an upstream resolver to inject unexpected
+				parameter values into a resolution request.</li>
+			</ul>
+			<p>To mitigate these risks, implementers are encouraged to:</p>
+			<ol>
+				<li>Apply query string normalization (per <a
+				href="#query-normalization"></a>) at the outermost entry point
+				of the resolution pipeline, before any caching or forwarding
+				occurs.</li>
+				<li>Use the normalized form of the <a>DID URL</a> as the cache
+				key, and document the normalization algorithm applied.</li>
+				<li>Avoid assuming that a <a>DID URL</a> received from an
+				upstream component has already been normalized; applying
+				independent normalization before processing is a safer
+				approach.</li>
+			</ol>
+		</section>
+		<section id="">
+			<h3>Parameter Injection via Concatenation</h3>
+
+			<p>Implementations that construct <a>DID URLs</a> programmatically
+			by string concatenation (for example, appending a caller-supplied
+			value as a DID parameter) might be vulnerable to parameter injection
+			if the input is not validated and encoded prior to
+			concatenation.</p>
+			<p>For example, a caller-supplied `service` value of
+			`files&versionId=2` could, if concatenated without encoding, inject
+			an additional `versionId` parameter into the <a>DID URL</a>,
+			altering resolution behavior in ways the caller might not have
+			intended or authorized. This is analogous to query string injection
+			vulnerabilities in HTTP-based systems.</p>
+			<p>Implementers are encouraged to percent-encode all caller-supplied
+			parameter values before concatenation into a DID URL query string,
+			in accordance with <a data-cite="RFC3986#section-2.1">RFC3986
+			Section 2.1</a>, and to validate that parameter values, after
+			decoding, conform to the expected value format for the parameter as
+			defined in this specification (see <a href="#did-parameters"></a>),
+			in the applicable DID method specification, or in the DID Document
+			Resolution Extensions [[?DID-EXTENSIONS-RESOLUTION]].</p>
+		</section>
+	</section>
 </section>
 <section id="privacy-considerations">
 	<h1>Privacy Considerations</h1>
