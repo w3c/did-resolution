@@ -571,7 +571,7 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 				href="#did-parameters"></a> is not exhaustive. DID methods can
 				define additional method-specific query parameters, and the
 				canonical form of those parameters (including their names,
-				value formats, and ordering) may vary by method.
+				value formats, and ordering) can vary by method.
 			</p>
 			<p>
 				DID method specifications are encouraged to specify a canonical
@@ -2966,7 +2966,7 @@ Content-Type: application/did
 			data-cite="RFC3986#section-5">RFC3986 Section 5</a>, to construct a
 			final resource URL (see <a
 			href="#dereferencing-algorithm-resource"></a>). If the value of
-			`relativeRef` contains path traversal sequences, an attacker may be
+			`relativeRef` contains path traversal sequences, an attacker might be
 			able to cause the resolver to construct a resource URL that escapes
 			the intended path scope of the service endpoint.</p>
 
@@ -3054,7 +3054,7 @@ Content-Type: application/did
 			<p>For example, a caller-supplied `service` value of
 			`files&versionId=2` could, if concatenated without encoding, inject
 			an additional `versionId` parameter into the <a>DID URL</a>,
-			altering resolution behavior in ways the caller may not have
+			altering resolution behavior in ways the caller might not have
 			intended or authorized. This is analogous to query string injection
 			vulnerabilities in HTTP-based systems.</p>
 			<p>Implementers are encouraged to percent-encode all caller-supplied
