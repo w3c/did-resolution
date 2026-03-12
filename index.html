@@ -488,13 +488,13 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 			options.
 		</p>
 
-		<section id="percent-encoding-normalization">
+		<section id="percent-encoding-normalization" class="informative">
 			<h4>Percent-Encoding Normalization</h4>
 
 			<p>
 				The percent-encoding of a character in a <a>DID URL</a> query string
 				does not change the identity of the resource being identified,
-				but different encodings of the same logical value may be treated
+				but different encodings of the same logical value could be treated
 				as distinct strings by implementations that perform naive string
 				comparison.
 			</p>
@@ -512,9 +512,9 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 				character form.</li>
 				<li>All remaining percent-encoded octets are best represented using
 				uppercase hexadecimal digits (e.g., `%2F` rather than `%2f`).</li>
-				<li>Care should be taken not to decode percent-encoded characters
-				that are reserved delimiters within the query component (e.g., `%26`
-				for `&`, `%3D` for `=`), as doing so would alter the parsed structure of
+				<li>Avoid decoding percent-encoded characters that are reserved
+				delimiters within the query component (e.g., `%26` for `&`,
+				`%3D` for `=`), as doing so would alter the parsed structure of
 				the query string.</li>
 			</ol>
 			<p>
@@ -525,10 +525,10 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 			<p class="note" title="relativeRef-percent-encoding">
 				The `relativeRef` DID parameter value will typically contain
 				percent-encoded path separators and query characters (e.g.,
-				`relativeRef=%2Fresume.pdf%3Fversion%3D2`). These should not be
-				decoded as part of query-level normalization, as the encoded form is
-				intentional and necessary for the value to be correctly interpreted
-				as a relative reference during dereferencing (see
+				`relativeRef=%2Fresume.pdf%3Fversion%3D2`). Avoid decoding these
+				as part of query-level normalization, as the encoded form is
+				intentional and necessary for the value to be correctly
+				interpreted as a relative reference during dereferencing (see
 				<a href="#dereferencing-algorithm-resource">Dereferencing the
 				Resource</a>).
 			</p>
@@ -2970,7 +2970,7 @@ Content-Type: application/did
 			able to cause the resolver to construct a resource URL that escapes
 			the intended path scope of the service endpoint.</p>
 
-			<p>Path traversal may be attempted using a variety of encodings. The
+			<p>Path traversal could be attempted using a variety of encodings. The
 			following are non-exhaustive examples of sequences an attacker might
 			use:</p>
 			<ul>
@@ -3012,11 +3012,11 @@ Content-Type: application/did
 			<a>DID URL</a> can be represented by multiple syntactically distinct
 			strings. In a proxied or multi-component resolution architecture
 			(see <a href="#resolver-architectures-proxied"></a>), different
-			components may apply different normalization rules (or no
+			components can apply different normalization rules (or no
 			normalization at all).</p>
 
 			<p>An attacker aware of normalization inconsistencies between
-			components may be able to:</p>
+			components could:</p>
 			<ul>
 				<li>Construct a <a>DID URL</a> that is served from cache by one
 				component but re-resolved from the <a>verifiable data registry</a> by
@@ -3048,7 +3048,7 @@ Content-Type: application/did
 
 			<p>Implementations that construct <a>DID URLs</a> programmatically
 			by string concatenation (for example, appending a caller-supplied
-			value as a DID parameter) may be vulnerable to parameter injection
+			value as a DID parameter) might be vulnerable to parameter injection
 			if the input is not validated and encoded prior to
 			concatenation.</p>
 			<p>For example, a caller-supplied `service` value of
