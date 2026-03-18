@@ -523,6 +523,13 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 			}
 		</pre>
 
+		<p>For a `PathService` object, the path-matching algorithm compares the
+		`basePath` attribute value as a case-sensitive string against the
+		beginning of the <a>DID URL</a> path. If the <a>DID URL</a> path begins
+		with the `basePath` value, the match length is the number of characters
+		in `basePath`; otherwise the match length is zero.
+    	</p>
+
 		<p>During the <a href="#dereferencing-algorithm"></a> where a DID URL
 		path is present, if the `service` to be used for DID URL path
 		handling is of `type` `PathService` and the attribute `pathAlgorithm`
@@ -1444,46 +1451,44 @@ dereference(didUrl, dereferenceOptions) →
 						all of the `service` objects.
 					</li>
 					<li>
+						If the input <a>DID URL</a> contains a path component:
+						<div>
+							<ul>
+								<li>Remove from the list of `service` objects whose `type` indicates they are not for <a>DID URL</a> path handling.</li>
+								<li>Add to the list any other objects from the <a>DID Document</a> that are for <a>DID URL</a> path handling.</li>
+							</ul>
+						</div>
+                        <p><a>DID URL dereferencers</a> SHOULD support <a>DID URL</a> path handling objects
+                        <a href="#did-service-types">defined in this
+                        specification</a>, plus any that are DID Method-specific
+                        or Document Property Extensions
+                        [[?DID-EXTENSIONS-PROPERTIES]]; any such object types
+                        that are supported MUST be implemented as defined.</p>
+					</li>
+					<li>
 						If the input <a>DID URL</a> contains the <a
 						href="https://www.w3.org/TR/did-core/#did-parameters">
 						DID parameter(s)</a> `service` and/or the <a
 						href="https://www.w3.org/TR/did-core/#did-parameters">
-						DID parameter(s)</a> `serviceType`, filter the list to
-						include only `service` objects whose `id` matches the
+						DID parameter(s)</a> `serviceType`, filter the list of `service` objects to
+						include only those whose `id` matches the
 						`service` parameter value(s) and/or whose `type` matches
 						the `serviceType` parameter value(s), as applicable.
 					</li> 
 					<li>
 						If the input <a>DID URL</a> contains a path component,
-                        further filter the list of remaining `service` objects
-                        to include only those whose `type` indicates they are
-                        for <a>DID URL</a> path handling and are supported by
-                        the <a>DID URL dereferencer</a>.
-                        <p>Path handling `service` objects
-                        will include a `basePath` attribute whose value is a
-                        valid URL path component (
-                        <a data-cite="RFC3986#section-3.3">RFC3986 Section
-                        3.3</a>), and a `serviceEndpoint` attribute.
-                        <a>DID URL dereferencers</a> SHOULD support `service`
-                        objects with `type` values
-                        <a href="#did-service-types">defined in this
-                        specification</a>, plus any that are DID Method-specific
-                        or Document Property Extensions
-                        [[?DID-EXTENSIONS-PROPERTIES]]; any such `service`
-                        object types that are supported MUST be implemented as
-                        defined.</p>
-					</li>
-					<li>
-						If the input <a>DID URL</a> contains a path component,
-						eliminate from the list of remaining `service` objects all
-						but the one whose `basePath` value is the longest
-						case-sensitive string prefix of the extracted <a>DID URL</a>
-						path, where “longest” is measured by number of
-						characters.
+						apply the path-matching algorithm defined for each
+						remaining object's `type` to determine the length (in
+						characters) of the longest case-sensitive prefix of the
+						<a>DID URL</a> path that the object matches, or zero if
+						no match is produced. Then eliminate all objects that
+						produced no match, and eliminate all but the object that
+						produced the longest match.
 						<ol class="algorithm">
-							<li>If two or more `service` objects have the same
-							longest-matching prefix, DID Document is invalid the <a>DID URL
-							dereferencer</a> MUST return the following result:
+							<li>If two or more objects have the same
+							longest-matching prefix, the DID Document is invalid
+							and the <a>DID URL dereferencer</a> MUST return the
+							following result:
 								<ol class="algorithm">
 									<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#INVALID_DID_DOCUMENT">INVALID_DID_DOCUMENT</a></li>
 									<li><b>contentStream</b>: <code>null</code></li>
@@ -1493,13 +1498,13 @@ dereference(didUrl, dereferenceOptions) →
 						</ol>
 					</li>
 					<li>
-						If no `service` objects remain in the list, and there is a
+						If no objects remain in the list, and there is a
 						path component in the DID URL, and the <a>DID Method</a>
 						specifies its own path handling algorithm, use that
 						algorithm, skipping the rest of these steps.
 					</li>
 					<li>
-						Otherwise, if no `service` objects remain in the list,
+						Otherwise, if no objects remain in the list,
 						return the following result:
 						<ol class="algorithm">
 							<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#INVALID_DID_URL">INVALID_DID_URL</a></li>
@@ -1514,12 +1519,12 @@ dereference(didUrl, dereferenceOptions) →
 						<ol class="algorithm">
 							<li>
 								The processing specification for the `type` of
-								the one remaining `service` determines the
+								the one remaining object determines the
 								algorithm for processing the
 								<a>DID URL</a> path.
 								<ol class="algorithm">
 									<li>
-										A `service` object `type` specification
+										A path handling object `type` specification
 										can appear in the <a
 										href="#did-service-types"></a> section
 										of this document, in the applicable
@@ -1529,7 +1534,7 @@ dereference(didUrl, dereferenceOptions) →
 									</li>
 									<li>
 										The `PathService` type is (currently)
-										the only `service` object `type`
+										the only path handling object `type`
 										specification defined in this
 										specification. See the <a
 										href="#pathservice-service-type">`PathService`
