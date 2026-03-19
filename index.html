@@ -2801,10 +2801,11 @@ Content-Type: application/did
 	<p>
 	This section details the privacy considerations specific to DID Resolution.
 	Readers are urged to familiarize themselves with the general
-	privacy advice provided in the
-	<a href="https://www.w3.org/TR/did-1.1/#privacy-considerations">
-	Privacy Considerations section of the Decentralized Identifiers
-	specification</a> before reading this section.
+	privacy advice provided in the Privacy Considerations section of the
+	<a href="https://www.w3.org/TR/did-1.1/#privacy-considerations">Decentralized
+	Identifiers specification</a> and
+	<a href="https://w3c.github.io/cid/#privacy-considerations">
+	Controlled Identifiers specification</a> before reading this section.
 	</p>
 
 	<section id="profiling-requesters">
@@ -2814,10 +2815,27 @@ Content-Type: application/did
 			and profile the clients making requests for these services. To mitigate this privacy risk,
 			clients should make such requests to services they trust, for example,
 			because of an existing business relationship or because the service is running on
-			infrastructure they control. Clients can also take steps to obfuscate their
-			requests to a service in order to limit the possibilities of correlation and profiling.
+			infrastructure they control.
+		</p>
+		<p>
+			Clients can also take steps to obfuscate their requests to a service in
+			order to limit the possibilities of correlation and profiling. Techniques
+			for obfuscation include Oblivious HTTP, using a trusted proxy to execute
+			the resolution request, and	using a trusted cache.
 		</p>
 
+	</section>
+	<section>
+		<h2>Method specific considerations</h2>
+		<p>Different DID methods have different additional privacy implications and
+			considerations depending on the design decisions and underlying VDR of
+			the method. Implementers are advised to review the privacy considerations
+			of the specific DID methods they intend to support. Designers of DID
+			methods are encouraged to produce a threat model following the
+			<a href="https://www.w3.org/TR/threat-modeling-guide/">W3C
+			Threat Modelling Guide</a> to help implementers understand the
+			privacy implications of the method design.
+		</p>
 	</section>
 
 </section>
