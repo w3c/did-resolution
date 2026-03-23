@@ -1439,13 +1439,18 @@ dereference(didUrl, dereferenceOptions) →
 							parameter</a></li>
 						</ul>
 					</div>
-					The <a>DID URL dereferencer</a> MUST use the following algorithm to
+					A <a>DID URL dereferencer</a> MUST use the following algorithm to
 					dereference the <var>input <a>DID URL</a></var>:
 				</li>
 				<pre class="example nohighlight">did:example:1234/path/to/resource</pre>
 				<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest</pre>
 				<pre class="example nohighlight">did:example:1234/path/to/resource?relativeRef=%3Fversion%3Dlatest</pre>
 				<ol class="algorithm">
+					<li>
+						If the <a>DID Method</a> specifies its own path handling
+						algorithm, use that algorithm, skipping the rest of
+						these steps.
+					</li>
 					<li>
 						Collect from the resolved <a>DID Document</a> a list of
 						all of the `service` objects.
@@ -1454,7 +1459,7 @@ dereference(didUrl, dereferenceOptions) →
 						If the input <a>DID URL</a> contains a path component:
 						<div>
 							<ul>
-								<li>Remove from the list of `service` objects whose `type` indicates they are not for <a>DID URL</a> path handling.</li>
+								<li>Remove from the list of `service` objects those whose `type` indicates they are not for <a>DID URL</a> path handling.</li>
 								<li>Add to the list any other objects from the <a>DID Document</a> that are for <a>DID URL</a> path handling.</li>
 							</ul>
 						</div>
@@ -1464,16 +1469,24 @@ dereference(didUrl, dereferenceOptions) →
                         or Document Property Extensions
                         [[?DID-EXTENSIONS-PROPERTIES]]; any such object types
                         that are supported MUST be implemented as defined.</p>
+						<p>The `PathService` type is (currently) the only path
+						handling object `type` specification defined in this
+						specification. See the <a
+						href="#pathservice-service-type">`PathService` Service
+						Type</a> section for its definition and how it can be
+						extended to use different processing rules.</p>
 					</li>
 					<li>
-						If the input <a>DID URL</a> contains the <a
-						href="https://www.w3.org/TR/did-core/#did-parameters">
-						DID parameter(s)</a> `service` and/or the <a
-						href="https://www.w3.org/TR/did-core/#did-parameters">
-						DID parameter(s)</a> `serviceType`, filter the list of `service` objects to
-						include only those whose `id` matches the
-						`service` parameter value(s) and/or whose `type` matches
-						the `serviceType` parameter value(s), as applicable.
+						If the input <a>DID URL</a> contains the 
+						<href="https://www.w3.org/TR/did-core/#did-parameters">
+						DID parameter(s)</a> `service` and/or the 
+						<href="https://www.w3.org/TR/did-core/#did-parameters">
+						DID parameter(s)</a> `serviceType`, filter the list as
+						follows: retain all objects that are not `service`
+						objects; for `service` objects, retain only those whose
+						`id` matches the `service` parameter value(s) and/or
+						whose `type` matches the `serviceType` parameter
+						value(s), as applicable.
 					</li> 
 					<li>
 						If the input <a>DID URL</a> contains a path component,
@@ -1482,29 +1495,11 @@ dereference(didUrl, dereferenceOptions) →
 						characters) of the longest case-sensitive prefix of the
 						<a>DID URL</a> path that the object matches, or zero if
 						no match is produced. Then eliminate all objects that
-						produced no match, and eliminate all but the object that
-						produced the longest match.
-						<ol class="algorithm">
-							<li>If two or more objects have the same
-							longest-matching prefix, the DID Document is invalid
-							and the <a>DID URL dereferencer</a> MUST return the
-							following result:
-								<ol class="algorithm">
-									<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#INVALID_DID_DOCUMENT">INVALID_DID_DOCUMENT</a></li>
-									<li><b>contentStream</b>: <code>null</code></li>
-									<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
-								</ol>
-							</li>
-						</ol>
+						produced no match, and all but the objects that
+						produce the longest match.
 					</li>
 					<li>
-						If no objects remain in the list, and there is a
-						path component in the DID URL, and the <a>DID Method</a>
-						specifies its own path handling algorithm, use that
-						algorithm, skipping the rest of these steps.
-					</li>
-					<li>
-						Otherwise, if no objects remain in the list,
+						If no objects remain in the list,
 						return the following result:
 						<ol class="algorithm">
 							<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#INVALID_DID_URL">INVALID_DID_URL</a></li>
@@ -1519,60 +1514,44 @@ dereference(didUrl, dereferenceOptions) →
 						<ol class="algorithm">
 							<li>
 								The processing specification for the `type` of
-								the one remaining object determines the
-								algorithm for processing the
-								<a>DID URL</a> path.
-								<ol class="algorithm">
-									<li>
-										A path handling object `type` specification
-										can appear in the <a
-										href="#did-service-types"></a> section
-										of this document, in the applicable
-										<a>DID method</a>
-										specification, or in the Document Property Extensions
-										[[?DID-EXTENSIONS-PROPERTIES]].
-									</li>
-									<li>
-										The `PathService` type is (currently)
-										the only path handling object `type`
-										specification defined in this
-										specification. See the <a
-										href="#pathservice-service-type">`PathService`
-										Service Type</a> section for its
-										definition and how it can be extended to
-										use different processing rules.
-									</li>
-								</ol>
+								each remaining object determines the algorithm
+								for processing the <a>DID URL</a> path,
+								producing a URL for each remaining object. The
+								result is the set of URLs produced by processing
+								each remaining object.
+
 							</li>
-							Set the <strong>result URL</strong> to be the output.
+							Set the <strong>result URLs</strong> to be the output.
 							<li>
-								If the query parameter `relativeRef`, is present
+								If the query parameter `relativeRef` is present,
+								for each URL in the <strong>result URLs</strong>,
 								execute the algorithm specified in
 								<a data-cite="RFC3986#section-5">RFC3986 Section
 								5: Reference Resolution</a> as follows:
 								<ol class="algorithm">
 									<li>
-										The <strong>base URI</strong> value is
-										the <strong>result URL</strong>
-										from the previous step.
+										The <strong>base URI</strong> is the URL
+										from the <strong>result URLs</strong>
+										being processed.
 									</li>
 									<li>
 										The <strong>relative reference</strong> is the value of the
 										<a data-cite="did-core#did-parameters">DID
 										parameter</a> <code>relativeRef</code>
-										(percent-decoded as specified in <a
+										(percent-decoded as specified in 
 										data-cite="RFC3986#section-2.1">RFC3986 Section
-										2.1</a>)).
+										2.1</a>).
 									</li>
 								</ol>
-								Update the <strong>result URL</strong> to be the output.
+								Update the <strong>result URLs</strong> to be the set of
+								outputs produced by processing each URL.
 							</li>
 							<li>
-								The <strong>result URL</strong> is used in the
+								The <strong>result URLs</strong> are used in the
 								<a>DID URL dereferencing</a> result as follows:
 								<ol class="algorithm">
 									<li><b>dereferencingMetadata</b>: <code>«[ ... ]»</code></li>
-									<li><b>content</b>: <code>«an array containing the result URL»</code></li>
+									<li><b>content</b>: <code>«an array containing the result URLs»</code></li>
 									<li><b>contentMetadata</b>: <code>«[ "contentType" → "text/uri-list", ... ]»</code></li>
 								</ol>
 							</li>
@@ -1609,6 +1588,10 @@ dereference(didUrl, dereferenceOptions) →
 									missing, or if its value is the Media Type
 									of a <a>representation</a> of a <a>DID
 									document</a>, return the result:
+										<p class="issue">The DID Working Group
+										is looking for implementations for this
+										part of the algorithm and may remove
+										this it as part of the RC process.</p>
 										<ol class="algorithm">
 											<li><b>dereferencingMetadata</b>: <code>«[ ... ]»</code></li>
 											<li><b>content</b>: the resolved DID
