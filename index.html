@@ -1551,7 +1551,7 @@ dereference(didUrl, dereferenceOptions) →
 								<a>DID URL dereferencing</a> result as follows:
 								<ol class="algorithm">
 									<li><b>dereferencingMetadata</b>: <code>«[ ... ]»</code></li>
-									<li><b>content</b>: <code>«an array containing the result URLs»</code></li>
+									<li><b>contentStream</b>: <code>«an array containing the result URLs»</code></li>
 									<li><b>contentMetadata</b>: <code>«[ "contentType" → "text/uri-list", ... ]»</code></li>
 								</ol>
 							</li>
@@ -1608,7 +1608,7 @@ dereference(didUrl, dereferenceOptions) →
 									result:
 										<ol class="algorithm">
 											<li><b>dereferencingMetadata</b>: <code>«[ ... ]»</code></li>
-											<li><b>content</b>: <code>« an array containing the resulting URLs »</code></li>
+											<li><b>contentStream</b>: <code>« an array containing the resulting URLs »</code></li>
 											<li><b>contentMetadata</b>: <code>«[ "contentType" → "text/uri-list", ... ]»</code></li>
 										</ol>
 									</li>
@@ -1616,7 +1616,7 @@ dereference(didUrl, dereferenceOptions) →
 										If the <strong>accept</strong> is any other value, return the following result:
 										<ol class="algorithm">
 											<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#INVALID_DID_URL">INVALID_DID_URL</a></li>
-											<li><b>content</b>: <code>null</code></li>
+											<li><b>contentStream</b>: <code>null</code></li>
 											<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
 										</ol>
 									</li>
