@@ -1503,7 +1503,7 @@ dereference(didUrl, dereferenceOptions) →
 						return the following result:
 						<ol class="algorithm">
 							<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#INVALID_DID_URL">INVALID_DID_URL</a></li>
-							<li><b>content</b>: <code>null</code></li>
+							<li><b>contentStream</b>: <code>null</code></li>
 							<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
 						</ol>
 					</li>
@@ -1594,7 +1594,7 @@ dereference(didUrl, dereferenceOptions) →
 										this it as part of the RC process.</p>
 										<ol class="algorithm">
 											<li><b>dereferencingMetadata</b>: <code>«[ ... ]»</code></li>
-											<li><b>content</b>: the resolved DID
+											<li><b>contentStream</b>: the resolved DID
 											document updated to include only the
 											selected `service` objects each
 											`serviceEndpoint` value
