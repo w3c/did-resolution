@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>Decentralized Identifier Resolution (DID Resolution) v0.3</title>
     <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/>
@@ -985,12 +985,12 @@ string">ASCII string</a>.
 		<p>
 			If the <a>DID resolver</a> encounters any unexpected errors during the execution of the DID Resolution algorithm,
 			it MUST return the following result:
-			<ol class="algorithm">
-				<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <code><a href="#INTERNAL_ERROR">https://www.w3.org/ns/did#INTERNAL_ERROR</a></code></li>
-				<li><b>didDocument</b>: <code>null</code></li>
-				<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
-			</ol>
 		</p>
+		<ol class="algorithm">
+			<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <code><a href="#INTERNAL_ERROR">https://www.w3.org/ns/did#INTERNAL_ERROR</a></code></li>
+			<li><b>didDocument</b>: <code>null</code></li>
+			<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
+		</ol>
 
 	</section>
 
@@ -1783,7 +1783,6 @@ dereference(didUrl, dereferenceOptions) →
             process.
           </li>
 		</ul>
-		</p>
 
 		<p>Based on the above considerations combined with the nature of a <a>DID method's</a> "Resolve" operation, the interaction between a
 		<a>DID resolver</a> and the <a>verifiable data registry</a> could be considered either a <a>verifiable resolution</a>
@@ -1897,13 +1896,12 @@ dereference(didUrl, dereferenceOptions) →
             accessed using concrete programming or communication interfaces.
         </p>
 
-        <p>Examples of bindings include the following:
+        <p>Examples of bindings include the following:</p>
         <ul>
             <li>A <a>DID resolver</a> might be invoked within an application by calling a software library or SDK.</li>
             <li>A <a>DID resolver</a> might be invoked as a command line tool.</li>
             <li>A <a>DID resolver</a> might be invoked over an HTTP(S) API or other network protocol, e.g., see <a href="#bindings-https"></a>.</li>
         </ul>
-        </p>
 
         <p>Based on the above considerations combined with the nature of the binding, the interaction between a
             <a>client</a> and the <a>DID resolver</a> or <a>DID URL dereferencer</a> could be considered either a <a>local binding</a>
@@ -1938,13 +1936,13 @@ dereference(didUrl, dereferenceOptions) →
 
         <p>
             If a <a>client</a> uses a <a>remote binding</a>, the following considerations apply:
+        </p>
             <ul>
                 <li>The <a>remote binding</a> SHOULD use a trusted instance of a <a>DID resolver</a>, ideally
                     under the control of the <a>client</a> itself (e.g., self-hosted).</li>
                 <li>The <a>remote binding</a> SHOULD use a secure channel such as VPN and/or TLS with mutual authentication.</li>
                 <li>The <a>client</a> could query multiple <a>DID resolvers</a> over a <a>remote binding</a> and compare results.</li>
             </ul>
-        </p>
 
         <p>
             A <a>DID resolver</a> MAY also include proofs
@@ -2680,7 +2678,6 @@ Content-Type: application/did
 
 	</section>
 
-</section>
 </section>
 
 <section id="security-considerations">
