@@ -1478,12 +1478,11 @@ dereference(didUrl, dereferenceOptions) →
 						DID parameter(s)</a> `service` and/or the 
 						<href="https://www.w3.org/TR/did-core/#did-parameters">
 						DID parameter(s)</a> `serviceType`, filter the list as
-						follows: retain all objects that are not `service`
-						objects; for `service` objects, retain only those whose
+						follows: retain only those `service` objects whose
 						`id` matches the `service` parameter value(s) and/or
 						whose `type` matches the `serviceType` parameter
 						value(s), as applicable.
-					</li> 
+					</li>
 					<li>
 						If the input <a>DID URL</a> contains a path component,
 						apply the path-matching algorithm defined for each
@@ -1502,7 +1501,6 @@ dereference(didUrl, dereferenceOptions) →
 							<li><b>contentStream</b>: <code>null</code></li>
 							<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
 							</ol>
-							The selected <a data-cite="did-core#services">services</a> are a list called the <var>selected <a>services</a></var>.
 						</li>
 					<li>
 						If the <a>DID URL</a> contains a path, perform the
