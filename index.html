@@ -392,11 +392,11 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 			<td>
 				Identifies a relative reference, as defined in <a
 				data-cite="RFC3986#section-4.2">RFC3986 Section 4.2</a>, that is
-				resolved during DID URL dereferencing against an applicable base
+				applied during DID URL dereferencing against an applicable base
 				URI. The value MUST be an ASCII string and MUST use
 				percent-encoding as specified in <a
 				data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>. The
-				relative reference is resolved in accordance with the algorithm in
+				relative reference is applied in accordance with the algorithm in
 				<a data-cite="RFC3986#section-5">RFC3986 Section 5: Reference
 				Resolution</a> based on either:
 				<ul>
@@ -483,11 +483,12 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 	<p>
 		DID Documents can contain `services`, each of which has a `type`. The
 		`type` defines the kind of service being described by the
-		`serviceEndpoint` attribute. Such a description can define the
-		semantics of the service, the protocol(s) to be used to interact with
-		the service, and the attributes in a `service` object. Service Types can
-		be specified in this section of this specification, in a <a>DID
-		Method</a> specification, or in a Document Property Extension
+		`serviceEndpoint` attribute as specified by the specification that
+		defined that type. Such a specification defines the semantics of the
+		service, the protocol(s) to be used to interact with the service, and
+		the attributes in a `service` object. Service Types can be specified in
+		this section of this specification, in a <a>DID Method</a>
+		specification, or in a Document Property Extension
 		[[?DID-EXTENSIONS-PROPERTIES]]. <a>DID Resolvers</a> SHOULD support the
 		service `type` values defined in this specification, and if they do,
 		their implementation MUST be compliant with the specification here.
@@ -1575,7 +1576,7 @@ dereference(didUrl, dereferenceOptions) →
 							<li>Execute the algorithm specified in
 								<a data-cite="RFC3986#section-5">RFC3986 Section
 								5: Reference Resolution</a> for each collected
-								`service`, as follows:
+								object, as follows:
 									<ol class="algorithm">
 									<li>
 										The <strong>base URI</strong> value is the `serviceEndpoint`
