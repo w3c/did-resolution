@@ -396,7 +396,7 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 				URI. The value MUST be an ASCII string and MUST use
 				percent-encoding as specified in <a
 				data-cite="RFC3986#section-2.1">RFC3986 Section 2.1</a>. The
-				relative reference is resolved in accordance with algorithm in
+				relative reference is resolved in accordance with the algorithm in
 				<a data-cite="RFC3986#section-5">RFC3986 Section 5: Reference
 				Resolution</a> based on either:
 				<ul>
@@ -483,10 +483,10 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 	<p>
 		DID Documents can contain `services`, each of which has a `type`. The
 		`type` defines the kind of service being described by the
-		`serviceEndpoint` attribute. Such a specification can define the
+		`serviceEndpoint` attribute. Such a description can define the
 		semantics of the service, the protocol(s) to be used to interact with
 		the service, and the attributes in a `service` object. Service Types can
-		be specified in this section of this specification, within a <a>DID
+		be specified in this section of this specification, in a <a>DID
 		Method</a> specification, or in a Document Property Extension
 		[[?DID-EXTENSIONS-PROPERTIES]]. <a>DID Resolvers</a> SHOULD support the
 		service `type` values defined in this specification, and if they do,
@@ -496,7 +496,7 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 		<h3>`PathService` Service Type</h3>
 
 		<p>`PathService` is a `type` of `service` object used to generate a
-		URL for a resource from a DID URL path. Its attribute `pathAlgorithm`
+		URL for a resource from a DID URL path. Its `pathAlgorithm` attribute
 		determines how a <a>DID URL</a> path is to be processed when the
 		`service` is used. The processing to be used when the
 		`pathAlgorithm` value is `relative-ref-2026` (the default value) is
@@ -530,15 +530,15 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 		<p>For a `PathService` object, the path-matching algorithm compares the
 		`basePath` attribute value as a case-sensitive string against the
 		beginning of the <a>DID URL</a> path. If the <a>DID URL</a> path begins
-		with the `basePath` value, the match length is the number of characters
-		in `basePath`; otherwise the match length is zero.
+		with the `basePath` value, then match length is the number of characters
+		in `basePath`; otherwise, the match length is zero.
     	</p>
 
 		<p>During the <a href="#dereferencing-algorithm"></a> where a DID URL
 		path is present, if the `service` to be used for DID URL path
 		handling is of `type` `PathService` and the attribute `pathAlgorithm`
-		has the value `relative-ref-2026`, execute the algorithm specified in
-		<a data-cite="RFC3986#section-5">RFC3986 Section 5: Reference Resolution</a> as follows:
+		has the value `relative-ref-2026`, then execute the algorithm specified in
+		<a data-cite="RFC3986#section-5">RFC3986 Section 5: Reference Resolution</a>, as follows:
 			<ol class="algorithm">
 				<li>The <strong>base URI</strong> is the [=DID service endpoint=] of the `service` object.</li>
 				<li>The <strong>relative reference</strong> is the path obtained by
@@ -1435,28 +1435,32 @@ dereference(didUrl, dereferenceOptions) →
 							parameter</a></li>
 						</ul>
 					</div>
-					A <a>DID URL dereferencer</a> MUST use the following algorithm to
+					then a <a>DID URL dereferencer</a> MUST use the following algorithm to
 					dereference the <var>input <a>DID URL</a></var>:
 				</li>
 				<pre class="example nohighlight">did:example:1234/path/to/resource</pre>
-					<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest</pre>
+				<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest</pre>
 				<pre class="example nohighlight">did:example:1234/path/to/resource?relativeRef=%3Fversion%3Dlatest</pre>
-					<ol class="algorithm">
+				<ol class="algorithm">
 					<li>
 						If the <a>DID Method</a> specifies its own path handling
-						algorithm, use that algorithm, skipping the rest of
+						algorithm, use that algorithm, and skip the rest of
 						these steps.
 					</li>
 					<li>
-						Collect from the resolved <a>DID Document</a> a list of
-						all of the `service` objects.
+						Collect a list of all of the `service` objects from the
+						resolved <a>DID Document</a>.
 					</li>
 					<li>
-						If the input <a>DID URL</a> contains a path component:
+						If the input <a>DID URL</a> contains a path component,
 						<div>
 							<ul>
-								<li>Remove from the list of `service` objects those whose `type` indicates they are not for <a>DID URL</a> path handling.</li>
-								<li>Add to the list any other objects from the <a>DID Document</a> that are for <a>DID URL</a> path handling.</li>
+								<li>Remove from the list of `service` objects
+								those whose `type` indicates they are not for
+								<a>DID URL</a> path handling.</li>
+								<li>Add to the list any other objects from the
+								<a>DID Document</a> that are for <a>DID URL</a>
+								path handling.</li>
 							</ul>
 						</div>
                         <p><a>DID URL dereferencers</a> SHOULD support <a>DID URL</a> path handling objects
@@ -1473,38 +1477,37 @@ dereference(didUrl, dereferenceOptions) →
 						extended to use different processing rules.</p>
 					</li>
 					<li>
-						If the input <a>DID URL</a> contains the 
-						<href="https://www.w3.org/TR/did-core/#did-parameters">
-						DID parameter(s)</a> `service` and/or the 
-						<href="https://www.w3.org/TR/did-core/#did-parameters">
-						DID parameter(s)</a> `serviceType`, filter the list as
-						follows: retain only those `service` objects whose
-						`id` matches the `service` parameter value(s) and/or
-						whose `type` matches the `serviceType` parameter
-						value(s), as applicable.
+						If the input <a>DID URL</a> contains the `service` and/or
+						`serviceType` <href="https://www.w3.org/TR/did-core/#did-parameters">
+						DID parameter(s)</a> filter the list to retain only
+						those `service` objects whose `id` matches the `service`
+						parameter value(s) and/or whose `type` matches the
+						`serviceType` parameter value(s), as applicable.
 					</li>
 					<li>
 						If the input <a>DID URL</a> contains a path component,
-						apply the path-matching algorithm defined for each
+						then apply the path-matching algorithm defined for each
 						remaining object's `type` to determine the length (in
 						characters) of the longest case-sensitive prefix of the
 						<a>DID URL</a> path that the object matches, or zero if
-						no match is produced. Then eliminate all objects that
+						no match is produced. Next, eliminate all objects that
 						produced no match, and all but the objects that
 						produce the longest match.
 					</li>
 					<li>
 						If no objects remain in the list,
-						return the following result:
+						then return the following result:
 							<ol class="algorithm">
-							<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#INVALID_DID_URL">INVALID_DID_URL</a></li>
-							<li><b>contentStream</b>: <code>null</code></li>
-							<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
+								<li><b>dereferencingMetadata</b>: <var>error
+								object</var> with type
+								set to <a ref="#INVALID_DID_URL">INVALID_DID_URL</a></li>
+								<li><b>contentStream</b>: <code>null</code></li>
+								<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
 							</ol>
 						</li>
 					<li>
-						If the <a>DID URL</a> contains a path, perform the
-						following steps to produce the <a>DID URL
+						If the <a>DID URL</a> contains a path, then perform
+						the following steps to produce the <a>DID URL
 						dereferencing</a> result:
 							<ol class="algorithm">
 							<li>
@@ -1514,20 +1517,20 @@ dereference(didUrl, dereferenceOptions) →
 								producing a URL for each remaining object. The
 								result is the set of URLs produced by processing
 								each remaining object.
-
 							</li>
-							Set the <strong>result URLs</strong> to be the output.
+								Set the <strong>result URLs</strong> to be
+								the output.
 							<li>
 								If the query parameter `relativeRef` is present,
-								for each URL in the <strong>result URLs</strong>,
+								then for each URL in the <strong>result URLs</strong>,
 								execute the algorithm specified in
 								<a data-cite="RFC3986#section-5">RFC3986 Section
 								5: Reference Resolution</a> as follows:
-									<ol class="algorithm">
+								<ol class="algorithm">
 									<li>
 										The <strong>base URI</strong> is the URL
 										from the <strong>result URLs</strong>
-										being processed.
+										currently being processed.
 									</li>
 									<li>
 										The <strong>relative reference</strong> is the value of the
@@ -1537,13 +1540,15 @@ dereference(didUrl, dereferenceOptions) →
 										data-cite="RFC3986#section-2.1">RFC3986 Section
 										2.1</a>).
 									</li>
-									</ol>
-								Update the <strong>result URLs</strong> to be the set of
-								outputs produced by processing each URL.
+								</ol>
+								<li>
+									Update the <strong>result URLs</strong> to
+									be the set of outputs produced by processing
+									each URL.
 								</li>
 							<li>
 								The <strong>result URLs</strong> are used in the
-								<a>DID URL dereferencing</a> result as follows:
+								<a>DID URL dereferencing</a> result, as follows:
 									<ol class="algorithm">
 									<li><b>dereferencingMetadata</b>: <code>«[ ... ]»</code></li>
 									<li><b>contentStream</b>: <code>«an array containing the result URLs»</code></li>
@@ -1564,13 +1569,13 @@ dereference(didUrl, dereferenceOptions) →
 							</ol>
 						</li>
 					<li>
-						If the <a>DID URL</a> does not contain a path, perform the following
+						If the <a>DID URL</a> does not contain a path, then perform the following
 						steps to produce the <a>DID URL dereferencing</a> result:
 							<ol class="algorithm">
 							<li>Execute the algorithm specified in
 								<a data-cite="RFC3986#section-5">RFC3986 Section
 								5: Reference Resolution</a> for each collected
-								`service` as follows:
+								`service`, as follows:
 									<ol class="algorithm">
 									<li>
 										The <strong>base URI</strong> value is the `serviceEndpoint`
@@ -1578,8 +1583,8 @@ dereference(didUrl, dereferenceOptions) →
 									</li>
 									<li>
 										The <strong>relative reference</strong> is the value of the
-										<a data-cite="did-core#did-parameters">DID
-										parameter</a> <code>relativeRef</code>
+										<code>relativeRef</code> <a data-cite=
+										"did-core#did-parameters">DID parameter</a> 
 										(percent-decoded as specified in <a
 										data-cite="RFC3986#section-2.1">RFC3986 Section
 										2.1</a>)).
@@ -1588,12 +1593,12 @@ dereference(didUrl, dereferenceOptions) →
 						</li>
 							<li>
 								Use the resulting set of URLs in the <a>DID URL
-								dereferencing</a> result as follows:
+								dereferencing</a> result as, follows:
 							<ol class="algorithm">
 									<li>If the <strong>accept</strong> option is
 									missing, or if its value is the Media Type
 									of a <a>representation</a> of a <a>DID
-									document</a>, return the result:
+									document</a>, then return the following result:
 										<p class="issue">The DID Working Group
 										is looking for implementations for this
 										part of the algorithm and may remove
@@ -1602,16 +1607,15 @@ dereference(didUrl, dereferenceOptions) →
 										<li><b>dereferencingMetadata</b>: <code>«[ ... ]»</code></li>
 											<li><b>contentStream</b>: the resolved DID
 											document updated to include only the
-											selected `service` objects each
-											`serviceEndpoint` value
+											selected `service` objects, with each
+											`serviceEndpoint` value in those `service` objects
 											updated to the resulting URLs from above</li>
 											<li><b>contentMetadata</b>: <code>«[ resolved DID document metadata ]»</code></li>
 									</ol>
 								</li>
-									<li>If the value of the
-									<strong>accept</strong> option is
-									<b>text/uri-list</b>, return the
-									result:
+									<li>If the value of the <strong>accept</strong>
+									option is <b>text/uri-list</b>, then return
+									the following result:
 										<ol class="algorithm">
 											<li><b>dereferencingMetadata</b>: <code>«[ ... ]»</code></li>
 											<li><b>contentStream</b>: <code>« an array containing the resulting URLs »</code></li>
@@ -1621,7 +1625,9 @@ dereference(didUrl, dereferenceOptions) →
 									<li>
 										If the <strong>accept</strong> is any other value, return the following result:
 							<ol class="algorithm">
-											<li><b>dereferencingMetadata</b>: <var>error object</var> with type set to <a href="#INVALID_DID_URL">INVALID_DID_URL</a></li>
+											<li><b>dereferencingMetadata</b>: <var>error
+												object</var> with type set to <a
+											ref="#INVALID_DID_URL">INVALID_DID_URL</a></li>
 											<li><b>contentStream</b>: <code>null</code></li>
 								<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
 							</ol>
