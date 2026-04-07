@@ -528,12 +528,8 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 			}
 		</pre>
 
-		<p>For a `PathService` object, the path-matching algorithm compares the
-		`basePath` attribute value as a case-sensitive string against the
-		beginning of the <a>DID URL</a> path. If the <a>DID URL</a> path begins
-		with the `basePath` value, then match length is the number of characters
-		in `basePath`; otherwise, the match length is zero.
-    	</p>
+		<p>For a `PathService` object, use the `basePath` for the <a>DID URL</a>
+		path matching algorithm in the <a href="#dereferencing-algorithm"></a>.</p>
 
 		<p>During the <a href="#dereferencing-algorithm"></a> where a DID URL
 		path is present, if the `service` to be used for DID URL path
@@ -1444,38 +1440,38 @@ dereference(didUrl, dereferenceOptions) →
 				<pre class="example nohighlight">did:example:1234/path/to/resource?relativeRef=%3Fversion%3Dlatest</pre>
 				<ol class="algorithm">
 					<li>
-						If the <a>DID Method</a> specifies its own path handling
-						algorithm, use that algorithm, and skip the rest of
-						these steps.
+						If the <a>DID URL</a> contains a path, and the <a>DID
+						Method</a> specifies its own path handling algorithm,
+						use that algorithm, and skip the rest of these steps.
+						This SHOULD be used only when the <a>DID URL</a> is the
+						only identifier for the resource, such as for a resource
+						stored on a blockchain.
 					</li>
 					<li>
-						Collect a list of all of the `service` objects from the
+						Collect a list of all of the objects from the
 						resolved <a>DID Document</a>.
 					</li>
 					<li>
 						If the input <a>DID URL</a> contains a path component,
-						<div>
-							<ul>
-								<li>Remove from the list of `service` objects
-								those whose `type` indicates they are not for
-								<a>DID URL</a> path handling.</li>
-								<li>Add to the list any other objects from the
-								<a>DID Document</a> that are for <a>DID URL</a>
-								path handling.</li>
-							</ul>
+						remove from the list any objects that are not intended
+						for path handling.
+						<div class="note">
+							<p> TBD how to identify objects "intended for path handling"</p>
 						</div>
-                        <p><a>DID URL dereferencers</a> SHOULD support <a>DID URL</a> path handling objects
-                        <a href="#did-service-types">defined in this
-                        specification</a>, plus any that are DID Method-specific
-                        or Document Property Extensions
-                        [[?DID-EXTENSIONS-PROPERTIES]]; any such object types
-                        that are supported MUST be implemented as defined.</p>
-						<p>The `PathService` type is (currently) the only path
-						handling object `type` specification defined in this
-						specification. See the <a
-						href="#pathservice-service-type">`PathService` Service
-						Type</a> section for its definition and how it can be
-						extended to use different processing rules.</p>
+						<ul>
+							<li><a>DID URL dereferencers</a> SHOULD support <a>DID URL</a> path handling objects
+							<a href="#did-service-types">defined in this
+							specification</a>, plus any that are DID Method-specific
+							or Document Property Extensions
+							[[?DID-EXTENSIONS-PROPERTIES]]; any such object types
+							that are supported MUST be implemented as defined.</li>
+							<li>The `PathService` type is (currently) the only path
+							handling object `type` specification defined in this
+							specification. See the <a
+							href="#pathservice-service-type">`PathService` Service
+							Type</a> section for its definition and how it can be
+							extended to use different processing rules.</li>
+						</ul>
 					</li>
 					<li>
 						If the input <a>DID URL</a> contains the `service` and/or
@@ -1486,15 +1482,33 @@ dereference(didUrl, dereferenceOptions) →
 						`serviceType` parameter value(s), as applicable.
 					</li>
 					<li>
-						If the input <a>DID URL</a> contains a path component,
-						then apply the path-matching algorithm defined for each
-						remaining object's `type` to determine the length (in
-						characters) of the longest case-sensitive prefix of the
-						<a>DID URL</a> path that the object matches, or zero if
-						no match is produced. Next, eliminate all objects that
-						produced no match, and all but the objects that
-						produce the longest match.
+						If the input <a>DID URL</a> contains a path component, filter
+						the remaining objects using the following path-matching algorithm:
+						<ol>
+							<li>
+								For each object, retrieve the value of the path attribute
+								designated by the object's <code>type</code> (e.g.,
+								<code>path</code> or <code>basePath</code>, as defined by
+								the specification for that object type). If the object has no such
+								attribute, it produces no match.
+							</li>
+							<li>
+								An object matches if the value of its path attribute is identical
+								to a prefix of the <a>DID URL</a> path. The match length is the
+								number of characters in the path attribute value.
+							</li>
+							<li>
+								Eliminate all objects that produced no match.
+							</li>
+							<li>
+								Eliminate all but the object or objects with the
+								longest match length.
+							</li>
+						</ol>
 					</li>
+					<div class="note">
+						<p> TBD what to do if there are multiple matches.</p>
+					</div>
 					<li>
 						If no objects remain in the list,
 						then return the following result:
@@ -1610,7 +1624,7 @@ dereference(didUrl, dereferenceOptions) →
 											document updated to include only the
 											selected `service` objects, with each
 											`serviceEndpoint` value in those `service` objects
-											updated to the resulting URLs from above</li>
+											updated to the URLs resulting from above</li>
 											<li><b>contentMetadata</b>: <code>«[ resolved DID document metadata ]»</code></li>
 									</ol>
 								</li>
