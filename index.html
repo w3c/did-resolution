@@ -1440,14 +1440,6 @@ dereference(didUrl, dereferenceOptions) →
 					</li>
 				<ol class="algorithm">
 					<li>
-						If the <a>DID URL</a> contains a path, and the <a>DID
-						Method</a> specifies its own path handling algorithm,
-						use that algorithm, and skip the rest of these steps.
-						This SHOULD be used only when the <a>DID URL</a> is the
-						only identifier for the resource, such as for a resource
-						stored on a blockchain.
-					</li>
-					<li>
 						Collect a list of all of the objects from the
 						resolved <a>DID Document</a>.
 					</li>
@@ -1506,12 +1498,34 @@ dereference(didUrl, dereferenceOptions) →
 							</li>
 						</ol>
 					</li>
-					<div class="note">
-						<p> TBD what to do if there are multiple matches.</p>
-					</div>
 					<li>
-						If no objects remain in the list,
-						then return the following result:
+						If multiple objects remain in the list and the <a>DID
+						URL</a> contains a path, then the process has failed to
+						determine a single resource. Return the following
+						result:
+							<ol class="algorithm">
+								<li><b>dereferencingMetadata</b>: <var>error
+								object</var> with type
+								set to <a ref="#INVALID_DID_URL">INVALID_DID_URL</a></li>
+								<li><b>contentStream</b>: <code>null</code></li>
+								<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
+							</ol>
+						</li>
+					<li>
+					<li>
+						If no objects remain in the list and the <a>DID URL</a>
+						contains a path and the <a>DID Method</a> specifies its
+						own path handling algorithm, then use that algorithm and
+						return its result. This SHOULD be used when the resource
+						is stored in and retrieved directly from the DID
+						method's verifiable data registry, rather than at a
+						network-accessible location declared in the DID
+						document.
+					</li>
+					<li>
+						If no objects remain in the list and the <a>DID
+						Method</a> does not specify its own path handling
+						algorithm, then return the following result:
 							<ol class="algorithm">
 								<li><b>dereferencingMetadata</b>: <var>error
 								object</var> with type
@@ -1524,65 +1538,64 @@ dereference(didUrl, dereferenceOptions) →
 						If the <a>DID URL</a> contains a path, then perform
 						the following steps to produce the <a>DID URL
 						dereferencing</a> result:
-							<ol class="algorithm">
+						<ol class="algorithm">
 							<li>
-								The processing specification for the `type` of
-								each remaining object determines the algorithm
-								for processing the <a>DID URL</a> path,
-								producing a URL for each remaining object. The
-								result is the set of URLs produced by processing
-								each remaining object.
+								Process the remaining object using the algorithm
+								determined by its <code>type</code> and the <a>DID URL</a>
+								path, producing a URL. Set the <strong>result
+								URL</strong> to that URL.
 							</li>
-								Set the <strong>result URLs</strong> to be
-								the output.
 							<li>
-								If the query parameter `relativeRef` is present,
-								then for each URL in the <strong>result URLs</strong>,
+								If the query parameter <code>relativeRef</code> is present,
 								execute the algorithm specified in
 								<a data-cite="RFC3986#section-5">RFC3986 Section
 								5: Reference Resolution</a> as follows:
 								<ol class="algorithm">
 									<li>
-										The <strong>base URI</strong> is the URL
-										from the <strong>result URLs</strong>
-										currently being processed.
+										The <strong>base URI</strong> is the
+										<strong>result URL</strong>.
 									</li>
 									<li>
 										The <strong>relative reference</strong> is the value of the
 										<a data-cite="did-core#did-parameters">DID
 										parameter</a> <code>relativeRef</code>
-										(percent-decoded as specified in 
-										data-cite="RFC3986#section-2.1">RFC3986 Section
+										(percent-decoded as specified in
+										<a data-cite="RFC3986#section-2.1">RFC3986 Section
 										2.1</a>).
 									</li>
+									<li>
+										Update the <strong>result URL</strong> to
+										the output of the Reference Resolution algorithm.
+									</li>
 								</ol>
-								<li>
-									Update the <strong>result URLs</strong> to
-									be the set of outputs produced by processing
-									each URL.
-								</li>
+							</li>
 							<li>
-								The <strong>result URLs</strong> are used in the
-								<a>DID URL dereferencing</a> result, as follows:
-									<ol class="algorithm">
+								Dereference the <strong>result URL</strong> and return
+								the retrieved resource as the <a>DID URL dereferencing</a>
+								result, as follows:
+								<ol class="algorithm">
 									<li><b>dereferencingMetadata</b>: <code>«[ ... ]»</code></li>
-									<li><b>contentStream</b>: <code>«an array containing the result URLs»</code></li>
-									<li><b>contentMetadata</b>: <code>«[ "contentType" → "text/uri-list", ... ]»</code></li>
-									</ol>
-									<div class="note">
-										<p>
-											Resolving a [=DID service endpoint=] — particularly one that is a DID — might
-											result in a <dfn>resolution cycle</dfn>, which is a set of steps that result in
-											an infinite loop. For example, a [=DID service endpoint=] might indirectly point
-											back through a sequence of resolutions to a previously dereferenced identifier.
-											A <a>DID resolver</a> recursively resolving a [=DID service endpoint=] is advised
-											to detect and handle such a cycle to prevent an infinite loop or resolution failure.
-											For further guidance, see Section <a href="#security-cycles-resolution">Resolution Cycles</a>.
-										</p>
-									</div>
-								</li>
-							</ol>
-						</li>
+									<li><b>contentStream</b>: <code>«the
+									resource retrieved by dereferencing the
+									result URL»</code></li>
+									<li><b>contentMetadata</b>: <code>«[
+									"contentType" → the media type of the
+									retrieved resource, ... ]»</code></li>
+								</ol>
+								<div class="note">
+									<p>
+										Resolving a [=DID service endpoint=] — particularly one that is a DID — might
+										result in a <dfn>resolution cycle</dfn>, which is a set of steps that result in
+										an infinite loop. For example, a [=DID service endpoint=] might indirectly point
+										back through a sequence of resolutions to a previously dereferenced identifier.
+										A <a>DID resolver</a> recursively resolving a [=DID service endpoint=] is advised
+										to detect and handle such a cycle to prevent an infinite loop or resolution failure.
+										For further guidance, see Section <a href="#security-cycles-resolution">Resolution Cycles</a>.
+									</p>
+								</div>
+							</li>
+						</ol>
+					</li>
 					<li>
 						If the <a>DID URL</a> does not contain a path, then perform the following
 						steps to produce the <a>DID URL dereferencing</a> result:
@@ -1649,26 +1662,6 @@ dereference(didUrl, dereferenceOptions) →
 						</li>
 					</ol>
 				</li>
-				</ol>
-				</li>
-					<div class="note">
-						<p>
-							Resolving a URL derived from a [=DID service
-							endpoint=] — particularly one that is a DID — might
-							result in a <dfn>resolution cycle</dfn>, which is a
-							set of steps that result in an infinite loop. For
-							example, a derived URL might indirectly point back
-							through a sequence of resolutions to a previously
-							dereferenced identifier. A <a>DID URL
-							dereferencer</a> client recursively resolving
-							derived URLs is advised to detect and handle such a
-							cycle to prevent an infinite loop or resolution
-							failure. For further guidance, see Section <a
-							href="#security-cycles-resolution">Resolution
-							Cycles</a>.
-						</p>
-					</div>
-				</ol>
 			</ol>
 		</section>
 
