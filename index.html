@@ -19,7 +19,7 @@
         shortName: "did-resolution",
 
         // subtitle
-        subtitle: "Algorithms and guidelines for resolving DIDs and dereferencing DID URLs",
+        subtitle: "Algorithms and guidelines for resolving and dereferencing DID URLs",
 
         // if you wish the publication date to be other than today, set this
         // publishDate:  "2009-08-06",
@@ -132,14 +132,13 @@
     <section id='abstract'>
       <p>
 Decentralized identifier (DID) resolution is the process of obtaining
-a DID document and accompanying metadata for a specific DID. The process
-takes a DID and a set of resolution options as its input and returns a
+a DID document and accompanying metadata for a specific DID URL. The process
+takes a DID URL and a set of resolution options as its input and returns the authoritative 
 DID document and associated metadata about the resolved document and the
 resolution request. A resolved DID document is a set of information which
 enables cryptographically verifiable interactions with the DID subject,
 including mechanisms such as cryptographic public keys. This specification
-covers the algorithms and guidelines to be used for DID resolution and
-relies on the core DID specification,
+covers the algorithms and guidelines to be used for DID resolution and dereferencing. It relies on the core DID specification,
 [[[DID]]],
 which describes the underlying DID architecture in full detail.
       </p>
@@ -175,17 +174,12 @@ which describes the underlying DID architecture in full detail.
 <section id="introduction">
 <h1>Introduction</h1>
 
-	<p>[=DID resolution=] is the process of obtaining a <a>DID document</a> for a given <a>DID</a>. This is one
-	of four required operations that can be performed on any DID ("Read"; the other ones being "Create", "Update",
-	and "Deactivate"). The details of these operations differ depending on the <a>DID method</a>.
-	Building on top of [=DID resolution=], <a>DID URL dereferencing</a> is the process of retrieving a representation
-	of a resource for a given <a>DID URL</a>. Software and/or hardware that is able to execute these processes is called
-	a <a>DID resolver</a>.
+	<p>[=DID resolution=] is the process of obtaining a <a>DID document</a> for a given <a>DID URL</a> (all <a>DIDs</a> are DID URLs). 
+	Relying on [=DID resolution=], <a>DID URL dereferencing</a> is the process of applying a representation
+	of a resource for a given <a>DID URL</a> to the current computational context. Software and/or hardware that is able to execute [=DID resolution=] is called	a <a>DID Resolver</a>. Software and/or hardware that is able to call [=Resolve=] on a DID resolver as part of dereferencing a DID URL are called DID URL clients.
 
-	<p>This specification defines a standard interface that clients can use to execute [=DID resolution=] and <a>DID URL dereferencing</a>
-		requests, independent of any specific <a>DID method's</a> "Resolve" operation that a [=DID resolver=] supports. Additionally,
-		this specification defines requirements, algorithms including their inputs and results, architectural options, and various
-		security and privacy considerations relevant to implementing a [=DID resolver=] or <a>DID URL dereferencer</a>.</p>
+	<p>This specification defines a standard interface and algorithm for [=DID Resolution=] and the algorithm that clients use for <a>DID URL dereferencing</a>, independent of any specific <a>DID method's</a> "Resolve" operation that a [=DID resolver=] supports. 
+		</p>
 
 	<p>Note that while this specification defines some base-level functionality for DID resolution, the actual steps
 	required to communicate with a DID's <a>verifiable data registry</a> are defined by the applicable
@@ -194,12 +188,12 @@ which describes the underlying DID architecture in full detail.
 	<section id="implementer-overview" class="informative">
 		<h2>Implementer Overview</h2>
 		<p>
-			By invoking a <a>DID resolver</a> using the standard `resolve(did, resolutionOptions)` interface (as defined in
+			By invoking a <a>DID resolver</a> using the standard `resolve(didUrl, resolutionOptions)` interface (as defined in
 			the <a href="#resolving">DID Resolution section</a>), one can obtain a <a>DID document</a> and accompanying metadata
 			(e.g., `contentType`, proof, versioning), which an application can use to validate a user's cryptographic keys,
 			service endpoints, or status.
 		<p>
-			For example, to retrieve the state of the DID `did:example:123`
+			For example, to retrieve the state of the DID URL `did:example:123`
              at a time in the past, a client application could resolve the DID with the `versionTime`
              resolution option, as in the following:<br>
              `resolve("did:example:123", {"versionTime":"2021-05-10T17:00:00Z"})`
@@ -469,7 +463,7 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 	<h1>DID Resolution</h1>
 
 	<p>
-		The <a>DID resolution</a> function resolves a <a>DID</a> into a <a>DID
+		The <a>DID resolution</a> function resolves a <a>DID URL</a> into a <a>DID
 		document</a> by using the "Resolve" operation of the applicable <a>DID method</a>
 		as described in <a data-cite="did-core#method-operations">Method Operations</a>.
 	</p>
@@ -478,7 +472,7 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 	</p>
 
 	<pre title="Abstract function for DID Resolution">
-resolve(did, resolutionOptions) →
+resolve(didUrl, resolutionOptions) →
    « didResolutionMetadata, didDocument, didDocumentMetadata »
       </pre>
 
@@ -504,11 +498,11 @@ resolve(did, resolutionOptions) →
 
 	<dl>
 		<dt>
-			did
+			didUrl
 		</dt>
 		<dd>
-			This is the <a>DID</a> to resolve. This input is REQUIRED and the value MUST
-			be a conformant <a>DID</a> as defined in <a data-cite="did-core#did-syntax"></a>.
+			This is the <a>DID URL</a> to resolve. This input is REQUIRED and the value MUST
+			be a conformant <a>DID URL</a> as defined in <a data-cite="did-core#did-url-syntax"></a>.
 		</dd>
 		<dt>
 			resolutionOptions
@@ -894,16 +888,16 @@ string">ASCII string</a>.
 		<h2>DID Resolution Algorithm</h2>
 		<p>A <a>DID resolver</a> implements the following <a>DID resolution</a> algorithm.</p>
 		<ol class="algorithm">
-			<li>Validate that the <var>input <a>DID</a></var> conforms to the `did` rule of the
-			<a href="https://www.w3.org/TR/did-core/#did-syntax">DID Syntax</a>.
+			<li>Validate that the <var>input <a>DID URL</a></var> conforms to the `did-url` rule of the
+			<a href="https://www.w3.org/TR/did-core/#did-url-syntax">DID URL Syntax</a>.
 			If not, the <a>DID resolver</a> MUST return the following result:
 			<ol class="algorithm">
-				<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <code><a href="#INVALID_DID">https://www.w3.org/ns/did#INVALID_DID</a></code></li>
+				<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <code><a href="#INVALID_DID_URL">https://www.w3.org/ns/did#INVALID_DID_URL</a></code></li>
 				<li><b>didDocument</b>: <code>null</code></li>
 				<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
 			</ol>
 			</li>
-			<li>Determine whether the DID method of the <var>input <a>DID</a></var> is supported by the <a>DID resolver</a>
+			<li>Determine whether the DID method of the <var>input <a>DID URL</a></var> is supported by the <a>DID resolver</a>
 			that implements this algorithm. If not, the <a>DID resolver</a> MUST return the following result:
 			<ol class="algorithm">
 				<li><b>didResolutionMetadata</b>: <var>error object</var> with type set to <code><a href="#METHOD_NOT_SUPPORTED">https://www.w3.org/ns/did#METHOD_NOT_SUPPORTED</a></code></li>
@@ -930,7 +924,7 @@ string">ASCII string</a>.
 					<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
 				</ol>
 			</li>
-			<li>Obtain the <a>DID document</a> for the <var>input <a>DID</a></var> by executing the
+			<li>Obtain the <a>DID document</a> for the <var>input <a>DID URL</a></var> by executing the
 			<a href="https://www.w3.org/TR/did-core/#method-operations">Resolve</a> operation, as defined by the <var>input <a>DID method</a></var>:
 			<ol class="algorithm">
 				<li>If the <var>input <a>DID</a></var> does not exist, return the following result:
@@ -1013,12 +1007,11 @@ string">ASCII string</a>.
 
 	<figure id="did-url-dereference-overview">
 		<img style="margin: auto; display: block; width: 75%;"
-			 src="diagrams/section-5/did-url-dereference-overview.svg" alt="
-DIDs resolve to DID documents; DID URLs contains a DID; DID URLs dereferenced to DID document fragments or
-external resources.
+			 src="diagrams/section-5/did-url-dereference-overview-2.svg" alt="
+DIDs URLs resolve to DID documents; DID URLs contains a DID; DID URLs dereferenced to resources.
         " >
 		<figcaption>
-			Overview of DID URL dereference
+			Overview of DID URLk resolution and dereferencing
 			See also: <a class="longdesc-link"
 						 href="#did-url-dereference-overview-longdesc">narrative description</a>.
 		</figcaption>
@@ -1026,50 +1019,61 @@ external resources.
 
 	<div class="longdesc" id="did-url-dereference-overview-longdesc">
 		<p>
-			The top left part of the diagram contains a rectangle with black outline, labeled "DID".
+			The left part of the diagram contains a single rectangle with
+			black
+			black outline, labeled "DID URL".
+			This rectangle contains four smaller black-outlined
+			rectangles,
+			aligned in a horizontal row adjacent to
+			each other. These smaller rectangles are labeled, in order,
+			"DID", "path", "query", and "fragment.
 		</p>
 		<p>
-			The bottom left part of the diagram contains a rectangle with black outline, labeled "DID URL".
-			This rectangle contains four smaller black-outlined rectangles, aligned in a horizontal row adjacent to
-			each other. These smaller rectangles are labeled, in order, "DID", "path", "query", and "fragment.
+			The top right part of the diagram contains a rectangle with
+			black outline, labeled "DID document".
+			This rectangle contains three smaller black-outlined
+			rectangles.
+			These smaller rectangles are
+			labeled "id", "(property X)", and "(property Y)", and are
+			surrounded by multiple series of three
+			dots (ellipses). A curved black arrow, labeled "DID document -
+			relative fragment dereference", extends
+			from the rectangle labeled "(property X)", and points to the
+			rectangle labeled "(property Y)".
 		</p>
 		<p>
-			The top right part of the diagram contains a rectangle with black outline, labeled "DID document".
-			This rectangle contains three smaller black-outlined rectangles. These smaller rectangles are
-			labeled "id", "(property X)", and "(property Y)", and are surrounded by multiple series of three
-			dots (ellipses). A curved black arrow, labeled "DID document - relative fragment dereference", extends
-			from the rectangle labeled "(property X)", and points to the rectangle labeled "(property Y)".
+			The bottom right part of the diagram contains an oval shape
+			with
+			black outline, labeled "Resource".
 		</p>
 		<p>
-			The bottom right part of the diagram contains an oval shape with black outline, labeled "Resource".
+			A black arrow, labeled "resolves to a DID document based on
+			query parameters and resolution options", extends
+			from the rectangle in the left part of the diagram, labeled
+			"DID URL", and points to the rectangle in the
+			top right part of diagram, labeled "DID document".
 		</p>
 		<p>
-			A black arrow, labeled "resolves to a DID document", extends from the rectangle in the top left part of
-			the diagram, labeled "DID", and points to the rectangle in the top right part of diagram, labeled
-			"DID document".
-		</p>
+			Above the diagram in the top right, labeled DID document is
+			the text "Document properties (including metadata) can declare
+			specific resources for dereferencing.</p>
 		<p>
-			A black arrow, labeled "refers to", extends from the rectangle in the top right part of the diagram,
-			labeled "DID document", and points to the oval shape in the bottom right part of diagram, labeled
+			A black arrow, labeled "refers to", extends from the rectangle
+			in the top right part of the diagram,
+			labeled "DID document", and points to the oval shape in the
+			bottom right part of diagram, labeled
 			"Resource".
 		</p>
 		<p>
-			A black arrow, labeled "contains", extends from the small rectangle labeled "DID" inside the
-			rectangle in the bottom left part of the diagram, labeled "DID URL", and points to the rectangle
-			in the top left part of diagram, labeled "DID".
-		</p>
-		<p>
-			A black arrow, labeled "dereferences to a DID document", extends from the rectangle in the bottom left
-			part of the diagram, labeled "DID URL", and points to the rectangle in the top right part of diagram,
-			labeled "DID document".
-		</p>
-		<p>
-			A black arrow, labeled "dereferences to a resource", extends from the rectangle in the bottom left
-			part of the diagram, labeled "DID URL", and points to the oval shape in the bottom right part of diagram,
+			A black arrow, labeled "dereferences to a resource based on
+			content of DID document", extends
+			from the rectangle in the bottom left
+			part of the diagram, labeled "DID URL", and points to the oval
+			shape in the bottom right part of diagram,
 			labeled "Resource".
 		</p>
-	</div>
 
+	</div>
 	<p>
 		All [=conforming DID URL dereferencers=] implement the
 		function below, which has the following abstract form:
@@ -1750,10 +1754,10 @@ dereference(didUrl, dereferenceOptions) →
 	<section id="method-architectures">
 		<h2>Method Architectures</h2>
 		<p>The <a>DID resolution</a> algorithm involves executing the <a data-cite="did-core#method-operations">Resolve</a>
-		operation on a <a>DID</a> according to its <a>DID method</a> (see <a href="#resolving"></a>).</p>
+		operation on a <a>DID URL</a> according to its <a>DID method</a> (see <a href="#resolving"></a>).</p>
 
 		<p>Every DID method defines this method operation, i.e.,
-            how a <a>DID resolver</a> can obtain a DID document from a DID. The underlying
+            how a <a>DID resolver</a> can obtain a DID document from a DID URL. The underlying
             data formats, protocols, technical infrastructures, and processes can vary considerably among
 		    <a>DID methods</a>.</p>
 
@@ -2275,8 +2279,8 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 		</dd>
 		<dt id="INVALID_DID_URL">INVALID_DID_URL</dt>
 		<dd>
-			An invalid <a>DID URL</a> was detected during <a>DID URL dereferencing</a>.
-			See Section <a href="#dereferencing-algorithm"></a>
+			An invalid <a>DID URL</a> was detected during <a>DID URL dereferencing</a> or <a>DID resolution</a>.
+			See Section <a href="#dereferencing-algorithm"></a> and <a href="#resolving-algorithm"></a>.
 			<div><code>https://www.w3.org/ns/did#INVALID_DID_URL</code></div>
 		</dd>
 		<dt id="METHOD_NOT_SUPPORTED">METHOD_NOT_SUPPORTED</dt>
