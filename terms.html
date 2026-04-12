@@ -8,16 +8,13 @@ included whenever they appear in this specification.
   <dt><dfn>binding</dfn></dt>
   <dd>A concrete mechanism through which a <a>client</a> invokes a <a>DID resolver</a>. This could be a <a>local binding</a> such as a local command line tool or library API, or a <a>remote binding</a> such as the <a href="#bindings-https">HTTP(S) binding</a>. See Section <a href="#resolver-architectures"></a>.</dd>
 
-  <dt><dfn>client</dfn></dt>
-  <dd>Software and/or hardware that invokes a <a>DID resolver</a> in order to execute the <a>DID resolution</a> and/or <a>DID URL dereferencing</a> algorithms. This invocation is done via a <a>binding</a>. The term <a>client</a> does not imply any specific network topology.</dd>
+  <dt><dfn data-lt="client|DID URL client|DID client">client</dfn></dt>
+  <dd>Software and/or hardware that invokes a <a>DID resolver</a> in order to execute the <a>DID resolution</a> and implements <a>DID URL dereferencing</a>. 
+    The term <a>client</a> does not imply any specific network topology.</dd>
 
   <dt><dfn data-lt="">DID resolution result</dfn></dt>
   <dd>A data structure that represents the result of the <a>DID resolution</a> algorithm.
     May contain a <a>DID document</a>. See Section <a href="#did-resolution-result"></a>.</dd>
-
-  <dt><dfn data-lt="">DID URL dereferencing result</dfn></dt>
-  <dd>A data structure that represents the result of the <a>DID URL dereferencing</a> algorithm.
-    May contain a <a>DID document</a> or other content. See Section <a href="#did-url-dereferencing-result"></a>.</dd>
 
   <dt><dfn data-lt="resources">resource</dfn></dt>
   <dd>
