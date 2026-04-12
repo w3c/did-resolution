@@ -254,18 +254,18 @@ cryptographic public keys. This specification covers the algorithms and guidelin
 				metadata.
 			<p>
 
-	<p>With that DID document, clients may
-	<ol>
-		<li>further dereference the DID URL to retrieve a secondary
-			resource&mdash;this is necessary when a DID URL contains a
-			fragment or when a web server returns a redirect;</li>
-		<li>return the DID document to another process, </li>
-	  <li>display the final dereferenced result to the current user,
-		using the resource's media type, or</li>
-  	<li>if the final resource is a DID Document, interpret the DID
-		document to evaluate verification methods or other properties.
-	</li>
-	</ol>
+    <p>With that DID document, clients can do any combination of zero or more
+       of the following:</p>
+    <ol>
+        <li>Further dereference the DID URL to retrieve a secondary resource.
+            This is necessary when a DID URL contains a fragment or when a web
+            server returns a redirect.</li>
+        <li>Return the DID document to another process.</li>
+        <li>Display the final dereferenced result to the current user, using
+            the resource's media type.</li>
+        <li>If the final resource is a DID Document, interpret the DID
+            document to evaluate verification methods or other properties.</li>
+    </ol>
 	<p>The resolving client MAY choose any of these options
 		depending on the context in which the DID URL is used. </p>
 
