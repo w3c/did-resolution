@@ -421,34 +421,22 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 	</table>
 
 	<p>
-		Implementers as well as <a>DID method</a> specification authors might use
+		[=DID URL authors=] might use
 		additional DID parameters that are not listed here. For maximum
 		interoperability, it is RECOMMENDED that DID parameters use the DID
 		Document Properties Extensions mechanism [[?DID-EXTENSIONS-PROPERTIES]], to avoid collision
 		with other uses of the same DID parameter with different semantics.
 	</p>
 
-	<p>
-		DID parameters might be used if there is a clear use case where the parameter
-		needs to be part of a URL that references a <a>resource</a> with more
-		precision than using the <a>DID</a> alone. It is expected that DID parameters
-		are <em>not</em> used if the same functionality can be expressed by passing
-		input metadata to a <a>DID resolver</a>.
-	</p>
-
 	<p class="note" title="DID parameters and DID resolution">
 		The <a>DID resolution</a> and the <a>DID URL dereferencing</a> functions can
 		be influenced by passing <a href="#did-resolution-options"></a> or
-		<a href="#did-url-dereferencing-options"></a> to a <a>DID resolver</a> that are
+		<a href="#did-url-dereferencing-options"></a> to a <a>DID resolver</a>, or a <a>DID URL dereferencer</a> that are
 		not part of the <a>DID URL</a>. This is comparable to
 		HTTP, where certain parameters could either be included in an HTTP URL, or
-		alternatively passed as HTTP headers during the dereferencing process. The
-		important distinction is that DID parameters that are part of the <a>DID
-		URL</a> should be used to specify <em>what <a>resource</a> is being
-		identified</em>, whereas input metadata that is not part of the <a>DID URL</a>
-		should be used to control <em>how that <a>resource</a> is resolved or
-		dereferenced</em>.
+		alternatively passed as HTTP headers during the dereferencing process. 
 	</p>
+	<p>If [=Resolve=] or [=Dereference=] is called with a resolution option of the same name as a DID parameter in the input DID URL, the resolution option MUST override the DID parameters, when interpreted by the Resolver or Dereferencer, respectively.</p>
 
 	<section id="datetime">
 		<h3>Datetime</h3>
