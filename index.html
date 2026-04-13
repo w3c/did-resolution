@@ -2967,7 +2967,7 @@ Content-Type: application/did
 			final resource URL (see <a
 			href="#dereferencing-algorithm-resource"></a>). If the value of
 			`relativeRef` contains path traversal sequences, an attacker might be
-			able to cause the resolver to construct a resource URL that escapes
+			able to cause the dereferencer to construct a resource URL that escapes
 			the intended path scope of the service endpoint.</p>
 
 			<p>Path traversal could be attempted using a variety of encodings. The
@@ -3019,7 +3019,7 @@ Content-Type: application/did
 			components could:</p>
 			<ul>
 				<li>Construct a <a>DID URL</a> that is served from cache by one
-				component but re-resolved from the <a>verifiable data registry</a> by
+				component but re-dereferenced from the <a>verifiable data registry</a> by
 				another, potentially bypassing content integrity checks
 				associated with cached responses.</li>
 				<li>Cause two logically identical <a>DID URLs</a> to be cached
