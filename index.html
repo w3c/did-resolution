@@ -1003,8 +1003,15 @@ string">ASCII string</a>.
 		The <a>DID URL dereferencing</a> function dereferences a <a>DID URL</a> into a
 		<a>resource</a> with contents depending on the <a>DID URL</a>'s components,
 		including the <a>DID method</a>, method-specific identifier, path, query, and
-		fragment. This process depends on <a>DID resolution</a> of the <a>DID</a>
-		contained in the <a>DID URL</a>. <a>DID URL dereferencing</a> might involve
+		fragment.
+	</p>
+	<p>
+		This process depends on <a>DID resolution</a> of the <a>DID</a>
+		contained in the <a>DID URL</a>. In other words, the <a>DID URL dereferencer</a>
+		acts as a <a>client</a> of a <a>DID resolver</a> during this process.
+	</p>
+	<p>
+		<a>DID URL dereferencing</a> might involve
 		multiple steps (e.g., when the DID URL being dereferenced includes a fragment),
 		and the function is defined to return the final resource after all steps are
 		completed. The following figure depicts the relationship described
