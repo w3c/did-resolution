@@ -430,24 +430,25 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 
 	<p>
 		DID parameters might be used if there is a clear use case where the parameter
-		needs to be part of a URL that references a <a>resource</a> with more
+		needs to be part of a <a>DID URL</a> that references a <a>resource</a> with more
 		precision than using the <a>DID</a> alone. It is expected that DID parameters
 		are <em>not</em> used if the same functionality can be expressed by passing
-		input metadata to a <a>DID resolver</a>.
+		<a href="#did-resolution-options">DID resolution options</a> or
+		<a href="#did-url-dereferencing-options">DID URL dereferencing options</a>.
 	</p>
 
 	<p class="note" title="DID parameters and DID resolution">
 		The <a>DID resolution</a> and the <a>DID URL dereferencing</a> functions can
-		be influenced by passing <a href="#did-resolution-options"></a> or
-		<a href="#did-url-dereferencing-options"></a> to a <a>DID resolver</a> that are
-		not part of the <a>DID URL</a>. This is comparable to
+		be influenced by passing <a href="#did-resolution-options">DID resolution options</a> or
+		<a href="#did-url-dereferencing-options">DID URL dereferencing options</a> to a <a>DID resolver</a>
+		or <a>DID URL dereferencer</a>. Such options are
+		not part of the <a>DID</a> or <a>DID URL</a>. This is comparable to
 		HTTP, where certain parameters could either be included in an HTTP URL, or
 		alternatively passed as HTTP headers during the dereferencing process. The
 		important distinction is that DID parameters that are part of the <a>DID
-		URL</a> should be used to specify <em>what <a>resource</a> is being
-		identified</em>, whereas input metadata that is not part of the <a>DID URL</a>
-		should be used to control <em>how that <a>resource</a> is resolved or
-		dereferenced</em>.
+		URL</a> should be used to specify <em>what is being
+		identified</em>, whereas options that are not part of the <a>DID</a> or <a>DID URL</a>
+		should be used to control <em>how resolution and dereferencing are performed</em>.
 	</p>
 
 	<section id="datetime">
@@ -1828,11 +1829,11 @@ dereference(didUrl, dereferenceOptions) →
 	<p>
 		The following example demonstrates a JSON-encoded metadata structure that
 		might be used as <a href="#did-resolution-options">DID
-		resolution input metadata</a>.
+		resolution options</a>.
 	</p>
 
 	<pre class="example"
-		 title="JSON-encoded DID resolution input metadata example">
+		 title="JSON-encoded DID resolution options example">
 {
 "accept": "application/did"
 }
@@ -1843,7 +1844,7 @@ dereference(didUrl, dereferenceOptions) →
 	</p>
 
 	<pre class="example"
-		 title="DID resolution input metadata example">
+		 title="DID resolution options example">
 «[
 "accept" → "application/did"
 ]»
@@ -1851,7 +1852,7 @@ dereference(didUrl, dereferenceOptions) →
 
 	<p>
 		The next example demonstrates a JSON-encoded metadata structure that might be
-		used as <a href="#did-resolution-options">DID resolution
+		used as <a href="#did-resolution-metadata">DID resolution
 		metadata</a> if a <a>DID</a> was not found.
 	</p>
 
@@ -2424,9 +2425,9 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
 		</dd>
 		<dt id="REPRESENTATION_NOT_SUPPORTED">REPRESENTATION_NOT_SUPPORTED</dt>
 		<dd>
-			The <a>representation</a> requested via the <code>accept</code> input metadata property
-			is not supported by the <a>DID method</a> and/or <a>DID resolver</a> implementation.
-			See Section <a href="#resolving-algorithm"></a>.
+			The <a>representation</a> requested via the <code>accept</code> DID URL dereferencing option
+			is not supported by the <a>DID method</a> and/or <a>DID URL dereferencer</a> implementation.
+			See Section <a href="#dereferencing-algorithm"></a>.
 			<div><code>https://www.w3.org/ns/did#REPRESENTATION_NOT_SUPPORTED</code></div>
 		</dd>
 		<dt id="INVALID_DID_URL">INVALID_DID_URL</dt>
