@@ -2997,7 +2997,7 @@ Content-Type: application/did
 			</ul>
 			<p class="note" title="relativeRef Resolution Cycles">This concern is
 			particularly acute when the service endpoint URL is itself a DID URL
-			that will be recursively resolved. In such cases, a traversal
+			that will be recursively dereferenced. In such cases, a traversal
 			sequence in `relativeRef` could affect the resolution of a different
 			DID document than intended. See also
 			<a href="#security-cycles-resolution"></a>.</p>
