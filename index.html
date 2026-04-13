@@ -622,10 +622,12 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 		<a href="#dereferencing"></a>.
 	</p>
 	<p class="note">
-		The term <a>DID resolution</a> is consistent with "URI resolution" as defined in
-		<a data-cite="RFC3986#section-1.2.2">RFC3986 Section 1.2.2</a>, i.e.
-		"the process of determining an access mechanism and the appropriate parameters
-		necessary to dereference a URI".
+		In order to be able to dereference a DID URL, one first needs a <a>DID document</a>,
+		which is the result of the <a>DID resolution</a> process. The <a>DID document</a>
+		is used in various ways during the <a>DID URL dereferencing</a> process.
+		The term <a>DID resolution</a> is therefore consistent with "URI resolution" as defined in
+		<a data-cite="RFC3986#section-1.2.2">RFC3986 Section 1.2.2</a>, since it provides
+		"the appropriate parameters necessary to dereference a URI".
 	</p>
 	<p>	All [=conforming DID resolvers=] implement the function below, which has the
 		following abstract form:
