@@ -11,6 +11,10 @@ included whenever they appear in this specification.
   <dt><dfn>client</dfn></dt>
   <dd>Software and/or hardware that invokes a <a>DID resolver</a> in order to execute the <a>DID resolution</a> and/or <a>DID URL dereferencing</a> algorithms. This invocation is done via a <a>binding</a>. The term <a>client</a> does not imply any specific network topology.</dd>
 
+    <dt><dfn data-lt="">DID URL Author</dfn></dt>
+    <dd>The creator of a DID URL. Like any URL, DID URLs are strings, typically produced in one context and often consumed in another (although constructing a DID URL for a particular use case might immediately use that DID URL in the context it was created). DID URL authors are responsible for properly constructing the DID URL and using any path, query, and fragment parts correctly such that is complies with the <a>DID URL Syntax</a> defined in [[DID-CORE]].</dd>
+
+
   <dt><dfn data-lt="">DID resolution result</dfn></dt>
   <dd>A data structure that represents the result of the <a>DID resolution</a> algorithm.
     May contain a <a>DID document</a>. See Section <a href="#did-resolution-result"></a>.</dd>
