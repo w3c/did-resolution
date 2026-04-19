@@ -1,99 +1,154 @@
 <p>
-This section defines the terms used in this specification and throughout
-<a>decentralized identifier</a> infrastructure. A link to these terms is
-included whenever they appear in this specification.
+  This section defines the terms used in this specification and
+  throughout
+  <a>decentralized identifier</a> infrastructure. A link to these
+  terms is
+  included whenever they appear in this specification.
 </p>
 
 <dl class="termlist">
   <dt><dfn>binding</dfn></dt>
-  <dd>A concrete mechanism through which a <a>client</a> invokes a <a>DID resolver</a>. This could be a <a>local binding</a> such as a local command line tool or library API, or a <a>remote binding</a> such as the <a href="#bindings-https">HTTP(S) binding</a>. See Section <a href="#resolver-architectures"></a>.</dd>
+  <dd>A concrete mechanism through which a <a>client</a> invokes a
+    <a>DID resolver</a>. This could be a <a>local binding</a> such as
+    a local command line tool or library API, or a <a>remote
+      binding</a> such as the <a href="#bindings-https">HTTP(S)
+      binding</a>. See Section <a href="#resolver-architectures"></a>.
+  </dd>
 
   <dt><dfn>client</dfn></dt>
-  <dd>Software and/or hardware that invokes a <a>DID resolver</a> in order to execute the <a>DID resolution</a> and/or <a>DID URL dereferencing</a> algorithms. This invocation is done via a <a>binding</a>. The term <a>client</a> does not imply any specific network topology.</dd>
+  <dd>Software and/or hardware that invokes a <a>DID resolver</a> in
+    order to execute the <a>DID resolution</a> and/or <a>DID URL
+      dereferencing</a> algorithms. This invocation is done via a
+    <a>binding</a>. The term <a>client</a> does not imply any specific
+    network topology.</dd>
 
   <dt><dfn data-lt="">DID resolution result</dfn></dt>
-  <dd>A data structure that represents the result of the <a>DID resolution</a> algorithm.
-    May contain a <a>DID document</a>. See Section <a href="#did-resolution-result"></a>.</dd>
+  <dd>A data structure that represents the result of the <a>DID
+      resolution</a> algorithm.
+    May contain a <a>DID document</a>. See Section <a
+      href="#did-resolution-result"></a>.</dd>
 
   <dt><dfn data-lt="">DID URL dereferencing result</dfn></dt>
-  <dd>A data structure that represents the result of the <a>DID URL dereferencing</a> algorithm.
-    May contain a <a>DID document</a> or other content. See Section <a href="#did-url-dereferencing-result"></a>.</dd>
+  <dd>A data structure that represents the result of the <a>DID URL
+      dereferencing</a> algorithm.
+    May contain a <a>DID document</a> or other content. See Section <a
+      href="#did-url-dereferencing-result"></a>.</dd>
 
   <dt><dfn data-lt="resources">resource</dfn></dt>
   <dd>
-    As defined by [[RFC3986]]: "...the term 'resource' is used in a general sense
-    for whatever might be identified by a URI." Similarly, any resource might serve
+    As defined by [[RFC3986]]: "...the term 'resource' is used in a
+    general sense
+    for whatever might be identified by a URI." Similarly, any
+    resource might serve
     as a <a>DID subject</a> identified by a <a>DID</a>.
   </dd>
 
   <dt><dfn data-lt="representations">representation</dfn></dt>
   <dd>
-    As defined for HTTP by [[RFC9110]]: "information that is intended to reflect a
-    past, current, or desired state of a given resource, in a format that can be
-    readily communicated via the protocol. A representation consists of a set of
-    representation metadata and a potentially unbounded stream of representation
-    data." A <a>DID document</a> is a representation of information describing a
-    <a>DID subject</a>. See <a data-cite="did-core#representations"></a>.
+    As defined for HTTP by [[RFC9110]]: "information that is intended
+    to reflect a
+    past, current, or desired state of a given resource, in a format
+    that can be
+    readily communicated via the protocol. A representation consists
+    of a set of
+    representation metadata and a potentially unbounded stream of
+    representation
+    data." A <a>DID document</a> is a representation of information
+    describing a
+    <a>DID subject</a>. See <a
+      data-cite="did-core#representations"></a>.
   </dd>
 
   <dt><dfn data-lt="">local binding</dfn></dt>
-  <dd>A <a>binding</a> where the <a>client</a> invokes a <a>DID resolver</a> that runs on the same network host, e.g., via a local command line tool or library API.
-    In this case, the <a>DID resolver</a> is sometimes also called a "local <a>DID resolver</a>".
+  <dd>A <a>binding</a> where the <a>client</a> invokes a <a>DID
+      resolver</a> that runs on the same network host, e.g., via a
+    local command line tool or library API.
+    In this case, the <a>DID resolver</a> is sometimes also called a
+    "local <a>DID resolver</a>".
     See Section <a href="#resolver-architectures"></a>.</dd>
 
   <dt><dfn data-lt="">remote binding</dfn></dt>
-  <dd>A <a>binding</a> where the <a>client</a> invokes a <a>DID resolver</a> that runs on a different network host, e.g., via the <a href="#bindings-https">HTTP(S) binding</a>.
-    In this case, the <a>DID resolver</a> is sometimes also called a "remote <a>DID resolver</a>".
+  <dd>A <a>binding</a> where the <a>client</a> invokes a <a>DID
+      resolver</a> that runs on a different network host, e.g., via
+    the <a href="#bindings-https">HTTP(S) binding</a>.
+    In this case, the <a>DID resolver</a> is sometimes also called a
+    "remote <a>DID resolver</a>".
     See Section <a href="#resolver-architectures"></a>.</dd>
 
   <dt><dfn data-lt="service">services</dfn></dt>
   <dd>
-    Means of communicating or interacting with the <a>DID subject</a> or
+    Means of communicating or interacting with the <a>DID subject</a>
+    or
     associated entities via one or more [=DID service endpoints=].
-    Examples include discovery services, agent services, social networking
-    services, file storage services, and verifiable credential repository services.
+    Examples include discovery services, agent services, social
+    networking
+    services, file storage services, and verifiable credential
+    repository services.
   </dd>
 
   <dt><dfn data-lt="">unverifiable resolution</dfn></dt>
-  <dd> A low confidence implementation of a <a>DID method's</a> "Resolve" operation between the
-    <a>DID resolver</a> and the <a>verifiable data registry</a>, to obtain the <a>DID document</a>.
-    There is no guarantee about the integrity and correctness of the result. See Section <a href="#method-architectures"></a>.</dd>
+  <dd> A low confidence implementation of a <a>DID method's</a>
+    "Resolve" operation between the
+    <a>DID resolver</a> and the <a>verifiable data registry</a>, to
+    obtain the <a>DID document</a>.
+    There is no guarantee about the integrity and correctness of the
+    result. See Section <a href="#method-architectures"></a>.
+  </dd>
 
   <dt><dfn data-lt="">verification method</dfn></dt>
   <dd>
     <p>
-      A set of parameters that can be used together with a process to independently
-      verify a proof. For example, a cryptographic public key can be used as a
-      verification method with respect to a digital signature; in such usage, it
-      verifies that the signer possessed the associated cryptographic private key.
+      A set of parameters that can be used together with a process to
+      independently
+      verify a proof. For example, a cryptographic public key can be
+      used as a
+      verification method with respect to a digital signature; in such
+      usage, it
+      verifies that the signer possessed the associated cryptographic
+      private key.
     </p>
     <p>
-      "Verification" and "proof" in this definition are intended to apply broadly. For
-      example, a cryptographic public key might be used during Diffie-Hellman key
-      exchange to negotiate a shared symmetric key for encryption. This guarantees the
-      integrity of the key agreement process. It is thus another type of verification
-      method, even though descriptions of the process might not use the words
+      "Verification" and "proof" in this definition are intended to
+      apply broadly. For
+      example, a cryptographic public key might be used during
+      Diffie-Hellman key
+      exchange to negotiate a shared symmetric key for encryption.
+      This guarantees the
+      integrity of the key agreement process. It is thus another type
+      of verification
+      method, even though descriptions of the process might not use
+      the words
       "verification" or "proof."
     </p>
   </dd>
 
   <dt><dfn data-lt="">verifiable resolution</dfn></dt>
-  <dd> A high confidence implementation of a <a>DID method's</a> "Resolve" operation between the
-    <a>DID resolver</a> and the <a>verifiable data registry</a>, to obtain the <a>DID document</a>.
-    There are guarantees about the integrity and correctness of the result to the extent possible under the applicable <a>DID method</a>.
-    See Section <a href="#method-architectures"></a>.</dd>
+  <dd> A high confidence implementation of a <a>DID method's</a>
+    "Resolve" operation between the
+    <a>DID resolver</a> and the <a>verifiable data registry</a>, to
+    obtain the <a>DID document</a>.
+    There are guarantees about the integrity and correctness of the
+    result to the extent possible under the applicable <a>DID
+      method</a>.
+    See Section <a href="#method-architectures"></a>.
+  </dd>
 
-  <dt><dfn data-lt="UUID|UUIDs">Universally Unique Identifier</dfn> (UUID)</dt>
+  <dt><dfn data-lt="UUID|UUIDs">Universally Unique Identifier</dfn>
+    (UUID)</dt>
   <dd>
-    A type of globally unique identifier defined by [[?RFC4122]]. UUIDs are similar
-    to DIDs in that they do not require a centralized registration authority. UUIDs
+    A type of globally unique identifier defined by [[?RFC4122]].
+    UUIDs are similar
+    to DIDs in that they do not require a centralized registration
+    authority. UUIDs
     differ from DIDs in that they are not resolvable or
     cryptographically-verifiable.
   </dd>
 
-  <dt><dfn data-lt="URI|URIs">Uniform Resource Identifier</dfn> (URI)</dt>
+  <dt><dfn data-lt="URI|URIs">Uniform Resource Identifier</dfn> (URI)
+  </dt>
   <dd>
-    The standard identifier format for all resources on the World Wide Web as
+    The standard identifier format for all resources on the World Wide
+    Web as
     defined by [[RFC3986]]. A <a>DID</a> is a type of URI scheme.
   </dd>
 
