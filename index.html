@@ -1311,80 +1311,9 @@ to <code><a href="#INTERNAL_ERROR">https://www.w3.org/ns/did#INTERNAL_ERROR</a><
         </ol>
       </section>
     </section>
-		<section id="dereferencing">
+
+    <section id="dereferencing">
       <h1>DID URL Dereferencing</h1>
-
-			<section id="dereferencing-algorithm">
-				<h1>DID URL Dereferencing Algorithm</h1>
-
-				<section>
-					<h1>Prepare for resolution</h1>
-
-					<p>
-The first step in dereferencing a [=DID URL=] is to prepare the DID URL for
-resolution. This involves validating the DID URL syntax, selecting an
-appropriate [=DID Resolver=], and preparing the DID URL and any accompanying
-DID Resolution Options for a resolution request.
-					</p>
-
-				</section>
-
-				<section>
-					<h1>Execute Resolution Request</h1>
-					<p>
-The next step is to use the selected [=DID Resolver=] to execute a resolution
-request using the prepared inputs. This could involve making a network request
-to an external service, or it could involve a local resolution process,
-depending on the specific implementation of the [=DID Resolver=]. The
-result is a [=DID resolution result=], which includes either the resolved
-DID document and associated metadata, or error information.
-					</p>
-
-				</section>
-
-				<section>
-					<h1>Determine Retrieval Strategy</h1>
-					<p>
-After successfully resolving the DID document and accompanying metadata,
-the next step is to determine the appropriate strategy for retrieving
-the resource identified by the [=DID URL=]. This involves analyzing the
-contents of the [=DID resolution=] result, including the DID document and
-its metadata along with the path and query components of the
-DID URL, to determine the method for retrieving the resource.
-				</p>
-
-
-				</section>
-				<section>
-					<h1>Retrieve the Resource</h1>
-          <p>
-The next step is to retrieve the resource identified by the DID URL, using the
-determined retrieval strategy. Retrieval strategies may be defined in external
-specifications. It is up to the client to determine whether they are able to
-retrieve the resource using the specified strategy.
-          </p>
-
-				</section>
-
-				<section>
-					<h1>Use the Resource</h1>
-          <p>
-The final step is to use the retrieved resource to complete the DID URL
-dereferencing process in the context in which dereferencing was invoked.
-This might involve applying a fragment identifier to the retrieved resource,
-making the resulting resource available to the invoking application process,
-or producing an error if dereferencing cannot be completed.
-          </p>
-
-
-				</section>
-
-			</section>
-
-		</section>
-
-    <section id="dereferencing-old">
-      <h1>DEPRECATED -- DID URL Dereferencing</h1>
 
       <p>
 The <a>DID URL dereferencing</a> function dereferences a <a>DID URL</a> into a
@@ -1701,7 +1630,7 @@ This specification defines no common properties.
         </p>
       </section>
 
-      <section id="old-dereferencing-algorithm">
+      <section id="dereferencing-algorithm">
         <h2>DID URL Dereferencing Algorithm</h2>
         <p>
 A <a>DID URL dereferencer</a> implements the following
@@ -2199,6 +2128,78 @@ Dereferencing a DID URL to a service endpoint URL.
           </figure>
         </section>
       </section>
+    </section>
+
+    <section id="dereferencing-provisional">
+        <h1>PROVISIONAL - DID URL Dereferencing</h1>
+
+        <section id="dereferencing-algorithm-provisional">
+            <h1>DID URL Dereferencing Algorithm</h1>
+
+            <section>
+                <h1>Prepare for resolution</h1>
+
+                <p>
+                    The first step in dereferencing a [=DID URL=] is to prepare the DID URL for
+                    resolution. This involves validating the DID URL syntax, selecting an
+                    appropriate [=DID Resolver=], and preparing the DID URL and any accompanying
+                    DID Resolution Options for a resolution request.
+                </p>
+
+            </section>
+
+            <section>
+                <h1>Execute Resolution Request</h1>
+                <p>
+                    The next step is to use the selected [=DID Resolver=] to execute a resolution
+                    request using the prepared inputs. This could involve making a network request
+                    to an external service, or it could involve a local resolution process,
+                    depending on the specific implementation of the [=DID Resolver=]. The
+                    result is a [=DID resolution result=], which includes either the resolved
+                    DID document and associated metadata, or error information.
+                </p>
+
+            </section>
+
+            <section>
+                <h1>Determine Retrieval Strategy</h1>
+                <p>
+                    After successfully resolving the DID document and accompanying metadata,
+                    the next step is to determine the appropriate strategy for retrieving
+                    the resource identified by the [=DID URL=]. This involves analyzing the
+                    contents of the [=DID resolution=] result, including the DID document and
+                    its metadata along with the path and query components of the
+                    DID URL, to determine the method for retrieving the resource.
+                </p>
+
+
+            </section>
+            <section>
+                <h1>Retrieve the Resource</h1>
+                <p>
+                    The next step is to retrieve the resource identified by the DID URL, using the
+                    determined retrieval strategy. Retrieval strategies may be defined in external
+                    specifications. It is up to the client to determine whether they are able to
+                    retrieve the resource using the specified strategy.
+                </p>
+
+            </section>
+
+            <section>
+                <h1>Use the Resource</h1>
+                <p>
+                    The final step is to use the retrieved resource to complete the DID URL
+                    dereferencing process in the context in which dereferencing was invoked.
+                    This might involve applying a fragment identifier to the retrieved resource,
+                    making the resulting resource available to the invoking application process,
+                    or producing an error if dereferencing cannot be completed.
+                </p>
+
+
+            </section>
+
+        </section>
+
     </section>
 
     <section>
