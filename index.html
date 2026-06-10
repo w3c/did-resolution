@@ -117,7 +117,7 @@
       ol.algorithm li {
         margin: 0.5em 0;
       }
-      ol.algorithm li:before {
+      ol.algorithm > li:before {
         font-weight: bold;
         counter-increment: numsection;
         content: counters(numsection, ".") ") ";
@@ -2178,19 +2178,133 @@ Dereferencing a DID URL to a service endpoint URL.
 
             </section>
 
-            <section>
-                <h1>Determine Retrieval Strategy</h1>
+				<section>
+					<h1>Determine Handling Strategy</h1>
+					<p>
+After successfully resolving the [=DID=] and obtaining the [=DID document=] and
+accompanying metadata, the next step is to determine the appropriate strategy
+for handling the [=DID URL=]. This involves analyzing the contents of the [=DID
+resolution result=], including the [=DID document=] and <a
+href="#did-resolution-metadata">DID resolution metadata</a> along with the path
+and query components of the [=DID URL=], to determine the handling strategy.
+					</p>
+					<p>
+Execute the following steps until a handling strategy is determined. While the
+full [=DID URL=] is available in these steps, query parameters that are not
+applicable to the determination of the handling strategy are ignored.
+					</p>
+					<ol class="algorithm">
+						<li>
+<b>Identified Object</b>: If there are [=DID URL=] query parameters defined in
+this specification, in the <a>DID method</a> specification, or in a DID
+Extension [[?DID-EXTENSIONS-PROPERTIES]] that identifies a specific object in
+the [=DID document=] or [=DID document metadata=], set the handling strategy to
+<b>Process Object</b>. The <code>service</code> query parameter defined in this
+specification <a href="#did-parameters"></a> identifies a specific `service`
+object. If there is also a path in the [=DID URL=], the handling may involve the
+use of the path.
+						</li>
+						<li>
+<b>Path</b>: If the [=DID URL=] contains a path, use the following sub-steps to
+determine the handling strategy.
+							<ol class="algorithm">
+								<li>
+Collect all Path Handling Objects within the [=DID document=] and [=DID document
+metadata=]. A "Path Handling Object" is defined as any JSON object that
+satisfies both of the following conditions:
+									<ul>
+										<li>
+The object has a <code>type</code> member whose value either:
+											<ul>
+												<li>
+is the string <code>"PathHandlingObject"</code>, or
+												</li>
+												<li>
+is an array that contains the string
+<code>"PathHandlingObject"</code> as one of its elements; and
+												</li>
+											</ul>
+										</li>
+										<li>
+The object has a <code>path</code> member.
+										</li>
+									</ul>
+									<p>
+Objects that do not satisfy both conditions MUST be ignored for the purposes of
+path handling strategy determination.
+									</p>
+								</li>
+								<li>
+If no Path Handling Objects are found, skip the remaining sub-steps and continue
+the Determine Handling Strategy algorithm.
+								</li>
+								<li>
+Extract the path component from the [=DID URL=] and the value of the
+<code>path</code> member from each collected Path Handling Object.
+								</li>
+								<li>
+For each collected Path Handling Object, compare the [=DID URL=] path against
+the object's path value character by character from the beginning, stopping at
+the first mismatch or the end of either string. Record the number of matched
+characters for each object.
+								</li>
+								<li>
+Select the objects with the largest number of matched characters.
+									<ul>
+										<li>
+If all of the matches are 0, the error `invalidDIDURL` MUST be returned.
+										</li>
+										<li>
+If more than 1 object has the same largest number of matched characters, the
+error `invalidDIDDoc` MUST be returned.
+										</li>
+									</ul>
+								</li>
+								<li>
+Set the handling strategy to <b>Process Object</b>. The strategy MUST use the
+selected Path Handling Object, the [=DID URL=], the [=DID document=], and MAY
+use the [=DID document metadata=].
+								</li>
+							</ol>
+						</li>
+						<li>
+<b>DID Object</b>: Collect from the [=DID document=] and [=DID document
+metadata=] for known objects that affect dereferencing. If found, use the
+"Process Object" handling strategy based on the [=DID URL=] and the identified
+object(s). For example, linkedResource object uses its own retrieval strategy as
+described at Linked Resource in the [DID-EXTENSIONS-PROPERTIES] specification.
+If there are multiple different objects collected, stop further processing and
+the error `invalidDIDDoc` MUST be returned.
+            <div class="note">
                 <p>
-                    After successfully resolving the DID document and accompanying metadata,
-                    the next step is to determine the appropriate strategy for retrieving
-                    the resource identified by the [=DID URL=]. This involves analyzing the
-                    contents of the [=DID resolution=] result, including the DID document and
-                    its metadata, along with the path and query components of the
-                    DID URL, to determine the method for retrieving the resource.
+This process is intended primarily to cover extensions that predate the "Path
+Handling Object" concept. The "Path Handling Object" approach or a query
+parameter to identify a specific object **SHOULD** be used in place of the
+"existence of the object" mechanism described here.
                 </p>
+            </div>
+						</li>
+						<li>
+<b>DID Method Specific</b>: If the relevant <a>DID method</a> has a [=DID URL=]
+handling process, set the handling strategy to <b>DID Method Specific</b>. For
+example, a <a>DID method</a> based on a specific blockchain that uses a [=DID
+URL=] to reference a resource stored on that blockchain will process the [=DID
+URL=] in a <a>DID method</a>- (or blockchain-) specific way to retrieve the
+resource.
+						</li>
+						<li>
+<b>Default</b>: If no other strategy has been determined, set the handling
+strategy to <b>Return the DID Document</b>.
+						</li>
+					</ol>
+          <p>
+Once the handling strategy is determined, the next step is to retrieve the
+resource using the selected strategy, the [=DID URL=], the [=DID document=], the
+[=DID document metadata=] and the data collected here (notably, the selected
+Path Handling Object or other identified objects) as inputs.
+          </p>
+				</section>
 
-
-            </section>
             <section>
                 <h1>Retrieve the Resource</h1>
                 <p>
