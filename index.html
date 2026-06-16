@@ -2199,10 +2199,10 @@ applicable to the determination of the handling strategy are ignored.
 this specification, in the <a>DID method</a> specification, or in a DID
 Extension [[?DID-EXTENSIONS-PROPERTIES]] that identifies a specific object in
 the [=DID document=] or [=DID document metadata=], set the handling strategy to
-<b>Process Object</b>. The <code>service</code> query parameter defined in this
-specification <a href="#did-parameters"></a> identifies a specific `service`
-object. If there is also a path in the [=DID URL=], the handling may involve the
-use of the path.
+<b>Process Object</b>. The <code>service</code> query parameter defined in
+Section <a href="#did-parameters"></a> identifies a specific `service` object.
+If there is also a path in the [=DID URL=], the handling may involve the use of
+the path.
 						</li>
 						<li>
 <b>Path</b>: If the [=DID URL=] contains a path, use the following sub-steps to
@@ -2214,14 +2214,14 @@ metadata=]. A "Path Handling Object" is defined as any JSON object that
 satisfies both of the following conditions:
 									<ul>
 										<li>
-The object has a <code>type</code> member whose value either:
+The object has a <code>type</code> member whose value is one of the following:
 											<ul>
 												<li>
-is the string <code>"PathHandlingObject"</code>, or
+The string <code>"PathHandlingObject"</code>, or
 												</li>
 												<li>
-is an array that contains the string
-<code>"PathHandlingObject"</code> as one of its elements; and
+An array that contains the string <code>"PathHandlingObject"</code> as one
+of its elements; and
 												</li>
 											</ul>
 										</li>
@@ -2230,8 +2230,8 @@ The object has a <code>path</code> member.
 										</li>
 									</ul>
 									<p>
-Objects that do not satisfy both conditions MUST be ignored for the purposes of
-path handling strategy determination.
+Objects that do not satisfy both conditions MUST be ignored for purposes of
+determining the path-handling strategy.
 									</p>
 								</li>
 								<li>
@@ -2244,7 +2244,7 @@ Extract the path component from the [=DID URL=] and the value of the
 								</li>
 								<li>
 For each collected Path Handling Object, compare the [=DID URL=] path against
-the object's path value character by character from the beginning, stopping at
+the object's path value, character by character, from the beginning, stopping at
 the first mismatch or the end of either string. Record the number of matched
 characters for each object.
 								</li>
@@ -2252,29 +2252,33 @@ characters for each object.
 Select the objects with the largest number of matched characters.
 									<ul>
 										<li>
-If all of the matches are 0, the error `invalidDIDURL` MUST be returned.
+If all of the matches are 0, the error <code><a
+href="#INVALID_DID_URL">https://www.w3.org/ns/did#INVALID_DID_URL</a></code>
+MUST be returned.
 										</li>
 										<li>
 If more than 1 object has the same largest number of matched characters, the
-error `invalidDIDDoc` MUST be returned.
+error <code><a
+href="#INVALID_DID_DOCUMENT">https://www.w3.org/ns/did#INVALID_DID_DOCUMENT</a></code>
+MUST be returned.
 										</li>
 									</ul>
 								</li>
 								<li>
 Set the handling strategy to <b>Process Object</b>. The strategy MUST use the
-selected Path Handling Object, the [=DID URL=], the [=DID document=], and MAY
-use the [=DID document metadata=].
+selected Path Handling Object, the [=DID URL=], and the [=DID document=], and
+MAY use the [=DID document metadata=].
 								</li>
 							</ol>
 						</li>
 						<li>
 <b>DID Object</b>: Collect from the [=DID document=] and [=DID document
-metadata=] for known objects that affect dereferencing. If found, use the
-"Process Object" handling strategy based on the [=DID URL=] and the identified
-object(s). For example, linkedResource object uses its own retrieval strategy as
-described at Linked Resource in the [DID-EXTENSIONS-PROPERTIES] specification.
-If there are multiple different objects collected, stop further processing and
-the error `invalidDIDDoc` MUST be returned.
+metadata=] any objects known to affect dereferencing. If none are found, continue
+to the next step. If any are found, use the specifications that define these
+objects to determine if any are targeted by the DID URL. If more than one is
+targeted, the error <code><a
+href="#INVALID_DID_DOCUMENT">https://www.w3.org/ns/did#INVALID_DID_DOCUMENT</a></code>
+MUST be returned. The targeted object MUST define a handling strategy.
             <div class="note">
                 <p>
 This process is intended primarily to cover extensions that predate the "Path
