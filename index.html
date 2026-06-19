@@ -163,7 +163,7 @@
       <p>
 Decentralized identifier (<a>DID</a>) resolution is the process of obtaining a
 <a>DID document</a> and accompanying metadata for a given <a>DID URL</a>.
-<a>DID URL dereferencing</a> extends this by using the resolved <a>DID document</a>
+<a>DID URL dereferencing</a> uses the resolved <a>DID document</a>
 to obtain the specific resource identified by a <a>DID URL</a> — which may be the
 <a>DID document</a> itself, or a referenced external resource. A resolved
 <a>DID document</a> is a set of information that enables cryptographically
@@ -210,9 +210,7 @@ operations that can be performed on any DID ("Read"; the other ones being
 "Create", "Update", and "Deactivate"). The details of these operations differ
 depending on the <a>DID method</a>. Building on top of [=DID
 resolution=], <a>DID URL dereferencing</a> is the process of retrieving a
-representation of a resource for a given <a>DID URL</a>. Software
-and/or hardware that is able to execute these processes is called a
-<a>DID resolver</a>.
+representation of a resource for a given <a>DID URL</a>.
       </p>
 
       <p>
@@ -227,7 +225,7 @@ various security and privacy considerations relevant to implementing a
 
       <p>
 Note that while this specification defines some base-level functionality for DID
-URL resolution, the actual steps required to communicate with a DID's
+resolution, the actual steps required to communicate with a DID's
 <a>verifiable data registry</a> are defined by the applicable
 <a>DID method</a> specification.
       </p>
@@ -246,10 +244,11 @@ or status.
         <p>
 For example, to retrieve the state of the DID `did:example:123` at a
 time in the past, a client application could resolve the DID with the
-`versionTime` resolution option, as in the
-following:<br> `resolve("did:example:123",
-{"versionTime":"2021-05-10T17:00:00Z"})` Or a client could dereference
-a DID URL like
+`versionTime` resolution option or parameter, as in the
+following examples: `resolve("did:example:123",
+{"versionTime":"2021-05-10T17:00:00Z"})` and
+`resolve("did:example:123?versionTime=2021-05-10T17:00:00Z", {})`.
+Or a client could dereference a DID URL like
 <code>did:example:123?service=files&relativeRef=/resume.pdf</code>
 (see <a href="#example-dereferencing-to-service-endpoint-url">here for detailed example</a>)
 to fetch a user's resume stored via a service declared in the DID document.
@@ -477,22 +476,20 @@ interoperability, it is RECOMMENDED that DID parameters use the DID Document
 Properties Extensions mechanism [[?DID-EXTENSIONS-PROPERTIES]], to avoid
 collision with other uses of the same DID parameter with different semantics.
       </p>
-
-      <p class="note" title="DID parameters and DID resolution">
+      <p>
 The <a>DID resolution</a> and the
 <a>DID URL dereferencing</a> functions can be influenced by passing
 <a href="#did-resolution-options">DID resolution options</a> or
-<a href="#did-url-dereferencing-options">DID URL dereferencing options</a> to a
-<a>DID resolver</a> or <a>DID URL dereferencer</a>. Such
-options are not part of the <a>DID</a> or
-<a>DID URL</a>. For example, a caller might use an unchanged a DID URL used as
-an identifier, and add options to alter the resolution behavior. This is
-comparable to HTTP, where certain parameters could either be included in an HTTP
-URL, or alternatively passed as HTTP headers during the dereferencing process.
-Where same parameter is present in both the
-<a>DID URL</a> and in the <a href="#did-resolution-options">DID resolution options</a>
-or <a href="#did-url-dereferencing-options">DID URL dereferencing options</a>,
-the option value MUST take precedence over the DID URL parameter value. 
+<a>DID URL</a> parameters to a
+<a>DID resolver</a> or <a>DID URL dereferencer</a>. Options are not part of the
+[=DID URL=]. For example, a caller might use an unchanged <a>DID URL</a> it
+received as an identifier, and add <a href="#did-resolution-options">DID
+resolution options</a> to alter the resolution behavior. This is comparable to
+HTTP, where certain parameters could either be included in an HTTP URL, or
+alternatively passed as HTTP headers during the dereferencing process. Where the
+same parameter is present as both a <a>DID URL</a> parameter and in a the <a
+href="#did-resolution-options">DID resolution options</a>, the option MUST
+take precedence over the <a>DID URL</a> parameter. 
       </p>
 
       <section id="datetime">
@@ -707,7 +704,9 @@ The input variables of the <code>resolve</code> function are as follows:
         <dd>
 This is the <a>DID URL</a> to resolve. This input is REQUIRED
 and the value MUST be a conformant <a>DID URL</a> as defined in
-<a data-cite="did-core#did-url-syntax"></a>.
+<a data-cite="did-core#did-url-syntax"></a>. The <a>DID URL</a> SHOULD NOT
+include a URL fragment, and a <a>DID resolver</a> that receives a <a>DID URL</a>
+with a fragment MUST ignore the fragment for the purposes of resolution.
         </dd>
         <dt>resolutionOptions</dt>
         <dd>
@@ -1157,6 +1156,8 @@ If not, the <a>DID resolver</a> MUST return the following result:
 							<li>
 <b>didResolutionMetadata</b>: <var>error object</var> with type
 set to <code><a href="#INVALID_DID_URL">https://www.w3.org/ns/did#INVALID_DID_URL</a></code>
+or <code><a href="#INVALID_DID">https://www.w3.org/ns/did#INVALID_DID</a></code>
+(as appropriate)
 							</li>
 							<li><b>didDocument</b>: <code>null</code></li>
 							<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
@@ -1166,33 +1167,22 @@ set to <code><a href="#INVALID_DID_URL">https://www.w3.org/ns/did#INVALID_DID_UR
 Parse the <var>input <a>DID URL</a></var> as follows:
             <ol class="algorithm">
               <li>
-Let <var>input DID</var> be the <a>DID</a> portion of the <var>input <a>DID URL</a></var>,
+Let <var>base DID</var> be the <a>DID</a> portion of the <var>input <a>DID URL</a></var>,
 comprising the scheme, DID method, and method-specific identifier, with any path, query, and
 fragment components removed.
               </li>
               <li>
-For each <a href="#did-parameters">DID URL parameter</a> in the <var>input <a>DID URL</a></var>
-for which no entry of the same name exists in <var>resolutionOptions</var>, add that parameter
-name and value to <var>resolutionOptions</var>.
+For each <a href="#did-parameters">DID URL parameter</a> in the <var>base DID</var>
+for which no entry of the same name exists in <var>resolutionOptions</var>, add
+that parameter name and value to <var>resolutionOptions</var>. Ignore any <a
+href="#did-parameters">DID URL parameter</a> for which an entry of the same name
+exists in <var>resolutionOptions</var>.
               </li>
             </ol>
           </li>
           <li>
-Validate that the <var>input <a>DID</a></var> conforms to the
-`did` rule of the <a href="https://www.w3.org/TR/did-core/#did-syntax">DID Syntax</a>.
-If not, the <a>DID resolver</a> MUST return the following result:
-						<ol class="algorithm">
-							<li>
-<b>didResolutionMetadata</b>: <var>error object</var> with type
-set to <code><a href="#INVALID_DID">https://www.w3.org/ns/did#INVALID_DID</a></code>
-							</li>
-							<li><b>didDocument</b>: <code>null</code></li>
-							<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
-            </ol>
-          </li>
-          <li>
 Determine whether the DID method of the
-<var>input <a>DID</a></var> is supported by the
+<var>base <a>DID</a></var> is supported by the
 <a>DID resolver</a> that implements this algorithm. If
 not, the <a>DID resolver</a> MUST return the following
 result:
@@ -1207,7 +1197,7 @@ set to <code><a href="#METHOD_NOT_SUPPORTED">https://www.w3.org/ns/did#METHOD_NO
           </li>
           <li>
 Determine whether the
-<var>input <a href="#did-resolution-options">DID resolution options</a></var>
+<a href="#did-resolution-options">DID resolution options</a></var>
 that are relevant to <a>DID Resolution</a> are supported by the <a>DID
 resolver</a> that implements this algorithm. If not, the <a>DID resolver</a>
 MUST return the following result:
@@ -1235,12 +1225,12 @@ set to <code><a href="#INVALID_OPTIONS">https://www.w3.org/ns/did#INVALID_OPTION
             </ol>
           </li>
           <li>
-Obtain the <a>DID document</a> for the <var>input <a>DID</a></var> by executing
+Obtain the <a>DID document</a> for the <var>base <a>DID</a></var> by executing
 the <a href="https://www.w3.org/TR/did-core/#method-operations">Resolve</a>
-operation, as defined by the <var>input <a>DID method</a></var>:
+operation, as defined by the <var>base <a>DID method</a></var>:
 						<ol class="algorithm">
 							<li>
-If the <var>input <a>DID</a></var> does not exist, return the following result:
+If the <var>base <a>DID</a></var> does not exist, return the following result:
 								<ol class="algorithm">
 									<li>
 <b>didResolutionMetadata</b>: <var>error object</var> with
@@ -1251,7 +1241,7 @@ type set to <code><a href="#NOT_FOUND">https://www.w3.org/ns/did#NOT_FOUND</a></
                 </ol>
               </li>
               <li>
-If the <var>input <a>DID</a></var> has been
+If the <var>base <a>DID</a></var> has been
 deactivated, return the following result:
 								<ol class="algorithm">
 									<li><b>didResolutionMetadata</b>: <code>«[ ... ]»</code></li>
@@ -1268,7 +1258,6 @@ MUST be represented in a <a href="https://www.w3.org/TR/did-core/#representation
               </li>
             </ol>
           </li>
-
           <li>
 If the <var>input <a href="#did-resolution-options">DID resolution options</a></var>
 contain the <code>expandRelativeUrls</code> option with a value of
