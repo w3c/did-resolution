@@ -2190,7 +2190,7 @@ Dereferencing a DID URL to a service endpoint URL.
     </section>
 
     <section id="dereferencing-provisional">
-        <h1>PROVISIONAL - DID URL Dereferencing</h1>
+      <h1>PROVISIONAL - DID URL Dereferencing</h1>
 
         <p class="issue atrisk">
 The dereferencing algorithm in this section is an alternative approach to the one in 
@@ -2199,91 +2199,375 @@ The Working Group is likely to converge on a revision to the dereferencing algor
 this specification being
 <a href="https://github.com/w3c/did-resolution/pull/344">discussed here</a>.
         </p>
+      <div class="note">
+        <p>
+          The Working Group is currently exploring this new
+          DID URL Dereferencing algorithm, which has a more modular
+          approach than the previous one, based on or "handling strategies".
+        </p>
+      </div>
+      <section id="dereferencing-algorithm-provisional">
+        <h1>DID URL Dereferencing Algorithm</h1>
+        <figure id="figure-dereferencing-algorithm-provisional">
+          <img style="
+                      margin: auto;
+                      display: block;
+                      height: 350px;
+                      margin-bottom: 20px;
+                    "
+              src="diagrams/dereferencing-algorithm.svg"
+              alt="Diagram showing the steps in the DID URL dereferencing algorithm" />
+          <figcaption style="text-align: center;">
+            Dereferencing a DID URL
+          </figcaption>
+        </figure>
+        <ol class="algorithm">
+          <li><a href="#prepare-for-resolution-provisional">Prepare for Resolution</a></li>
+          <li><a href="#resolve-the-did-url-provisional">Resolve the DID URL</a></li>
+          <li><a href="#determine-handling-strategy-provisional">Determine Handling Strategy</a></li>
+          <li><a href="#invoke-the-handler-provisional">Invoke the Handler</a></li>
+          <li><a href="#use-the-handler-result-provisional">Use the Handler Result</a></li>
+        </ol>
+        <section id="prepare-for-resolution-provisional">
+          <h1>Prepare for Resolution</h1>
+          <ol>
+            <li><strong>Validate</strong> that the <var>input <a>DID
+                  URL</a></var> conforms
+              to the `did-url` rule of the
+              <a href="https://www.w3.org/TR/did-core/#did-url-syntax">DID
+                URL Syntax</a>.
+              If not, the DID URL <a>client</a> MUST return
+              without further processing, indicating a failure due to
+              an
+              <code><a href="#INVALID_DID_URL">https://www.w3.org/ns/did#INVALID_DID_URL</a></code>
+            </li>
+            <li><strong>Select</strong> a resolver that is capable of
+              handling the DID's method. This could be a [[remote
+              resolver]], which would use HTTPS for communications, or
+              a [[local resolver]], which does not (likely a local
+              resolver will be
+              invoked using standard linked library or interprocess
+              communication). Implementers MUST enable users to choose the
+              resolvers they trust for specific DID methods.</li>
+            <li><strong>Remove</strong> any fragment part of the DID
+              URL to create a [=base DID URL=], e.g.,
+              `did:ex:abc#key-1` becomes `did:ex:abc` .</li>
+            <li><strong>Prepare</strong> <var><a href="#did-resolution-options">did resolution
+                  options</a></var>. See the <a href="#resolving-algorithm">resolving algorithm</a> for
+              details.</li>
+          </ol>
 
-        <div class="note">
+          <div class="note atrisk">
             <p>
-                The Working Group is currently exploring this new
-                DID URL Dereferencing algorithm, which has a more modular
-                approach than the previous one, based on "retrieval
-                strategies" or "handling strategies".
+              The Working Group is currently discussing whether the proper
+              input to <a href="#resolving">DID resolution</a> function is
+              a <a>DID</a> or a <a>DID URL</a>. This preparation step will
+              be different if only a DID is sent to resolve.
             </p>
-        </div>
-
-        <section id="dereferencing-algorithm-provisional">
-            <h1>DID URL Dereferencing Algorithm</h1>
-
-            <section>
-                <h1>Prepare for Resolution</h1>
-
-                <p>
-                    The first step in dereferencing a [=DID URL=] is to prepare the DID for
-                    resolution. This involves validating the DID URL syntax, selecting an
-                    appropriate [=DID Resolver=], and preparing the DID and any accompanying
-                    <a href="#did-resolution-options">DID resolution options</a> for a resolution request.
-                </p>
-
-                <div class="note">
-                    <p>
-                        The Working Group is currently discussing whether to change the
-                        input of the <a href="#resolving">DID resolution</a> function
-                        from a <a>DID</a> to a <a>DID URL</a>.
-                    </p>
-                </div>
-
-            </section>
-
-            <section>
-                <h1>Execute Resolution Request</h1>
-                <p>
-                    The next step is to select a [=DID Resolver=] and use it to execute a resolution
-                    request using the prepared inputs. This could involve making a network request
-                    to an external service, or it could involve a local resolution process,
-                    depending on the specific implementation of the [=DID Resolver=]. The
-                    result is a [=DID resolution result=], which includes either the resolved
-                    DID document and associated metadata, or error information.
-                </p>
-
-            </section>
-
-            <section>
-                <h1>Determine Retrieval Strategy</h1>
-                <p>
-                    After successfully resolving the DID document and accompanying metadata,
-                    the next step is to determine the appropriate strategy for retrieving
-                    the resource identified by the [=DID URL=]. This involves analyzing the
-                    contents of the [=DID resolution=] result, including the DID document and
-                    its metadata, along with the path and query components of the
-                    DID URL, to determine the method for retrieving the resource.
-                </p>
-
-
-            </section>
-            <section>
-                <h1>Retrieve the Resource</h1>
-                <p>
-                    The next step is to retrieve the resource identified by the DID URL, using the
-                    determined retrieval strategy. Retrieval strategies may be defined in external
-                    specifications. It is up to the client to determine whether they are able to
-                    retrieve the resource using the specified strategy.
-                </p>
-
-            </section>
-
-            <section>
-                <h1>Use the Resource</h1>
-                <p>
-                    The final step is to use the retrieved resource to complete the DID URL
-                    dereferencing process in the context in which dereferencing was invoked.
-                    This might involve applying a fragment identifier to the retrieved resource,
-                    making the resulting resource available to the invoking application process,
-                    or producing an error if dereferencing cannot be completed.
-                </p>
-
-
-            </section>
-
+          </div>
         </section>
 
+        <section id="resolve-the-did-url-provisional">
+          <h3>Resolve the DID URL</h3>
+          <ol>
+            <li>
+              <strong>Call</strong> the <a href="https://www.w3.org/TR/did-core/#dfn-did-resolution">resolve</a> function on the
+              selected resolver, passing the prepared resolution options and
+              the Base DID URL, to obtain the authoritative <a>DID
+              document</a> for the <var>input <a>DID URL</a></var>.
+            </li>
+            <li>
+              <strong>Interpret</strong> the response to resolve to
+              consider any errors or warnings. If appropriate, return
+              without further processing and return an error. Otherwise,
+              continue processing if the response provided enough
+              information to do so.</li>
+            <li>
+              <strong>Repeat</strong> as necessary until the final
+              resolution result is returned. A resolver may require more
+              input, or in some cases, the client can heuristically attempt
+              alternate resolver options to find a more appropriate DID
+              document, such as requesting a version of the DID document
+              from a particular point in time.</li>
+          </ol>
+        </section>
+
+        <section id="determine-handling-strategy-provisional">
+          <h1>Determine Handling Strategy</h1>
+          <p>
+              After successfully resolving the DID document and accompanying
+              metadata, the next step is to determine the appropriate strategy
+              for handling the [=DID URL=]. This involves
+              analyzing the contents of the [=DID resolution=] result, including
+              the DID document and its metadata, along with the path and query
+              components of the DID URL, to determine the method for retrieving
+              the resource.
+          </p>
+          <figure id="figure-determin-handling-strategy-provisional">
+            <img style="
+                                margin: auto;
+                                display: block;
+                                width: 100%;
+                                margin-bottom: 20px;
+                              " src="diagrams/determine-handling-strategy.svg"
+              alt="Diagram showing the steps in determining the handling strategy of a DID URL." />
+            <figcaption style="text-align: center;">
+              Determining handling strategy
+            </figcaption>
+          </figure>
+          <p>
+            Using the result from resolution, execute the following steps until
+            a handling strategy is determined.
+          </p>
+          <ol>
+            <li>
+                <strong>Services</strong> 
+              <p>
+                If a `service parameter` is present as a DID query Parameter,
+                use the <a href="#service-selection-algorithm-provisional">service selection algorithm</a> to select the
+                appropriate service object. The handling strategy
+                is determined by the type property of the selected service. If
+                multiple service parameters are present in the DID URL, stop
+                further processing and return an error.
+              </p>
+            </li>
+            <li>
+              <strong>PathHandler Typed Properties</strong>
+              <p>
+                If the DID document, DID Document Metadata, or DID Resolution
+                Metadata contain any objects with a type property that includes
+                "PathHandler", then use the <a
+                href="#pathHandler-path-matching-algorithm-provisional">PathHandler
+                Path Matching Algorithm</a> to select a single path handler and
+                set the handler strategy to that specified for that path
+                handler.
+              </p>
+            </li>
+            <li>
+              <strong>Document Properties</strong>
+              <p>
+                If the DID document contains any properties known to affect
+                dereferencing, the handling strategy is determined by that
+                property as specified by its type value. If the DID document contains multiple properties that affect dereferencing, stop further processing and return an error.
+              </p>
+            </li>
+            <li>
+              <strong>Document Metadata</strong> 
+              <p>
+                If the DID document metadata contains any properties known to
+                affect dereferencing, the handling strategy is determined by
+                that property. For example, the
+                <code>linkedResourceMetadata</code> property uses its own
+               handling strategy as described in the <a
+                href="https://w3c-ccg.github.io/did-linked-resources">DID
+                Linked Resource</a> specification. If the did document
+              metadata contains multiple properties that affect dereferencing,
+              stop further processing and return
+              an error.
+              </p>
+            </li>
+            <li><strong>Method Specific Strategies</strong>
+              <p>
+                If the DID method defines a method-specific handler
+                strategy, use the handler strategy specified by the DID
+                method.
+              </p>
+            </li>
+            <li><strong>Default DID Document Strategy</strong>
+              If no other handler strategy has been determined, set the handling
+              strategy <strong>Return DID Document</strong>, use the <a
+              href="#return-did-document-dereferencing-algorithm-provisional">Return DID
+              Document Handler Strategy</a>
+            </li>
+          </ol>
+
+          <p class="note atrisk">
+            The group is currently debating how to handle DID Query
+            parameters during dereferencing. It is likely that query parameters
+            will be included as a legacy fallback for any query Parameters
+            that may affect dereferencing, in the same manner that document
+            properties, metadata, and method-specific strategies are supported.
+          </p>
+        </section>
+        <section id="invoke-the-handler-provisional">
+          <h1>Invoke the Handler</h1>
+          <ol>
+            <li>
+              <strong>Execute</strong> the determined handler strategy using the
+              associated handler to interact with the resource referred to by
+              the DID URL. If the client does not have a handler that implements
+              the determined strategy, stop processing and return an error.
+            </li>
+          </ol>
+        </section>
+
+        <section id="use-the-handler-result-provisional">
+          <h1>Use the Handler Result</h1>
+          <p>
+            The final step is to use the result of invoking the handler to
+            complete the DID URL dereferencing process in the context in
+            which dereferencing was initiated. This might involve 
+            <ol>
+              <li>displaying a returned resource,</li>
+              <li>applying a fragment identifier to a returned resource
+              scrolling it into view within a display,</li>
+              <li>making the result available to the calling process, or </li>
+              <li>producing an error if dereferencing cannot be completed.</li>
+            </ol>
+          </p>
+        </section>
+      <section id="service-selection-algorithm-provisional">
+        <h2>Service Selection Algorithm</h2>
+        <p>
+          When a DID URL contains a <code>service</code> parameter use the
+          following algorithm to determine which service should be used for
+          dereferencing the DID URL.
+        </p>
+        <pre class="example
+        nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest
+        </pre>
+        <ol>
+          <li>Select the <a data-cite="did-core#services">service</a>
+            if its <code>id</code> property matches the value of the
+            <code>service</code> DID query parameter. If the
+            <code>id</code> property or the <code>service</code> DID parameter
+            or both contain relative references, the corresponding absolute URIs MUST be resolved and used for determining
+            the match, using the rules specified in <a
+              data-cite="RFC3986#section-5">RFC3986 Section 5:
+              Reference Resolution</a>
+            and in section <a
+              data-cite="did-core#relative-did-urls">Relative
+              DID URLs</a> in [[[DID-CORE]]].
+          </li>
+          <li>
+            If a single service is selected, use the <code>type</code> value for
+            that service to determine the handling strategy as defined by 
+            the specification for that type. If multiple services match, stop
+            further processing and return an error.
+          </li>
+          <li>
+            If the specification for the <code>type</code> value of the selected
+            service does not define a handling strategy, set the strategy to
+            <code>Default Service Handler</code> and use the <a
+            href="default-service-handler-provisional">default
+            service handling algorithm</a>.
+          </li>
+        </ol>
+      </section>
+      <section id="default-service-handler-provisional">
+        <h2>Default Service Handler</h2>
+        <p>
+          If a selected service lacks a type with a specific handler, use
+          this
+          default handler strategy. When invoked, execute the following
+          algorithm.
+        </p>
+        <p class="example">
+          <code>did:example:abc/image.png?service=FileServer</code>
+        <pre>
+      service : [{
+        "id":"FileServer",
+        "serviceEndpoint": [
+          "https://example.com/didimages",
+          "https://example.com/otherImages",
+          "https://example.com/lastImages"]
+      ...
+      }</pre>
+        </p>
+        <ol>
+          <li>
+            <strong>Select Service Endpoint</strong> Pick one of the
+            service's
+            <code>serviceEndppoint</code> values. Implementations SHOULD use
+            a round-robin approach each time through this algorithm so that
+            each
+            service endpoint is exercised, in order, until a successful
+            retreival is achieved.
+            <code><pre>https://example.com/didimages</pre></code>
+          </li>
+          <li>
+            <strong>Determine Retrieval Path</strong> Append the path part
+            of
+            the DID URL to the path part of the selected serviceEndpoint to
+            define the <code>Retrieval Path</code>.
+            <code><pre>RetrievalPath = /didimages/image.png</pre></code>
+          </li>
+          <li>
+            <strong>Construct Retrieval URLs</strong> Replace the path part
+            in
+            the selected serviceEndpoint with the Retrieval Path, leaving
+            all
+            other elements of the service endpoint URLs the same.
+            <code><pre>RetrievalUrl = https://example.com/didimages/image.png</pre></code>
+          </li>
+          <li>
+            <strong>Retrieve URL</strong> Perform an HTTPS GET operation
+            using the constructed Retrieval URL. Return the result of the GET operation.
+          </li>
+        </ol>
+        <p class="note atrisk">
+          This default handler does not process <code>relativeRef</code>
+          parameters.
+        </p>
+      </section>
+
+      <section id="pathHandler-path-matching-algorithm-provisional">
+        <h2>PathHandler Path Matching Algorithm</h2>
+        <p>
+          When a DID Document contains one or more objects with a type of
+          <code>PathHandler</code> use the following algorithm to determine
+          which object and handler should be used for dereferencing the DID URL.
+        </p>
+        
+        <ol>
+          <li>
+            Of those objects with a type <code>PathHandler</code>, select the
+            object whose <code>path</code> property has the longest match from
+            the beginning of the path part of the DID URL.
+            <p></p> 
+              Given the DID URL <code>did:example:1234/image.png</code>
+              and the following three PathHandling objects
+                <pre class="example">
+service : [{
+  "id":"PathServiceRoot",
+  "type":["PathHandler", "PathService"],
+  "path":"/"
+  ...
+},{
+  "id":"PathServiceImage",
+  "type":["PathHandler", "PathService"],
+  "path":"/image"
+  ...
+}],
+linkedResource : [{
+  "id":"SecuredImage",
+  "type":["PathHandler", "LinkedResource"],
+  "path":"/image.png"
+  ...
+}]</pre>
+
+            <p>
+              In this scenario, the linkedResource with id <code>SecuredImage</code> would be
+            selected and it's handling strategy would be defined by the
+            LinkedResource specification.
+            </p>
+
+          </li>
+          <li>
+            If two or more objects have the same length match, stop processing
+            and return an error.
+          </li>
+        </ol>
+      </p>
+      </section>
+
+      <section id="return-did-document-dereferencing-algorithm-provisional">
+        <h2>Return DID Document Handling Strategy</h2>
+        <p>
+          When invoking this handler, simply return the DID Document retrieved
+          from Resolve.
+        </p>
+      </section>
     </section>
 
     <section>
