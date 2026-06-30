@@ -478,16 +478,6 @@ collision with other uses of the same DID parameter with different semantics.
       </p>
 
       <p>
-DID parameters might be used if there is a clear use case where the
-parameter needs to be part of a <a>DID URL</a> that
-references a <a>resource</a> with more precision than
-using the <a>DID</a> alone. It is expected that DID
-parameters are <em>not</em> used if the same functionality can be
-expressed by passing <a href="#did-resolution-options">DID resolution options</a> or
-<a href="#did-url-dereferencing-options">DID URL dereferencing options</a>.
-      </p>
-
-      <p class="note" title="DID parameters and DID resolution">
 The <a>DID resolution</a> and the
 <a>DID URL dereferencing</a> functions can be influenced by passing
 <a href="#did-resolution-options">DID resolution options</a> or
@@ -497,12 +487,6 @@ options are not part of the <a>DID</a> or
 <a>DID URL</a>. This is comparable to HTTP, where
 certain parameters could either be included in an HTTP URL, or
 alternatively passed as HTTP headers during the dereferencing process.
-The important distinction is that DID parameters that are part of the
-<a>DID URL</a> should be used to specify
-<em>what is being identified</em>, whereas options that are not part of
-the <a>DID</a> or <a>DID URL</a>
-should be used to control
-<em>how resolution and dereferencing are performed</em>.
       </p>
 
       <section id="datetime">
