@@ -184,6 +184,17 @@ them to <a href="mailto:public-did-wg@w3.org">public-did-wg@w3.org</a>
       </p>
 
       <p>
+        This is a work in progress.
+      </p>
+      <p>
+        The definition of the <a>DID URL dereferencing</a> feature is currently marked 
+        <dfn>at risk</dfn>, 
+        the <a href="#dereferencing-algorithm">dereferencing algorithm</a> is currently under discussion
+         in the working group and may be removed.
+        All references to <a>DID URL dereferencing</a> may be subject to change.
+      </p>
+
+      <p>
 Portions of the work on this specification have been funded by the United States
 Department of Homeland Security's Science and Technology Directorate under
 contracts HSHQDC-17-C-00019. The content of this specification does not
@@ -1315,6 +1326,10 @@ to <code><a href="#INTERNAL_ERROR">https://www.w3.org/ns/did#INTERNAL_ERROR</a><
     <section id="dereferencing">
       <h1>DID URL Dereferencing</h1>
 
+        <p class="issue">
+          The dereferencing algorithm is currently [=at risk=], and is labelled as such as per the W3C Process.
+        </p>
+
       <p>
 The <a>DID URL dereferencing</a> function dereferences a <a>DID URL</a> into a
 <a>resource</a> with contents depending on the <a>DID URL</a>'s components,
@@ -2133,6 +2148,12 @@ Dereferencing a DID URL to a service endpoint URL.
     <section id="dereferencing-provisional">
         <h1>PROVISIONAL - DID URL Dereferencing</h1>
 
+        <p class="issue">
+          The dereferencing algorithm is currently [=at risk=], and is labelled as such as per the W3C Process.
+          One version of the algorithm under discussion can be
+          <a href="https://github.com/w3c/did-resolution/pull/344">seen here</a>.
+        </p>
+
         <div class="note">
             <p>
                 The Working Group is currently exploring this new
@@ -2346,6 +2367,12 @@ This example corresponds to a metadata structure of the following format:
     <section id="architectures">
       <h1>DID Resolution Architectures</h1>
 
+        <p class="issue">
+          This section is currently marked [=at risk=], as per the W3C Process.
+          The content of this section may may be replaced with 
+          the <a href="https://w3c.github.io/did-resolution-threat-model/">DID Resolution Threat Model</a>.
+        </p>
+      
       <section id="method-architectures">
         <h2>Method Architectures</h2>
         <p>
@@ -2953,6 +2980,11 @@ The media type of this data structure is defined to be
 
     <section id="did-url-dereferencing-result">
       <h1>DID URL Dereferencing Result</h1>
+
+      <p class="issue">
+          This section is currently marked [=at risk=], as per the W3C Process.
+      </p>
+
       <p>
 This section defines a JSON data structure that represents the result of the
 algorithm described in <a href="#dereferencing"></a>. A
