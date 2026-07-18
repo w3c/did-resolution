@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Decentralized Identifier Resolution (DID Resolution) v0.3</title>
+    <title>Decentralized Identifier Resolution (DID Resolution) v1</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <!--
       === NOTA BENE ===
@@ -17,7 +17,7 @@
     <script type="text/javascript" class="remove">
       var respecConfig = {
         // specification status (e.g., WD, LCWD, NOTE, etc.). If in doubt use ED.
-        specStatus: "ED",
+        specStatus: "CRD",
 
         // the specification's short name, as in http://www.w3.org/TR/short-name/
         shortName: "did-resolution",
@@ -50,20 +50,6 @@
         // only "name" is required
         editors: [
           {
-            name: "Markus Sabadello",
-            url: "https://www.linkedin.com/in/markus-sabadello-353a0821",
-            company: "Danube Tech",
-            companyURL: "https://danubetech.com/",
-            w3cid: 46729,
-            extras: [{ name: "until 2025-12-10", class: "former" }],
-          },
-          {
-            name: "Dmitri Zagidulin",
-            url: "https://www.linkedin.com/in/dzagidulin",
-            company: "MIT DCC",
-            w3cid: 86708,
-          },
-          {
             name: "Stephen Curran",
             url: "https://www.linkedin.com/in/stephen-w-curran/",
             company: "Cloud Compass Computing Inc.",
@@ -76,6 +62,21 @@
             w3cid: 97261
           }
         ],
+        formerEditors: [
+          {
+            name: "Markus Sabadello",
+            url: "https://www.linkedin.com/in/markus-sabadello-353a0821",
+            company: "Danube Tech",
+            companyURL: "https://danubetech.com/",
+            w3cid: 46729,
+            extras: [{ name: "until 2025-12-10", class: "former" }],
+          },
+          {
+            name: "Dmitri Zagidulin",
+            url: "https://www.linkedin.com/in/dzagidulin",
+            company: "MIT DCC",
+            w3cid: 86708,
+          }],
 
         // authors, add as many as you like.
         // This is optional, uncomment if you have authors as well as editors.
@@ -4122,6 +4123,127 @@ the section related to the <a data-cite="DID#acknowledgements">history of DIDs</
         <li><a href="https://github.com/digitalbazaar/did-client">did-client</a></li>
         <li><a href="https://github.com/uport-project/did-resolver">uPort DID resolver</a></li>
       </ol>
+    </section>
+    <section class="appendix informative" id=""revision-history">
+      <h1>Revision History</h1>
+      <p>This section lists the changes since the publication of this
+      specification as a W3C First Public Working Draft.</p>
+      <ul>
+        <li><strong>Document Scope and Structure Additions</strong>
+          <ul>
+            <li><strong>Title and Authorship</strong>: The title was
+              simplified to "Decentralized Identifier Resolution (DID
+              Resolution) v1," and new editors (Stephen Curran, Joe Andrieu)
+              were added.</li>
+            <li><strong>Contextual Sections</strong>: The CR adds new,
+              non-normative introductory sections for "Implementer
+              Overview," "Audience," and "Use Cases" to provide better
+              context for developers and architects.</li>
+            <li><strong>Conformance Categories</strong>: The CR introduces
+              two new conformance categories specifically for network-based
+              implementations: "conforming network-based DID resolver" and
+              "conforming network-based DID URL dereferencer".</li>
+          </ul>
+        </li>
+        <li><strong>Resolution Interface and Algorithms</strong>
+          <ul>
+            <li><strong>Abstract Interface Simplification</strong>: The FPWD
+              defined two distinct abstract functions:
+              <code>resolve()</code> (returning a data model) and
+              <code>resolveRepresentation()</code> (returning a byte
+              stream). The CR consolidates this into a single
+              <code>resolve()</code> function that handles returning the DID
+              document capable of being formatted into a conformant
+              representation.</li>
+            <li><strong>Relative URL Expansion</strong>: The CR introduces a
+              new DID resolution option called
+              <code>expandRelativeUrls</code>. When set to true, the
+              resolver will automatically expand any relative DID URLs found
+              within the DID document into absolute DID URLs.</li>
+            <li><strong>DID Parameters and Normalization</strong>: The CR
+              expands upon DID parameters by formally defining the behaviors
+              of <code>service</code>, <code>serviceType</code>,
+              <code>relativeRef</code>, <code>versionId</code>, and
+              <code>versionTime</code>. It also introduces a "Query
+              Normalization" section providing guidance on percent-encoding,
+              duplicate parameter handling, and method-specific
+              canonicalization.</li>
+            <li><strong>Datetime Standardization</strong>: The CR imposes a
+              strict format for all datetime values (such as
+              <code>versionTime</code>, <code>created</code>, and
+              <code>updated</code>), requiring them to be XML Datetime
+              strings adjusted to UTC without sub-second precision.</li>
+          </ul>
+        </li>
+        <li><strong>DID URL Dereferencing Changes</strong>
+          <ul>
+            <li><strong>Feature at Risk</strong>: The CR explicitly flags
+              the entire "DID URL Dereferencing" section and its
+              corresponding data result structures as "at risk," noting that
+              it may be heavily modified or removed.</li>
+            <li><strong>Provisional Algorithm</strong>: Because of the "at
+              risk" status, the CR introduces a "PROVISIONAL - DID URL
+              Dereferencing" section that explores a modular, alternative
+              approach based on sequential "retrieval strategies".</li>
+            <li><strong>Verification Relationships</strong>: The CR adds
+              <code>verificationRelationship</code> as a new dereferencing
+              option. During fragment dereferencing, the algorithm verifies
+              that the resolved verification method is formally authorized
+              for this specified relationship, throwing an error if it is
+              not.</li>
+            <li><strong>Service Endpoint Construction Removal</strong>: The
+              standalone algorithm for "Service Endpoint Construction"
+              (Section 11 in the FPWD) was removed from the CR version.</li>
+          </ul>
+        </li>
+        <li><strong>Error Handling and Extensibility</strong>
+          <ul>
+            <li><strong>RFC9457 Error Formats</strong>: Instead of using
+              simple single-keyword ASCII strings for errors like the FPWD,
+              the CR mandates the use of <strong>RFC9457</strong> (Problem
+              Details for HTTP APIs).</li>
+            <li><strong>Error URIs</strong>: Error types in the CR are now
+              mapped to specific W3C URIs (e.g.,
+              <code>https://www.w3.org/ns/did#INVALID_DID</code>), and new
+              errors such as <code>INVALID_DID_DOCUMENT</code> and
+              <code>FEATURE_NOT_SUPPORTED</code> were introduced.</li>
+            <li><strong>Shift to Extensions</strong>: The CR shifts
+              references for metadata and options registration away from the
+              "DID Specification Registries" used in the FPWD, advising
+              implementers to use the "DID Resolution Extensions" and "DID
+              Document Properties Extensions" instead.</li>
+          </ul>
+        </li>
+        <li><strong>Expanded Security and Privacy Considerations</strong>
+          <ul>
+            <li><strong>New Security Vectors</strong>: The CR vastly expands
+              the Security Considerations section to address vulnerabilities
+              such as:
+              <ul>
+                <li><strong>Dereferencing Cycles</strong>: Risks of infinite
+                  loops or resource exhaustion when following nested DID
+                  document references.</li>
+                <li><strong>Query String/Parameter Injection</strong>:
+                  Vulnerabilities arising from inconsistent cache
+                  normalization or unsafe programmatic string concatenation.
+                </li>
+                <li><strong>Path Traversal</strong>: Risks of an attacker
+                  escaping a service endpoint's intended path using
+                  malicious <code>relativeRef</code> parameter sequences
+                  (e.g., <code>../</code>).</li>
+                <li><strong>JSON-LD Integrity &amp; Network Forks</strong>:
+                  Guidance on validating JSON-LD Context files and handling
+                  VDR (verifiable data registry) network forks.</li>
+              </ul>
+            </li>
+            <li><strong>New Privacy Section</strong>: The CR introduces a
+              standalone "Privacy Considerations" section, highlighting the
+              risk that DID resolvers and dereferencers can log and profile
+              clients requesting resolution, advising mitigation strategies
+              like using trusted proxies or Oblivious HTTP.</li>
+          </ul>
+        </li>
+      </ul>
     </section>
   </body>
 </html>
