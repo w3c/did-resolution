@@ -350,13 +350,14 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     {
       "name": "Stephen Curran",
       "url": "https://www.linkedin.com/in/stephen-w-curran/",
-      "company": "Cloud Compass Computing Inc.",
+      "note": "Invited Expert",
       "w3cid": 113821
     },
     {
       "name": "Joe Andrieu",
+      "url": "https://www.linkedin.com/in/joe-andrieu/",
       "company": "Legendary Requirements",
-      "url": "http://legreq.com",
+      "companyURL": "http://legreq.com",
       "w3cid": 97261
     }
   ],
@@ -403,20 +404,21 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
   "lint": {
     "informative-dfn": false
   },
-  "publishISODate": "2026-08-04T00:00:00.000Z",
-  "generatedSubtitle": "W3C Candidate Recommendation Draft 23 July 2026"
+  "publishISODate": "2026-07-23T00:00:00.000Z",
+  "crEnd": "2026-09-01",
+  "generatedSubtitle": "W3C Candidate Recommendation Snapshot 23 July 2026"
 }</script>
-<link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-CRD"></head>
+<link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-CR"></head>
   <body data-cite="infra rfc3986 did" class="h-entry"><div class="head">
     <p class="logos"><a class="logo" href="https://www.w3.org/"><img crossorigin="" alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72">
   </a></p>
     <h1 id="title" class="title">Decentralized Identifier Resolution (DID Resolution) v1</h1> <h2 id="subtitle" class="subtitle">Algorithms and guidelines for resolving DIDs and dereferencing DID URLs</h2>
-    <p id="w3c-state"><a href="https://www.w3.org/standards/types#CRD">W3C Candidate Recommendation Draft</a> <time class="dt-published" datetime="2026-07-23">23 July 2026</time></p>
+    <p id="w3c-state"><a href="https://www.w3.org/standards/types#CR">W3C Candidate Recommendation Snapshot</a> <time class="dt-published" datetime="2026-07-23">23 July 2026</time></p>
     <details open="">
       <summary>More details about this document</summary>
       <dl>
         <dt>This version:</dt><dd>
-                <a class="u-url" href="https://www.w3.org/TR/2026/CRD-did-resolution-1.0-20260723/">https://www.w3.org/TR/2026/CRD-did-resolution-1.0-20260723/</a>
+                <a class="u-url" href="https://www.w3.org/TR/2026/CR-did-resolution-1.0-20260723/">https://www.w3.org/TR/2026/CR-did-resolution-1.0-20260723/</a>
               </dd>
         <dt>Latest published version:</dt><dd>
                 <a href="https://www.w3.org/TR/did-resolution-1.0/">https://www.w3.org/TR/did-resolution-1.0/</a>
@@ -437,7 +439,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
               </dt><dd class="editor p-author h-card vcard" data-editor-id="113821">
     <a class="u-url url p-name fn" href="https://www.linkedin.com/in/stephen-w-curran/">Stephen Curran</a> (Invited Expert)
   </dd><dd class="editor p-author h-card vcard" data-editor-id="97261">
-    <a class="u-url url p-name fn" href="http://legreq.com">Joe Andrieu</a> (<span class="p-org org h-org">Legendary Requirements</span>)
+    <a class="u-url url p-name fn" href="https://www.linkedin.com/in/joe-andrieu/">Joe Andrieu</a> (<a class="p-org org h-org" href="http://legreq.com">Legendary Requirements</a>)
   </dd>
         <dt>
                 Former editors:
@@ -501,7 +503,7 @@ full detail.
       <p>
         The <abbr title="World Wide Web Consortium">W3C</abbr> Decentralized Identifier Working Group has published this
         document as a <abbr title="World Wide Web Consortium">W3C</abbr> Candidate Recommendation and is requesting that
-        software developers authors provide experimental implementations
+        software developers provide experimental implementations
         designed to test the implementability of all of the features in this
         document.
       </p>
@@ -589,20 +591,22 @@ Sporny, Drummond Reed, Joe Andrieu, and Heather Vescent.
       </p>
     <p>
     This document was published by the <a href="https://www.w3.org/groups/wg/did">Decentralized Identifier Working Group</a> as
-    a Candidate Recommendation Draft using the
+    a Candidate Recommendation Snapshot using the
         <a href="https://www.w3.org/policies/process/20250818/#recs-and-notes">Recommendation
           track</a>. 
   </p><p>Publication as
   a Candidate Recommendation does not imply endorsement
-  by <abbr title="World Wide Web Consortium">W3C</abbr> and its Members. A Candidate Recommendation Draft integrates
-      changes from the previous Candidate Recommendation that the Working
-      Group intends to include in a
-      subsequent Candidate Recommendation Snapshot.</p><p>
-    This is a draft document and may be updated, replaced, or obsoleted by other
-    documents at any time. It is inappropriate to cite this document as other
-    than a work in progress.
-    
-  </p><p>
+  by <abbr title="World Wide Web Consortium">W3C</abbr> and its Members. A Candidate Recommendation Snapshot has received
+        <a href="https://www.w3.org/policies/process/20250818/#dfn-wide-review">wide review</a>, is intended to
+        gather
+        <a href="https://w3c.github.io/did-resolution-test-suite/">implementation experience</a>,
+        and has commitments from Working Group members to
+        <a href="https://www.w3.org/policies/patent-policy/#sec-Requirements">royalty-free licensing</a>
+        for implementations.</p><p>
+          This Candidate Recommendation is not expected to advance to
+          Recommendation any earlier than
+          01 September 2026.
+        </p><p>
     
         This document was produced by a group
         operating under the
