@@ -18,9 +18,9 @@
       var respecConfig = {
         // specification status (e.g., WD, LCWD, NOTE, etc.). If in doubt use ED.
         specStatus: "CRD",
-
+        implementationReportURI: "https://w3c.github.io/did-resolution-test-suite/",
         // the specification's short name, as in http://www.w3.org/TR/short-name/
-        shortName: "did-resolution",
+        shortName: "did-resolution-1.0",
 
         // subtitle
         subtitle:
@@ -176,6 +176,71 @@ full detail.
     </section>
 
     <section id="sotd">
+      <p>
+        The W3C Decentralized Identifier Working Group has published this
+        document as a W3C Candidate Recommendation and is requesting that
+        software developers authors provide experimental implementations
+        designed to test the implementability of all of the features in this
+        document.
+      </p>
+      
+      <p>
+        Implementers are cautioned that any open
+        <a href="https://www.w3.org/policies/process/#correction-classes">class
+        1, 2, or 3</a> issues 
+        <a href="https://github.com/w3c/did/issues/">listed in the issue tracker</a> might result in changes to the specification.
+      </p>
+      
+      <p>
+        To exit the W3C Candidate Recommendation phase, the W3C DID Working
+        Group requires the following:
+      </p>
+      <ol>
+      <li>
+          <a
+            href="https://www.w3.org/Consortium/Process/#implementation-experience">At least two independent interoperable implementations</a> of every
+          feature defined in the specification, where interoperability can be
+          verified by passing open test suites, and two or more
+          implementations interoperating with each other. In order to advance
+          to Proposed Recommendation, each normative specification must have
+          an open test suite of every feature defined in the
+          specification.
+        </li>
+        <li>
+          For normative statements that are machine testable, at least two
+          conforming implementations per feature; that is, when a [=conforming
+          producer=] implements a feature, at least two [=conforming consumers=]
+          are able to consume the feature and for every feature that is
+          consumed, there are at least two [=conforming producers=] that produce
+          the feature.
+        </li>
+        <li>
+          For normative statements that are not machine testable, at least
+          two demonstrations of implementation per feature.
+        </li>
+        <li>
+          Each of the independent implementations mentioned above support at
+          least two DID methods which 1) have an open specifications (freely
+          available specification, freely implementable), and 2) are implemented
+          interoperably by more than one of the independent implementations
+          mentioned above. This means that there will exist at least two
+          openly-specified DID methods that are each implemented by at least two
+          independent implementations.
+        </li>
+      </ol>
+      
+      <p>
+        A feature is defined as one or more functionally related normative
+        statements in
+        the specification. For this specification, interoperability is
+        defined as
+        normative statements, such as those referring to data model
+        properties and their
+        values, being interpreted in the same way between two different DID
+        Methods.
+      </p>
+      
+  
       <p>
 Comments regarding this document are welcome. Please file issues directly on
 <a href="https://github.com/w3c/did-resolution/issues/">GitHub</a>, or send
