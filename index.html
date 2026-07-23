@@ -2128,7 +2128,6 @@ Dereferencing a DID URL to a service endpoint URL.
 
     <section id="dereferencing-provisional">
       <h1>PROVISIONAL - DID URL Dereferencing</h1>
-<<<<<<< HEAD
 
         <p class="issue atrisk">
 The dereferencing algorithm in this section is an alternative approach to the one in 
@@ -2195,66 +2194,6 @@ this specification being
               details.</li>
           </ol>
 
-=======
-      <div class="note">
-        <p>
-          The Working Group is currently exploring this new
-          DID URL Dereferencing algorithm, which has a more modular
-          approach than the previous one, based on or "handling strategies".
-        </p>
-      </div>
-      <section id="dereferencing-algorithm-provisional">
-        <h1>DID URL Dereferencing Algorithm</h1>
-        <figure id="figure-dereferencing-algorithm-provisional">
-          <img style="
-                      margin: auto;
-                      display: block;
-                      height: 350px;
-                      margin-bottom: 20px;
-                    "
-              src="diagrams/dereferencing-algorithm.svg"
-              alt="Diagram showing the steps in the DID URL dereferencing algorithm" />
-          <figcaption style="text-align: center;">
-            Dereferencing a DID URL
-          </figcaption>
-        </figure>
-        <ol class="algorithm">
-          <li><a href="#prepare-for-resolution-provisional">Prepare for Resolution</a></li>
-          <li><a href="#resolve-the-did-url-provisional">Resolve the DID URL</a></li>
-          <li><a href="#determine-handling-strategy-provisional">Determine Handling Strategy</a></li>
-          <li><a href="#invoke-the-handler-provisional">Invoke the Handler</a></li>
-          <li><a href="#use-the-handler-result-provisional">Use the Handler Result</a></li>
-        </ol>
-        <section id="prepare-for-resolution-provisional">
-          <h1>Prepare for Resolution</h1>
-          <ol>
-            <li><strong>Validate</strong> that the <var>input <a>DID
-                  URL</a></var> conforms
-              to the `did-url` rule of the
-              <a href="https://www.w3.org/TR/did-core/#did-url-syntax">DID
-                URL Syntax</a>.
-              If not, the DID URL <a>client</a> MUST return
-              without further processing, indicating a failure due to
-              an
-              <code><a href="#INVALID_DID_URL">https://www.w3.org/ns/did#INVALID_DID_URL</a></code>
-            </li>
-            <li><strong>Select</strong> a resolver that is capable of
-              handling the DID's method. This could be a [[remote
-              resolver]], which would use HTTPS for communications, or
-              a [[local resolver]], which does not (likely a local
-              resolver will be
-              invoked using standard linked library or interprocess
-              communication). Implementers MUST enable users to choose the
-              resolvers they trust for specific DID methods.</li>
-            <li><strong>Remove</strong> any fragment part of the DID
-              URL to create a [=base DID URL=], e.g.,
-              `did:ex:abc#key-1` becomes `did:ex:abc` .</li>
-            <li><strong>Prepare</strong> <var><a href="#did-resolution-options">did resolution
-                  options</a></var>. See the <a href="#resolving-algorithm">resolving algorithm</a> for
-              details.</li>
-          </ol>
-
->>>>>>> 2ce667d (full pass at DID URL dereferencing algorithm (isolated))
           <div class="note atrisk">
             <p>
               The Working Group is currently discussing whether the proper
@@ -2296,11 +2235,7 @@ this specification being
               After successfully resolving the DID document and accompanying
               metadata, the next step is to determine the appropriate strategy
               for handling the [=DID URL=]. This involves
-<<<<<<< HEAD
-              analyzing the contents of the [=DID resolution result=], including
-=======
               analyzing the contents of the [=DID resolution=] result, including
->>>>>>> 2ce667d (full pass at DID URL dereferencing algorithm (isolated))
               the DID document and its metadata, along with the path and query
               components of the DID URL, to determine the method for retrieving
               the resource.
