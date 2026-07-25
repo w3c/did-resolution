@@ -2295,100 +2295,116 @@ Dereferencing a DID URL to a service endpoint URL.
               components of the DID URL, to determine the method for retrieving
               the resource.
           </p>
-          <figure id="figure-determin-handling-strategy-provisional">
-            <img style="
-                                margin: auto;
-                                display: block;
-                                width: 100%;
-                                margin-bottom: 20px;
-                              " src="diagrams/determine-handling-strategy.svg"
-              alt="Diagram showing the steps in determining the handling strategy of a DID URL." />
+          <figure role="group"   
+            id="figure-determine-handling-strategy-provisional">
+            <img style=" margin: auto; display: block; width: 100%;
+            margin-bottom: 20px; "
+            src="diagrams/determine-handling-strategy.svg" alt="Diagram showing
+            the steps in determining the handling strategy of a DID URL."/>
             <figcaption style="text-align: center;">
-              Determining handling strategy
+             A flow chart visualization of the Determine Handling Strategy
+             Algorithm described next.
             </figcaption>
           </figure>
           <p>
             Using the result from resolution, execute the following steps until
-            a handling strategy is determined.
+            a handling strategy is determined. End processing as soon as a
+            strategy is set.
           </p>
           <ol>
             <li>
-                <strong>Services</strong> 
+              <strong>Services</strong> 
               <p>
                 If a `service parameter` is present as a DID query Parameter,
-                use the <a href="#service-selection-algorithm-provisional">service selection algorithm</a> to select the
-                appropriate service object. The handling strategy
-                is determined by the type property of the selected service. If
-                multiple service parameters are present in the DID URL, stop
-                further processing and return an error.
+                first check if multiple service parameters are present in the
+                <a>DID URL</a>. If there are, raise an error and set the handler
+                strategy to the Default DID Document strategy. If there is just
+                one service parameter, use the <a
+                href="#service-selection-algorithm-provisional">service
+                selection algorithm</a> to select the appropriate service
+                object.  Then, if there is no matching service object, raise an error
+                and set the strategy to the Default DID Document strategy. If the selected
+                object's service type has defined a handling strategy, set the
+                strategy to that. If the service type does not define a handling
+                strategy, set strategy to the Default Service Handler Strategy.
               </p>
             </li>
             <li>
               <strong>PathHandler Typed Properties</strong>
               <p>
-                If the DID document, DID Document Metadata, or DID Resolution
-                Metadata contain any objects with a type property that includes
-                "PathHandler", then use the <a
+                If the <a>DID URL</a>contains a non-empty path part, then use
+                the <a
                 href="#pathHandler-path-matching-algorithm-provisional">PathHandler
-                Path Matching Algorithm</a> to select a single path handler and
-                set the handler strategy to that specified for that path
-                handler.
+                Path Matching Algorithm</a> to select a path handler object. If
+                no path handler objects are selected, continue to the document
+                properties step. If there are multiple handler objects selected,
+                raise an error and set the strategy to the Default DID Document
+                Strategy. If the sole selected path handling object has a
+                secondary type that defines a handler strategy, set the strategy
+                to that strategy. If it doesn't, raise an error and set the
+                strategy to the Default DID Document Strategy.
               </p>
             </li>
             <li>
               <strong>Document Properties</strong>
               <p>
-                If the DID document contains any properties known to affect
-                dereferencing, the handling strategy is determined by that
-                property as specified by its type value. If the DID document contains multiple properties that affect dereferencing, stop further processing and return an error.
+                If the DID document contains any properties known to define a
+                handler strategy, check to see if any of those properties apply
+                to the `DID URL`. If not, continue with the Method-Specific
+                Strategies Step. If the DID document contains multiple
+                properties that apply to the `DID URL`, raise an error, and set
+                the the handler to the Default DID Document Strategy. If the DID
+                document contains a single property with a known handler
+                strategy that applies to the `DID URL`, set the strategy to the
+                strategy defined by that property.
+              </p>
+            </li>
+            <li><strong>Method-Specific Strategies</strong>
+              <p>
+                If the DID method defines a method-specific handler
+                strategy, check to see if that handler applies to the `DID URL`
+                and set the handler strategy to that specified by the DID
+                method. If there is no applicable method-specific handler
+                stategy, continue with the Query Parameters step. 
+              </p>
+            </li>
+            <li><strong>Query Parameters</strong>
+              <p>
+                If there are query parameters that require a specific handling
+                stratey, check to see if there are more than one. If there are,
+                then raise an error and set the strategy to the Default DID
+                Document Strategy. If there is only one such query parameter,
+                set the strategy to that defined by the query parameter
+                specification. Otherwise, continue with the Metadata step.
               </p>
             </li>
             <li>
-              <strong>Document Metadata</strong> 
+              <strong>Metadata</strong> 
               <p>
-                If the DID document metadata contains any properties known to
-                affect dereferencing, the handling strategy is determined by
-                that property. For example, the
-                <code>linkedResourceMetadata</code> property uses its own
-               handling strategy as described in the <a
-                href="https://w3c-ccg.github.io/did-linked-resources">DID
-                Linked Resource</a> specification. If the did document
-              metadata contains multiple properties that affect dereferencing,
-              stop further processing and return
-              an error.
+                If either the DID resolution metadata or DID document metadata
+                contain any properties known to define a handler strategy, check
+                to see if any of those properties apply to the `DID URL`. If
+                there is only one such property, set the strategy to the
+                strategy defined by that property. If there are multiple
+                applicable properties, raise an error and set the strategy to
+                the Default DID Docucment Strategy. Otherwise, continue to Default DID Document step.
               </p>
             </li>
-            <li><strong>Method Specific Strategies</strong>
-              <p>
-                If the DID method defines a method-specific handler
-                strategy, use the handler strategy specified by the DID
-                method.
-              </p>
-            </li>
-            <li><strong>Default DID Document Strategy</strong>
-              If no other handler strategy has been determined, set the handling
-              strategy <strong>Return DID Document</strong>, use the <a
-              href="#return-did-document-dereferencing-algorithm-provisional">Return DID
-              Document Handler Strategy</a>
+            <li><strong>Default DID Document</strong>
+              If no other handler strategy has been determined, set the 
+              strategy to <a
+              href="#return-did-document-dereferencing-algorithm-provisional">Return DID Document</a>.
             </li>
           </ol>
-
-          <p class="note atrisk">
-            The group is currently debating how to handle DID Query
-            parameters during dereferencing. It is likely that query parameters
-            will be included as a legacy fallback for any query Parameters
-            that may affect dereferencing, in the same manner that document
-            properties, metadata, and method-specific strategies are supported.
-          </p>
         </section>
         <section id="invoke-the-handler-provisional">
           <h1>Invoke the Handler</h1>
           <ol>
             <li>
-              <strong>Execute</strong> the determined handler strategy using the
-              associated handler to interact with the resource referred to by
-              the DID URL. If the client does not have a handler that implements
-              the determined strategy, stop processing and return an error.
+              <strong>Execute</strong> the determined handler strategy using a
+              handler that implements that strategy. If the client does not have
+              a handler that implements the determined strategy, stop processing
+              and raise an error.
             </li>
           </ol>
         </section>
@@ -2554,7 +2570,7 @@ linkedResource : [{
       </section>
 
       <section id="return-did-document-dereferencing-algorithm-provisional">
-        <h2>Return DID Document Handling Strategy</h2>
+        <h2>Return DID Document</h2>
         <p>
           When invoking this handler, simply return the DID Document retrieved
           from Resolve.
