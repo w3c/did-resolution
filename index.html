@@ -3138,6 +3138,13 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
         </li>
       </ul>
 
+      <p>
+A specification that defines an error type not defined in this section MAY
+declare which of the error types defined in this section it refines. A binding
+defined in Section <a href="#bindings"></a> can use such a declaration to
+determine how to convey that error type.
+      </p>
+
       <dl>
         <dt id="INVALID_DID">INVALID_DID</dt>
         <dd>
@@ -3485,7 +3492,7 @@ the following table:
 				</tr>
 				<tr>
 						<td>
-								(any other error URI)
+								(any other error URI; see below)
 						</td>
 						<td>
 								<code>500</code>
@@ -3493,6 +3500,27 @@ the following table:
 				</tr>
 		</tbody>
 </table>
+<p>
+If the <code>type</code> property of the <b>error object</b> does not appear in
+the table above, then the HTTP response status code MUST be determined as
+follows:
+</p>
+<ol class="algorithm">
+  <li>
+If the specification that defines the error type declares an HTTP response
+status code for that error type, then the HTTP response status code MUST be the
+declared one.
+  </li>
+  <li>
+Otherwise, if the specification that defines the error type declares that it
+refines one of the error types defined in Section <a href="#errors"></a>, then
+the HTTP response status code MUST be the one that the table above associates
+with the refined error type.
+  </li>
+  <li>
+Otherwise, the HTTP response status code MUST be <code>500</code>.
+  </li>
+</ol>
           </li>
           <li>
 If the <a>DID resolution</a> or
