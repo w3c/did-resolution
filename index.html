@@ -2189,52 +2189,52 @@ Dereferencing a DID URL to a service endpoint URL.
     <section id="dereferencing-provisional">
       <h1>PROVISIONAL - DID URL Dereferencing</h1>
       <p>
-        Dereferencing means taking a reference to a resource and bringing that
-        resource into the current computational context, often by invoking a
-        handler specific to the resource type.
+Dereferencing means taking a reference to a resource and bringing that
+resource into the current computational context, often by invoking a
+handler specific to the resource type.
       </p>
       <p>
-        Dereferencing a URL means retrieving a representation of a resource from
-        a web server and invoking a handler specific to the media type of the retrieved resource. For web pages, that means displaying the retrieved HTML in the browser, with the appropriate rendering view. 
+Dereferencing a URL means retrieving a representation of a resource from
+a web server and invoking a handler specific to the media type of the retrieved resource. For web pages, that means displaying the retrieved HTML in the browser, with the appropriate rendering view. 
       </p>
       <p>
-        Dereferencing a <a>DID URL</a> means retrieving the appropriate
-        resource referred to by the DID URL and invoking a function that applies
-        it in the current context.
+Dereferencing a <a>DID URL</a> means retrieving the appropriate
+resource referred to by the DID URL and invoking a function that applies
+it in the current context.
       </p>
       <p>
-        DIDs allow for a number of distinct handling strategies to enable DID
-        URLs that refer to resources made available in a variety of ways,
-        including web-based resources, resources embedded in DID
-        Documents, resources secured by integrity proofs in a DID document, and
-        resources stored "on chain" with a decentalized system.
+DIDs allow for a number of distinct handling strategies to enable DID
+URLs that refer to resources made available in a variety of ways,
+including web-based resources, resources embedded in DID
+Documents, resources secured by integrity proofs in a DID document, and
+resources stored "on chain" with a decentalized system.
       </p>
       <p>
-        Regardless of the appropriate handling strategy, all DID URL
-        Dereferencing requires resolving the DID embedded in the DID URL and
-        using the result of Resolve()&mdash;typically a DID Document&mdash;to determine,
-        then invoke, the appropriate handler.
+Regardless of the appropriate handling strategy, all DID URL
+Dereferencing requires resolving the DID embedded in the DID URL and
+using the result of Resolve&mdash;typically a DID Document&mdash;to determine,
+then invoke, the appropriate handler.
       </p>
       <p>
-        The following DID URL dereferencing algorithm describes how a conforming
-        <a>client</a> of a conforming <a>DID Resolver</a> prepares for,
-        executes, then handles the response to a call to Resolve. 
+The following DID URL dereferencing algorithm describes how a conforming
+<a>client</a> of a conforming <a>DID Resolver</a> prepares for,
+executes, then handles the response to a call to Resolve. 
       </p>
       <p>
-         All conformant clients MUST execute the steps in this algorithm. The
-         only required input is the DID URL to dereference, the context in which
-         that DID URL is being used, and configuration details regarding
-         preferred resolvers and available handlers. The expected side effect of
-         dereferencing is the invocation of a handler that applies any retrieved
-         resource to the current context. The interface for such handlers are
-         outside the scope of this specification.
+All conformant clients MUST execute the steps in this algorithm. The
+only required input is the DID URL to dereference, the context in which
+that DID URL is being used, and configuration details regarding
+preferred resolvers and available handlers. The expected side effect of
+dereferencing is the invocation of a handler that applies any retrieved
+resource to the current context. The interface for such handlers are
+outside the scope of this specification.
       </p>
       <p>
-        All conforming clients MUST allow <a>DID URL Users</a> to set specific
-        resolvers to be used for any specific <a>DID Method</a>. Similarly,
-        conforming clients SHOULD allow <a>DID URL Users</a> to set the handlers
-        to be used for any specific handling strategy. How these settings are
-        exposed to the user is outside the scope of this specification.
+All conforming clients MUST allow <a>DID URL Users</a> to set specific
+resolvers to be used for any specific <a>DID Method</a>. Similarly,
+conforming clients SHOULD allow <a>DID URL Users</a> to set the handlers
+to be used for any specific handling strategy. How these settings are
+exposed to the user is outside the scope of this specification.
       </p>
       <p class="issue atrisk">
 The dereferencing algorithm in this section is an alternative approach to the one in 
