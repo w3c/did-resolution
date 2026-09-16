@@ -247,7 +247,7 @@ them to <a href="mailto:public-did-wg@w3.org">public-did-wg@w3.org</a>
 The definition of the <a>DID URL dereferencing</a> feature is currently marked as
 <dfn>at risk</dfn> and will likely be changed or removed from the
 specification. The Working Group is seeking feedback from implementers
-regarding the feature's value as defined by this specification.
+regarding the value of the feature as defined by this specification.
       </p>
 
       <p>
@@ -2194,39 +2194,39 @@ resource into the current computational context, often by invoking a
 handler specific to the resource type.
       </p>
       <p>
-Dereferencing a URL means retrieving a representation of a resource from
+Dereferencing a HTTP(S) URL means retrieving a representation of a resource from
 a web server and invoking a handler specific to the media type of the retrieved resource. For web pages, that means displaying the retrieved HTML in the browser, with the appropriate rendering view. 
       </p>
       <p>
-Dereferencing a <a>DID URL</a> means retrieving the appropriate
-resource referred to by the DID URL and invoking a function that applies
-it in the current context.
+Dereferencing a <a>DID URL</a> means retrieving the resource referred
+to by the DID URL and invoking an appropriate function that applies it
+in the current context.
       </p>
       <p>
 DIDs allow for a number of distinct handling strategies to enable DID
 URLs that refer to resources made available in a variety of ways,
 including web-based resources, resources embedded in DID
-Documents, resources secured by integrity proofs in a DID document, and
+Documents, resources secured by integrity proofs in DID documents, and
 resources stored "on chain" with a decentalized system.
       </p>
       <p>
 Regardless of the appropriate handling strategy, all DID URL
 Dereferencing requires resolving the DID embedded in the DID URL and
-using the result of Resolve&mdash;typically a DID Document&mdash;to determine,
-then invoke, the appropriate handler.
+using the result of Resolve &mdash; typically a DID Document &mdash; to
+determine, and then invoke, the appropriate handler.
       </p>
       <p>
 The following DID URL dereferencing algorithm describes how a conforming
 <a>client</a> of a conforming <a>DID Resolver</a> prepares for,
-executes, then handles the response to a call to Resolve. 
+executes, and handles the response to a call to Resolve. 
       </p>
       <p>
-All conformant clients MUST execute the steps in this algorithm. The
-only required input is the DID URL to dereference, the context in which
-that DID URL is being used, and configuration details regarding
+All conformant clients MUST execute the steps in this algorithm. The only
+required input is the DID URL to be dereferenced, the context in which
+that DID URL is being used, and configuration details regarding any
 preferred resolvers and available handlers. The expected side effect of
 dereferencing is the invocation of a handler that applies any retrieved
-resource to the current context. The interface for such handlers are
+resource to the current context. The interfaces for such handlers are
 outside the scope of this specification.
       </p>
       <p>
@@ -2247,9 +2247,9 @@ this specification being
         <p>
           The Working Group is currently exploring this new
           DID URL Dereferencing algorithm, which has a more modular
-          approach than the previous one, based on using the DID URL and the
-          result from Resolution to determine a handling strategy and invoking
-          an appropriate handler.
+          approach than the previous one, and is based on using the DID URL
+          and the result from Resolution to determine a handling strategy
+          and invoke an appropriate handler.
         </p>
       </div>
       <section id="dereferencing-algorithm-provisional">
@@ -2305,8 +2305,8 @@ an
 <strong>Select</strong> a resolver that is capable of
 handling the DID's method. This could be a [[remote
 resolver]], which would use HTTPS for communications, or
-a [[local resolver]], which does not (likely a local
-resolver will be
+a [[local resolver]], which does not use HTTPS (likely
+a local resolver will be
 invoked using standard linked library or interprocess
 communication). Implementers MUST enable users to choose the
 resolvers they trust for specific DID methods.
@@ -2334,7 +2334,7 @@ be different if only a DID is sent to resolve.
         </section>
 
         <section id="resolve-the-did-url-provisional">
-          <h3>Resolve the DID URL</h3>
+          <h3>Resolve the DID</h3>
           <ol>
             <li>
 <strong>Call</strong> the <a href="https://www.w3.org/TR/did-core/#dfn-did-resolution">resolve</a> function on the
@@ -2351,11 +2351,11 @@ information to do so.
             </li>
             <li>
 <strong>Repeat</strong> as necessary until the final
-resolution result is returned. A resolver may require more
-input, or in some cases, the client can heuristically attempt
-alternate resolver options to find a more appropriate DID
-document, such as requesting a version of the DID document
-from a particular point in time.
+resolution result is returned. A resolver might require more
+input, or in some cases, the client might heuristically
+attempt alternate resolver options to find a more
+appropriate DID document, such as requesting a version
+of the DID document from a particular point in time.
             </li>
           </ol>
         </section>
@@ -2392,13 +2392,13 @@ determined. End processing as soon as a strategy is set.
               <dfn>Services Step</dfn> 
               <p>
 If a `service parameter` is present as a DID query Parameter,
-first check if multiple service parameters are present in the
+first check whether multiple service parameters are present in the
 <a>DID URL</a>. If there are, raise an error and set the handler
 strategy to the Default DID Document strategy. If there is just
 one service parameter, use the <a
 href="#service-selection-algorithm-provisional">service
 selection algorithm</a> to select the appropriate service
-object.  Then, if there is no matching service object, raise an
+object. Then, if there is no matching service object, raise an
 error and continue to the <a>Default DID Document Step</a>. If
 the selected object's service type has defined a handling
 strategy, set the strategy to that. If the service type does not
@@ -2426,11 +2426,12 @@ continue to the <a>Document Properties step</a>.
               <dfn>Document Properties Step</dfn>
               <p>
 If the DID document contains any properties known to define a
-handler strategy, check to see if any of those properties apply
-to the <a>DID URL</a>. If not, continue with the
+handler strategy, check whether any of those properties
+apply to the <a>DID URL</a>. If not, continue with the
 <a>Method-Specific Strategies Step</a>. If the DID document
 contains multiple properties that apply to the <a>DID URL</a>,
-raise an error, and continue to the <a>Default DID Document Step</a>. If the DID document contains a single
+raise an error, and continue to the <a>Default DID Document
+Step</a>. If the DID document contains a single
 property with a known handler strategy that applies to the
 <a>DID URL</a>, set the strategy to the strategy defined
 by that property. Otherwise, continue to the
@@ -2440,7 +2441,7 @@ by that property. Otherwise, continue to the
             <li><dfn>Method-Specific Step</dfn>
               <p>
 If the DID method defines a method-specific handler strategy,
-check to see if that handler applies to the <a>DID URL</a>. If
+check whether that handler applies to the <a>DID URL</a>. If
 it does, set the handler strategy to that specified by the DID
 method. If there is no applicable method-specific handler
 strategy, continue with the <a>Query Parameters Step</a>. 
