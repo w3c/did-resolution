@@ -3490,37 +3490,13 @@ the following table:
 								<code>500</code>
 						</td>
 				</tr>
-				<tr>
-						<td>
-								(any other error URI; see below)
-						</td>
-						<td>
-								<code>500</code>
-						</td>
-				</tr>
 		</tbody>
 </table>
 <p>
 If the <code>type</code> property of the <b>error object</b> does not appear in
-the table above, then the HTTP response status code MUST be determined as
-follows:
+the table above, then the HTTP response status code is determined by the
+implementation.
 </p>
-<ol class="algorithm">
-  <li>
-If the specification that defines the error type declares an HTTP response
-status code for that error type, then the HTTP response status code MUST be the
-declared one.
-  </li>
-  <li>
-Otherwise, if the specification that defines the error type declares that it
-refines one of the error types defined in Section <a href="#errors"></a>, then
-the HTTP response status code MUST be the one that the table above associates
-with the refined error type.
-  </li>
-  <li>
-Otherwise, the HTTP response status code MUST be <code>500</code>.
-  </li>
-</ol>
           </li>
           <li>
 If the <a>DID resolution</a> or
@@ -4218,6 +4194,18 @@ the section related to the <a data-cite="DID#acknowledgements">history of DIDs</
       <h1>Revision History</h1>
       <p>This section lists the changes since the publication of this
       specification as a W3C First Public Working Draft.</p>
+      <p>Changes since the <a
+      href="https://www.w3.org/TR/2026/CR-did-resolution-1.0-20260806/">Candidate
+      Recommendation Snapshot</a> include:</p>
+      <ul>
+        <li><strong>HTTP Status Codes for Other Error Types</strong>: The
+          HTTP(S) Binding no longer requires a <code>500</code> status code
+          for an error type that its status code table does not list; that
+          status code is now determined by the implementation. A
+          specification that defines an error type can declare which error
+          type defined in this specification it refines.</li>
+      </ul>
+      <p>Changes since the First Public Working Draft include:</p>
       <ul>
         <li><strong>Document Scope and Structure Additions</strong>
           <ul>
