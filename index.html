@@ -2273,7 +2273,7 @@ A visualization of the algorithm for Dereferencing a DID URL, described next.
 Resolution</a>
           </li>
           <li>
-<a href="#resolve-the-did-url-provisional">Resolve the DID URL</a>
+<a href="#resolve-the-did-url-provisional">Resolve the DID</a>
           </li>
           <li>
 <a href="#determine-handling-strategy-provisional">Determine Handling
@@ -2309,17 +2309,21 @@ a [[local resolver]], which does not use HTTPS (likely
 a local resolver will be
 invoked using standard linked library or interprocess
 communication). Implementers MUST enable users to choose the
-resolvers they trust for specific DID methods.
+resolvers they trust for specific DID methods. It is expected 
+that implementations will provide this through some configuration 
+mechanism, the details of which are out of scope for this 
+specification.
             </li>
             <li>
-<strong>Remove</strong> any fragment part of the DID
-URL to create a [=base DID URL=], e.g.,
-`did:ex:abc#key-1` becomes `did:ex:abc`.
+<strong>Extract the [[DID]]</strong> from the [[DID URL]], e.g.,
+the DID URL `did:ex:abc#key-1` contains the DID `did:ex:abc`.
             </li>
             <li>
 <strong>Prepare</strong> <var><a href="#did-resolution-options">DID resolution
-    options</a></var>. See the <a href="#resolving-algorithm">resolving algorithm</a> for
-details.
+    options</a></var>. These may be promoted from DID URL query parameters or 
+determined by the business rules of the context in which the DID URL is being
+dereferenced. See the <a href="#resolving-algorithm">resolving algorithm</a> for
+details about resolution options and their meaning.
             </li>
           </ol>
 
@@ -2333,7 +2337,7 @@ be different if only a DID is sent to resolve.
           </div>
         </section>
 
-        <section id="resolve-the-did-url-provisional">
+        <section id="resolve-the-did-provisional">
           <h3>Resolve the DID</h3>
           <ol>
             <li>
@@ -2343,19 +2347,20 @@ the DID, to obtain the authoritative <a>DID
 document</a> for the <var>input <a>DID URL</a></var>.
             </li>
             <li>
-<strong>Interpret</strong> the response to resolve to
-consider any errors or warnings. If appropriate, return
-without further processing and return an error. Otherwise,
-continue processing if the response provided enough
-information to do so.
+<strong>Interpret</strong> the response to resolve to consider any errors or
+warnings. If appropriate, return without further processing and raise a
+[=DEREFERENCING_ERROR_RESOLUTION_ERROR=] that includes he error returned from
+the Resolve Operation. Otherwise, continue processing if the response provided
+enough information to do so.
             </li>
             <li>
-<strong>Repeat</strong> as necessary until the final
-resolution result is returned. A resolver might require more
-input, or in some cases, the client might heuristically
-attempt alternate resolver options to find a more
-appropriate DID document, such as requesting a version
-of the DID document from a particular point in time.
+<strong>Repeat</strong> as necessary until the final resolution result is
+returned. In cases when the initial result from resolution is incomplete or
+fails, the client may be able to adjust the resolution parameters and try again,
+based on the context in which dereferencing is occuring. For example, a resolver
+might require more input, or the client might heuristically attempt alternate
+resolver options to find a more appropriate DID document, such as requesting a
+version of the DID document from a particular point in time.
             </li>
           </ol>
         </section>
@@ -2363,13 +2368,11 @@ of the DID document from a particular point in time.
         <section id="determine-handling-strategy-provisional">
           <h1>Determine Handling Strategy</h1>
           <p>
-After successfully resolving the DID document and accompanying
-metadata, the next step is to determine the appropriate strategy
-for handling the [=DID URL=]. This involves
-analyzing the contents of the [=DID resolution=] result, including
-the DID document and its metadata, along with the path and query
-components of the DID URL, to determine the method for retrieving
-the resource.
+After successfully resolving the DID document and accompanying metadata, the
+next step is to determine the appropriate strategy for handling the [=DID URL=].
+This involves analyzing the contents of the [=DID resolution=] result, including
+the DID document and its metadata, along with the path and query components of
+the DID URL, to determine the method for retrieving the resource.
           </p>
           <figure role="group"   
             id="figure-determine-handling-strategy-provisional">
@@ -2389,17 +2392,18 @@ determined. End processing as soon as a strategy is set.
           </p>
           <ol>
             <li>
-              <dfn>Services Step</dfn> 
+              <dfn id="services-step-provisional">Services Step</dfn> 
               <p>
 If a `service parameter` is present as a DID query Parameter,
 first check whether multiple service parameters are present in the
-<a>DID URL</a>. If there are, raise an error and set the handler
+<a>DID URL</a>. If there are, raise an error
+[=DEREFERENCING_ERROR_MULTIPLE_SERVICES=] and set the handler
 strategy to the Default DID Document strategy. If there is just
 one service parameter, use the <a
 href="#service-selection-algorithm-provisional">service
 selection algorithm</a> to select the appropriate service
 object. Then, if there is no matching service object, raise an
-error and continue to the <a>Default DID Document Step</a>. If
+error [=DEREFERENCING_ERROR_SERVICE_NOT_FOUND=] and continue to the <a>Default DID Document Step</a>. If
 the selected object's service type has defined a handling
 strategy, set the strategy to that. If the service type does not
 define a handling strategy, set strategy to the <a>Default
@@ -2408,7 +2412,7 @@ Service Handler Strategy</a>. Otherwise, continue with the
               </p>
             </li>
             <li>
-              <dfn>PathHandlers Step</dfn>
+              <dfn id="pathhandlers-step-provisional">PathHandlers Step</dfn>
               <p>
 If the <a>DID URL</a>contains a non-empty path part, then use
 the <a
@@ -2416,21 +2420,21 @@ href="#pathHandler-path-matching-algorithm-provisional">PathHandler
 Path Matching Algorithm</a> to select a path handler object. If
 no path handler objects are selected, continue to the document
 properties step. If there are multiple handler objects selected,
-raise an error and continue to the <a>Default DID Document Step</a>. If the sole selected path handling object has a
+raise an error [=DEREFERENCING_ERROR_MULTIPLE_MATCHING_PATH_HANDLERS=] and continue to the <a>Default DID Document Step</a>. If the sole selected path handling object has a
 secondary type that defines a handler strategy, set the strategy
-to that strategy. If it doesn't, raise an error and continue to the <a>Default DID Document Step</a>. Otherwise,
+to that strategy. If it doesn't, raise an error [=DEREFERENCING_ERROR_PATH_HANDLER_HANDLER_NOT_DEFINED=] and continue to the <a>Default DID Document Step</a>. Otherwise,
 continue to the <a>Document Properties step</a>.
               </p>
             </li>
             <li>
-              <dfn>Document Properties Step</dfn>
+              <dfn id="document-properties-step-provisional">Document Properties Step</dfn>
               <p>
 If the DID document contains any properties known to define a
 handler strategy, check whether any of those properties
 apply to the <a>DID URL</a>. If not, continue with the
 <a>Method-Specific Strategies Step</a>. If the DID document
 contains multiple properties that apply to the <a>DID URL</a>,
-raise an error, and continue to the <a>Default DID Document
+raise an error [=DEREFERENCING_ERROR_MULTIPLE_DOCUMENT_PROPERTIES=] and continue to the <a>Default DID Document
 Step</a>. If the DID document contains a single
 property with a known handler strategy that applies to the
 <a>DID URL</a>, set the strategy to the strategy defined
@@ -2438,7 +2442,7 @@ by that property. Otherwise, continue to the
 <a>Method-Specific Step</a>.
               </p>
             </li>
-            <li><dfn>Method-Specific Step</dfn>
+            <li><dfn id="method-specific-step-provisional">Method-Specific Step</dfn>
               <p>
 If the DID method defines a method-specific handler strategy,
 check whether that handler applies to the <a>DID URL</a>. If
@@ -2447,28 +2451,33 @@ method. If there is no applicable method-specific handler
 strategy, continue with the <a>Query Parameters Step</a>. 
               </p>
             </li>
-            <li><dfn>Query Parameters Step</dfn>
+            <li><dfn id="query-parameters-step-provisional">Query Parameters Step</dfn>
               <p>
-If there are query parameters that require a specific handling
-stratey, check to see if there are more than one. If there are,
-then raise an error and continue to the <a>Default DID Document Step</a>. If there is only one such query parameter,
-set the strategy to that defined by the query parameter
-specification. Otherwise, continue with the <a>Metadata Step</a>.
-              </p>
+If there are query parameters that require a specific handling strategy, check
+to see if there are more than one. If there are, then raise an error [=DEREFERENCING_ERROR_MULTIPLE_QUERY_PARAMETERS=] and
+continue to the <a>Default DID Document Step</a>. If there is only one such
+query parameter, set the strategy to that defined by the query parameter
+specification. Otherwise, continue with the <a>Metadata Step</a>. 
+</p>
+<p class="NOTE">Not all query parameters will change the handling strategy. For
+example, `versionTime` and `versionId` only change the resolution result, but
+do not impact the dereferencing step.</p>
+              
             </li>
             <li>
-              <dfn>Metadata Step</dfn> 
+              <dfn id="metadata-step-provisional">Metadata Step</dfn> 
               <p>
-If either the DID resolution metadata or DID document metadata
-contain any properties known to define a handler strategy, check
-to see if any of those properties apply to the <a>DID
-URL</a>. If there is only one such property, set the strategy
-to the strategy defined by that property. If there are multiple
-applicable properties, raise an error and continue to the <a>Default DID Document Step</a>. Otherwise, continue to
+If either the DID resolution metadata or DID document metadata contain any
+properties known to define a handler strategy, check to see if any of those
+properties apply to the <a>DID URL</a>. If there is only one such property, set
+the strategy to the strategy defined by that property. If there are multiple
+applicable properties, raise an error
+[=DEREFERENCING_ERROR_MULTIPLE_METADATA_PROPERTIES=] and continue to the
+<a>Default DID Document Step</a>. Otherwise, continue to
 <a>Default DID Document Step</a>.
               </p>
             </li>
-            <li><dfn>Default DID Document Step</dfn>
+            <li><dfn id="default-did-document-step-provisional">Default DID Document Step</dfn>
 If no other handler strategy has been determined, set the 
 strategy to <a
 href="#return-did-document-dereferencing-algorithm-provisional">Return DID Document</a>.
@@ -2482,7 +2491,7 @@ href="#return-did-document-dereferencing-algorithm-provisional">Return DID Docum
 <strong>Execute</strong> the determined handler strategy using a
 handler that implements that strategy. If the client does not have
 a handler that implements the determined strategy, stop processing
-and raise an error.
+and raise an error [=DEREFERENCING_ERROR_HANDLER_NOT_FOUND=].
             </li>
           </ol>
         </section>
@@ -2498,10 +2507,18 @@ which dereferencing was initiated. This might involve
               <li>applying a fragment identifier to a returned resource
               scrolling it into view within a display,</li>
               <li>making the result available to the calling process, or </li>
-              <li>producing an error if dereferencing cannot be completed.</li>
+              <li>producing an error [=DEREFERENCING_ERROR_FAILED=] if dereferencing cannot be completed.</li>
             </ol>
           </p>
+          <p class="NOTE">
+            A DID URL may contain query parameters expected to be applied during
+            dereferencing, such as the <a
+            href="https://www.w3.org/TR/did-extensions-resolution/#transformKeys-param">`transformKeys`
+            </a> extension. It is expected that implementations supporting such
+            extensions would apply those extensions in this stage when appropriate.
+          </p>
         </section>
+      </section>
       <section id="service-selection-algorithm-provisional">
         <h2>Service Selection Algorithm</h2>
         <p>
@@ -2530,13 +2547,13 @@ and in section <a
 If a single service is selected, use the <code>type</code> value for
 that service to determine the handling strategy as defined by 
 the specification for that type. If multiple services match, stop
-further processing and return an error.
+further processing and return an error [DEREFERENCING_ERROR_MULTIPLE_SERVICES].
           </li>
           <li>
 If the specification for the <code>type</code> value of the selected
 service does not define a handling strategy, set the strategy to
 <code>Default Service Handler</code> and use the <a
-href="default-service-handler-provisional">default
+href="#default-service-handler-provisional">default
 service handling algorithm</a>.
           </li>
         </ol>
@@ -2563,41 +2580,51 @@ algorithm.
         </p>
         <ol>
           <li>
-<strong>Select Service Endpoint</strong> Pick one of the
+<strong>Select Service Endpoint</strong> Randomly pick one of the
 service's
-<code>serviceEndppoint</code> values. Implementations SHOULD use
-a round-robin approach each time through this algorithm so that
-each
-service endpoint is exercised, in order, until a successful
-resource interaction is achieved or the complete set of endpoints
-has been evaluated. In other words, if multiple endpoints are
-available, only raise a failure error if all of the endpoints fail.
+<code>serviceEndppoint</code> values. Implementations MUST keep track of each
+service as it is attempted, so that each service endpoint is exercised until
+either a successful endpoint is reached or the complete set of endpoints has
+been evaluated. In other words raise a failure error
+[=DEREFERENCING_ERROR_NO_SERVICE_ENDPOINTS_SUCCEED=] if all of the endpoints
+fail.
 <code><pre>https://example.com/didimages</pre></code>
           </li>
           <li>
 <strong>Determine Resource Path</strong> Append the path part
 of
-the DID URL to the path part of the selected serviceEndpoint to
+the DID URL to the path part of the selected `serviceEndpoint` to
 define the <code>Resourch Path</code>.
 <code><pre>ResourcePath = /didimages/image.png</pre></code>
           </li>
           <li>
+            <strong>Normalize Path</strong> Normalize the resulting
+            `ResourcePath` to create a `NormalizedResourcePath`. Start by removing dot segments, as defined in
+            [[RFC3986]] Section 5.2.4 Remove Path Segments, then test the
+            resulting `NormalizedResourcePath` to see if the leftmost characters
+            of the `NormalizedResourcePath` match the leftmost characters of
+            the `serviceEndpoint`. If they do not match, raise an error
+            [=DEREFERENCE_ERROR_PATH_NORMALIZATION_ERROR=].
+          </li>
+          <li>
   <strong>Construct Resource URLs</strong> Replace the path part
   in
-  the selected serviceEndpoint with the Resource Path, leaving
+  the selected serviceEndpoint with the Normalized Resource Path, leaving
   all
   other elements of the service endpoint URLs the same.
   <code><pre>ResourceUrl = https://example.com/didimages/image.png</pre></code>
           </li>
           <li>
 <strong>Dereference Resource URL</strong> Dereference the resulting
-`ResourceUrl` according to its scheme. For exmample, for an `https`
+`ResourceUrl` according to its scheme. For example, for an `https`
 URL, perform a GET operation on that URL.
           </li>
         </ol>
         <p class="note atrisk">
 This default handler does not process <code>relativeRef</code>
-parameters.
+parameters. Other handlers are free to process `relativeRef` as well as use
+any other DID URL query parameters; to use such handlers, specify the associated
+`type` value in the service object in the DID document.
         </p>
       </section>
 
@@ -2647,7 +2674,7 @@ LinkedResource specification.
           </li>
           <li>
 If two or more objects have the same length match, stop processing
-and return an error.
+and return an error [=DEREFERENCING_ERROR_MULTIPLE_MATCHING_PATH_HANDLERS=].
           </li>
         </ol>
       </p>
@@ -2657,12 +2684,108 @@ and return an error.
         <h2>Return DID Document</h2>
         <p>
 When invoking this handler, simply return the DID Document retrieved
-from Resolve.
+from Resolve, including any errors that may have been raised.
         </p>
       </section>
-    </section>
-  </section>
-  <section>
+      <section>
+        <h3>Dereferencing Errors</h3>
+        <p>
+          Dereferencing may produce several distinct errors, described below.
+          Clients SHOULD use these errors when appropriate.
+          <dl>
+            <dt><dfn>DEREFERENCING_ERROR_FAILED</dfn></dt>
+            <dd>
+  A generic or unclassified internal error occurred, causing the
+  overall dereferencing process to fail.
+  (<a href="#use-the-handler-result-provisional">Use the Handler Result</a>)
+            </dd>
+
+            <dt><dfn>DEREFERENCING_ERROR_HANDLER_NOT_FOUND</dfn></dt>
+            <dd>
+  No handler is available for the indicated handling strategy.
+  (<a href="#invoke-the-handler-provisional">Invoke the Handler</a>)
+            </dd>
+
+            <dt><dfn>DEREFERENCING_ERROR_MULTIPLE_DOCUMENT_PROPERTIES</dfn></dt>
+            <dd>
+  The dereferencing process encountered multiple conflicting
+  document properties when attempting to dereference the DID URL.
+  (<a href="#document-properties-step-provisional">Document Properties Step</a>)
+            </dd>
+
+            <dt><dfn>DEREFERENCING_ERROR_MULTIPLE_MATCHING_PATH_HANDLERS</dfn></dt>
+            <dd>
+  The dereferencing process found multiple distinct path handlers
+  that match the requested path.
+  (<a href="#pathhandlers-step-provisional">PathHandlers Step</a>)
+            </dd>
+
+            <dt><dfn>DEREFERENCING_ERROR_MULTIPLE_METADATA_PROPERTIES</dfn></dt>
+            <dd>
+  Resolution Metadata contains multiple conflicting properties, preventing a
+  definitive selection for dereferencing.
+  (<a href="#metadata-step-provisional">Metadata Step</a>)
+            </dd>
+
+            <dt><dfn>DEREFERENCING_ERROR_MULTIPLE_QUERY_PARAMETERS</dfn></dt>
+            <dd>
+  The DID URL contains multiple, incompatible query parameters.
+  (<a href="#query-parameters-step-provisional">Query Parameters Step</a>)
+            </dd>
+
+            <dt><dfn>DEREFERENCING_ERROR_MULTIPLE_SERVICES</dfn></dt>
+            <dd>
+  The dereferencing process identified multiple matching service
+  endpoints based on the URL parameters, preventing an unambiguous
+  selection.
+  (<a href="#services-step-provisional">Services Step</a>, <a href="#service-selection-algorithm-provisional">Service Selection Algorithm</a>)
+            </dd>
+
+            <dt><dfn>DEREFERENCING_ERROR_NO_SERVICE_ENDPOINTS_SUCCEED</dfn></dt>
+            <dd>
+  Valid service endpoints were identified and network interactions
+  were attempted, but none of the requests returned a successful
+  response.
+  (<a href="#default-service-handler-provisional">Default Service Handler</a>)
+            </dd>
+            <dt><dfn>DEREFERENCE_ERROR_PATH_NORMALIZATION_ERROR</dfn>
+            </dt>
+            <dd>
+              The DID URL contains a path that normalizes to a URL outside the
+              perview of the selected service endpoint. The DID URL path
+              overwrote the path part of the service endpoint.
+              (<a href="#default-service-handler-provisional">Default
+Service Handling Algorithm</a>)
+            </dd>
+
+            <dt><dfn>DEREFERENCING_ERROR_PATH_HANDLER_HANDLER_NOT_DEFINED</dfn></dt>
+            <dd>
+  The DID URL contains a path and the DID Document contains a matching PathHandler
+  object, but no appropriate handler is defined or registered within the
+  dereferencing environment to process it.
+  (<a href="#pathhandlers-step-provisional">PathHandlers Step</a>)
+            </dd>
+
+            <dt><dfn>DEREFERENCING_ERROR_RESOLUTION_ERROR</dfn></dt>
+            <dd>
+  The dereferencing process failed because the underlying identifier
+  resolution process encountered an error before dereferencing could
+  be completed.
+  (<a href="#resolve-the-did-provisional">Resolve the DID</a>)
+            </dd>
+
+            <dt><dfn>DEREFERENCING_ERROR_SERVICE_NOT_FOUND</dfn></dt>
+            <dd>
+  The specific service referenced during the dereferencing process
+  (e.g., via a <code>service</code> query parameter) was not found
+  in the resolved document.
+  (<a href="#services-step-provisional">Services Step</a>)
+            </dd>
+          </dl> 
+        </p>
+      </section>
+    
+      <section>
       <h2>Metadata Structure</h2>
 
       <p>
