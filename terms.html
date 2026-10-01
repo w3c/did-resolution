@@ -5,6 +5,12 @@ included whenever they appear in this specification.
 </p>
 
 <dl class="termlist">
+  <dt><df>Base DID URL</df></dt>
+  <dd>
+    A DID URL stripped of its #fragment component.
+    For example, the DID URL <code>did:example:abc#key-1</code> has the 
+    Base DID URL <code>did:example:abc</code>.
+  </dd>
   <dt><dfn>binding</dfn></dt>
   <dd>A concrete mechanism through which a <a>client</a> invokes a <a>DID resolver</a>. This could be a <a>local binding</a> such as a local command line tool or library API, or a <a>remote binding</a> such as the <a href="#bindings-https">HTTP(S) binding</a>. See Section <a href="#resolver-architectures"></a>.</dd>
 

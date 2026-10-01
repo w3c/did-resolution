@@ -3,7 +3,7 @@
   <head>
     <title>Decentralized Identifier Resolution (DID Resolution) v1</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-    <!--
+    <!-- 
       === NOTA BENE ===
       For the three scripts below, if your spec resides on dev.w3 you can check them
       out in the same tree and use relative links so that they'll work offline.
@@ -178,63 +178,60 @@ full detail.
 
     <section id="sotd">
       <p>
-        The W3C Decentralized Identifier Working Group has published this
-        document as a W3C Candidate Recommendation and is requesting that
-        software developers provide experimental implementations
-        designed to test the implementability of all of the features in this
-        document.
+The W3C Decentralized Identifier Working Group has published this
+document as a W3C Candidate Recommendation and is requesting that
+software developers provide experimental implementations
+designed to test the implementability of all of the features in this
+document.
       </p>
       
       <p>
-        Implementers are cautioned that any open
-        <a href="https://www.w3.org/policies/process/#correction-classes">class
-        1, 2, or 3</a> issues 
-        <a href="https://github.com/w3c/did/issues/">listed in the issue tracker</a> might result in changes to the specification.
+Implementers are cautioned that any open
+<a href="https://www.w3.org/policies/process/#correction-classes">class
+1, 2, or 3</a> issues 
+<a href="https://github.com/w3c/did/issues/">listed in the issue tracker</a> might result in changes to the specification.
       </p>
       
       <p>
-        To exit the W3C Candidate Recommendation phase, the W3C DID Working
-        Group requires the following:
+To exit the W3C Candidate Recommendation phase, the W3C DID Working
+Group requires the following:
       </p>
       <ol>
       <li>
-          <a
-            href="https://www.w3.org/Consortium/Process/#implementation-experience">At least two independent interoperable implementations</a> of every
-          feature defined in the specification, where interoperability can be
-          verified by passing open test suites, and two or more
-          implementations interoperating with each other. In order to advance
-          to Proposed Recommendation, each normative specification must have
-          an open test suite of every feature defined in the
-          specification.
+<a
+  href="https://www.w3.org/Consortium/Process/#implementation-experience">At least two independent interoperable implementations</a> of every
+feature defined in the specification, where interoperability can be
+verified by passing open test suites, and two or more
+implementations interoperating with each other. In order to advance
+to Proposed Recommendation, each normative specification must have
+an open test suite of every feature defined in the
+specification.
         </li>
         <li>
-          For normative statements that are machine testable, at least two
-          conforming implementations per feature.
+For normative statements that are machine testable, at least two
+conforming implementations per feature.
         </li>
         <li>
-          For normative statements that are not machine testable, at least
-          two demonstrations of implementation per feature.
+For normative statements that are not machine testable, at least
+two demonstrations of implementation per feature.
         </li>
         <li>
-          Each of the independent implementations mentioned above support at
-          least two DID methods which 1) have an open specification (freely
-          available specification, freely implementable), and 2) are implemented
-          interoperably by more than one of the independent implementations
-          mentioned above. This means that there will exist at least two
-          openly-specified DID methods that are each implemented by at least two
-          independent implementations.
+Each of the independent implementations mentioned above support at
+least two DID methods which 1) have an open specification (freely
+available specification, freely implementable), and 2) are implemented
+interoperably by more than one of the independent implementations
+mentioned above. This means that there will exist at least two
+openly-specified DID methods that are each implemented by at least two
+independent implementations.
         </li>
       </ol>
       
       <p>
-        A feature is defined as one or more functionally related normative
-        statements in
-        the specification. For this specification, interoperability is
-        defined as
-        normative statements, such as those referring to data model
-        properties and their
-        values, being interpreted in the same way between two different DID
-        Methods.
+A feature is defined as one or more functionally related normative
+statements in the specification. For this specification,
+interoperability is defined as normative statements, such as those
+referring to data model properties and their values, being interpreted
+in the same way between two different DID Methods.
       </p>
       
   
@@ -247,10 +244,10 @@ them to <a href="mailto:public-did-wg@w3.org">public-did-wg@w3.org</a>
       </p>
 
       <p class="issue atrisk">
-        The definition of the <a>DID URL dereferencing</a> feature is currently marked as
-        <dfn>at risk</dfn> and will likely be changed or removed from the specification.
-        The Working Group is seeking feedback from implementers regarding the feature's
-        value as defined by this specification.
+The definition of the <a>DID URL dereferencing</a> feature is currently marked as
+<dfn>at risk</dfn> and will likely be changed or removed from the
+specification. The Working Group is seeking feedback from implementers
+regarding the value of the feature as defined by this specification.
       </p>
 
       <p>
@@ -2190,103 +2187,605 @@ Dereferencing a DID URL to a service endpoint URL.
     </section>
 
     <section id="dereferencing-provisional">
-        <h1>PROVISIONAL - DID URL Dereferencing</h1>
-
-        <p class="issue atrisk">
+      <h1>PROVISIONAL - DID URL Dereferencing</h1>
+      <p>
+Dereferencing means taking a reference to a resource and bringing that
+resource into the current computational context, often by invoking a
+handler specific to the resource type.
+      </p>
+      <p>
+Dereferencing a HTTP(S) URL means retrieving a representation of a resource from
+a web server and invoking a handler specific to the media type of the retrieved resource. For web pages, that means displaying the retrieved HTML in the browser, with the appropriate rendering view. 
+      </p>
+      <p>
+Dereferencing a <a>DID URL</a> means retrieving the resource referred
+to by the DID URL and invoking an appropriate function that applies it
+in the current context.
+      </p>
+      <p>
+DIDs allow for a number of distinct handling strategies to enable DID
+URLs that refer to resources made available in a variety of ways,
+including web-based resources, resources embedded in DID
+Documents, resources secured by integrity proofs in DID documents, and
+resources stored "on chain" with a decentalized system.
+      </p>
+      <p>
+Regardless of the appropriate handling strategy, all DID URL
+Dereferencing requires resolving the DID embedded in the DID URL and
+using the result of Resolve &mdash; typically a DID Document &mdash; to
+determine, and then invoke, the appropriate handler.
+      </p>
+      <p>
+The following DID URL dereferencing algorithm describes how a conforming
+<a>client</a> of a conforming <a>DID Resolver</a> prepares for,
+executes, and handles the response to a call to Resolve. 
+      </p>
+      <p>
+All conformant clients MUST execute the steps in this algorithm. The only
+required input is the DID URL to be dereferenced, the context in which
+that DID URL is being used, and configuration details regarding any
+preferred resolvers and available handlers. The expected side effect of
+dereferencing is the invocation of a handler that applies any retrieved
+resource to the current context. The interfaces for such handlers are
+outside the scope of this specification.
+      </p>
+      <p>
+All conforming clients MUST allow <a>DID URL Users</a> to set specific
+resolvers to be used for any specific <a>DID Method</a>. Similarly,
+conforming clients SHOULD allow <a>DID URL Users</a> to set the handlers
+to be used for any specific handling strategy. How these settings are
+exposed to the user is outside the scope of this specification.
+      </p>
+      <p class="issue atrisk">
 The dereferencing algorithm in this section is an alternative approach to the one in 
 the previous section and is currently marked as [=at risk=].
 The Working Group is likely to converge on a revision to the dereferencing algorithms in 
 this specification being
 <a href="https://github.com/w3c/did-resolution/pull/344">discussed here</a>.
         </p>
+      <div class="note">
+        <p>
+          The Working Group is currently exploring this new
+          DID URL Dereferencing algorithm, which has a more modular
+          approach than the previous one, and is based on using the DID URL
+          and the result from Resolution to determine a handling strategy
+          and invoke an appropriate handler.
+        </p>
+      </div>
+      <section id="dereferencing-algorithm-provisional">
+        <h1>DID URL Dereferencing Algorithm</h1>
+        <figure id="figure-dereferencing-algorithm-provisional">
+          <img style="
+                      margin: auto;
+                      display: block;
+                      height: 350px;
+                      margin-bottom: 20px;
+                    "
+              src="diagrams/dereferencing-algorithm.svg"
+              alt="Diagram showing the steps in the DID URL dereferencing algorithm" />
+          <figcaption style="text-align: center;">
+A visualization of the algorithm for Dereferencing a DID URL, described next. 
+          </figcaption>
+        </figure>
+        <ol class="algorithm">
+          <li>
+<a href="#prepare-for-resolution-provisional">Prepare for
+Resolution</a>
+          </li>
+          <li>
+<a href="#resolve-the-did-provisional">Resolve the DID</a>
+          </li>
+          <li>
+<a href="#determine-handling-strategy-provisional">Determine Handling
+        Strategy</a>
+          </li>
+          <li>
+<a href="#invoke-the-handler-provisional">Invoke the Handler</a>
+          </li>
+          <li>
+<a href="#use-the-handler-result-provisional">Use the Handler
+            Result</a>
+          </li>
+        </ol>
+        <section id="prepare-for-resolution-provisional">
+          <h1>Prepare for Resolution</h1>
+          <ol>
+            <li>
+<strong>Validate</strong> that the <var>input <a>DID
+  URL</a></var> conforms
+to the `did-url` rule of the
+<a href="https://www.w3.org/TR/did-core/#did-url-syntax">DID
+URL Syntax</a>.
+If not, the DID URL <a>client</a> MUST return
+without further processing, indicating a failure due to
+an
+<code><a href="#INVALID_DID_URL">https://www.w3.org/ns/did#INVALID_DID_URL</a></code>
+            </li>
+            <li>
+<strong>Select</strong> a resolver that is capable of
+handling the DID's method. This could be a [[remote
+resolver]], which would use HTTPS for communications, or
+a [[local resolver]], which does not use HTTPS (likely
+a local resolver will be
+invoked using standard linked library or interprocess
+communication). Implementers MUST enable users to choose the
+resolvers they trust for specific DID methods. It is expected 
+that implementations will provide this through some configuration 
+mechanism, the details of which are out of scope for this 
+specification.
+            </li>
+            <li>
+<strong>Extract the [[DID]]</strong> from the [[DID URL]], e.g.,
+the DID URL `did:ex:abc#key-1` contains the DID `did:ex:abc`.
+            </li>
+            <li>
+<strong>Prepare</strong> <var><a href="#did-resolution-options">DID resolution
+    options</a></var>. These may be promoted from DID URL query parameters or 
+determined by the business rules of the context in which the DID URL is being
+dereferenced. See the <a href="#resolving-algorithm">resolving algorithm</a> for
+details about resolution options and their meaning.
+            </li>
+          </ol>
 
-        <div class="note">
+          <div class="note atrisk">
             <p>
-                The Working Group is currently exploring this new
-                DID URL Dereferencing algorithm, which has a more modular
-                approach than the previous one, based on "retrieval
-                strategies" or "handling strategies".
+The Working Group is currently discussing whether the proper
+input to <a href="#resolving">DID resolution</a> function is
+a <a>DID</a> or a <a>DID URL</a>. This preparation step will
+be different if only a DID is sent to resolve.
             </p>
-        </div>
-
-        <section id="dereferencing-algorithm-provisional">
-            <h1>DID URL Dereferencing Algorithm</h1>
-
-            <section>
-                <h1>Prepare for Resolution</h1>
-
-                <p>
-                    The first step in dereferencing a [=DID URL=] is to prepare the DID for
-                    resolution. This involves validating the DID URL syntax, selecting an
-                    appropriate [=DID Resolver=], and preparing the DID and any accompanying
-                    <a href="#did-resolution-options">DID resolution options</a> for a resolution request.
-                </p>
-
-                <div class="note">
-                    <p>
-                        The Working Group is currently discussing whether to change the
-                        input of the <a href="#resolving">DID resolution</a> function
-                        from a <a>DID</a> to a <a>DID URL</a>.
-                    </p>
-                </div>
-
-            </section>
-
-            <section>
-                <h1>Execute Resolution Request</h1>
-                <p>
-                    The next step is to select a [=DID Resolver=] and use it to execute a resolution
-                    request using the prepared inputs. This could involve making a network request
-                    to an external service, or it could involve a local resolution process,
-                    depending on the specific implementation of the [=DID Resolver=]. The
-                    result is a [=DID resolution result=], which includes either the resolved
-                    DID document and associated metadata, or error information.
-                </p>
-
-            </section>
-
-            <section>
-                <h1>Determine Retrieval Strategy</h1>
-                <p>
-                    After successfully resolving the DID document and accompanying metadata,
-                    the next step is to determine the appropriate strategy for retrieving
-                    the resource identified by the [=DID URL=]. This involves analyzing the
-                    contents of the [=DID resolution=] result, including the DID document and
-                    its metadata, along with the path and query components of the
-                    DID URL, to determine the method for retrieving the resource.
-                </p>
-
-
-            </section>
-            <section>
-                <h1>Retrieve the Resource</h1>
-                <p>
-                    The next step is to retrieve the resource identified by the DID URL, using the
-                    determined retrieval strategy. Retrieval strategies may be defined in external
-                    specifications. It is up to the client to determine whether they are able to
-                    retrieve the resource using the specified strategy.
-                </p>
-
-            </section>
-
-            <section>
-                <h1>Use the Resource</h1>
-                <p>
-                    The final step is to use the retrieved resource to complete the DID URL
-                    dereferencing process in the context in which dereferencing was invoked.
-                    This might involve applying a fragment identifier to the retrieved resource,
-                    making the resulting resource available to the invoking application process,
-                    or producing an error if dereferencing cannot be completed.
-                </p>
-
-
-            </section>
-
+          </div>
         </section>
 
-    </section>
+        <section id="resolve-the-did-provisional">
+          <h3>Resolve the DID</h3>
+          <ol>
+            <li>
+<strong>Call</strong> the <a href="https://www.w3.org/TR/did-core/#dfn-did-resolution">resolve</a> function on the
+selected resolver, passing the prepared resolution options and
+the DID, to obtain the authoritative <a>DID
+document</a> for the <var>input <a>DID URL</a></var>.
+            </li>
+            <li>
+<strong>Interpret</strong> the response to resolve to consider any errors or
+warnings. If appropriate, return without further processing and raise a
+[=DEREFERENCING_ERROR_RESOLUTION_ERROR=] that includes he error returned from
+the Resolve Operation. Otherwise, continue processing if the response provided
+enough information to do so.
+            </li>
+            <li>
+<strong>Repeat</strong> as necessary until the final resolution result is
+returned. In cases when the initial result from resolution is incomplete or
+fails, the client may be able to adjust the resolution parameters and try again,
+based on the context in which dereferencing is occuring. For example, a resolver
+might require more input, or the client might heuristically attempt alternate
+resolver options to find a more appropriate DID document, such as requesting a
+version of the DID document from a particular point in time.
+            </li>
+          </ol>
+        </section>
 
-    <section>
+        <section id="determine-handling-strategy-provisional">
+          <h1>Determine Handling Strategy</h1>
+          <p>
+After successfully resolving the DID document and accompanying metadata, the
+next step is to determine the appropriate strategy for handling the [=DID URL=].
+This involves analyzing the contents of the [=DID resolution result=], including
+the DID document and its metadata, along with the path and query components of
+the DID URL, to determine the method for retrieving the resource.
+          </p>
+          <figure role="group"   
+            id="figure-determine-handling-strategy-provisional">
+            <img style=" margin: auto; display: block; width: 100%;
+            margin-bottom: 20px; "
+            src="diagrams/determine-handling-strategy.svg" alt="Diagram showing
+            the steps in determining the handling strategy of a DID URL."/>
+            <figcaption style="text-align: center;">
+A flow chart visualization of the Determine Handling Strategy
+Algorithm described next.
+            </figcaption>
+          </figure>
+          <p>
+Using the result from resolution, execute the following steps
+starting with the <a>Services Step</a> until a handling strategy is
+determined. End processing as soon as a strategy is set.
+          </p>
+          <ol>
+            <li>
+              <dfn id="services-step-provisional">Services Step</dfn> 
+              <p>
+If a `service parameter` is present as a DID query Parameter,
+first check whether multiple service parameters are present in the
+<a>DID URL</a>. If there are, raise an error
+[=DEREFERENCING_ERROR_MULTIPLE_SERVICES=] and set the handler
+strategy to the Default DID Document strategy. If there is just
+one service parameter, use the <a
+href="#service-selection-algorithm-provisional">service
+selection algorithm</a> to select the appropriate service
+object. Then, if there is no matching service object, raise an
+error [=DEREFERENCING_ERROR_SERVICE_NOT_FOUND=] and continue to the <a>Default DID Document Step</a>. If
+the selected object's service type has defined a handling
+strategy, set the strategy to that. If the service type does not
+define a handling strategy, set strategy to the <a>Default
+Service Handler</a> Strategy. Otherwise, continue with the
+<a>PathHandlers Step</a>.
+              </p>
+            </li>
+            <li>
+              <dfn id="pathhandlers-step-provisional">PathHandlers Step</dfn>
+              <p>
+If the <a>DID URL</a>contains a non-empty path part, then use
+the <a
+href="#pathHandler-path-matching-algorithm-provisional">PathHandler
+Path Matching Algorithm</a> to select a path handler object. If
+no path handler objects are selected, continue to the document
+properties step. If there are multiple handler objects selected,
+raise an error [=DEREFERENCING_ERROR_MULTIPLE_MATCHING_PATH_HANDLERS=] and continue to the <a>Default DID Document Step</a>. If the sole selected path handling object has a
+secondary type that defines a handler strategy, set the strategy
+to that strategy. If it doesn't, raise an error [=DEREFERENCING_ERROR_PATH_HANDLER_HANDLER_NOT_DEFINED=] and continue to the <a>Default DID Document Step</a>. Otherwise,
+continue to the <a>Document Properties step</a>.
+              </p>
+            </li>
+            <li>
+              <dfn id="document-properties-step-provisional">Document Properties Step</dfn>
+              <p>
+If the DID document contains any properties known to define a
+handler strategy, check whether any of those properties
+apply to the <a>DID URL</a>. If not, continue with the
+<a>Method-Specific Strategies Step</a>. If the DID document
+contains multiple properties that apply to the <a>DID URL</a>,
+raise an error [=DEREFERENCING_ERROR_MULTIPLE_DOCUMENT_PROPERTIES=] and continue to the <a>Default DID Document
+Step</a>. If the DID document contains a single
+property with a known handler strategy that applies to the
+<a>DID URL</a>, set the strategy to the strategy defined
+by that property. Otherwise, continue to the
+<a>Method-Specific Step</a>.
+              </p>
+            </li>
+            <li><dfn id="method-specific-step-provisional">Method-Specific Step</dfn>
+              <p>
+If the DID method defines a method-specific handler strategy,
+check whether that handler applies to the <a>DID URL</a>. If
+it does, set the handler strategy to that specified by the DID
+method. If there is no applicable method-specific handler
+strategy, continue with the <a>Query Parameters Step</a>. 
+              </p>
+            </li>
+            <li><dfn id="query-parameters-step-provisional">Query Parameters Step</dfn>
+              <p>
+If there are query parameters that require a specific handling strategy, check
+to see if there are more than one. If there are, then raise an error [=DEREFERENCING_ERROR_MULTIPLE_QUERY_PARAMETERS=] and
+continue to the <a>Default DID Document Step</a>. If there is only one such
+query parameter, set the strategy to that defined by the query parameter
+specification. Otherwise, continue with the <a>Metadata Step</a>. 
+</p>
+<p class="NOTE">Not all query parameters will change the handling strategy. For
+example, `versionTime` and `versionId` only change the resolution result, but
+do not impact the dereferencing step.</p>
+              
+            </li>
+            <li>
+              <dfn id="metadata-step-provisional">Metadata Step</dfn> 
+              <p>
+If either the DID resolution metadata or DID document metadata contain any
+properties known to define a handler strategy, check to see if any of those
+properties apply to the <a>DID URL</a>. If there is only one such property, set
+the strategy to the strategy defined by that property. If there are multiple
+applicable properties, raise an error
+[=DEREFERENCING_ERROR_MULTIPLE_METADATA_PROPERTIES=] and continue to the
+<a>Default DID Document Step</a>. Otherwise, continue to
+<a>Default DID Document Step</a>.
+              </p>
+            </li>
+            <li><dfn id="default-did-document-step-provisional">Default DID Document Step</dfn>
+If no other handler strategy has been determined, set the 
+strategy to <a
+href="#return-did-document-dereferencing-algorithm-provisional">Return DID Document</a>.
+            </li>
+          </ol>
+        </section>
+        <section id="invoke-the-handler-provisional">
+          <h1>Invoke the Handler</h1>
+          <ol>
+            <li>
+<strong>Execute</strong> the determined handler strategy using a
+handler that implements that strategy. If the client does not have
+a handler that implements the determined strategy, stop processing
+and raise an error [=DEREFERENCING_ERROR_HANDLER_NOT_FOUND=].
+            </li>
+          </ol>
+        </section>
+
+        <section id="use-the-handler-result-provisional">
+          <h1>Use the Handler Result</h1>
+          <p>
+The final step is to use the result of invoking the handler to
+complete the DID URL dereferencing process in the context in
+which dereferencing was initiated. This might involve 
+            <ol>
+              <li>displaying a returned resource,</li>
+              <li>applying a fragment identifier to a returned resource
+              scrolling it into view within a display,</li>
+              <li>making the result available to the calling process, or </li>
+              <li>producing an error [=DEREFERENCING_ERROR_FAILED=] if dereferencing cannot be completed.</li>
+            </ol>
+          </p>
+          <p class="NOTE">
+            A DID URL may contain query parameters expected to be applied during
+            dereferencing, such as the <a
+            href="https://www.w3.org/TR/did-extensions-resolution/#transformKeys-param">`transformKeys`
+            </a> extension. It is expected that implementations supporting such
+            extensions would apply those extensions in this stage when appropriate.
+          </p>
+        </section>
+      </section>
+      <section id="service-selection-algorithm-provisional">
+        <h2>Service Selection Algorithm</h2>
+        <p>
+When a DID URL contains a <code>service</code> parameter use the
+following algorithm to determine which service should be used for
+dereferencing the DID URL.
+        </p>
+        <pre class="example
+        nohighlight">did:example:1234?service=files
+        </pre>
+        <ol>
+          <li>
+Select the <a data-cite="did-core#services">service</a>
+if its <code>id</code> property matches the value of the
+<code>service</code> DID query parameter. If the
+<code>id</code> property or the <code>service</code> DID parameter
+or both contain relative references, the corresponding absolute URIs MUST be resolved and used for determining
+the match, using the rules specified in <a
+  data-cite="RFC3986#section-5">RFC3986 Section 5:
+  Reference Resolution</a>
+and in section <a
+  data-cite="did-core#relative-did-urls">Relative
+  DID URLs</a> in [[[DID-CORE]]].
+          </li>
+          <li>
+If a single service is selected, use the <code>type</code> value for
+that service to determine the handling strategy as defined by 
+the specification for that type. If multiple services match, stop
+further processing and return an error [DEREFERENCING_ERROR_MULTIPLE_SERVICES].
+          </li>
+          <li>
+If the specification for the <code>type</code> value of the selected
+service does not define a handling strategy, set the strategy to
+<code>Default Service Handler</code> and use the <a
+href="#default-service-handler-provisional">default
+service handling algorithm</a>.
+          </li>
+        </ol>
+      </section>
+      <section id="default-service-handler-provisional">
+        <h2>Default Service Handler</h2>
+        <p>
+If a selected service lacks a type with a specific handler, use
+this
+default handler strategy. When invoked, execute the following
+algorithm.
+        </p>
+        <p class="example">
+          <code>did:example:abc/image.png?service=FileServer</code>
+        <pre>
+      service : [{
+        "id":"FileServer",
+        "serviceEndpoint": [
+          "https://example.com/didimages",
+          "https://example.com/otherImages",
+          "https://example.com/lastImages"]
+      ...
+      }</pre>
+        </p>
+        <ol>
+          <li>
+<strong>Select Service Endpoint</strong> Randomly pick one of the
+service's
+<code>serviceEndppoint</code> values. Implementations MUST keep track of each
+service as it is attempted, so that each service endpoint is exercised until
+either a successful endpoint is reached or the complete set of endpoints has
+been evaluated. In other words raise a failure error
+[=DEREFERENCING_ERROR_NO_SERVICE_ENDPOINTS_SUCCEED=] if all of the endpoints
+fail.
+<code><pre>https://example.com/didimages</pre></code>
+          </li>
+          <li>
+<strong>Determine Resource Path</strong> Append the path part
+of
+the DID URL to the path part of the selected `serviceEndpoint` to
+define the <code>Resourch Path</code>.
+<code><pre>ResourcePath = /didimages/image.png</pre></code>
+          </li>
+          <li>
+            <strong>Normalize Path</strong> Normalize the resulting
+            `ResourcePath` to create a `NormalizedResourcePath`. Start by removing dot segments, as defined in
+            [[RFC3986]] Section 5.2.4 Remove Path Segments, then test the
+            resulting `NormalizedResourcePath` to see if the leftmost characters
+            of the `NormalizedResourcePath` match the leftmost characters of
+            the `serviceEndpoint`. If they do not match, raise an error
+            [=DEREFERENCE_ERROR_PATH_NORMALIZATION_ERROR=].
+          </li>
+          <li>
+  <strong>Construct Resource URLs</strong> Replace the path part
+  in
+  the selected serviceEndpoint with the Normalized Resource Path, leaving
+  all
+  other elements of the service endpoint URLs the same.
+  <code><pre>ResourceUrl = https://example.com/didimages/image.png</pre></code>
+          </li>
+          <li>
+<strong>Dereference Resource URL</strong> Dereference the resulting
+`ResourceUrl` according to its scheme. For example, for an `https`
+URL, perform a GET operation on that URL.
+          </li>
+        </ol>
+        <p class="note atrisk">
+This default handler does not process <code>relativeRef</code>
+parameters. Other handlers are free to process `relativeRef` as well as use
+any other DID URL query parameters; to use such handlers, specify the associated
+`type` value in the service object in the DID document.
+        </p>
+      </section>
+
+      <section id="pathHandler-path-matching-algorithm-provisional">
+        <h2>PathHandler Path Matching Algorithm</h2>
+        <p>
+When a DID Document contains a path and one or more objects with a type of
+<code>PathHandler</code> use the following algorithm to determine
+which object and handler should be used for dereferencing the DID URL.
+        </p>
+        
+        <ol>
+          <li>
+Of those objects with a type <code>PathHandler</code>, select the
+object whose <code>path</code> property has the longest complete
+match from the beginning of the path part of the DID URL. The entire
+value of the <code>path</code> property must be present in the path
+part of the <a>DID URL</a>
+            <br/>
+Given the DID URL <code>did:example:1234/image.png</code>
+and the following three PathHandling objects
+                <pre class="example">
+service : [{
+  "id":"PathServiceRoot",
+  "type":["PathHandler", "PathService"],
+  "path":"/"
+  ...
+},{
+  "id":"PathServiceImage",
+  "type":["PathHandler", "PathService"],
+  "path":"/image"
+  ...
+}],
+linkedResource : [{
+  "id":"SecuredImage",
+  "type":["PathHandler", "LinkedResource"],
+  "path":"/image.png"
+  ...
+}]</pre>
+
+            <p>
+In this scenario, the linkedResource with id <code>SecuredImage</code> would be
+selected and it's handling strategy would be defined by the
+LinkedResource specification.
+            </p>
+
+          </li>
+          <li>
+If two or more objects have the same length match, stop processing
+and return an error [=DEREFERENCING_ERROR_MULTIPLE_MATCHING_PATH_HANDLERS=].
+          </li>
+        </ol>
+      </p>
+      </section>
+
+      <section id="return-did-document-dereferencing-algorithm-provisional">
+        <h2>Return DID Document</h2>
+        <p>
+When invoking this handler, simply return the DID Document retrieved
+from Resolve, including any errors that may have been raised.
+        </p>
+      </section>
+      <section>
+        <h3>Dereferencing Errors</h3>
+        <p>
+          Dereferencing may produce several distinct errors, described below.
+          Clients SHOULD use these errors when appropriate.
+          <dl>
+            <dt><dfn>DEREFERENCING_ERROR_FAILED</dfn></dt>
+            <dd>
+  A generic or unclassified internal error occurred, causing the
+  overall dereferencing process to fail.
+  (<a href="#use-the-handler-result-provisional">Use the Handler Result</a>)
+            </dd>
+
+            <dt><dfn>DEREFERENCING_ERROR_HANDLER_NOT_FOUND</dfn></dt>
+            <dd>
+  No handler is available for the indicated handling strategy.
+  (<a href="#invoke-the-handler-provisional">Invoke the Handler</a>)
+            </dd>
+
+            <dt><dfn>DEREFERENCING_ERROR_MULTIPLE_DOCUMENT_PROPERTIES</dfn></dt>
+            <dd>
+  The dereferencing process encountered multiple conflicting
+  document properties when attempting to dereference the DID URL.
+  (<a href="#document-properties-step-provisional">Document Properties Step</a>)
+            </dd>
+
+            <dt><dfn>DEREFERENCING_ERROR_MULTIPLE_MATCHING_PATH_HANDLERS</dfn></dt>
+            <dd>
+  The dereferencing process found multiple distinct path handlers
+  that match the requested path.
+  (<a href="#pathhandlers-step-provisional">PathHandlers Step</a>)
+            </dd>
+
+            <dt><dfn>DEREFERENCING_ERROR_MULTIPLE_METADATA_PROPERTIES</dfn></dt>
+            <dd>
+  Resolution Metadata contains multiple conflicting properties, preventing a
+  definitive selection for dereferencing.
+  (<a href="#metadata-step-provisional">Metadata Step</a>)
+            </dd>
+
+            <dt><dfn>DEREFERENCING_ERROR_MULTIPLE_QUERY_PARAMETERS</dfn></dt>
+            <dd>
+  The DID URL contains multiple, incompatible query parameters.
+  (<a href="#query-parameters-step-provisional">Query Parameters Step</a>)
+            </dd>
+
+            <dt><dfn>DEREFERENCING_ERROR_MULTIPLE_SERVICES</dfn></dt>
+            <dd>
+  The dereferencing process identified multiple matching service
+  endpoints based on the URL parameters, preventing an unambiguous
+  selection.
+  (<a href="#services-step-provisional">Services Step</a>, <a href="#service-selection-algorithm-provisional">Service Selection Algorithm</a>)
+            </dd>
+
+            <dt><dfn>DEREFERENCING_ERROR_NO_SERVICE_ENDPOINTS_SUCCEED</dfn></dt>
+            <dd>
+  Valid service endpoints were identified and network interactions
+  were attempted, but none of the requests returned a successful
+  response.
+  (<a href="#default-service-handler-provisional">Default Service Handler</a>)
+            </dd>
+            <dt><dfn>DEREFERENCE_ERROR_PATH_NORMALIZATION_ERROR</dfn>
+            </dt>
+            <dd>
+              The DID URL contains a path that normalizes to a URL outside the
+              perview of the selected service endpoint. The DID URL path
+              overwrote the path part of the service endpoint.
+              (<a href="#default-service-handler-provisional">Default
+Service Handling Algorithm</a>)
+            </dd>
+
+            <dt><dfn>DEREFERENCING_ERROR_PATH_HANDLER_HANDLER_NOT_DEFINED</dfn></dt>
+            <dd>
+  The DID URL contains a path and the DID Document contains a matching PathHandler
+  object, but no appropriate handler is defined or registered within the
+  dereferencing environment to process it.
+  (<a href="#pathhandlers-step-provisional">PathHandlers Step</a>)
+            </dd>
+
+            <dt><dfn>DEREFERENCING_ERROR_RESOLUTION_ERROR</dfn></dt>
+            <dd>
+  The dereferencing process failed because the underlying identifier
+  resolution process encountered an error before dereferencing could
+  be completed.
+  (<a href="#resolve-the-did-provisional">Resolve the DID</a>)
+            </dd>
+
+            <dt><dfn>DEREFERENCING_ERROR_SERVICE_NOT_FOUND</dfn></dt>
+            <dd>
+  The specific service referenced during the dereferencing process
+  (e.g., via a <code>service</code> query parameter) was not found
+  in the resolved document.
+  (<a href="#services-step-provisional">Services Step</a>)
+            </dd>
+          </dl> 
+        </p>
+      </section>
+    
+      <section>
       <h2>Metadata Structure</h2>
 
       <p>
@@ -4262,7 +4761,7 @@ the section related to the <a data-cite="DID#acknowledgements">history of DIDs</
             <li><strong>Provisional Algorithm</strong>: Because of the "at
               risk" status, the CR introduces a "PROVISIONAL - DID URL
               Dereferencing" section that explores a modular, alternative
-              approach based on sequential "retrieval strategies".</li>
+              approach based on sequential "handling strategies".</li>
             <li><strong>Verification Relationships</strong>: The CR adds
               <code>verificationRelationship</code> as a new dereferencing
               option. During fragment dereferencing, the algorithm verifies
