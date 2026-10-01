@@ -3138,6 +3138,13 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
         </li>
       </ul>
 
+      <p>
+A specification that defines an error type not defined in this section MAY
+declare that it refines one of the error types defined in this section.
+A binding defined in Section <a href="#bindings"></a> can use such a
+declaration to determine how to convey that error type.
+      </p>
+
       <dl>
         <dt id="INVALID_DID">INVALID_DID</dt>
         <dd>
@@ -3483,16 +3490,13 @@ the following table:
 								<code>500</code>
 						</td>
 				</tr>
-				<tr>
-						<td>
-								(any other error URI)
-						</td>
-						<td>
-								<code>500</code>
-						</td>
-				</tr>
 		</tbody>
 </table>
+<p>
+If the <code>type</code> property of the <b>error object</b> does not appear in
+the table above, then the HTTP response status code is determined by the
+implementation.
+</p>
           </li>
           <li>
 If the <a>DID resolution</a> or
@@ -4190,6 +4194,18 @@ the section related to the <a data-cite="DID#acknowledgements">history of DIDs</
       <h1>Revision History</h1>
       <p>This section lists the changes since the publication of this
       specification as a W3C First Public Working Draft.</p>
+      <p>Changes since the <a
+      href="https://www.w3.org/TR/2026/CR-did-resolution-1.0-20260806/">Candidate
+      Recommendation Snapshot</a> include:</p>
+      <ul>
+        <li><strong>HTTP Status Codes for Other Error Types</strong>: The
+          HTTP(S) Binding no longer requires a <code>500</code> status code
+          for an error type that its status code table does not list; that
+          status code is now determined by the implementation. A
+          specification that defines an error type can declare which error
+          type defined in this specification it refines.</li>
+      </ul>
+      <p>Changes since the First Public Working Draft include:</p>
       <ul>
         <li><strong>Document Scope and Structure Additions</strong>
           <ul>
