@@ -1375,14 +1375,14 @@ the section.
         </p>
 
       <p>
-The <a>DID URL dereferencing</a> function dereferences a <a>DID URL</a> into a
+The <a>DID URL dereferencing</a> algorithm dereferences a <a>DID URL</a> into a
 <a>resource</a> with contents depending on the <a>DID URL</a>'s components,
 including the <a>DID method</a>, method-specific identifier, path,
 query, and fragment. This process depends on <a>DID resolution</a> of
 the <a>DID</a> contained in the
 <a>DID URL</a>. <a>DID URL dereferencing</a> might involve
 multiple steps (e.g., when the DID URL being dereferenced includes a fragment),
-and the function is defined to return the final resource after all steps are
+and the algorithm is defined to return the final resource after all steps are
 completed. The following figure depicts the relationship described above.
       </p>
 
@@ -1453,24 +1453,25 @@ oval shape in the bottom right part of diagram, labeled "Resource".
       </div>
 
       <p>
-All [=conforming DID URL dereferencers=] implement the function below, which has
-the following abstract form:
+All [=conforming DID URL dereferencers=] implement the algorithm in this section,
+which has the following inputs and results:
       </p>
 
-      <pre title="Abstract function for DID URL Dereferencing">
-dereference(didUrl, dereferenceOptions) →
-   « dereferencingMetadata, contentStream, contentMetadata »
+      <pre title="Inputs for DID URL Dereferencing">
+Inputs: « didUrl, dereferenceOptions »
+      </pre>
+
+      <pre title="Results of DID URL Dereferencing">
+Results: « dereferencingMetadata, contentStream, contentMetadata »
       </pre>
 
       <p>
 All [=conforming DID URL dereferencers=] MUST implement the [=DID URL
-dereferencing=] function for at least one [=DID method=]. All inputs and
-outputs of the <code>dereference</code>
-function apart from [=contentStream=] MUST be serializable to JSON.
+dereferencing=] algorithm for at least one [=DID method=].
       </p>
 
       <p>
-The input variables of the <code>dereference</code> function are as
+The inputs of the <a>DID URL dereferencing</a> algorithm are as
 follows:
       </p>
 
@@ -1494,7 +1495,7 @@ dereferenced.
         <dd>
 A <a href="#metadata-structure">metadata structure</a>
 consisting of input options to the
-<code>dereference</code> function in addition to the
+<a>DID URL dereferencing</a> algorithm in addition to the
 <code>didUrl</code> itself. This structure is further defined in
 <a href="#did-url-dereferencing-options"></a>. This input is REQUIRED, but the
 structure MAY be empty.
@@ -1502,11 +1503,11 @@ structure MAY be empty.
       </dl>
 
       <p>
-This function returns multiple values, and no limitations are placed on
-how these values are returned together. The return values of
-<code>dereference</code> are <a>dereferencingMetadata</a>,
+This algorithm returns multiple values, and no limitations are placed on
+how these values are returned together. The results of
+the algorithm are <a>dereferencingMetadata</a>,
 <a>contentStream</a>, and <a>contentMetadata</a>.
-These values are described below:
+These results are described below:
       </p>
 
       <dl>
@@ -1527,7 +1528,7 @@ the error. See Section <a href="#errors"></a>.
 <dfn>contentStream</dfn>
         </dt>
         <dd>
-If the <code>dereferencing</code> function was called and successful,
+If the <a>DID URL dereferencing</a> algorithm was executed and successful,
 this MUST contain a <a>resource</a> corresponding to
 the <a>DID URL</a>. The
 <code>contentStream</code> MAY be a <a>resource</a>
@@ -1556,14 +1557,25 @@ structure is further defined in <a href="#did-url-content-metadata"></a>.
       </dl>
 
       <p>
-Conforming <a>DID URL dereferencing</a> implementations do not alter
-the signature of these functions in any way.
+The algorithm is to be understood to have logical named inputs and outputs. Conforming
+<a>DID URL dereferencing</a> implementations are not required to
+implement this algorithm using the same names of the inputs, outputs,
+or of the algorithm itself, nor do they need to implement the algorithm in
+any specific form, such as an explicit function call in a programming language,
+a software library, or a protocol endpoint.
+      </p>
+      <p>
+<a>Bindings</a> such as the <a href="#bindings-https">HTTP(S) binding</a>
+can be used to define specific ways of implementing and exposing this algorithm.
+      </p>
+ 
+      <p>
 <a>DID URL dereferencing</a> implementations might map the
-<code>dereference</code> function to a method-specific internal function
+<a>DID URL dereferencing</a> algorithm to a method-specific internal function
 to perform the actual <a>DID URL dereferencing</a> process.
 <a>DID URL dereferencing</a> implementations might implement and
-expose additional functions with different signatures in addition to the
-<code>dereference</code> function specified here.
+expose additional functions with different inputs and results in addition to the
+algorithm specified here.
       </p>
 
       <section>
@@ -1614,8 +1626,8 @@ This is a <a href="#metadata-structure">metadata structure</a> that contains
 metadata about the <a>DID URL Dereferencing</a> process.
         </p>
         <p>
-This metadata typically changes between invocations of the
-<a>DID URL Dereferencing</a> function as it represents data about the
+This metadata typically changes between executions of the
+<a>DID URL Dereferencing</a> algorithm as it represents data about the
 dereferencing process itself.
         </p>
         <p>
@@ -1651,7 +1663,7 @@ Additional errors SHOULD be registered in the DID Resolution Extensions
 Some <a>DID resolvers</a> and
 <a>DID URL dereferencers</a> use proofs when executing the
 <a>DID Resolution</a> or <a>DID URL Dereferencing</a>
-functions. See <a href="#resolver-architectures"></a> for details.
+algorithms. See <a href="#resolver-architectures"></a> for details.
 </p>
 <p>
 <a>DID URL dereferencing</a> metadata MAY include a
@@ -1673,8 +1685,8 @@ This is a <a href="#metadata-structure">metadata structure</a> that contains
 metadata about the <a>DID URL Dereferencing</a> process.
         </p>
         <p>
-This metadata typically does not change between invocations of the
-<a>DID URL Dereferencing</a> function unless the content changes, as it
+This metadata typically does not change between executions of the
+<a>DID URL Dereferencing</a> algorithm unless the content changes, as it
 represents data about the content.
         </p>
         <p>
