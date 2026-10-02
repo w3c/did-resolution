@@ -753,13 +753,24 @@ All [=conforming DID resolvers=] MUST implement the
       </p>
 
       <p>
-Conforming <a>DID resolver</a> implementations do not alter
-the signature of this function in any way.
+The signature of this function is to be understood as an abstract interface
+for the specified algorithm, with logical named inputs and outputs. Conforming
+<a>DID resolution</a> implementations are not required to
+implement this function using the same names of the inputs, outputs,
+or of the function itself, nor do they need to implement the algorithm in
+any specific form, such as an explicit function call in a programming language,
+a software library, or a protocol endpoint.
+      </p>
+      <p>
+<a>Bindings</a> such as the <a href="#bindings-https">HTTP(S) binding</a>
+can be used to define specific ways of implementing and exposing this function.
+      </p>
+      <p>
 <a>DID resolver</a> implementations might map the
 <code>resolve</code> function to a method-specific internal function to
 perform the actual <a>DID resolution</a> process.
 <a>DID resolver</a> implementations might implement and
-expose additional functions with different signatures in addition to the
+expose additional functions with different signatures than the
 <code>resolve</code> function specified here.
       </p>
 
@@ -1464,9 +1475,7 @@ dereference(didUrl, dereferenceOptions) →
 
       <p>
 All [=conforming DID URL dereferencers=] MUST implement the [=DID URL
-dereferencing=] function for at least one [=DID method=]. All inputs and
-outputs of the <code>dereference</code>
-function apart from [=contentStream=] MUST be serializable to JSON.
+dereferencing=] function for at least one [=DID method=].
       </p>
 
       <p>
@@ -1556,13 +1565,24 @@ structure is further defined in <a href="#did-url-content-metadata"></a>.
       </dl>
 
       <p>
-Conforming <a>DID URL dereferencing</a> implementations do not alter
-the signature of these functions in any way.
+The signature of this function is to be understood as an abstract interface
+for the specified algorithm, with logical named inputs and outputs. Conforming
+<a>DID URL dereferencing</a> implementations are not required to
+implement this function using the same names of the inputs, outputs,
+or of the function itself, nor do they need to implement the algorithm in
+any specific form, such as an explicit function call in a programming language,
+a software library, or a protocol endpoint.
+      </p>
+      <p>
+<a>Bindings</a> such as the <a href="#bindings-https">HTTP(S) binding</a>
+can be used to define specific ways of implementing and exposing this function.
+      </p>
+      <p>
 <a>DID URL dereferencing</a> implementations might map the
 <code>dereference</code> function to a method-specific internal function
 to perform the actual <a>DID URL dereferencing</a> process.
 <a>DID URL dereferencing</a> implementations might implement and
-expose additional functions with different signatures in addition to the
+expose additional functions with different signatures than the
 <code>dereference</code> function specified here.
       </p>
 
