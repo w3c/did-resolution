@@ -2406,12 +2406,10 @@ If the <a>DID URL</a> contains a non-empty path part, then use
 the <a
 href="#pathHandler-path-matching-algorithm-provisional">PathHandler
 Path Matching Algorithm</a> to select a path handler object. If
-no path handler objects are selected, continue to the document
-properties step. If there are multiple handler objects selected,
+no path handler objects are selected, continue to the <a>Document Properties step</a>. If there are multiple handler objects selected,
 raise an error [=DEREFERENCING_ERROR_MULTIPLE_MATCHING_PATH_HANDLERS=] and continue to the <a>Default DID Document Step</a>. If the sole selected path handling object has a
 secondary type that defines a handler strategy, set the strategy
-to that strategy. If it doesn't, raise an error [=DEREFERENCING_ERROR_PATH_HANDLER_HANDLER_NOT_DEFINED=] and continue to the <a>Default DID Document Step</a>. Otherwise,
-continue to the <a>Document Properties step</a>.
+to that strategy. If it doesn't, raise an error [=DEREFERENCING_ERROR_PATH_HANDLER_HANDLER_NOT_DEFINED=] and continue to the <a>Default DID Document Step</a>. 
               </p>
             </li>
             <li>
@@ -2420,7 +2418,7 @@ continue to the <a>Document Properties step</a>.
 If the DID document contains any properties known to define a
 handler strategy, check whether any of those properties
 apply to the <a>DID URL</a>. If not, continue with the
-<a>Method-Specific Strategies Step</a>. If the DID document
+<a>Method-Specific Step</a>. If the DID document
 contains multiple properties that apply to the <a>DID URL</a>,
 raise an error [=DEREFERENCING_ERROR_MULTIPLE_DOCUMENT_PROPERTIES=] and continue to the <a>Default DID Document
 Step</a>. If the DID document contains a single
