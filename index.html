@@ -2310,14 +2310,16 @@ mechanism, the details of which are out of scope for this
 specification.
             </li>
             <li>
-<strong>Extract the [[DID]]</strong> from the [[DID URL]], e.g.,
+<strong>Extract the <a>DID</a></strong> from the <a>DID URL</a>, e.g.,
 the DID URL `did:ex:abc#key-1` contains the DID `did:ex:abc`.
             </li>
             <li>
 <strong>Prepare</strong> <var><a href="#did-resolution-options">DID resolution
     options</a></var>. These may be promoted from DID URL query parameters or 
 determined by the business rules of the context in which the DID URL is being
-dereferenced. See the <a href="#resolving-algorithm">resolving algorithm</a> for
+dereferenced. It is the business context in which the client is executing the
+algorithm that determines whether or not any given query parameter should be
+promoted to a Resolution option. See the <a href="#resolving-algorithm">resolving algorithm</a> for
 details about resolution options and their meaning.
             </li>
           </ol>
@@ -2383,8 +2385,8 @@ determined. End processing as soon as a strategy is set.
 If a `service parameter` is present as a DID query Parameter,
 first check whether multiple service parameters are present in the
 <a>DID URL</a>. If there are, raise an error
-[=DEREFERENCING_ERROR_MULTIPLE_SERVICES=] and set the handler
-strategy to the Default DID Document strategy. If there is just
+[=DEREFERENCING_ERROR_MULTIPLE_SERVICE_PARAMETERS=] and continue to 
+the <a>Default DID Document strategy</a>. If there is just
 one service parameter, use the <a
 href="#service-selection-algorithm-provisional">service
 selection algorithm</a> to select the appropriate service
@@ -2717,6 +2719,12 @@ from Resolve, including any errors that may have been raised.
             <dd>
   The DID URL contains multiple, incompatible query parameters.
   (<a href="#query-parameters-step-provisional">Query Parameters Step</a>)
+            </dd>
+            <dt><dfn>DEREFERENCING_ERROR_MULTIPLE_SERVICE_PARAMETERS</dfn></dt>
+            <dd>
+              The DID URL contains multiple service parameters.
+              (<a href="#services-step-provisional">Sevices Parameter
+                Step</a>)
             </dd>
 
             <dt><dfn>DEREFERENCING_ERROR_MULTIPLE_SERVICES</dfn></dt>
