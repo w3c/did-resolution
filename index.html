@@ -2548,58 +2548,70 @@ If a single service matches, that service is selected. Continue with the <a href
       <section id="default-service-handler-provisional">
         <h2>Default Service Handler</h2>
         <p>
-If a selected service lacks a type with a specific handler, use
-this
-default handler strategy. When invoked, execute the following
-algorithm.
+If a selected service lacks a type with a specific handler, or if the service's
+only `type` value is `PathHandler`, use this default handler strategy. When
+invoked, execute the following algorithm.
         </p>
-        <p class="example">
-          <code>did:example:abc/image.png?service=FileServer</code>
-        <pre>
+
+        <p>Consider the following DID URL and DID Document section:
+        </p>
+        <pre class="example">
+          <code>did:example:abc/image.png?service=#FileServer</code>
+        <code>
       service : [{
-        "id":"FileServer",
+        "id":"#FileServer",
+        "path":"/",
         "serviceEndpoint": [
-          "https://example.com/didimages",
-          "https://example.com/otherImages",
-          "https://example.com/lastImages"]
+          "https://example.com/didimages/",
+          "https://example.com/otherImages/",
+          "https://example.com/lastImages/"]
       ...
-      }</pre>
+      }]</code></pre>
         </p>
         <ol>
           <li>
-<strong>Select Service Endpoint</strong> Randomly pick one of the
-service's
-<code>serviceEndppoint</code> values. Implementations MUST keep track of each
-service as it is attempted, so that each service endpoint is exercised until
-either a successful endpoint is reached or the complete set of endpoints has
-been evaluated. In other words raise a failure error
-[=DEREFERENCING_ERROR_NO_SERVICE_ENDPOINTS_SUCCEED=] if all of the endpoints
-fail.
-<code><pre>https://example.com/didimages</pre></code>
+<strong>Select Service Endpoint</strong> If `serviceEndpoint` is a single value,
+use it. If `serviceEndpoint` is instead an array, randomly pick one of the
+service's <code>serviceEndpoint</code> values as a starting point. Since each
+value in the array is expected to resolve to the same set of resources (and any
+given DID URL triggering that service will retrieve the same resource from any
+of the endpoints), successfully dreferencing any one of them is sufficient.
+Implementations MUST keep track of each endpoint as it is attempted, so that
+each is exercised until either a successful result is returned or the complete
+set of endpoints has been attempted. In other words raise a failure error
+[=DEREFERENCING_ERROR_NO_SERVICE_ENDPOINTS_SUCCEED=] only after all of the
+endpoints fail.
+<code><pre>serviceEndpoint = "https://example.com/didimages/"</pre></code>
           </li>
           <li>
-<strong>Determine Resource Path</strong> Append the path part
-of
-the DID URL to the path part of the selected `serviceEndpoint` to
-define the <code>Resourch Path</code>.
-<code><pre>ResourcePath = /didimages/image.png</pre></code>
+<strong>Determine Resource Path</strong> Construct the resource path by
+extracting the non-matching part of the `DID URL` and appending it to the path
+of the `serviceEndpoint`. First extract the non-matching part of the DID URL
+path as the `pathExtension`. The pathExtension in the above example is
+"image.png", after stripping the service's `path` value of "/" from the path
+part of the DID URL
+`/image.png`.
+
+<code><pre>pathExtension = "image.png";</pre></code>
+
+Append the pathExtension to the path part of the `serviceEndpoint` to
+define the <code>resourchPath</code>.
+<code><pre>resourcePath = /didimages/image.png</pre></code>
           </li>
           <li>
-            <strong>Normalize Path</strong> Normalize the resulting
-            `ResourcePath` to create a `NormalizedResourcePath`. Start by removing dot segments, as defined in
-            [[RFC3986]] Section 5.2.4 Remove Path Segments, then test the
-            resulting `NormalizedResourcePath` to see if the leftmost characters
-            of the `NormalizedResourcePath` match the leftmost characters of
-            the `serviceEndpoint`. If they do not match, raise an error
-            [=DEREFERENCE_ERROR_PATH_NORMALIZATION_ERROR=].
+<strong>Normalize Path</strong> Normalize the resulting `ResourcePath` to create
+a `NormalizedResourcePath` by removing dot segments, as defined in
+[[RFC3986]] Section 5.2.4 Remove Path Segments. Then test the resulting
+`NormalizedResourcePath` to see if the leftmost characters of the
+`NormalizedResourcePath` match the leftmost characters of the path part of the
+`serviceEndpoint`. If they do not match, raise an error
+[=DEREFERENCE_ERROR_PATH_NORMALIZATION_ERROR=].
           </li>
           <li>
-  <strong>Construct Resource URLs</strong> Replace the path part
-  in
-  the selected serviceEndpoint with the Normalized Resource Path, leaving
-  all
-  other elements of the service endpoint URLs the same.
-  <code><pre>ResourceUrl = https://example.com/didimages/image.png</pre></code>
+<strong>Construct Resource URLs</strong> Replace the path part in the selected
+serviceEndpoint with the Normalized Resource Path, leaving all other elements of
+the service endpoint URLs the same.
+            <code><pre>ResourceUrl = https://example.com/didimages/image.png</pre></code>
           </li>
           <li>
 <strong>Dereference Resource URL</strong> Dereference the resulting
@@ -2629,24 +2641,24 @@ Of those objects with a type <code>PathHandler</code>, select the
 object whose <code>path</code> property has the longest complete
 match from the beginning of the path part of the DID URL. The entire
 value of the <code>path</code> property must be present in the path
-part of the <a>DID URL</a>
+part of the <a>DID URL</a>.
             <br/>
 Given the DID URL <code>did:example:1234/image.png</code>
 and the following three PathHandling objects
                 <pre class="example">
 service : [{
-  "id":"PathServiceRoot",
+  "id":"#PathServiceRoot",
   "type":["PathHandler", "PathService"],
   "path":"/"
   ...
 },{
-  "id":"PathServiceImage",
+  "id":"#PathServiceImage",
   "type":["PathHandler", "PathService"],
   "path":"/image"
   ...
 }],
 linkedResource : [{
-  "id":"SecuredImage",
+  "id":"#SecuredImage",
   "type":["PathHandler", "LinkedResource"],
   "path":"/image.png"
   ...
