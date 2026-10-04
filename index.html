@@ -2296,7 +2296,7 @@ Resolution</a>
 to the `did-url` rule of the
 <a href="https://www.w3.org/TR/did-core/#did-url-syntax">DID
 URL Syntax</a>.
-If not, the DID URL <a>client</a> MUST return
+If not, the DID URL <a>client</a> MUST end 
 without further processing, indicating a failure due to
 an
 <code><a href="#INVALID_DID_URL">https://www.w3.org/ns/did#INVALID_DID_URL</a></code>
@@ -2382,11 +2382,11 @@ determined. End processing as soon as a strategy is set.
             <li>
               <dfn id="services-step-provisional">Services Step</dfn> 
               <p>
-If a `service parameter` is present as a DID query Parameter,
+If `service` is present as a DID query Parameter,
 first check whether multiple service parameters are present in the
 <a>DID URL</a>. If there are, raise an error
 [=DEREFERENCING_ERROR_MULTIPLE_SERVICE_PARAMETERS=] and continue to 
-the <a>Default DID Document strategy</a>. If there is just
+the <a>Default DID Document step</a>. If there is just
 one service parameter, use the <a
 href="#service-selection-algorithm-provisional">service
 selection algorithm</a> to select the appropriate service
@@ -2394,9 +2394,9 @@ object. Then, if there is no matching service object, raise an
 error [=DEREFERENCING_ERROR_SERVICE_NOT_FOUND=] and continue to the <a>Default DID Document Step</a>. If
 the selected object's service type has defined a handling
 strategy, set the strategy to that. If the service type does not
-define a handling strategy, set strategy to the <a>Default
+define a handling strategy, set strategy to the <a href="#default-service-handler-provisional">Default
 Service Handler</a> Strategy. Otherwise, continue with the
-<a>PathHandlers Step</a>.
+<a>PathHandlers Step</a>. 
               </p>
             </li>
             <li>
@@ -2513,15 +2513,16 @@ following algorithm to determine which service should be used for
 dereferencing the DID URL.
         </p>
         <pre class="example
-        nohighlight">did:example:1234?service=files
+        nohighlight">did:example:1234?service=#files
         </pre>
         <ol>
           <li>
 Select the <a data-cite="did-core#services">service</a>
-if its <code>id</code> property matches the value of the
-<code>service</code> DID query parameter. If the
+from the DID document whose <code>id</code> property matches 
+the value of the <code>service</code> DID query parameter. If either the
 <code>id</code> property or the <code>service</code> DID parameter
-or both contain relative references, the corresponding absolute URIs MUST be resolved and used for determining
+or both contain relative references, the corresponding absolute URIs MUST be
+computed and used for determining
 the match, using the rules specified in <a
   data-cite="RFC3986#section-5">RFC3986 Section 5:
   Reference Resolution</a>
@@ -2530,17 +2531,17 @@ and in section <a
   DID URLs</a> in [[[DID-CORE]]].
           </li>
           <li>
-If a single service is selected, use the <code>type</code> value for
-that service to determine the handling strategy as defined by 
-the specification for that type. If multiple services match, stop
-further processing and return an error [DEREFERENCING_ERROR_MULTIPLE_SERVICES].
+If no service matches, stop further processing and raise an error
+[=DEREFERENCING_ERROR_SERVICE_NOT_FOUND=];
+no service is selected.
           </li>
           <li>
-If the specification for the <code>type</code> value of the selected
-service does not define a handling strategy, set the strategy to
-<code>Default Service Handler</code> and use the <a
-href="#default-service-handler-provisional">default
-service handling algorithm</a>.
+If more than one service matches, stop further processing and raise an error
+[=DEREFERENCING_ERROR_MULTIPLE_MATCHING_SERVICES=];
+no service is selected.
+          </li>
+          <li>
+If a single service matches, that service is selected. Continue with the <a href="#services-step-provisional">Services Step</a>.
           </li>
         </ol>
       </section>
@@ -2681,51 +2682,50 @@ from Resolve, including any errors that may have been raised.
           <dl>
             <dt><dfn>DEREFERENCING_ERROR_FAILED</dfn></dt>
             <dd>
-  A generic or unclassified internal error occurred, causing the
-  overall dereferencing process to fail.
-  (<a href="#use-the-handler-result-provisional">Use the Handler Result</a>)
+A generic or unclassified internal error occurred, causing the overall
+dereferencing process to fail. (<a
+href="#use-the-handler-result-provisional">Use the Handler Result</a>)
             </dd>
 
             <dt><dfn>DEREFERENCING_ERROR_HANDLER_NOT_FOUND</dfn></dt>
             <dd>
-  No handler is available for the indicated handling strategy.
-  (<a href="#invoke-the-handler-provisional">Invoke the Handler</a>)
+No handler is available for the indicated handling strategy. (<a
+href="#invoke-the-handler-provisional">Invoke the Handler</a>)
             </dd>
 
             <dt><dfn>DEREFERENCING_ERROR_MULTIPLE_DOCUMENT_PROPERTIES</dfn></dt>
             <dd>
-  The dereferencing process encountered multiple conflicting
-  document properties when attempting to dereference the DID URL.
-  (<a href="#document-properties-step-provisional">Document Properties Step</a>)
+The dereferencing process encountered multiple conflicting document properties
+when attempting to dereference the DID URL. (<a
+href="#document-properties-step-provisional">Document Properties Step</a>)
             </dd>
 
             <dt><dfn>DEREFERENCING_ERROR_MULTIPLE_MATCHING_PATH_HANDLERS</dfn></dt>
             <dd>
-  The dereferencing process found multiple distinct path handlers
-  that match the requested path.
-  (<a href="#pathhandlers-step-provisional">PathHandlers Step</a>)
+ The dereferencing process found multiple distinct path handlers that match the
+ requested path. (<a href="#pathhandlers-step-provisional">PathHandlers
+ Step</a>)
             </dd>
 
             <dt><dfn>DEREFERENCING_ERROR_MULTIPLE_METADATA_PROPERTIES</dfn></dt>
             <dd>
-  Resolution Metadata contains multiple conflicting properties, preventing a
-  definitive selection for dereferencing.
-  (<a href="#metadata-step-provisional">Metadata Step</a>)
+Resolution Metadata contains multiple conflicting properties, preventing a
+definitive selection for dereferencing. (<a
+href="#metadata-step-provisional">Metadata Step</a>)
             </dd>
 
             <dt><dfn>DEREFERENCING_ERROR_MULTIPLE_QUERY_PARAMETERS</dfn></dt>
             <dd>
-  The DID URL contains multiple, incompatible query parameters.
-  (<a href="#query-parameters-step-provisional">Query Parameters Step</a>)
+The DID URL contains multiple, incompatible query parameters. (<a
+href="#query-parameters-step-provisional">Query Parameters Step</a>)
             </dd>
             <dt><dfn>DEREFERENCING_ERROR_MULTIPLE_SERVICE_PARAMETERS</dfn></dt>
             <dd>
-              The DID URL contains multiple service parameters.
-              (<a href="#services-step-provisional">Sevices Parameter
-                Step</a>)
+The DID URL contains multiple service parameters. (<a
+href="#services-step-provisional">Sevices Parameter Step</a>)
             </dd>
 
-            <dt><dfn>DEREFERENCING_ERROR_MULTIPLE_SERVICES</dfn></dt>
+            <dt><dfn>DEREFERENCING_ERROR_MULTIPLE_MATCHING_SERVICES</dfn></dt>
             <dd>
   The dereferencing process identified multiple matching service
   endpoints based on the URL parameters, preventing an unambiguous
