@@ -21,8 +21,14 @@ included whenever they appear in this specification.
     May contain a <a>DID document</a>. See Section <a href="#did-resolution-result"></a>.</dd>
 
   <dt><dfn data-lt="">DID URL User</dfn></dt>
-  <dd>The end user of an DID-enabled application that who is A data structure that represents the result of the <a>DID URL dereferencing</a> algorithm.
-    May contain a <a>DID document</a> or other content. See Section <a href="#did-url-dereferencing-result"></a>.</dd>
+  <dd>The end user of an DID-enabled application which is using a DID URL to
+  achieve some purpose. It may be to use the DID URL to verify a Verifiable
+  Credential, to send a DIDComm message, or basically any function enabled by
+  DIDs and DID URLs. The interaction may be a result of direct user input (where
+  the user types in a DID URL) or as part of a more sophistcated user flow where
+  the DID may not even be seen by the DID URL user, in the same manner that many
+  users of the World Wide Web happily click on links without processing the URL
+  that is being used. </dd>
 
   <dt><dfn data-lt="resources">resource</dfn></dt>
   <dd>
