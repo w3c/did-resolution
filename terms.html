@@ -6,10 +6,10 @@ included whenever they appear in this specification.
 
 <dl class="termlist">
   <dt><dfn>binding</dfn></dt>
-  <dd>A concrete mechanism through which a <a>client</a> invokes a <a>DID resolver</a>. This could be a <a>local binding</a> such as a local command line tool or library API, or a <a>remote binding</a> such as the <a href="#bindings-https">HTTP(S) binding</a>. See Section <a href="#resolver-architectures"></a>.</dd>
+  <dd>A concrete mechanism through which a <a>DID-enabled application</a> invokes a <a>DID resolver</a>. This could be a <a>local binding</a> such as a local command line tool or library API, or a <a>remote binding</a> such as the <a href="#bindings-https">HTTP(S) binding</a>. See Section <a href="#resolver-architectures"></a>.</dd>
 
-  <dt><dfn>client</dfn></dt>
-  <dd>Software and/or hardware that invokes a <a>DID resolver</a> in order to execute the <a>DID resolution</a> and/or <a>DID URL dereferencing</a> algorithms. This invocation is done via a <a>binding</a>. The term <a>client</a> does not imply any specific network topology.</dd>
+  <dt><dfn>DID-enabled application</dfn></dt>
+  <dd>Software and/or hardware that invokes a <a>DID resolver</a> or <a>DID URL dereferencer</a> in order to execute the <a>DID resolution</a> and/or <a>DID URL dereferencing</a> algorithms. This invocation is done via a <a>binding</a>. The term <a>DID-enabled application</a> does not imply any specific network topology.</dd>
 
   <dt><dfn data-lt="">DID resolution result</dfn></dt>
   <dd>A data structure that represents the result of the <a>DID resolution</a> algorithm.
@@ -37,12 +37,12 @@ included whenever they appear in this specification.
   </dd>
 
   <dt><dfn data-lt="">local binding</dfn></dt>
-  <dd>A <a>binding</a> where the <a>client</a> invokes a <a>DID resolver</a> that runs on the same network host, e.g., via a local command line tool or library API.
+  <dd>A <a>binding</a> where the <a>DID-enabled application</a> invokes a <a>DID resolver</a> that runs on the same network host, e.g., via a local command line tool or library API.
     In this case, the <a>DID resolver</a> is sometimes also called a "local <a>DID resolver</a>".
     See Section <a href="#resolver-architectures"></a>.</dd>
 
   <dt><dfn data-lt="">remote binding</dfn></dt>
-  <dd>A <a>binding</a> where the <a>client</a> invokes a <a>DID resolver</a> that runs on a different network host, e.g., via the <a href="#bindings-https">HTTP(S) binding</a>.
+  <dd>A <a>binding</a> where the <a>DID-enabled application</a> invokes a <a>DID resolver</a> that runs on a different network host, e.g., via the <a href="#bindings-https">HTTP(S) binding</a>.
     In this case, the <a>DID resolver</a> is sometimes also called a "remote <a>DID resolver</a>".
     See Section <a href="#resolver-architectures"></a>.</dd>
 
