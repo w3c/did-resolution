@@ -1340,11 +1340,11 @@ absolute <a>DID URLs</a>.
           <li>
 Return the following result:
 						<ol class="algorithm">
-							<li><b>didResolutionMetadata</b>: <code>«[ ... ]»</code></li>
+							<li><b>didResolutionMetadata</b>: <code>«[ "contentType" → </code><var>output DID document media type</var><code>, ... ]»</code></li>
 							<li><b>didDocument</b>: <var>output DID document</var></li>
 							<li>
 <b>didDocumentMetadata</b>:
-<code>«[ "contentType" → </code><var>output DID document media type</var><code>, ... ]»</code>
+<code>«[ ... ]»</code>
               </li>
             </ol>
           </li>
@@ -1911,7 +1911,7 @@ If the value of the <b>accept</b>
 Return the following result:
 <ol class="algorithm">
 <li>
-<b>dereferencingMetadata</b>: <code>«[ ... ]»</code>
+<b>dereferencingMetadata</b>: <code>«[ "contentType" → "text/uri-list", ... ]»</code>
                         </li>
                         <li>
 <b>content</b>:
@@ -1919,7 +1919,7 @@ Return the following result:
                         </li>
                         <li>
 <b>contentMetadata</b>:
-<code>«[ "contentType" → "text/uri-list", ... ]»</code>
+<code>«[ ... ]»</code>
                         </li>
                       </ol>
                     </li>
@@ -4204,6 +4204,10 @@ the section related to the <a data-cite="DID#acknowledgements">history of DIDs</
           status code is now determined by the implementation. A
           specification that defines an error type can declare which error
           type defined in this specification it refines.</li>
+        <li><strong>Location of <code>contentType</code></strong>: The DID
+          Resolution and DID URL Dereferencing algorithms now return
+          <code>contentType</code> in the resolution and dereferencing
+          metadata, where it is defined.</li>
       </ul>
       <p>Changes since the First Public Working Draft include:</p>
       <ul>
