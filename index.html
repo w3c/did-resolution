@@ -1337,11 +1337,11 @@ absolute <a>DID URLs</a>.
           <li>
 Return the following result:
 						<ol class="algorithm">
-							<li><b>didResolutionMetadata</b>: <code>«[ ... ]»</code></li>
+							<li><b>didResolutionMetadata</b>: <code>«[ "contentType" → </code><var>output DID document media type</var><code>, ... ]»</code></li>
 							<li><b>didDocument</b>: <var>output DID document</var></li>
 							<li>
 <b>didDocumentMetadata</b>:
-<code>«[ "contentType" → </code><var>output DID document media type</var><code>, ... ]»</code>
+<code>«[ ... ]»</code>
               </li>
             </ol>
           </li>
@@ -1736,7 +1736,9 @@ type set to <code><a href="#NOT_FOUND">https://www.w3.org/ns/did#NOT_FOUND</a></
             <li>
 Otherwise, the <b>didDocument</b> result of the
 <a>DID resolution</a> algorithm is called the
-<var>resolved <a>DID document</a></var>.
+<var>resolved <a>DID document</a></var>, and the value of the
+<b>contentType</b> metadata property in its <b>didResolutionMetadata</b>
+result is called the <var>resolved DID document media type</var>.
             </li>
             <li>
 If present, separate the <a>DID fragment</a> from the
@@ -1752,7 +1754,7 @@ The <a>DID URL dereferencer</a> MUST return the
 <var>resolved <a>DID document</a></var> and
 <var>resolved <a href="#did-document-metadata"></a></var> as follows:
 <ol class="algorithm">
-<li><b>dereferencingMetadata</b>: <code>«[ ... ]»</code></li>
+<li><b>dereferencingMetadata</b>: <code>«[ "contentType" → </code><var>resolved DID document media type</var><code>, ... ]»</code></li>
 <li>
 <b>contentStream</b>: <code>resolved DID document</code>
                 </li>
@@ -1885,7 +1887,8 @@ contain only the <var>selected <a>services</a></var>.
 Return the following result:
 											<ol class="algorithm">
 												<li>
-<b>dereferencingMetadata</b>: <code>«[ ... ]»</code>
+<b>dereferencingMetadata</b>:
+<code>«[ "contentType" → </code><var>resolved DID document media type</var><code>, ... ]»</code>
                         </li>
                         <li>
 <b>content</b>:
@@ -1908,7 +1911,7 @@ If the value of the <b>accept</b>
 Return the following result:
 <ol class="algorithm">
 <li>
-<b>dereferencingMetadata</b>: <code>«[ ... ]»</code>
+<b>dereferencingMetadata</b>: <code>«[ "contentType" → "text/uri-list", ... ]»</code>
                         </li>
                         <li>
 <b>content</b>:
@@ -1916,7 +1919,7 @@ Return the following result:
                         </li>
                         <li>
 <b>contentMetadata</b>:
-<code>«[ "contentType" → "text/uri-list", ... ]»</code>
+<code>«[ ... ]»</code>
                         </li>
                       </ol>
                     </li>
@@ -4707,6 +4710,10 @@ the section related to the <a data-cite="DID#acknowledgements">history of DIDs</
           status code is now determined by the implementation. A
           specification that defines an error type can declare which error
           type defined in this specification it refines.</li>
+        <li><strong>Location of <code>contentType</code></strong>: The DID
+          Resolution and DID URL Dereferencing algorithms now return
+          <code>contentType</code> in the resolution and dereferencing
+          metadata, where it is defined.</li>
       </ul>
       <p>Changes since the First Public Working Draft include:</p>
       <ul>
