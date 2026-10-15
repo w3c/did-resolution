@@ -1739,7 +1739,9 @@ type set to <code><a href="#NOT_FOUND">https://www.w3.org/ns/did#NOT_FOUND</a></
             <li>
 Otherwise, the <b>didDocument</b> result of the
 <a>DID resolution</a> algorithm is called the
-<var>resolved <a>DID document</a></var>.
+<var>resolved <a>DID document</a></var>, and the value of the
+<b>contentType</b> metadata property in its <b>didResolutionMetadata</b>
+result is called the <var>resolved DID document media type</var>.
             </li>
             <li>
 If present, separate the <a>DID fragment</a> from the
@@ -1755,7 +1757,7 @@ The <a>DID URL dereferencer</a> MUST return the
 <var>resolved <a>DID document</a></var> and
 <var>resolved <a href="#did-document-metadata"></a></var> as follows:
 <ol class="algorithm">
-<li><b>dereferencingMetadata</b>: <code>«[ ... ]»</code></li>
+<li><b>dereferencingMetadata</b>: <code>«[ "contentType" → </code><var>resolved DID document media type</var><code>, ... ]»</code></li>
 <li>
 <b>contentStream</b>: <code>resolved DID document</code>
                 </li>
@@ -1888,7 +1890,8 @@ contain only the <var>selected <a>services</a></var>.
 Return the following result:
 											<ol class="algorithm">
 												<li>
-<b>dereferencingMetadata</b>: <code>«[ ... ]»</code>
+<b>dereferencingMetadata</b>:
+<code>«[ "contentType" → </code><var>resolved DID document media type</var><code>, ... ]»</code>
                         </li>
                         <li>
 <b>content</b>:
