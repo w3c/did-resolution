@@ -353,13 +353,6 @@ A <dfn class="lint-ignore">conforming DID URL dereferencer</dfn> is
 any algorithm realized as software and/or hardware that complies with
 the relevant normative statements in <a href="#dereferencing"></a>.
         </p>
-
-        <p>
-A
-<dfn class="lint-ignore">conforming network-based DID URL dereferencer</dfn>
-is a [=conforming DID URL dereferencer=] that additionally complies
-with the normative statements in [[[#bindings-https]]].
-        </p>
       </section>
 
       <section class="informative">
@@ -3720,8 +3713,8 @@ description of the feature that is not supported by the resolver.
     <section id="bindings">
       <h1>Bindings</h1>
       <p>
-This section defines bindings for the abstract algorithms in sections
-<a href="#resolving"></a> and <a href="#dereferencing"></a>.
+This section defines bindings for the abstract algorithm in section
+<a href="#resolving"></a>.
       </p>
 
       <section id="bindings-https">
@@ -3729,8 +3722,8 @@ This section defines bindings for the abstract algorithms in sections
         <p>
 This section defines a <a>DID resolver</a>
 <a>binding</a> which exposes the
-<a>DID resolution</a> and/or <a>DID URL dereferencing</a> functions
-(including all resolution/dereferencing options and metadata) via an HTTP(S)
+<a>DID resolution</a> function
+(including all resolution options and metadata) via an HTTP(S)
 endpoint. See <a href="#resolver-architectures"></a>.
         </p>
 
@@ -3765,8 +3758,7 @@ resolvers MAY use TLS certificates issued for IP addresses.
 
         <p>
 Using this binding, the <a>DID resolution</a> function (see
-<a href="#resolving"></a>) and/or <a>DID URL dereferencing</a> function
-(see <a href="#dereferencing"></a>) can be executed as follows:
+<a href="#resolving"></a>) can be executed as follows:
         </p>
 
         <ol class="algorithm">
@@ -3800,34 +3792,10 @@ request only the <b>didDocument</b> value of the result.
             </ol>
           </li>
           <li>
-For the <a>DID URL dereferencing</a> function:
-						<ol class="algorithm">
-							<li>
-Append the <var>input <a>DID URL</a></var> to
-the <var>request HTTP(S) URL</var>.
-<pre class="example nohighlight">
-https://resolver.example/1.0/identifiers/did:example:1234?service=files&relativeRef=/resume.pdf
-</pre>
-              </li>
-              <li>
-Set the <code>Accept</code> <var>HTTP request header</var> to
-`application/did-url-dereferencing` to request a complete
-<a href="#did-url-dereferencing-result"></a>, OR
-              </li>
-              <li>
-set the <code>Accept</code> <var>HTTP request header</var> to
-the value of the <b>accept</b>
-<var>dereferencing option</var> to request only the
-<b>contentStream</b> value of the result.
-              </li>
-            </ol>
-          </li>
-          <li>
 For the HTTP(S) GET binding:
 						<ol class="algorithm">
 							<li>
-If any other <var>resolution options</var> or
-<var>dereferencing options</var> than <b>accept</b> are
+If any other <var>resolution options</var> than <b>accept</b> are
 provided:
 								<ol class="algorithm">
 									<li>
@@ -3845,16 +3813,11 @@ Encode all <var>resolution options</var> except
               <li>
 Execute an HTTP <code>GET</code> request on the
 <var>request HTTP(S) URL</var>. This invokes the
-<a>DID resolution</a> or
-<a>DID URL dereferencing</a> function at the remote
+<a>DID resolution</a> function at the remote
 <a>DID resolver</a>.
 <pre class="example nohighlight">
 GET https://resolver.example/1.0/identifiers/did%3Aexample%3A1234?option1=value1&option2=value2 HTTP/1.1
 Accept: application/did-resolution
-</pre>
-<pre class="example nohighlight">
-GET https://resolver.example/1.0/identifiers/did%3Aexample%3A1234%3Fservice%3Dfiles%26relativeRef%3D%2Fresume.pdf?option1=value1&option2=value2 HTTP/1.1
-Accept: application/did-url-dereferencing
 </pre>
               </li>
             </ol>
@@ -3863,8 +3826,7 @@ Accept: application/did-url-dereferencing
 For the HTTP(S) POST binding:
 						<ol class="algorithm">
 							<li>
-If any other <var>resolution options</var> or
-<var>dereferencing options</var> than <b>accept</b> are
+If any other <var>resolution options</var> than <b>accept</b> are
 provided:
 								<ol class="algorithm">
 									<li>
@@ -3877,8 +3839,7 @@ body.
               <li>
 Execute an HTTP <code>POST</code> request on the
 <var>request HTTP(S) URL</var>. This invokes the
-<a>DID resolution</a> or
-<a>DID URL dereferencing</a> function at the remote
+<a>DID resolution</a> function at the remote
 <a>DID resolver</a>.
 <pre class="example nohighlight">
 POST https://resolver.example/1.0/identifiers/did:example:1234 HTTP/1.1
@@ -3889,23 +3850,13 @@ Accept: application/did-resolution
 "option2": "value2"
 }
 </pre>
-<pre class="example nohighlight">
-POST https://resolver.example/1.0/identifiers/did:example:1234?service=files&relativeRef=/resume.pdf HTTP/1.1
-Accept: application/did-url-dereferencing
-
-{
-"option1": "value1",
-"option2": "value2"
-}
-</pre>
               </li>
             </ol>
           </li>
           <li>
-If the <a>DID resolution</a> or
-<a>DID URL dereferencing</a> function returns an
+If the <a>DID resolution</a> function returns an
 <b>error</b> metadata property in the
-<b>didResolutionMetadata</b> or <b>dereferencingMetadata</b>, then
+<b>didResolutionMetadata</b>, then
 the HTTP response status code MUST correspond to the
 <code>type</code> property of the <b>error object</b>, according to
 the following table:
@@ -4002,11 +3953,9 @@ implementation.
 </p>
           </li>
           <li>
-If the <a>DID resolution</a> or
-<a>DID URL dereferencing</a> function returns a
+If the <a>DID resolution</a> function returns a
 <b>deactivated</b> metadata property with the value
-<code>true</code> in the <b>didDocumentMetadata</b> or
-<b>contentMetadata</b>:
+<code>true</code> in the <b>didDocumentMetadata</b>:
 						<ol class="algorithm">
 							<li>The HTTP response status code MUST be <code>410</code>.</li>
 						</ol>
@@ -4043,63 +3992,6 @@ of the <b>contentType</b> metadata property in the
 The HTTP response body MUST contain the
 <b>didDocument</b> that is the result of the
 <a>DID resolution</a> function, in the
-representation corresponding to the
-<code>Content-Type</code> <var>HTTP response header</var>.
-                  </li>
-                </ol>
-              </li>
-            </ol>
-          </li>
-          <li>
-For the <a>DID URL dereferencing</a> function:
-						<ol class="algorithm">
-							<li>
-If the value of the <code>Content-Type</code> <var>HTTP response header</var>
-is `application/did-url-dereferencing`:
-								<ol class="algorithm">
-									<li>
-The <var>HTTP body</var> MUST contain a
-<a>DID URL dereferencing result</a> (see
-<a href="#did-url-dereferencing-result"></a>) that is the result of the
-<a>DID URL dereferencing</a> function.
-                  </li>
-                </ol>
-              </li>
-              <li>
-If the function is successful and returns a
-<b>contentStream</b> and a <b>contentType</b> metadata property
-with the value <code>text/uri-list</code> in the
-<b>dereferencingMetadata</b>:
-								<ol class="algorithm">
-									<li>
-The HTTP response status code MUST be <code>303</code>.
-                  </li>
-                  <li>
-The HTTP response MUST contain an
-<code>Location</code> header. The value of this header MUST
-be the <var>selected [=DID service endpoint=] URL</var>.
-                  </li>
-                  <li>the HTTP response body MUST be empty.</li>
-                </ol>
-              </li>
-              <li>
-If the function is successful and returns a
-<b>contentStream</b> with any other <b>contentType</b>:
-								<ol class="algorithm">
-									<li>
-The HTTP response status code MUST be <code>200</code>.
-                  </li>
-                  <li>
-The HTTP response MUST contain a <code>Content-Type</code>
-<var>HTTP response header</var>. Its value MUST be the value
-of the <b>contentType</b> metadata property in the
-<b>dereferencingMetadata</b> (see
-<a href="#did-url-dereferencing-metadata"></a>).
-                  </li>
-                  <li>
-The HTTP response body MUST contain the
-<b>contentStream</b> that is the result of the
-<a>DID URL dereferencing</a> function, in the
 representation corresponding to the
 <code>Content-Type</code> <var>HTTP response header</var>.
                   </li>
@@ -4203,80 +4095,6 @@ Content-Type: application/did
 }</pre>
       </section>
 
-      <section>
-        <h2>DID URL Dereferencing Examples</h2>
-        <h3>Example: Returning a DID URL Dereferencing Result</h3>
-        <p>
-The <code>dereference()</code> function can be invoked over the
-HTTP(S) binding as follows:
-        </p>
-<pre
-	class="example nohighlight"
-	title="Example request to a DID URL dereferencer via HTTP(S) binding"
->
-GET https://resolver.example/1.0/identifiers/did:example:123?versionId=2 HTTP/1.1
-Accept: application/did-url-dereferencing
-</pre>
-        <p>The response is as follows:</p>
-<pre
-	class="example nohighlight"
-	title="Example response from a DID URL dereferencer via HTTP(S) binding"
->
-HTTP 200 OK
-Content-Type: application/did-url-dereferencing
-
-{
-	"content": {
-		"@context": [ "https://www.w3.org/ns/did/v1.1" ],
-		"id": "did:example:123",
-		"verificationMethod": [{
-			...
-		}],
-		"service": [{
-			...
-		}]
-	},
-	"dereferencingMetadata": {
-		"contentType": "application/did"
-	},
-	"contentMetadata": {
-		...
-	}
-}
-</pre>
-        <h3>Example: Returning a resource</h3>
-        <p>
-The <code>dereference()</code> function can be invoked over the
-HTTP(S) binding as follows:
-        </p>
-<pre
-	class="example nohighlight"
-	title="Example request to a DID URL dereferencer via HTTP(S) binding"
->
-GET https://resolver.example/1.0/identifiers/did:example:123?versionId=2 HTTP/1.1
-Accept: application/did
-</pre>
-
-        <p>The response is as follows:</p>
-<pre
-	class="example nohighlight"
-	title="Example response from a DID URL dereferencer via HTTP(S) binding"
->
-HTTP 200 OK
-Content-Type: application/did
-
-{
-	"@context": [ "https://www.w3.org/ns/did/v1.1" ],
-	"id": "did:example:123",
-	"verificationMethod": [{
-		...
-	}],
-	"service": [{
-		...
-	}]
-}
-</pre>
-      </section>
     </section>
 
     <section id="security-considerations">
@@ -4707,6 +4525,10 @@ the section related to the <a data-cite="DID#acknowledgements">history of DIDs</
           status code is now determined by the implementation. A
           specification that defines an error type can declare which error
           type defined in this specification it refines.</li>
+        <li><strong>DID URL Dereferencing over HTTP(S)</strong>: The
+          HTTP(S) Binding, its examples and its OpenAPI definition no longer
+          cover DID URL dereferencing, and the conformance class of a
+          network-based DID URL dereferencer is removed.</li>
       </ul>
       <p>Changes since the First Public Working Draft include:</p>
       <ul>
