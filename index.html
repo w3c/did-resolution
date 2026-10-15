@@ -3560,10 +3560,6 @@ If the value of the <code>Content-Type</code> <var>HTTP response header</var>
 is `application/did-url-dereferencing`:
 								<ol class="algorithm">
 									<li>
-If the function is successful, the HTTP response status code MUST be
-<code>200</code>.
-                  </li>
-                  <li>
 The <var>HTTP body</var> MUST contain a
 <a>DID URL dereferencing result</a> (see
 <a href="#did-url-dereferencing-result"></a>) that is the result of the
@@ -3572,7 +3568,7 @@ The <var>HTTP body</var> MUST contain a
                 </ol>
               </li>
               <li>
-Otherwise, if the function is successful and returns a
+If the function is successful and returns a
 <b>contentStream</b> and a <b>contentType</b> metadata property
 with the value <code>text/uri-list</code> in the
 <b>dereferencingMetadata</b>:
@@ -3589,7 +3585,7 @@ be the <var>selected [=DID service endpoint=] URL</var>.
                 </ol>
               </li>
               <li>
-Otherwise, if the function is successful and returns a
+If the function is successful and returns a
 <b>contentStream</b> with any other <b>contentType</b>:
 								<ol class="algorithm">
 									<li>
@@ -4215,8 +4211,8 @@ the section related to the <a data-cite="DID#acknowledgements">history of DIDs</
           type defined in this specification it refines.</li>
         <li><strong>Status Codes for Complete Results</strong>: The HTTP(S)
           Binding now requires a <code>200</code> status code for a
-          successful complete result, applies its rules for a bare DID
-          document or content stream only to other responses, and lets
+          successful complete DID resolution result, applies its rules for
+          a bare DID document only to other responses, and lets
           <code>410</code> override other status codes.</li>
       </ul>
       <p>Changes since the First Public Working Draft include:</p>
