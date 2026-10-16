@@ -4008,7 +4008,8 @@ If the <a>DID resolution</a> or
 <code>true</code> in the <b>didDocumentMetadata</b> or
 <b>contentMetadata</b>:
 						<ol class="algorithm">
-							<li>The HTTP response status code MUST be <code>410</code>.</li>
+							<li>The HTTP response status code MUST be <code>410</code>,
+even if a step below requires a different status code.</li>
 						</ol>
           </li>
           <li>
@@ -4019,6 +4020,10 @@ If the value of the <code>Content-Type</code>
 <var>HTTP response header</var> is `application/did-resolution`:
 <ol class="algorithm">
 <li>
+If the function is successful, the HTTP response status code MUST be
+<code>200</code>.
+                  </li>
+                  <li>
 The <var>HTTP body</var> MUST contain a
 <a>DID resolution result</a> (see
 <a href="#did-resolution-result"></a>) that is the result of the
@@ -4027,7 +4032,7 @@ The <var>HTTP body</var> MUST contain a
                 </ol>
               </li>
               <li>
-If the function is successful and returns a <b>didDocument</b>:
+Otherwise, if the function is successful and returns a <b>didDocument</b>:
 <ol class="algorithm">
 <li>
 The HTTP response status code MUST be <code>200</code>.
@@ -4707,6 +4712,11 @@ the section related to the <a data-cite="DID#acknowledgements">history of DIDs</
           status code is now determined by the implementation. A
           specification that defines an error type can declare which error
           type defined in this specification it refines.</li>
+        <li><strong>Status Codes for Complete Results</strong>: The HTTP(S)
+          Binding now requires a <code>200</code> status code for a
+          successful complete DID resolution result, applies its rules for
+          a bare DID document only to other responses, and lets
+          <code>410</code> override other status codes.</li>
       </ul>
       <p>Changes since the First Public Working Draft include:</p>
       <ul>
