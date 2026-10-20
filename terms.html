@@ -9,15 +9,26 @@ included whenever they appear in this specification.
   <dd>A concrete mechanism through which a <a>client</a> invokes a <a>DID resolver</a>. This could be a <a>local binding</a> such as a local command line tool or library API, or a <a>remote binding</a> such as the <a href="#bindings-https">HTTP(S) binding</a>. See Section <a href="#resolver-architectures"></a>.</dd>
 
   <dt><dfn>client</dfn></dt>
-  <dd>Software and/or hardware that invokes a <a>DID resolver</a> in order to execute the <a>DID resolution</a> and/or <a>DID URL dereferencing</a> algorithms. This invocation is done via a <a>binding</a>. The term <a>client</a> does not imply any specific network topology.</dd>
+  <dd>Software and/or hardware that invokes a <a>DID resolver</a> in order to
+  execute the <a>DID resolution</a>. Also known as a <a>DID-enabled application</a>.</dd>
+
+  <dt><dfn>DID-enabled application</dfn></dt>
+  <dd>Software and/or hardware that invokes a <a>DID resolver</a> in
+      order to execute <a>DID resolution</a>. Also known as a <a>client</a>.</dd>
 
   <dt><dfn data-lt="">DID resolution result</dfn></dt>
   <dd>A data structure that represents the result of the <a>DID resolution</a> algorithm.
     May contain a <a>DID document</a>. See Section <a href="#did-resolution-result"></a>.</dd>
 
-  <dt><dfn data-lt="">DID URL dereferencing result</dfn></dt>
-  <dd>A data structure that represents the result of the <a>DID URL dereferencing</a> algorithm.
-    May contain a <a>DID document</a> or other content. See Section <a href="#did-url-dereferencing-result"></a>.</dd>
+  <dt><dfn data-lt="">DID URL User</dfn></dt>
+  <dd>The end user of a DID-enabled application which is using a DID URL to
+  achieve some purpose. It may be to use the DID URL to verify a Verifiable
+  Credential, to send a DIDComm message, or basically any function enabled by
+  DIDs and DID URLs. The interaction may be a result of direct user input (where
+  the user types in a DID URL) or a part of a more sophisticated user flow where
+  the DID may not even be seen by the DID URL user, in the same manner that many
+  users of the World Wide Web happily click on links without processing the URL
+  that is being used. </dd>
 
   <dt><dfn data-lt="resources">resource</dfn></dt>
   <dd>
