@@ -1365,829 +1365,6 @@ to <code><a href="#INTERNAL_ERROR">https://www.w3.org/ns/did#INTERNAL_ERROR</a><
 
     <section id="dereferencing">
       <h1>DID URL Dereferencing</h1>
-
-        <p class="issue atrisk">
-This entire section is currently [=at risk=] and is likely to be heavily modified or removed from the specification. The Working Group is requesting feedback from implementers regarding the value of 
-the section.
-        </p>
-
-      <p>
-The <a>DID URL dereferencing</a> function dereferences a <a>DID URL</a> into a
-<a>resource</a> with contents depending on the <a>DID URL</a>'s components,
-including the <a>DID method</a>, method-specific identifier, path,
-query, and fragment. This process depends on <a>DID resolution</a> of
-the <a>DID</a> contained in the
-<a>DID URL</a>. <a>DID URL dereferencing</a> might involve
-multiple steps (e.g., when the DID URL being dereferenced includes a fragment),
-and the function is defined to return the final resource after all steps are
-completed. The following figure depicts the relationship described above.
-      </p>
-
-      <figure id="did-url-dereference-overview">
-        <img
-          style="margin: auto; display: block; width: 75%"
-          src="diagrams/section-5/did-url-dereference-overview.svg"
-          alt="
-DIDs resolve to DID documents; DID URLs contains a DID; DID URLs dereferenced to DID document fragments or
-external resources.
-        "
-        />
-        <figcaption>
-Overview of DID URL dereference See also: <a class="longdesc-link" href="#did-url-dereference-overview-longdesc">narrative description</a>.
-        </figcaption>
-      </figure>
-
-      <div class="longdesc" id="did-url-dereference-overview-longdesc">
-        <p>
-The top left part of the diagram contains a rectangle with black outline,
-labeled "DID".
-        </p>
-        <p>
-The bottom left part of the diagram contains a rectangle with black outline,
-labeled "DID URL". This rectangle contains four smaller black-outlined
-rectangles, aligned in a horizontal row adjacent to each other. These smaller
-rectangles are labeled, in order, "DID", "path", "query", and "fragment.
-        </p>
-        <p>
-The top right part of the diagram contains a rectangle with black outline,
-labeled "DID document". This rectangle contains three smaller black-outlined
-rectangles. These smaller rectangles are labeled "id", "(property X)", and
-"(property Y)", and are surrounded by multiple series of three dots (ellipses).
-A curved black arrow, labeled "DID document - relative fragment dereference",
-extends from the rectangle labeled "(property X)", and points to the rectangle
-labeled "(property Y)".
-        </p>
-        <p>
-The bottom right part of the diagram contains an oval shape with black outline,
-labeled "Resource".
-        </p>
-        <p>
-A black arrow, labeled "resolves to a DID document", extends from the rectangle
-in the top left part of the diagram, labeled "DID", and points to the rectangle
-in the top right part of diagram, labeled "DID document".
-        </p>
-        <p>
-A black arrow, labeled "refers to", extends from the rectangle in the top right
-part of the diagram, labeled "DID document", and points to the oval shape in the
-bottom right part of diagram, labeled "Resource".
-        </p>
-        <p>
-A black arrow, labeled "contains", extends from the small rectangle labeled
-"DID" inside the rectangle in the bottom left part of the diagram, labeled "DID
-URL", and points to the rectangle in the top left part of diagram, labeled
-"DID".
-        </p>
-        <p>
-A black arrow, labeled "dereferences to a DID document", extends from the
-rectangle in the bottom left part of the diagram, labeled "DID URL", and points
-to the rectangle in the top right part of diagram, labeled "DID document".
-        </p>
-        <p>
-A black arrow, labeled "dereferences to a resource", extends from the rectangle
-in the bottom left part of the diagram, labeled "DID URL", and points to the
-oval shape in the bottom right part of diagram, labeled "Resource".
-        </p>
-      </div>
-
-      <p>
-All [=conforming DID URL dereferencers=] implement the function below, which has
-the following abstract form:
-      </p>
-
-      <pre title="Abstract function for DID URL Dereferencing">
-dereference(didUrl, dereferenceOptions) →
-   « dereferencingMetadata, contentStream, contentMetadata »
-      </pre>
-
-      <p>
-All [=conforming DID URL dereferencers=] MUST implement the [=DID URL
-dereferencing=] function for at least one [=DID method=]. All inputs and
-outputs of the <code>dereference</code>
-function apart from [=contentStream=] MUST be serializable to JSON.
-      </p>
-
-      <p>
-The input variables of the <code>dereference</code> function are as
-follows:
-      </p>
-
-      <dl>
-        <dt>didUrl</dt>
-        <dd>
-A conformant <a>DID URL</a> as a single <a data-cite="INFRA#string">string</a>.
-This is the <a>DID URL</a> to dereference. To dereference a <a>DID fragment</a>,
-the complete <a>DID URL</a> including the <a>DID fragment</a> MUST be used.
-This input is REQUIRED.
-
-<p class="note" title="DID URL dereferencer patterns">
-While it is valid for any <code>didUrl</code> to be passed to a DID
-URL dereferencer, implementers are expected to refer to
-<a href="#dereferencing"></a> to further understand common
-patterns for how a <a>DID URL</a> is expected to be
-dereferenced.
-</p>
-        </dd>
-        <dt>dereferencingOptions</dt>
-        <dd>
-A <a href="#metadata-structure">metadata structure</a>
-consisting of input options to the
-<code>dereference</code> function in addition to the
-<code>didUrl</code> itself. This structure is further defined in
-<a href="#did-url-dereferencing-options"></a>. This input is REQUIRED, but the
-structure MAY be empty.
-        </dd>
-      </dl>
-
-      <p>
-This function returns multiple values, and no limitations are placed on
-how these values are returned together. The return values of
-<code>dereference</code> are <a>dereferencingMetadata</a>,
-<a>contentStream</a>, and <a>contentMetadata</a>.
-These values are described below:
-      </p>
-
-      <dl>
-        <dt>
-<dfn>dereferencingMetadata</dfn>
-        </dt>
-        <dd>
-A <a href="#metadata-structure">metadata structure</a>
-consisting of values relating to the
-results of the <a>DID URL dereferencing</a> process. This structure
-is REQUIRED, and in the case of an error in the dereferencing process,
-this MUST NOT be empty. This structure is further defined in
-<a href="#did-url-dereferencing-metadata"></a>. If the dereferencing is unsuccessful,
-this structure MUST contain an <code>error</code> property describing
-the error. See Section <a href="#errors"></a>.
-        </dd>
-        <dt>
-<dfn>contentStream</dfn>
-        </dt>
-        <dd>
-If the <code>dereferencing</code> function was called and successful,
-this MUST contain a <a>resource</a> corresponding to
-the <a>DID URL</a>. The
-<code>contentStream</code> MAY be a <a>resource</a>
-such as a <a>DID document</a> that is serializable in one
-of the conformant <a>representations</a>, a
-<a data-cite="did-core#verification-methods">verification method</a>,
-a <a data-cite="did-core#services">service</a>, or
-any other resource format that can be identified via a Media Type and
-obtained through the resolution process. If the dereferencing is
-unsuccessful, this value MUST be empty.
-        </dd>
-        <dt>
-<dfn>contentMetadata</dfn>
-        </dt>
-        <dd>
-If the dereferencing is successful, this MUST be a
-<a href="#metadata-structure"> metadata structure</a>, but the structure MAY be empty. This
-structure contains metadata about the <code>contentStream</code>. If
-the <code>contentStream</code>
-is a <a>DID document</a>, this MUST be a
-<a>didDocumentMetadata</a> structure as described in
-<a>DID Resolution</a>. If the dereferencing is unsuccessful,
-this output MUST be an empty <a href="#metadata-structure">metadata structure</a>. This
-structure is further defined in <a href="#did-url-content-metadata"></a>.
-        </dd>
-      </dl>
-
-      <p>
-Conforming <a>DID URL dereferencing</a> implementations do not alter
-the signature of these functions in any way.
-<a>DID URL dereferencing</a> implementations might map the
-<code>dereference</code> function to a method-specific internal function
-to perform the actual <a>DID URL dereferencing</a> process.
-<a>DID URL dereferencing</a> implementations might implement and
-expose additional functions with different signatures in addition to the
-<code>dereference</code> function specified here.
-      </p>
-
-      <section>
-        <h3>DID URL Dereferencing Options</h3>
-
-        <p>
-This is a <a href="#metadata-structure">metadata structure</a> that contains input options for the
-<a>DID URL Dereferencing</a> process.
-        </p>
-
-        <p>
-The possible properties within this structure and their possible values SHOULD
-be registered in the DID Resolution Extensions [[?DID-EXTENSIONS-RESOLUTION]].
-This specification defines the following common input options:
-        </p>
-
-        <dl>
-          <dt>accept</dt>
-          <dd>
-The media type that the caller prefers for
-<code>contentStream</code>. The value MUST be expressed according to
-the `Accept` header value as defined in [[[RFC9110]]],
-<a data-cite="RFC9110#section-12.5.1">Section 12.5.1</a>. The <a>DID URL dereferencer</a>
-implementation SHOULD use this value to determine the
-<code>contentType</code> of the <a>representation</a>
-contained in the returned value if such a
-<a>representation</a> is supported and available.
-          </dd>
-        </dl>
-        <dl>
-          <dt>verificationRelationship</dt>
-          <dd>
-The verificationRelationship for which the caller expects the verificationMethod
-dereferenced from the DID URL to be authorized. If present, the associated value
-MUST be an <a data-lt="ascii string">ASCII string</a>. If the DID URL does not dereference
-to a verificationMethod, or the DID document does not authorize the
-verificationMethod for the specified verificationRelationship, then an error
-MUST be raised.
-          </dd>
-        </dl>
-      </section>
-
-      <section>
-        <h3>DID URL Dereferencing Metadata</h3>
-
-        <p>
-This is a <a href="#metadata-structure">metadata structure</a> that contains
-metadata about the <a>DID URL Dereferencing</a> process.
-        </p>
-        <p>
-This metadata typically changes between invocations of the
-<a>DID URL Dereferencing</a> function as it represents data about the
-dereferencing process itself.
-        </p>
-        <p>
-The source of this metadata is the <a>DID URL dereferencer</a>.
-        </p>
-
-        <p>
-The possible properties within this structure and their possible values SHOULD
-be registered in the DID Resolution Extensions [[?DID-EXTENSIONS-RESOLUTION]].
-This specification defines the following common metadata properties:
-        </p>
-
-        <dl>
-          <dt>contentType</dt>
-          <dd>
-The Media Type of the returned <code>contentStream</code> SHOULD be
-expressed using this property if dereferencing is successful. The
-Media Type value MUST be expressed as an
-<a data-lt="ascii string">ASCII string</a>.
-          </dd>
-          <dt>error</dt>
-          <dd>
-An error data structure defined in [[RFC9457]]. This property is REQUIRED when
-there is an error in the dereferencing process. The errors defined in this
-specification can be found in Section <a href="#errors"></a>.
-Additional errors SHOULD be registered in the DID Resolution Extensions
-[[?DID-EXTENSIONS-RESOLUTION]].
-          </dd>
-
-          <dt>proof</dt>
-          <dd>
-<p>
-Some <a>DID resolvers</a> and
-<a>DID URL dereferencers</a> use proofs when executing the
-<a>DID Resolution</a> or <a>DID URL Dereferencing</a>
-functions. See <a href="#resolver-architectures"></a> for details.
-</p>
-<p>
-<a>DID URL dereferencing</a> metadata MAY include a
-<code>proof</code> property. If present, the value MUST be a
-<a data-cite="INFRA#sets">set</a> where each item is a
-<a data-cite="INFRA#maps">map</a> that represents a proof. The use
-of this property and the types of proofs are
-<a>DID method</a>-independent.
-</p>
-          </dd>
-        </dl>
-      </section>
-
-      <section>
-        <h3>DID URL Content Metadata</h3>
-
-        <p>
-This is a <a href="#metadata-structure">metadata structure</a> that contains
-metadata about the <a>DID URL Dereferencing</a> process.
-        </p>
-        <p>
-This metadata typically does not change between invocations of the
-<a>DID URL Dereferencing</a> function unless the content changes, as it
-represents data about the content.
-        </p>
-        <p>
-The sources of this metadata are the <a>DID controller</a> and/or the
-<a>DID method</a>.
-        </p>
-
-        <p>
-The possible properties within this structure and their possible values SHOULD
-be registered in the DID Resolution Extensions [[?DID-EXTENSIONS-RESOLUTION]].
-This specification defines no common properties.
-        </p>
-      </section>
-
-      <section id="dereferencing-algorithm">
-        <h2>DID URL Dereferencing Algorithm</h2>
-        <p>
-A <a>DID URL dereferencer</a> implements the following
-<a>DID URL dereferencing</a> algorithm. In accordance with
-[[RFC3986]], it consists of the following three steps: resolving the
-DID; dereferencing the resource; and dereferencing the fragment (only
-if the <var>input <a>DID URL</a></var> contains a
-<a>DID fragment</a>):
-        </p>
-
-        <section id="dereferencing-algorithm-resource">
-          <h2>Dereferencing the Resource</h2>
-          <ol class="algorithm">
-            <li>
-Validate that the <var>input <a>DID URL</a></var> conforms to the `did-url`
-rule of the <a href="https://www.w3.org/TR/did-core/#did-url-syntax">DID URL Syntax</a>.
-If not, the <a>DID URL dereferencer</a> MUST return the following result:
-			<ol class="algorithm">
-				<li>
-<b>dereferencingMetadata</b>: <var>error object</var> with
-type set to <code><a href="#INVALID_DID_URL">https://www.w3.org/ns/did#INVALID_DID_URL</a></code>
-                </li>
-                <li><b>contentStream</b>: <code>null</code></li>
-                <li><b>contentMetadata</b>: <code>«[ ]»</code></li>
-              </ol>
-            </li>
-            <li>
-Obtain the <a>DID document</a> for the <var>input <a>DID</a></var> by executing
-the <a>DID resolution</a> algorithm as defined in <a href="#resolving"></a>.
-All <var>dereferencing options</var> and all <a href="#did-parameters">DID parameters</a>
-of the <var>input <a>DID URL</a></var> MUST be passed as
-<var>resolution options</var> to the <a>DID Resolution</a> algorithm.
-            </li>
-            <li>
-If the <var>input <a>DID</a></var> does not
-exist in the VDR, the <a>DID URL dereferencer</a> MUST return
-the following result:
-<ol class="algorithm">
-<li>
-<b>dereferencingMetadata</b>: <var>error object</var> with
-type set to <code><a href="#NOT_FOUND">https://www.w3.org/ns/did#NOT_FOUND</a></code>
-                </li>
-                <li><b>contentStream</b>: <code>null</code></li>
-                <li><b>contentMetadata</b>: <code>«[ ]»</code></li>
-              </ol>
-            </li>
-            <li>
-Otherwise, the <b>didDocument</b> result of the
-<a>DID resolution</a> algorithm is called the
-<var>resolved <a>DID document</a></var>.
-            </li>
-            <li>
-If present, separate the <a>DID fragment</a> from the
-<var>input <a>DID URL</a></var> and continue with
-the adjusted <var>input <a>DID URL</a></var>.
-            </li>
-            <li>
-If the <var>input <a>DID URL</a></var> contains
-no <a>DID path</a> and no
-<a>DID query</a>:
-<pre class="example nohighlight">did:example:1234</pre>
-The <a>DID URL dereferencer</a> MUST return the
-<var>resolved <a>DID document</a></var> and
-<var>resolved <a href="#did-document-metadata"></a></var> as follows:
-<ol class="algorithm">
-<li><b>dereferencingMetadata</b>: <code>«[ ... ]»</code></li>
-<li>
-<b>contentStream</b>: <code>resolved DID document</code>
-                </li>
-                <li>
-<b>contentMetadata</b>:
-<code>«[ <code>resolved DID document metadata</code> ]»</code>
-                </li>
-              </ol>
-            </li>
-            <li>
-If the <var>input <a>DID URL</a></var> contains
-the <a href="#did-parameters"> DID parameter</a> <code>service</code> and/or
-the <a href="#did-parameters"> DID parameter</a> <code>serviceType</code>, and
-optionally the <a href="#did-parameters">DID parameter</a>
-<code>relativeRef</code>:
-<pre class="example nohighlight">
-did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest
-</pre>
-							<ol class="algorithm">
-								<li>
-From the <var>resolved <a>DID document</a></var>,
-select all <a data-cite="did-core#services">services</a> which fulfill the
-following conditions:
-									<ol class="algorithm">
-										<li>
-If the <var>input <a>DID URL</a></var> contains
-the <a href="#did-parameters">DID parameter</a> <code>service</code>:
-Select the <a data-cite="did-core#services">service</a> if its
-<code>id</code> property matches the value of the
-<code>service</code> DID parameter. If the
-<code>id</code> property or the <code>service</code> DID
-parameter or both contain relative references, the
-corresponding absolute URIs MUST be resolved and used for
-determining the match, using the rules specified in
-<a data-cite="RFC3986#section-5">RFC3986 Section 5: Reference Resolution</a> and in section
-<a data-cite="did-core#relative-did-urls">Relative DID URLs</a> in [[[DID-CORE]]].
-                    </li>
-                    <li>
-If the <var>input <a>DID URL</a></var> contains
-the <a href="#did-parameters">DID parameter</a>
-<code>serviceType</code>: Select the
-<a data-cite="did-core#services">service</a> if its
-<code>type</code> property matches the value of the
-<code>serviceType</code> DID parameter.
-                    </li>
-                  </ol>
-                  The selected <a data-cite="did-core#services">services</a> are a list called
-                  the <var>selected <a>services</a></var>.
-                </li>
-                <li>
-If the <var>input <a>DID URL</a></var> contains the
-<a href="#did-parameters">DID parameter</a> <code>relativeRef</code>:
-									<ol class="algorithm">
-										<li>
-For each <var>selected <a>service</a></var>:
-											<ol class="algorithm">
-												<li>
-If the value of the <code>serviceEndpoint</code> property of the
-<var>selected <a>service</a></var> is
-a <a data-cite="INFRA#maps">map</a>, skip this
-<var>selected <a>service</a></var>.
-                        </li>
-                        <li>
-If the value of the <code>serviceEndpoint</code> property of the
-<var>selected <a>service</a></var>
-is a <a data-cite="INFRA#string">string</a>, add this value
-to a list of
-<var>selected [=DID service endpoint=] URLs</var>.
-                        </li>
-                        <li>
-If the value of the <code>serviceEndpoint</code> property of the
-<var>selected <a>service</a></var> is
-a <a data-cite="INFRA#sets">set</a>, add all its items
-that are <a data-cite="INFRA#string">strings</a> to a list of
-<var>selected [=DID service endpoint=] URLs</var>.
-                        </li>
-                      </ol>
-                    </li>
-                    <li>
-For each <var>selected [=DID service endpoint=] URL</var>,
-execute the algorithm specified in
-<a data-cite="RFC3986#section-5">RFC3986 Section 5: Reference Resolution</a> as follows:
-											<ol class="algorithm">
-												<li>
-The <strong>base URI</strong> value is the
-<var>selected [=DID service endpoint=] URL</var>.
-                        </li>
-                        <li>
-The <strong>relative reference</strong> is the value
-of the <a href="#did-parameters">DID parameter</a>
-<code>relativeRef</code>.
-                        </li>
-                        <li>
-Update the
-<var>selected [=DID service endpoint=] URL</var> to
-the result of the "Reference Resolution" algorithm.
-                        </li>
-                      </ol>
-                      <div class="note">
-                        <p>
-Dereferencing a [=DID service endpoint=] —
-particularly one that is a DID — might result in a
-<dfn>dereferencing cycle</dfn>, which is a set of
-steps that result in an infinite loop. For example, a
-[=DID service endpoint=] might indirectly point back
-through a sequence of dereferencing processes to a
-previously dereferenced identifier. A
-<a>DID URL dereferencer</a> recursively
-dereferencing a [=DID service endpoint=] is advised to
-detect and handle such a cycle to prevent an infinite
-loop or dereferencing failure. For further guidance,
-see Section <a href="#security-cycles-dereferencing">Dereferencing Cycles</a>.
-                        </p>
-                      </div>
-                    </li>
-                  </ol>
-                </li>
-                <li>
-If the <b>accept</b>
-<var>input <a href="#did-url-dereferencing-options">DID URL dereferencing option</a></var>
-is missing, or if its value is the Media Type of a
-<a>representation</a> of a
-<a>DID document</a>:
-<ol class="algorithm">
-<li>
-Update the <a>services</a> in the <var>resolved <a>DID document</a></var> to
-contain only the <var>selected <a>services</a></var>.
-                    </li>
-                    <li>
-Return the following result:
-											<ol class="algorithm">
-												<li>
-<b>dereferencingMetadata</b>: <code>«[ ... ]»</code>
-                        </li>
-                        <li>
-<b>content</b>:
-<code>resolved DID document with selected services</code>
-                        </li>
-                        <li>
-<b>contentMetadata</b>:
-<code>«[ <code>resolved DID document metadata</code> ]»</code>
-                        </li>
-                      </ol>
-                    </li>
-                  </ol>
-                </li>
-                <li>
-If the value of the <b>accept</b>
-<var>input <a href="#did-url-dereferencing-options">DID URL deferencing option</a></var> is
-<b>text/uri-list</b>:
-<ol class="algorithm">
-<li>
-Return the following result:
-<ol class="algorithm">
-<li>
-<b>dereferencingMetadata</b>: <code>«[ ... ]»</code>
-                        </li>
-                        <li>
-<b>content</b>:
-<code>« selected service endpoint URLs »</code>
-                        </li>
-                        <li>
-<b>contentMetadata</b>:
-<code>«[ "contentType" → "text/uri-list", ... ]»</code>
-                        </li>
-                      </ol>
-                    </li>
-                  </ol>
-                </li>
-                <li>
-Otherwise, return the following result:
-									<ol class="algorithm">
-										<li>
-<b>dereferencingMetadata</b>: <var>error object</var> with
-type set to <code><a href="#REPRESENTATION_NOT_SUPPORTED">https://www.w3.org/ns/did#REPRESENTATION_NOT_SUPPORTED</a></code>
-                    </li>
-                    <li><b>content</b>: <code>null</code></li>
-                    <li><b>contentMetadata</b>: <code>«[ ]»</code></li>
-                  </ol>
-                </li>
-              </ol>
-            </li>
-
-            <li>
-Otherwise, if the
-<var>input <a>DID URL</a></var> contains a
-<a>DID path</a> and/or
-<a>DID query</a>:
-<pre class="example nohighlight">
-did:example:1234/custom/path?customquery
-</pre>
-							<ol class="algorithm">
-								<li>
-The applicable <a>DID method</a> MAY specify how
-to dereference the <a>DID path</a> and/or <a>DID query</a> of the
-<var>input <a>DID URL</a></var>.
-<pre class="example nohighlight">
-did:example:1234/resources/1234
-</pre>
-                </li>
-                <li>
-An extension specification MAY specify how to dereference the
-<a>DID path</a> of the
-<var>input <a>DID URL</a></var>.
-<pre class="example nohighlight">did:example:1234/whois</pre>
-                </li>
-                <li>
-An extension specification MAY specify how to dereference the
-<a>DID query</a> of the
-<var>input <a>DID URL</a></var>.
-<pre class="example nohighlight">
-did:example:1234?transformKey=JsonWebKey</pre>
-                </li>
-                <li>
-The client MAY be able to dereference the
-<var>input <a>DID URL</a></var> in an
-application-specific way.
-                </li>
-              </ol>
-            </li>
-            <li>
-If neither this algorithm, nor the applicable
-<a>DID method</a>, nor an extension, nor the client
-is able to dereference the
-<var>input <a>DID URL</a></var>, return the
-following result:
-							<ol class="algorithm">
-								<li>
-<b>dereferencingMetadata</b>: <var>error object</var> with
-type set to <code><a href="#NOT_FOUND">https://www.w3.org/ns/did#NOT_FOUND</a></code>
-                </li>
-                <li><b>contentStream</b>: <code>null</code></li>
-                <li><b>contentMetadata</b>: <code>«[ ]»</code></li>
-              </ol>
-            </li>
-          </ol>
-        </section>
-
-        <section id="dereferencing-algorithm-fragment">
-          <h2>Dereferencing the Fragment</h2>
-          <p>
-If the <var>input <a>DID URL</a></var> contains a
-<a>DID fragment</a>, then dereferencing of the fragment
-is dependent on the media type ([[RFC2046]]) of the resource, i.e.,
-on the result of <a href="#dereferencing-algorithm-resource"></a>.
-          </p>
-          <ol class="algorithm">
-            <li>
-If the result of <a href="#dereferencing-algorithm-resource"></a> is an
-<var>output <a>DID document</a></var>, and the
-<var>input <a href="#did-url-dereferencing-options">DID URL dereferencing options</a></var>
-contain the <code>verificationRelationship</code> option:
-							<ol class="algorithm">
-								<li>
-Let <var>verificationRelationship</var> be the value of the
-<code>verificationRelationship</code>
-option.
-                </li>
-                <li>
-Let <var>verificationMethod</var> be the result of
-dereferencing the <a>DID fragment</a> from the
-<var>output <a>DID document</a></var> according to
-the rules of the media type of the <var>DID document</var>.
-                </li>
-                <li>
-If <var>verificationMethod</var> is not a
-<a data-cite="cid#dfn-conforming-verification-method">conforming verification method</a>,
-an error MUST be raised and SHOULD convey an error type of
-<a data-cite="cid#INVALID_VERIFICATION_METHOD">INVALID_VERIFICATION_METHOD</a>.
-                </li>
-                <li>
-If <var>verificationMethod</var> is not associated, either by
-reference (URL) or by value (object), with the
-<a data-cite="cid#dfn-verification-relationship">verification relationship</a> array in the
-<var>output <a>DID document</a></var> identified
-by <var>verificationRelationship</var>, an error MUST be
-raised and SHOULD convey an error type of
-<a data-cite="cid#INVALID_RELATIONSHIP_FOR_VERIFICATION_METHOD">INVALID_RELATIONSHIP_FOR_VERIFICATION_METHOD</a>.
-                </li>
-                <li>Return the <var>verificationMethod</var>.</li>
-              </ol>
-            </li>
-            <li>
-If the result of <a href="#dereferencing-algorithm-resource"></a> is a
-<var>selected [=DID service endpoint=] URL</var>, and the
-<var>input <a>DID URL</a></var> contains a <a>DID fragment</a>:
-<pre class="example nohighlight">
-did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest#intro
-</pre>
-							<ol class="algorithm">
-								<li>
-If the <var>selected [=DID service endpoint=] URL</var> contains a
-<code>fragment</code> component, raise an error.
-                </li>
-                <li>
-Append the <a>DID fragment</a> to the
-<var>select [=DID service endpoint=] URL</var>. In other
-words, the <var>select [=DID service endpoint=] URL</var> "inherits" the
-<a>DID fragment</a> of the <var>input <a>DID URL</a></var>.
-                </li>
-                <li>
-Return the <var>select [=DID service endpoint=] URL</var>.
-                </li>
-              </ol>
-            </li>
-            <li>
-Otherwise, dereference the DID fragment as defined by the media
-type ([[RFC2046]]) of the resource. For example, if the resource
-is a representation of a DID document with media type
-<code>application/did</code>, then the fragment is treated
-according to the rules associated with the
-<a href="https://www.w3.org/TR/json-ld11/#iana-considerations">JSON-LD 1.1: application/ld+json media type</a> [JSON-LD11].
-            </li>
-          </ol>
-
-          <p class="note">
-This use of the <a>DID fragment</a> is consistent with
-the definition of the fragment identifier in [[RFC3986]]. It
-identifies a <em>secondary resource</em> which is a subset of the
-<em>primary resource</em> (the <a>DID document</a>).
-          </p>
-
-          <p class="note">
-This behavior of the <a>DID fragment</a> is analogous to
-the handling of a fragment in an HTTP URL in the case when
-dereferencing it returns an HTTP <code>3xx</code> (Redirection)
-response with a <code>Location</code> header (see section 7.1.2 of
-[[RFC7231]]).
-          </p>
-        </section>
-      </section>
-
-      <section>
-        <h2>Examples</h2>
-
-        <section>
-          <h3>Example: Dereferencing to verification method</h3>
-          <p>
-Given the following
-<var>input <a>DID URL</a></var>:
-          </p>
-          <pre class="example nohighlight">
-	did:example:123456789abcdefghi#keys-1
-</pre>
-          <p>
-... and the following <var>resolved <a>DID document</a></var>:
-          </p>
-<pre class="example nohighlight">
-	{
-		"@context":[
-			"https://www.w3.org/ns/did/v1.1",
-			"https://didcomm.org/messaging/contexts/v2",
-			"https://identity.foundation/linked-vp/contexts/v1"
-		],
-		"id": "did:example:123456789abcdefghi",
-		"verificationMethod": [{
-			"id": "did:example:123456789abcdefghi#keys-1",
-			"type": "Multikey",
-			"controller": "did:example:123456789abcdefghi",
-			"publicKeyMultibase": "z6MkmM42vxfqZQsv4ehtTjFFxQ4sQKS2w6WR7emozFAn5cxu"
-		}],
-		"service": [{
-			"id": "did:example:123456789abcdefghi#messages",
-			"type": "DIDCommMessaging",
-			"serviceEndpoint": "https://example.com/messages/8377464"
-		}, {
-			"id": "did:example:123456789abcdefghi#linkedvp",
-			"type": "LinkedVerifiablePresentation",
-			"serviceEndpoint": "https://example.com/verifiable-presentation.jsonld"
-		}]
-	}
-</pre>
-          <p>
-... then the result of the <a href="#dereferencing"></a> algorithm
-is the following <var>output resource</var>:
-          </p>
-<pre class="example nohighlight">
-	{
-		"@context": "https://www.w3.org/ns/did/v1.1",
-		"id": "did:example:123456789abcdefghi#keys-1",
-		"type": "Multikey",
-		"controller": "did:example:123456789abcdefghi",
-		"publicKeyMultibase": "z6MkmM42vxfqZQsv4ehtTjFFxQ4sQKS2w6WR7emozFAn5cxu"
-	}
-</pre>
-          <figure id="figure-dereference-to-verification-method">
-            <img
-              style="margin: auto; display: block; width: 100%"
-              src="diagrams/section-5/example-dereference-to-verification-method.svg"
-              alt="Diagram showing how a DID URL can be dereferenced to a verification method"
-            />
-            <figcaption style="text-align: center;">
-Dereferencing a DID URL to a verification method.
-            </figcaption>
-          </figure>
-        </section>
-
-        <section>
-          <h3>Example: Dereferencing to service endpoint URL</h3>
-          <p>
-Given the following
-<var>input <a>DID URL</a></var>:
-          </p>
-<pre class="example nohighlight">
-	did:example:123456789abcdefghi?service=messages&relativeRef=%2Fsome%2Fpath%3Fquery#frag
-</pre>
-          <p>
-... and the same
-<var>resolved <a>DID document</a></var> as in the
-previous section.
-          </p>
-          <p></p>
-          <p>
-... then the result of the <a href="#dereferencing"></a> algorithm
-is the following <var>selected [=DID service endpoint=] URL</var>:
-          </p>
-<pre class="example nohighlight">
-https://example.com/messages/8377464/some/path?query#frag
-</pre>
-          <figure id="figure-dereference-to-service-endpoint-url">
-            <img
-              style="margin: auto; display: block; width: 100%"
-              src="diagrams/section-5/example-dereference-to-service-endpoint-url.svg"
-              alt="Diagram showing how a DID URL can be dereferenced to a service endpoint URL"
-            />
-            <figcaption style="text-align: center">
-Dereferencing a DID URL to a service endpoint URL.
-            </figcaption>
-          </figure>
-        </section>
-      </section>
-    </section>
-
-    <section id="dereferencing-provisional">
-      <h1>PROVISIONAL - DID URL Dereferencing</h1>
       <p>
 Dereferencing means taking a reference to a resource and bringing that
 resource into the current computational context, often by invoking a
@@ -2252,9 +1429,9 @@ this specification being
           and invoke an appropriate handler.
         </p>
       </div>
-      <section id="dereferencing-algorithm-provisional">
+      <section id="dereferencing-algorithm">
         <h1>DID URL Dereferencing Algorithm</h1>
-        <figure id="figure-dereferencing-algorithm-provisional">
+        <figure id="figure-dereferencing-algorithm">
           <img style="
                       margin: auto;
                       display: block;
@@ -2269,25 +1446,25 @@ A visualization of the algorithm for Dereferencing a DID URL, described next.
         </figure>
         <ol class="algorithm">
           <li>
-<a href="#prepare-for-resolution-provisional">Prepare for
+<a href="#prepare-for-resolution">Prepare for
 Resolution</a>
           </li>
           <li>
-<a href="#resolve-the-did-provisional">Resolve the DID</a>
+<a href="#resolve-the-did">Resolve the DID</a>
           </li>
           <li>
-<a href="#determine-handling-strategy-provisional">Determine Handling
+<a href="#determine-handling-strategy">Determine Handling
         Strategy</a>
           </li>
           <li>
-<a href="#invoke-the-handler-provisional">Invoke the Handler</a>
+<a href="#invoke-the-handler">Invoke the Handler</a>
           </li>
           <li>
-<a href="#use-the-handler-result-provisional">Use the Handler
+<a href="#use-the-handler-result">Use the Handler
             Result</a>
           </li>
         </ol>
-        <section id="prepare-for-resolution-provisional">
+        <section id="prepare-for-resolution">
           <h1>Prepare for Resolution</h1>
           <ol>
             <li>
@@ -2325,7 +1502,7 @@ details about resolution options and their meaning.
           </ol>
         </section>
 
-        <section id="resolve-the-did-provisional">
+        <section id="resolve-the-did">
           <h3>Resolve the DID</h3>
           <ol>
             <li>
@@ -2353,7 +1530,7 @@ version of the DID document from a particular point in time.
           </ol>
         </section>
 
-        <section id="determine-handling-strategy-provisional">
+        <section id="determine-handling-strategy">
           <h1>Determine Handling Strategy</h1>
           <p>
 After successfully resolving the DID document and accompanying metadata, the
@@ -2363,7 +1540,7 @@ the DID document and its metadata, along with the path and query components of
 the DID URL, to determine the method for retrieving the resource.
           </p>
           <figure role="group"   
-            id="figure-determine-handling-strategy-provisional">
+            id="figure-determine-handling-strategy">
             <img style=" margin: auto; display: block; width: 100%;
             margin-bottom: 20px; "
             src="diagrams/determine-handling-strategy.svg" alt="Diagram showing
@@ -2380,7 +1557,7 @@ determined. End processing as soon as a strategy is set.
           </p>
           <ol>
             <li>
-              <dfn id="services-step-provisional">Services Step</dfn> 
+              <dfn id="services-step">Services Step</dfn> 
               <p>
 If `service` is present as a DID query Parameter,
 first check whether multiple service parameters are present in the
@@ -2388,23 +1565,23 @@ first check whether multiple service parameters are present in the
 [=DEREFERENCING_ERROR_MULTIPLE_SERVICE_PARAMETERS=] and continue to 
 the <a>Default DID Document step</a>. If there is just
 one service parameter, use the <a
-href="#service-selection-algorithm-provisional">service
+href="#service-selection-algorithm">service
 selection algorithm</a> to select the appropriate service
 object. Then, if there is no matching service object, raise an
 error [=DEREFERENCING_ERROR_SERVICE_NOT_FOUND=] and continue to the <a>Default DID Document Step</a>. If
 the selected object's service type has defined a handling
 strategy, set the strategy to that. If the service type does not
-define a handling strategy, set strategy to the <a href="#default-service-handler-provisional">Default
+define a handling strategy, set strategy to the <a href="#default-service-handler">Default
 Service Handler</a> Strategy. Otherwise, continue with the
 <a>PathHandlers Step</a>. 
               </p>
             </li>
             <li>
-              <dfn id="pathhandlers-step-provisional">PathHandlers Step</dfn>
+              <dfn id="pathhandlers-step">PathHandlers Step</dfn>
               <p>
 If the <a>DID URL</a> contains a non-empty path part, then use
 the <a
-href="#pathHandler-path-matching-algorithm-provisional">PathHandler
+href="#pathHandler-path-matching-algorithm">PathHandler
 Path Matching Algorithm</a> to select a path handler object. If
 no path handler objects are selected, continue to the <a>Document Properties step</a>. If there are multiple handler objects selected,
 raise an error [=DEREFERENCING_ERROR_MULTIPLE_MATCHING_PATH_HANDLERS=] and continue to the <a>Default DID Document Step</a>. If the sole selected path handling object has a
@@ -2413,7 +1590,7 @@ to that strategy. If it doesn't, raise an error [=DEREFERENCING_ERROR_PATH_HANDL
               </p>
             </li>
             <li>
-              <dfn id="document-properties-step-provisional">Document Properties Step</dfn>
+              <dfn id="document-properties-step">Document Properties Step</dfn>
               <p>
 If the DID document contains any properties known to define a
 handler strategy, check whether any of those properties
@@ -2428,7 +1605,7 @@ by that property. Otherwise, continue to the
 <a>Method-Specific Step</a>.
               </p>
             </li>
-            <li><dfn id="method-specific-step-provisional">Method-Specific Step</dfn>
+            <li><dfn id="method-specific-step">Method-Specific Step</dfn>
               <p>
 If the DID method defines a method-specific handler strategy,
 check whether that handler applies to the <a>DID URL</a>. If
@@ -2437,7 +1614,7 @@ method. If there is no applicable method-specific handler
 strategy, continue with the <a>Query Parameters Step</a>. 
               </p>
             </li>
-            <li><dfn id="query-parameters-step-provisional">Query Parameters Step</dfn>
+            <li><dfn id="query-parameters-step">Query Parameters Step</dfn>
               <p>
 If there are query parameters that require a specific handling strategy, check
 to see if there are more than one. If there are, then raise an error [=DEREFERENCING_ERROR_MULTIPLE_QUERY_PARAMETERS=] and
@@ -2451,7 +1628,7 @@ do not impact the dereferencing step.</p>
               
             </li>
             <li>
-              <dfn id="metadata-step-provisional">Metadata Step</dfn> 
+              <dfn id="metadata-step">Metadata Step</dfn> 
               <p>
 If either the DID resolution metadata or DID document metadata contain any
 properties known to define a handler strategy, check to see if any of those
@@ -2463,14 +1640,14 @@ applicable properties, raise an error
 <a>Default DID Document Step</a>.
               </p>
             </li>
-            <li><dfn id="default-did-document-step-provisional">Default DID Document Step</dfn>
+            <li><dfn id="default-did-document-step">Default DID Document Step</dfn>
 If no other handler strategy has been determined, set the 
 strategy to <a
-href="#return-did-document-dereferencing-algorithm-provisional">Return DID Document</a>.
+href="#return-did-document-dereferencing-algorithm">Return DID Document</a>.
             </li>
           </ol>
         </section>
-        <section id="invoke-the-handler-provisional">
+        <section id="invoke-the-handler">
           <h1>Invoke the Handler</h1>
           <ol>
             <li>
@@ -2482,7 +1659,7 @@ and raise an error [=DEREFERENCING_ERROR_HANDLER_NOT_FOUND=].
           </ol>
         </section>
 
-        <section id="use-the-handler-result-provisional">
+        <section id="use-the-handler-result">
           <h1>Use the Handler Result</h1>
           <p>
 The final step is to use the result of invoking the handler to
@@ -2505,7 +1682,7 @@ which dereferencing was initiated. This might involve
           </p>
         </section>
       </section>
-      <section id="service-selection-algorithm-provisional">
+      <section id="service-selection-algorithm">
         <h2>Service Selection Algorithm</h2>
         <p>
 When a DID URL contains a <code>service</code> parameter use the
@@ -2541,11 +1718,11 @@ If more than one service matches, stop further processing and raise an error
 no service is selected.
           </li>
           <li>
-If a single service matches, that service is selected. Continue with the <a href="#services-step-provisional">Services Step</a>.
+If a single service matches, that service is selected. Continue with the <a href="#services-step">Services Step</a>.
           </li>
         </ol>
       </section>
-      <section id="default-service-handler-provisional">
+      <section id="default-service-handler">
         <h2>Default Service Handler</h2>
         <p>
 If a selected service lacks a type with a specific handler, or if the service's
@@ -2627,7 +1804,7 @@ any other DID URL query parameters; to use such handlers, specify the associated
         </p>
       </section>
 
-      <section id="pathHandler-path-matching-algorithm-provisional">
+      <section id="pathHandler-path-matching-algorithm">
         <h2>PathHandler Path Matching Algorithm</h2>
         <p>
 When a DID Document contains a path and one or more objects with a type of
@@ -2679,7 +1856,7 @@ and return an error [=DEREFERENCING_ERROR_MULTIPLE_MATCHING_PATH_HANDLERS=].
       </p>
       </section>
 
-      <section id="return-did-document-dereferencing-algorithm-provisional">
+      <section id="return-did-document-dereferencing-algorithm">
         <h2>Return DID Document</h2>
         <p>
 When invoking this handler, simply return the DID Document retrieved
@@ -2696,26 +1873,26 @@ from Resolve, including any dereferencing errors that may have been raised.
             <dd>
 A generic or unclassified internal error occurred, causing the overall
 dereferencing process to fail. (<a
-href="#use-the-handler-result-provisional">Use the Handler Result</a>)
+href="#use-the-handler-result">Use the Handler Result</a>)
             </dd>
 
             <dt><dfn>DEREFERENCING_ERROR_HANDLER_NOT_FOUND</dfn></dt>
             <dd>
 No handler is available for the indicated handling strategy. (<a
-href="#invoke-the-handler-provisional">Invoke the Handler</a>)
+href="#invoke-the-handler">Invoke the Handler</a>)
             </dd>
 
             <dt><dfn>DEREFERENCING_ERROR_MULTIPLE_DOCUMENT_PROPERTIES</dfn></dt>
             <dd>
 The dereferencing process encountered multiple conflicting document properties
 when attempting to dereference the DID URL. (<a
-href="#document-properties-step-provisional">Document Properties Step</a>)
+href="#document-properties-step">Document Properties Step</a>)
             </dd>
 
             <dt><dfn>DEREFERENCING_ERROR_MULTIPLE_MATCHING_PATH_HANDLERS</dfn></dt>
             <dd>
  The dereferencing process found multiple distinct path handlers that match the
- requested path. (<a href="#pathhandlers-step-provisional">PathHandlers
+ requested path. (<a href="#pathhandlers-step">PathHandlers
  Step</a>)
             </dd>
 
@@ -2723,18 +1900,18 @@ href="#document-properties-step-provisional">Document Properties Step</a>)
             <dd>
 Resolution Metadata contains multiple conflicting properties, preventing a
 definitive selection for dereferencing. (<a
-href="#metadata-step-provisional">Metadata Step</a>)
+href="#metadata-step">Metadata Step</a>)
             </dd>
 
             <dt><dfn>DEREFERENCING_ERROR_MULTIPLE_QUERY_PARAMETERS</dfn></dt>
             <dd>
 The DID URL contains multiple, incompatible query parameters. (<a
-href="#query-parameters-step-provisional">Query Parameters Step</a>)
+href="#query-parameters-step">Query Parameters Step</a>)
             </dd>
             <dt><dfn>DEREFERENCING_ERROR_MULTIPLE_SERVICE_PARAMETERS</dfn></dt>
             <dd>
 The DID URL contains multiple service parameters. (<a
-href="#services-step-provisional">Sevices Parameter Step</a>)
+href="#services-step">Sevices Parameter Step</a>)
             </dd>
 
             <dt><dfn>DEREFERENCING_ERROR_MULTIPLE_MATCHING_SERVICES</dfn></dt>
@@ -2742,7 +1919,7 @@ href="#services-step-provisional">Sevices Parameter Step</a>)
   The dereferencing process identified multiple matching service
   endpoints based on the URL parameters, preventing an unambiguous
   selection.
-  (<a href="#services-step-provisional">Services Step</a>, <a href="#service-selection-algorithm-provisional">Service Selection Algorithm</a>)
+  (<a href="#services-step">Services Step</a>, <a href="#service-selection-algorithm">Service Selection Algorithm</a>)
             </dd>
 
             <dt><dfn>DEREFERENCING_ERROR_NO_SERVICE_ENDPOINTS_SUCCEED</dfn></dt>
@@ -2750,7 +1927,7 @@ href="#services-step-provisional">Sevices Parameter Step</a>)
   Valid service endpoints were identified and network interactions
   were attempted, but none of the requests returned a successful
   response.
-  (<a href="#default-service-handler-provisional">Default Service Handler</a>)
+  (<a href="#default-service-handler">Default Service Handler</a>)
             </dd>
             <dt><dfn>DEREFERENCE_ERROR_PATH_NORMALIZATION_ERROR</dfn>
             </dt>
@@ -2758,7 +1935,7 @@ href="#services-step-provisional">Sevices Parameter Step</a>)
               The DID URL contains a path that normalizes to a URL outside the
               perview of the selected service endpoint. The DID URL path
               overwrote the path part of the service endpoint.
-              (<a href="#default-service-handler-provisional">Default
+              (<a href="#default-service-handler">Default
 Service Handling Algorithm</a>)
             </dd>
 
@@ -2767,7 +1944,7 @@ Service Handling Algorithm</a>)
   The DID URL contains a path and the DID Document contains a matching PathHandler
   object, but no appropriate handler is defined or registered within the
   dereferencing environment to process it.
-  (<a href="#pathhandlers-step-provisional">PathHandlers Step</a>)
+  (<a href="#pathhandlers-step">PathHandlers Step</a>)
             </dd>
 
             <dt><dfn>DEREFERENCING_ERROR_RESOLUTION_ERROR</dfn></dt>
@@ -2775,7 +1952,7 @@ Service Handling Algorithm</a>)
   The dereferencing process failed because the underlying identifier
   resolution process encountered an error before dereferencing could
   be completed.
-  (<a href="#resolve-the-did-provisional">Resolve the DID</a>)
+  (<a href="#resolve-the-did">Resolve the DID</a>)
             </dd>
 
             <dt><dfn>DEREFERENCING_ERROR_SERVICE_NOT_FOUND</dfn></dt>
@@ -2783,7 +1960,7 @@ Service Handling Algorithm</a>)
   The specific service referenced during the dereferencing process
   (e.g., via a <code>service</code> query parameter) was not found
   in the resolved document.
-  (<a href="#services-step-provisional">Services Step</a>)
+  (<a href="#services-step">Services Step</a>)
             </dd>
           </dl> 
         </p>
