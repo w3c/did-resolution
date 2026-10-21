@@ -933,7 +933,8 @@ determining how to parse and process the <code>didDocument</code>.
 An error data structure is defined in [[RFC9457]]. The errors defined by this
 specification can be found in Section <a href="#errors"></a>.
 Additional errors SHOULD be registered in the DID Resolution Extensions
-[[?DID-EXTENSIONS-RESOLUTION]].
+[[?DID-EXTENSIONS-RESOLUTION]], together with the URL that their defining
+specification gives them (see Section <a href="#errors"></a>).
           </dd>
 
           <dt>proof</dt>
@@ -2051,7 +2052,10 @@ used as <a href="#did-resolution-metadata">DID resolution metadata</a> if a
 
 <pre class="example" title="JSON-encoded DID resolution metadata example">
 {
-"error": "notFound"
+  "error": {
+    "type": "https://www.w3.org/ns/did#NOT_FOUND",
+    "title": "DID not found"
+  }
 }
 </pre>
 
@@ -2061,7 +2065,10 @@ This example corresponds to a metadata structure of the following format:
 
 <pre class="example" title="DID resolution metadata example">
 «[
-"error" → "notFound"
+  "error" → «[
+    "type" → "https://www.w3.org/ns/did#NOT_FOUND",
+    "title" → "DID not found"
+  ]»
 ]»
 </pre>
 
@@ -2805,9 +2812,7 @@ Implementers SHOULD use [[RFC9457]] to encode the error data structure. If
 
       <ul>
         <li>
-The `type` value of the error object MUST be a URL. Where the values listed in
-the section below do not define a URL, the values MUST be prepended with the URL
-`https://www.w3.org/ns/did#`.
+The `type` value of the error object MUST be a URL.
         </li>
         <li>
 The `title` value SHOULD provide a short but specific human-readable string for
@@ -2819,8 +2824,9 @@ The `detail` value SHOULD provide a longer human-readable string for the error.
       </ul>
 
       <p>
-A specification that defines an error type not defined in this section MAY
-declare that it refines one of the error types defined in this section.
+A specification that defines an error type not defined in this section MUST
+define the URL to use as its `type` value, and MAY declare that it refines one
+of the error types defined in this section.
 A binding defined in Section <a href="#bindings"></a> can use such a
 declaration to determine how to convey that error type.
       </p>
@@ -3884,6 +3890,10 @@ the section related to the <a data-cite="DID#acknowledgements">history of DIDs</
           status code is now determined by the implementation. A
           specification that defines an error type can declare which error
           type defined in this specification it refines.</li>
+        <li><strong>URLs for Other Error Types</strong>: A specification that
+          defines an error type now has to define its URL. The rule for
+          prepending <code>https://www.w3.org/ns/did#</code>, which no longer
+          applied to any error type, is removed.</li>
       </ul>
       <p>Changes since the First Public Working Draft include:</p>
       <ul>
