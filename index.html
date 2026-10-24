@@ -3406,7 +3406,7 @@ When a <a>DID URL dereferencer</a> client dereferences identifiers
 and linked resources in a <a>DID document</a> — especially
 fields like <code>verificationMethod</code>, <code>controller</code>,
 or <code>alsoKnownAs</code> — it might encounter a
-<a>dereferencing cycle</a>. These can occur when a
+dereferencing cycle. These can occur when a
 <a>DID document</a> references another DID (or URL) that
 eventually leads back to a previously dereferenced identifier, forming
 a loop. A <a>DID URL dereferencer</a> can also encounter such a
@@ -3477,9 +3477,8 @@ security implications that implementers are advised to consider carefully.
 The percent-decoded value of the `relativeRef` DID parameter is combined with
 the `serviceEndpoint` URL as the base URI using the reference resolution
 algorithm defined in <a data-cite="RFC3986#section-5">RFC3986 Section 5</a>, to construct a final
-resource URL (see <a href="#dereferencing-algorithm-resource"></a>). If the value of
-`relativeRef` contains path traversal sequences, an attacker might be able to
-cause the dereferencer to construct a resource URL that escapes the intended
+resource URL. If the value of `relativeRef` contains path traversal sequences, an attacker
+might be able to cause the dereferencer to construct a resource URL that escapes the intended
 path scope of the service endpoint.
           </p>
 
