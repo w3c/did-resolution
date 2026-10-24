@@ -1532,8 +1532,7 @@ This involves analyzing the contents of the [=DID resolution result=], including
 the DID document and its metadata, along with the path and query components of
 the DID URL, to determine the method for retrieving the resource.
           </p>
-          <figure role="group"   
-            id="figure-determine-handling-strategy">
+          <figure id="figure-determine-handling-strategy">
             <img style=" margin: auto; display: block; width: 100%;
             margin-bottom: 20px; "
             src="diagrams/determine-handling-strategy.svg" alt="Diagram showing
@@ -1745,13 +1744,13 @@ use it. If `serviceEndpoint` is instead an array, randomly pick one of the
 service's <code>serviceEndpoint</code> values as a starting point. Since each
 value in the array is expected to resolve to the same set of resources (and any
 given DID URL triggering that service will retrieve the same resource from any
-of the endpoints), successfully dreferencing any one of them is sufficient.
+of the endpoints), successfully dereferencing any one of them is sufficient.
 Implementations MUST keep track of each endpoint as it is attempted, so that
 each is exercised until either a successful result is returned or the complete
 set of endpoints has been attempted. In other words raise a failure error
 [=DEREFERENCING_ERROR_NO_SERVICE_ENDPOINTS_SUCCEED=] only after all of the
 endpoints fail.
-<code><pre>serviceEndpoint = "https://example.com/didimages/"</pre></code>
+<pre><code>serviceEndpoint = "https://example.com/didimages/"</code></pre>
           </li>
           <li>
 <strong>Determine Resource Path</strong> Construct the resource path by
@@ -1762,11 +1761,11 @@ path as the `pathExtension`. The pathExtension in the above example is
 part of the DID URL
 `/image.png`.
 
-<code><pre>pathExtension = "image.png";</pre></code>
+<pre><code>pathExtension = "image.png";</code></pre>
 
 Append the pathExtension to the path part of the `serviceEndpoint` to
-define the <code>resourchPath</code>.
-<code><pre>resourcePath = /didimages/image.png</pre></code>
+define the <code>resourcePath</code>.
+<pre><code>resourcePath = /didimages/image.png</code></pre>
           </li>
           <li>
 <strong>Normalize Path</strong> Normalize the resulting `ResourcePath` to create
@@ -1781,7 +1780,7 @@ a `NormalizedResourcePath` by removing dot segments, as defined in
 <strong>Construct Resource URLs</strong> Replace the path part in the selected
 serviceEndpoint with the Normalized Resource Path, leaving all other elements of
 the service endpoint URLs the same.
-            <code><pre>ResourceUrl = https://example.com/didimages/image.png</pre></code>
+            <pre><code>ResourceUrl = https://example.com/didimages/image.png</code></pre>
           </li>
           <li>
 <strong>Dereference Resource URL</strong> Dereference the resulting
