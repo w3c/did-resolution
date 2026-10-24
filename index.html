@@ -1330,11 +1330,11 @@ absolute <a>DID URLs</a>.
           <li>
 Return the following result:
 						<ol class="algorithm">
-							<li><b>didResolutionMetadata</b>: <code>«[ ... ]»</code></li>
+							<li><b>didResolutionMetadata</b>: <code>«[ "contentType" → </code><var>output DID document media type</var><code>, ... ]»</code></li>
 							<li><b>didDocument</b>: <var>output DID document</var></li>
 							<li>
 <b>didDocumentMetadata</b>:
-<code>«[ "contentType" → </code><var>output DID document media type</var><code>, ... ]»</code>
+<code>«[ ... ]»</code>
               </li>
             </ol>
           </li>
@@ -3706,6 +3706,9 @@ the section related to the <a data-cite="DID#acknowledgements">history of DIDs</
           HTTP(S) Binding, its examples and its OpenAPI definition no longer
           cover DID URL dereferencing, and the conformance class of a
           network-based DID URL dereferencer is removed.</li>
+        <li><strong>Location of <code>contentType</code></strong>: The DID
+          Resolution algorithm now returns <code>contentType</code> in the
+          DID resolution metadata, where it is defined.</li>
       </ul>
       <p>Changes since the First Public Working Draft include:</p>
       <ul>
