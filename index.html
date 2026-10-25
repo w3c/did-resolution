@@ -317,14 +317,12 @@ following:<br> `resolve("did:example:123",
 {"versionTime":"2021-05-10T17:00:00Z"})` Or a client could dereference
 a DID URL like
 <code>did:example:123?service=files&relativeRef=/resume.pdf</code>
-(see <a href="#example-dereferencing-to-service-endpoint-url">here for detailed example</a>)
 to fetch a user's resume stored via a service declared in the DID document.
         </p>
         <p>
 Further, the specification's <a href="#dereferencing-algorithm">DID URL dereferencing algorithm</a>
 shows how a client can follow a fragment (e.g., `#key-1`) to extract a
-particular <a>verification method</a> from the <a>DID document</a>
-(see <a href="#example-dereferencing-to-verification-method">here for detailed example</a>).
+particular <a>verification method</a> from the <a>DID document</a>.
 Implementers are encouraged to validate their resolver against the
 <a href="https://github.com/w3c/did-resolution-test-suite">DID Resolution Test Suite</a>
 which exercises normative MUSTs and error conditions (such as invalid DIDs,
@@ -540,13 +538,11 @@ collision with other uses of the same DID parameter with different semantics.
       <p>
 The <a>DID resolution</a> and the
 <a>DID URL dereferencing</a> functions can be influenced by passing
-<a href="#did-resolution-options">DID resolution options</a> or
-<a href="#did-url-dereferencing-options">DID URL dereferencing options</a> to a
-<a>DID resolver</a> or <a>DID URL dereferencer</a>. Such
-options are not part of the <a>DID</a> or
+<a href="#did-resolution-options">DID resolution options</a> to a
+<a>DID resolver</a>. Such options are not part of the <a>DID</a> or
 <a>DID URL</a>. This is comparable to HTTP, where
 certain parameters could either be included in an HTTP URL, or
-alternatively passed as HTTP headers during the dereferencing process.
+alternatively passed as HTTP headers.
       </p>
 
       <section id="datetime">
@@ -626,7 +622,7 @@ path separators and query characters (e.g.,
 `relativeRef=%2Fresume.pdf%3Fversion%3D2`). Avoid decoding these as part of
 query-level normalization, as the encoded form is intentional and necessary for
 the value to be correctly interpreted as a relative reference during
-dereferencing (see <a href="#dereferencing-algorithm-resource">Dereferencing the Resource</a>).
+dereferencing.
           </p>
         </section>
 
@@ -2525,11 +2521,9 @@ algorithm may be performed by different components of a
 
           <p>
 Specifically, when a <a>DID URL</a> with a
-<a>DID fragment</a> is dereferenced, then
-<a href="#dereferencing-algorithm-resource">Dereferencing the Resource</a>
-is done by the <a>DID resolver</a>, and
-<a href="#dereferencing-algorithm-fragment">Dereferencing the Fragment</a>
-is done by the <a>client</a>.
+<a>DID fragment</a> is dereferenced, the
+fragment is handled by the <a>client</a> in
+<a href="#use-the-handler-result">using the DID URL dereferencing handler result</a>.
           </p>
         </section>
       </section>
@@ -2540,11 +2534,11 @@ is done by the <a>client</a>.
         <p>
 Given the <a>DID URL</a>
 <code>did:xyz:1234#keys-1</code>, a <a>DID resolver</a>
-could be invoked via <a>local binding</a> for
-<a href="#dereferencing-algorithm-resource">Dereferencing the Resource</a>
-(i.e., the <a>DID document</a>), and the <a>client</a> could complete the
+could be invoked via <a>local binding</a> to execute the
+<a href="#resolving-algorithm">DID resolution algorithm</a>,
+and the <a>client</a> completes the
 <a>DID URL dereferencing</a> algorithm by
-<a href="#dereferencing-algorithm-fragment">Dereferencing the Fragment</a>
+<a href="#use-the-handler-result">dereferencing the fragment</a>
 (i.e., a part of the <a>DID document</a>).
         </p>
 
@@ -2563,12 +2557,11 @@ Client-side dereferencing of a <a>DID URL</a> by a
         <p>
 Given the <a>DID URL</a>
 <code>did:xyz:1234?service=agent&relativeRef=%2Fsome%2Fpath%3Fquery#frag</code>,
-a <a>DID resolver</a> could be invoked for
-<a href="#dereferencing-algorithm-resource">Dereferencing the Resource</a>
-(i.e., a [=DID service endpoint=] URL), and the <a>client</a> could complete the
-<a>DID URL dereferencing</a> algorithm by
-<a href="#dereferencing-algorithm-fragment">Dereferencing the Fragment</a>
-(i.e., a [=DID service endpoint=] URL with a fragment).
+a <a>DID resolver</a> is invoked to execute the
+<a href="#resolving-algorithm">DID resolution algorithm</a>,
+and the <a>client</a> completes the remainder of the
+<a>DID URL dereferencing</a> algorithm, processing the query parameters,
+dereferencing a resource, and then dereferencing the fragment within that resource.
         </p>
 
         <figure id="figure-client-side-dereferencing-2">
@@ -2591,11 +2584,11 @@ Client-side dereferencing of a <a>DID URL</a> by a
         <p>
 Given the <a>DID URL</a> <code>did:xyz:1234#keys-1</code>, a <a>DID resolver</a>
 could be invoked via <a>local binding</a>, which invokes
-another <a>DID resolver</a> via <a>remote binding</a> for
-<a href="#dereferencing-algorithm-resource">Dereferencing the Resource</a>
-(i.e., the <a>DID document</a>), and the <a>client</a> could complete the
+another <a>DID resolver</a> via <a>remote binding</a> to execute the
+<a href="#resolving-algorithm">DID resolution algorithm</a>,
+and the <a>client</a> completes the
 <a>DID URL dereferencing</a> algorithm by
-<a href="#dereferencing-algorithm-fragment">Dereferencing the Fragment</a>
+<a href="#use-the-handler-result">dereferencing the fragment</a>
 (i.e., a part of the <a>DID document</a>).
         </p>
 
