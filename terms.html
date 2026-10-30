@@ -6,7 +6,7 @@ included whenever they appear in this specification.
 
 <dl class="termlist">
   <dt><dfn>binding</dfn></dt>
-  <dd>A concrete mechanism through which a <a>client</a> invokes a <a>DID resolver</a>. This could be a <a>local binding</a> such as a local command line tool or library API, or a <a>remote binding</a> such as the <a href="#bindings-https">HTTP(S) binding</a>. See Section <a href="#resolver-architectures"></a>.</dd>
+  <dd>A concrete mechanism through which a <a>client</a> invokes a <a>DID resolver</a>. This could be a <a>local binding</a> such as a local command line tool or library API, or a <a>remote binding</a> such as the <a href="#bindings-https">HTTP(S) binding</a>.</dd>
 
   <dt><dfn>client</dfn></dt>
   <dd>Software and/or hardware that invokes a <a>DID resolver</a> in order to
@@ -49,13 +49,11 @@ included whenever they appear in this specification.
 
   <dt><dfn data-lt="">local binding</dfn></dt>
   <dd>A <a>binding</a> where the <a>client</a> invokes a <a>DID resolver</a> that runs on the same network host, e.g., via a local command line tool or library API.
-    In this case, the <a>DID resolver</a> is sometimes also called a "local <a>DID resolver</a>".
-    See Section <a href="#resolver-architectures"></a>.</dd>
+    In this case, the <a>DID resolver</a> is sometimes also called a "local <a>DID resolver</a>".</dd>
 
   <dt><dfn data-lt="">remote binding</dfn></dt>
   <dd>A <a>binding</a> where the <a>client</a> invokes a <a>DID resolver</a> that runs on a different network host, e.g., via the <a href="#bindings-https">HTTP(S) binding</a>.
-    In this case, the <a>DID resolver</a> is sometimes also called a "remote <a>DID resolver</a>".
-    See Section <a href="#resolver-architectures"></a>.</dd>
+    In this case, the <a>DID resolver</a> is sometimes also called a "remote <a>DID resolver</a>".</dd>
 
   <dt><dfn data-lt="service">services</dfn></dt>
   <dd>
@@ -68,7 +66,7 @@ included whenever they appear in this specification.
   <dt><dfn data-lt="">unverifiable resolution</dfn></dt>
   <dd> A low confidence implementation of a <a>DID method's</a> "Resolve" operation between the
     <a>DID resolver</a> and the <a>verifiable data registry</a>, to obtain the <a>DID document</a>.
-    There is no guarantee about the integrity and correctness of the result. See Section <a href="#method-architectures"></a>.</dd>
+    There is no guarantee about the integrity and correctness of the result.</dd>
 
   <dt><dfn data-lt="">verification method</dfn></dt>
   <dd>
@@ -91,8 +89,7 @@ included whenever they appear in this specification.
   <dt><dfn data-lt="">verifiable resolution</dfn></dt>
   <dd> A high confidence implementation of a <a>DID method's</a> "Resolve" operation between the
     <a>DID resolver</a> and the <a>verifiable data registry</a>, to obtain the <a>DID document</a>.
-    There are guarantees about the integrity and correctness of the result to the extent possible under the applicable <a>DID method</a>.
-    See Section <a href="#method-architectures"></a>.</dd>
+    There are guarantees about the integrity and correctness of the result to the extent possible under the applicable <a>DID method</a>.</dd>
 
   <dt><dfn data-lt="UUID|UUIDs">Universally Unique Identifier</dfn> (UUID)</dt>
   <dd>
