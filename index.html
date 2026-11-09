@@ -1372,7 +1372,7 @@ DIDs allow for a number of distinct handling strategies to enable DID
 URLs that refer to resources made available in a variety of ways,
 including web-based resources, resources embedded in DID
 Documents, resources secured by integrity proofs in DID documents, and
-resources stored "on chain" with a decentalized system.
+resources stored "on chain" with a decentralized system.
       </p>
       <p>
 Regardless of the appropriate handling strategy, all DID URL
@@ -1491,7 +1491,7 @@ details about resolution options and their meaning.
         </section>
 
         <section id="resolve-the-did">
-          <h3>Resolve the DID</h3>
+          <h1>Resolve the DID</h1>
           <ol>
             <li>
 <strong>Call</strong> the <a href="https://www.w3.org/TR/did-core/#dfn-did-resolution">resolve</a> function on the
@@ -1502,7 +1502,7 @@ document</a> for the <var>input <a>DID URL</a></var>.
             <li>
 <strong>Interpret</strong> the response to resolve to consider any errors or
 warnings. If appropriate, return without further processing and raise a
-[=DEREFERENCING_ERROR_RESOLUTION_ERROR=] that includes he error returned from
+[=DEREFERENCING_ERROR_RESOLUTION_ERROR=] that includes the error returned from
 the Resolve Operation. Otherwise, continue processing if the response provided
 enough information to do so.
             </li>
@@ -1510,7 +1510,7 @@ enough information to do so.
 <strong>Repeat</strong> as necessary until the final resolution result is
 returned. In cases when the initial result from resolution is incomplete or
 fails, the client may be able to adjust the resolution parameters and try again,
-based on the context in which dereferencing is occuring. For example, a resolver
+based on the context in which dereferencing is occurring. For example, a resolver
 might require more input, or the client might heuristically attempt alternate
 resolver options to find a more appropriate DID document, such as requesting a
 version of the DID document from a particular point in time.
@@ -1670,14 +1670,14 @@ which dereferencing was initiated. This might involve
         </section>
       </section>
       <section id="service-selection-algorithm">
-        <h2>Service Selection Algorithm</h2>
+        <h1>Service Selection Algorithm</h1>
         <p>
 When a DID URL contains a <code>service</code> parameter use the
 following algorithm to determine which service should be used for
 dereferencing the DID URL.
         </p>
         <pre class="example
-        nohighlight">did:example:1234?service=%23files
+        nohighlight">did:example:1234?service=files
         </pre>
         <ol>
           <li>
@@ -1710,7 +1710,7 @@ If a single service matches, that service is selected. Continue with the <a href
         </ol>
       </section>
       <section id="default-service-handler">
-        <h2>Default Service Handler</h2>
+        <h1>Default Service Handler</h1>
         <p>
 If a selected service lacks a type with a specific handler, or if the service's
 only `type` value is `PathHandler`, use this default handler strategy. When
@@ -1720,7 +1720,7 @@ invoked, execute the following algorithm.
         <p>Consider the following DID URL and DID Document section:
         </p>
         <pre class="example">
-          <code>did:example:abc/image.png?service=#FileServer</code>
+          <code>did:example:abc/image.png?service=FileServer</code>
         <code>
       service : [{
         "id":"#FileServer",
@@ -1731,7 +1731,7 @@ invoked, execute the following algorithm.
           "https://example.com/lastImages/"]
       ...
       }]</code></pre>
-        </p>
+
         <ol>
           <li>
 <strong>Select Service Endpoint</strong> If `serviceEndpoint` is a single value,
@@ -1769,7 +1769,7 @@ a `NormalizedResourcePath` by removing dot segments, as defined in
 `NormalizedResourcePath` to see if the leftmost characters of the
 `NormalizedResourcePath` match the leftmost characters of the path part of the
 `serviceEndpoint`. If they do not match, raise an error
-[=DEREFERENCE_ERROR_PATH_NORMALIZATION_ERROR=].
+[=DEREFERENCING_ERROR_PATH_NORMALIZATION_ERROR=].
           </li>
           <li>
 <strong>Construct Resource URLs</strong> Replace the path part in the selected
@@ -1792,7 +1792,7 @@ any other DID URL query parameters; to use such handlers, specify the associated
       </section>
 
       <section id="pathHandler-path-matching-algorithm">
-        <h2>PathHandler Path Matching Algorithm</h2>
+        <h1>PathHandler Path Matching Algorithm</h1>
         <p>
 When a DID Document contains a path and one or more objects with a type of
 <code>PathHandler</code> use the following algorithm to determine
@@ -1830,7 +1830,7 @@ linkedResource : [{
 
             <p>
 In this scenario, the linkedResource with id <code>SecuredImage</code> would be
-selected and it's handling strategy would be defined by the
+selected and its handling strategy would be defined by the
 LinkedResource specification.
             </p>
 
@@ -1840,18 +1840,18 @@ If two or more objects have the same length match, stop processing
 and return an error [=DEREFERENCING_ERROR_MULTIPLE_MATCHING_PATH_HANDLERS=].
           </li>
         </ol>
-      </p>
+
       </section>
 
       <section id="return-did-document-dereferencing-algorithm">
-        <h2>Return DID Document</h2>
+        <h1>Return DID Document</h1>
         <p>
 When invoking this handler, simply return the DID Document retrieved
 from Resolve, including any dereferencing errors that may have been raised.
         </p>
       </section>
       <section>
-        <h3>Dereferencing Errors</h3>
+        <h1>Dereferencing Errors</h1>
         <p>
           Dereferencing may produce several distinct errors, described below.
           Clients SHOULD use these errors when appropriate.
@@ -1898,7 +1898,7 @@ href="#query-parameters-step">Query Parameters Step</a>)
             <dt><dfn>DEREFERENCING_ERROR_MULTIPLE_SERVICE_PARAMETERS</dfn></dt>
             <dd>
 The DID URL contains multiple service parameters. (<a
-href="#services-step">Sevices Parameter Step</a>)
+href="#services-step">Services Parameter Step</a>)
             </dd>
 
             <dt><dfn>DEREFERENCING_ERROR_MULTIPLE_MATCHING_SERVICES</dfn></dt>
@@ -1916,11 +1916,11 @@ href="#services-step">Sevices Parameter Step</a>)
   response.
   (<a href="#default-service-handler">Default Service Handler</a>)
             </dd>
-            <dt><dfn>DEREFERENCE_ERROR_PATH_NORMALIZATION_ERROR</dfn>
+            <dt><dfn>DEREFERENCING_ERROR_PATH_NORMALIZATION_ERROR</dfn>
             </dt>
             <dd>
               The DID URL contains a path that normalizes to a URL outside the
-              perview of the selected service endpoint. The DID URL path
+              purview of the selected service endpoint. The DID URL path
               overwrote the path part of the service endpoint.
               (<a href="#default-service-handler">Default
 Service Handling Algorithm</a>)
@@ -2250,7 +2250,7 @@ invalid.
         </dd>
         <dt id="INTERNAL_ERROR">INTERNAL_ERROR</dt>
         <dd>
-An unexpected error occured during <a>DID Resolution</a> or
+An unexpected error occurred during <a>DID Resolution</a> or
 <a>DID URL dereferencing</a>.
 <div><code>https://www.w3.org/ns/did#INTERNAL_ERROR</code></div>
         </dd>
