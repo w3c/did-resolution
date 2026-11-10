@@ -245,7 +245,7 @@ them to <a href="mailto:public-did-wg@w3.org">public-did-wg@w3.org</a>
 
       <p class="issue atrisk">
 The definition of the <a>DID URL dereferencing</a> feature is currently marked as
-<dfn>at risk</dfn> and will likely be changed or removed from the
+<dfn>at risk</dfn> and could be changed or removed from the
 specification. The Working Group is seeking feedback from implementers
 regarding the value of the feature as defined by this specification.
       </p>
@@ -1402,21 +1402,11 @@ to be used for any specific handling strategy. How these settings are
 exposed to the user is outside the scope of this specification.
       </p>
       <p class="issue atrisk">
-The dereferencing algorithm in this section is an alternative approach to the one in 
-the previous section and is currently marked as [=at risk=].
-The Working Group is likely to converge on a revision to the dereferencing algorithms in 
-this specification being
-<a href="https://github.com/w3c/did-resolution/pull/344">discussed here</a>.
-        </p>
-      <div class="note">
-        <p>
-          The Working Group is currently exploring this new
-          DID URL Dereferencing algorithm, which has a more modular
-          approach than the previous one, and is based on using the DID URL
-          and the result from Resolution to determine a handling strategy
-          and invoke an appropriate handler.
-        </p>
-      </div>
+The dereferencing algorithm in this section is marked as [=at risk=] and
+could be changed or removed from the specification. The Working Group is
+seeking feedback from implementers regarding the value of the feature as
+defined by this specification.
+      </p>
       <section id="dereferencing-algorithm">
         <h1>DID URL Dereferencing Algorithm</h1>
         <figure id="figure-dereferencing-algorithm">
@@ -3085,6 +3075,16 @@ the section related to the <a data-cite="DID#acknowledgements">history of DIDs</
           status code is now determined by the implementation. A
           specification that defines an error type can declare which error
           type defined in this specification it refines.</li>
+        <li><strong>New DID URL Dereferencing Algorithm</strong>: The original
+          DID URL dereferencing algorithm is replaced, and the new one is marked
+          as [=at risk=]. A <a>client</a> resolves the DID, determines a
+          handling strategy from the DID URL and the DID resolution result,
+          and invokes a handler that implements that strategy. The handling
+          strategy can be selected by a <code>service</code> parameter, by a
+          <code>PathHandler</code> object matched against the DID URL path,
+          by DID document properties, by the DID method, by query
+          parameters, or by DID resolution or DID document metadata.
+          The terms "DID-enabled application" and "DID URL User" are added.</li>
         <li><strong>DID URL Dereferencing over HTTP(S)</strong>: The
           HTTP(S) Binding, its examples and its OpenAPI definition no longer
           cover DID URL dereferencing, and the conformance class of a
@@ -3101,6 +3101,16 @@ the section related to the <a data-cite="DID#acknowledgements">history of DIDs</
           defines an error type now has to define its URL. The rule for
           prepending <code>https://www.w3.org/ns/did#</code>, which no longer
           applies to any error type, is removed.</li>
+        <li><strong>DID URL Dereferencing Result</strong>: The DID URL
+          dereferencing result data structure and its
+          <code>application/did-url-dereferencing</code> media type are
+          removed because the new DID URL dereferencing algorithm does not
+          return a result.</li>
+        <li><strong>DID Resolution Architectures</strong>: The section on
+          DID resolution architectures is removed for this version of the
+          specification. It covered method architectures, resolver architectures
+          (multiple methods, proxied resolution and client-side dereferencing)
+          and examples.</li>
       </ul>
       <p>Changes since the First Public Working Draft include:</p>
       <ul>
@@ -3153,13 +3163,9 @@ the section related to the <a data-cite="DID#acknowledgements">history of DIDs</
         <li><strong>DID URL Dereferencing Changes</strong>
           <ul>
             <li><strong>Feature at Risk</strong>: The CR explicitly flags
-              the entire "DID URL Dereferencing" section and its
-              corresponding data result structures as "at risk," noting that
-              it may be heavily modified or removed.</li>
-            <li><strong>Provisional Algorithm</strong>: Because of the "at
-              risk" status, the CR introduces a "PROVISIONAL - DID URL
-              Dereferencing" section that explores a modular, alternative
-              approach based on sequential "handling strategies".</li>
+              the entire "DID URL Dereferencing" section as "at risk,"
+              noting that the original section has been replaced by a new
+              algorithm. The new section may be further modified or removed.</li>
             <li><strong>Verification Relationships</strong>: The CR adds
               <code>verificationRelationship</code> as a new dereferencing
               option. During fragment dereferencing, the algorithm verifies
