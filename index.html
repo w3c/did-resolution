@@ -1632,6 +1632,22 @@ href="#return-did-document-dereferencing-algorithm">Return DID Document</a>.
 handler that implements that strategy. If the client does not have
 a handler that implements the determined strategy, stop processing
 and raise an error [=DEREFERENCING_ERROR_HANDLER_NOT_FOUND=].
+            <p>
+The handler is provided with the <var>input DID URL</var> (including its path,
+query, and fragment components), the <a>DID resolution result</a>, and, where
+applicable, the object from which the handling strategy was determined.
+            </p>
+            <p>
+In addition to any query parameters defined by the specification for the
+determined handling strategy, a handler MAY process
+<dfn data-lt="cross-cutting parameter|cross-cutting parameters">cross-cutting parameters</dfn>: DID URL query parameters that are not tied
+to any one handling strategy, and that are defined in
+[[[#did-parameters]]], by a DID parameter extension, or by the
+<a>DID method</a>. A handler processes a cross-cutting parameter only when the
+client supports it. Unless the specification for a parameter states otherwise,
+a handler MUST ignore query parameters it does not support, and MAY report a
+warning identifying them.
+            </p>
             </li>
           </ol>
         </section>
@@ -1651,8 +1667,8 @@ which dereferencing was initiated. This might involve
             </ol>
           </p>
           <p class="NOTE">
-            A DID URL may contain query parameters expected to be applied during
-            dereferencing, such as the <a
+            A DID URL may contain <a>cross-cutting parameters</a> expected to
+            be applied during dereferencing, such as the <a
             href="https://www.w3.org/TR/did-extensions-resolution/#transformKeys-param">`transformKeys`
             </a> extension. It is expected that implementations supporting such
             extensions would apply those extensions in this stage when appropriate.
@@ -1768,17 +1784,29 @@ the service endpoint URLs the same.
             <pre><code>ResourceUrl = https://example.com/didimages/image.png</code></pre>
           </li>
           <li>
+<strong>Apply Cross-Cutting Parameters</strong> If the DID URL contains
+<a>cross-cutting parameters</a> that the client supports and that are defined,
+in [[[#did-parameters]]], by a DID parameter extension, or by the
+<a>DID method</a>, to modify the `ResourceUrl`, apply them in the order defined
+by their specifications. Any resulting `ResourceUrl` MUST again satisfy the
+check in the <strong>Normalize Path</strong> step.
+            <p class="note" title="relativeRef as a cross-cutting parameter">
+The `relativeRef` DID parameter defined in [[[#did-parameters]]] fits the
+definition of a <a>cross-cutting parameter</a>. Implementers can choose not to
+support `relativeRef` at all. Implementers that choose to apply it in this step,
+particularly when the DID URL is from an unknown party, need to strictly apply
+the <strong>Normalize Path</strong> check to the resulting `ResourceUrl`,
+after full percent-decoding, since a `relativeRef` value can contain path
+traversal sequences that would otherwise escape the path of the `serviceEndpoint`.
+See <a href="#path-traversal-via-relativeref"></a>.
+            </p>
+          </li>
+          <li>
 <strong>Dereference Resource URL</strong> Dereference the resulting
 `ResourceUrl` according to its scheme. For example, for an `https`
 URL, perform a GET operation on that URL.
           </li>
         </ol>
-        <p class="note atrisk">
-This default handler does not process <code>relativeRef</code>
-parameters. Other handlers are free to process `relativeRef` as well as use
-any other DID URL query parameters; to use such handlers, specify the associated
-`type` value in the service object in the DID document.
-        </p>
       </section>
 
       <section id="pathHandler-path-matching-algorithm">
