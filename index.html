@@ -282,13 +282,13 @@ and/or hardware that is able to execute these processes is called a
       </p>
 
       <p>
-This specification defines a standard interface that clients can use to execute
-[=DID resolution=] and <a>DID URL dereferencing</a> requests, independent of
-any specific <a>DID method's</a> "Resolve" operation that a [=DID resolver=]
-supports. Additionally, this specification defines requirements,
+This specification defines a standard interface that <a>DID-enabled applications</a>
+can use to execute [=DID resolution=] and <a>DID URL dereferencing</a> requests,
+independent of any specific <a>DID method's</a> "Resolve" operation that a [=DID
+resolver=] supports. Additionally, this specification defines requirements,
 algorithms including their inputs and results, architectural options, and
-various security and privacy considerations relevant to implementing a
-[=DID resolver=] or <a>DID URL dereferencer</a>.
+various security and privacy considerations relevant to implementing a [=DID
+resolver=] or <a>DID URL dereferencer</a>.
       </p>
 
       <p>
@@ -310,25 +310,24 @@ or status.
         </p>
 
         <p>
-For example, to retrieve the state of the DID `did:example:123` at a
-time in the past, a client application could resolve the DID with the
-`versionTime` resolution option, as in the
-following:<br> `resolve("did:example:123",
-{"versionTime":"2021-05-10T17:00:00Z"})` Or a client could dereference
-a DID URL like
+For example, to retrieve the state of the DID `did:example:123` at a time in the
+past, a <a>DID-enabled application</a> could resolve the DID with the
+`versionTime` resolution option, as in the following:<br>
+`resolve("did:example:123", {"versionTime":"2021-05-10T17:00:00Z"})` Or a
+<a>DID-enabled application</a> could dereference a DID URL like
 <code>did:example:123?service=files&relativeRef=/resume.pdf</code>
 to fetch a user's resume stored via a service declared in the DID document.
         </p>
         <p>
 Further, the specification's <a href="#dereferencing-algorithm">DID URL dereferencing algorithm</a>
-shows how a client can follow a fragment (e.g., `#key-1`) to extract a
+shows how a <a>DID-enabled application</a> can follow a fragment (e.g., `#key-1`) to extract a
 particular <a>verification method</a> from the <a>DID document</a>.
 Implementers are encouraged to validate their resolver against the
 <a href="https://github.com/w3c/did-resolution-test-suite">DID Resolution Test Suite</a>
 which exercises normative MUSTs and error conditions (such as invalid DIDs,
-deactivated DIDs, unsupported methods, relative URL expansion, etc.) so
-that client applications can reliably depend on correct resolution behavior
-across different DID methods.
+deactivated DIDs, unsupported methods, relative URL expansion, etc.) so that
+<a>DID-enabled applications</a> can reliably depend on correct resolution
+behavior across different DID methods.
         </p>
       </section>
 
@@ -562,9 +561,9 @@ UTC without sub-second decimal precision. For example:
         <h3>Query Normalization</h3>
 
         <p>
-<a>DID URL</a> query strings are routinely constructed, parsed,
-logged, cached, and compared by multiple independent components across a
-resolution pipeline — for example, a client, a caching proxy, a downstream
+<a>DID URL</a> query strings are routinely constructed, parsed, logged, cached,
+and compared by multiple independent components across a resolution pipeline —
+for example, a <a>DID-enabled application</a>, a caching proxy, a downstream
 resolver, and a DID method-specific resolver. Inconsistent normalization of
 <a>DID URL</a> query strings across these components can
 silently produce incorrect resolution results, cache poisoning, or broken
@@ -957,10 +956,10 @@ This metadata typically does not change between invocations of the
         </p>
         <p>
 The sources of this metadata are the <a>DID controller</a> and/or the
-<a>DID method</a>. DID document metadata attested to by the DID
-controller comes with no inherent guarantee of accuracy. Clients are advised to
-proceed with caution when relying on DID document metadata to inform business
-logic.
+<a>DID method</a>. DID document metadata attested to by the DID controller comes
+with no inherent guarantee of accuracy. <a>DID-enabled applications</a> are
+advised to proceed with caution when relying on DID document metadata to inform
+business logic.
         </p>
         <p>Examples of DID document metadata include:</p>
         <ul>
@@ -1382,24 +1381,25 @@ determine, and then invoke, the appropriate handler.
       </p>
       <p>
 The following DID URL dereferencing algorithm describes how a conforming
-<a>client</a> of a conforming <a>DID Resolver</a> prepares for,
+<a>DID-enabled application</a> using a conforming <a>DID Resolver</a> prepares for,
 executes, and handles the response to a call to Resolve. 
       </p>
       <p>
-All conformant clients MUST execute the steps in this algorithm. The only
-required inputs are the DID URL to be dereferenced, the context in which
-that DID URL is being used, and configuration details regarding any
-preferred resolvers and available handlers. The expected side effect of
-dereferencing is the invocation of a handler that applies any retrieved
-resource to the current context. The interfaces for such handlers are
-outside the scope of this specification.
+All conformant <a>DID-enabled applications</a> MUST execute the steps in this
+algorithm. The only required inputs are the DID URL to be dereferenced, the
+context in which that DID URL is being used, and configuration details regarding
+any preferred resolvers and available handlers. The expected side effect of
+dereferencing is the invocation of a handler that applies any retrieved resource
+to the current context. The interfaces for such handlers are outside the scope
+of this specification.
       </p>
       <p>
-All conforming clients MUST allow <a>DID URL Users</a> to set specific
-resolvers to be used for any specific <a>DID Method</a>. Similarly,
-conforming clients SHOULD allow <a>DID URL Users</a> to set the handlers
-to be used for any specific handling strategy. How these settings are
-exposed to the user is outside the scope of this specification.
+All conforming <a>DID-enabled applications</a> MUST allow <a>DID URL Users</a>
+to set specific resolvers to be used for any specific <a>DID Method</a>.
+Similarly, conforming <a>DID-enabled applications</a> SHOULD allow <a>DID URL
+Users</a> to set the handlers to be used for any specific handling strategy. How
+these settings are exposed to the user is outside the scope of this
+specification.
       </p>
       <p class="issue atrisk">
 The dereferencing algorithm in this section is marked as [=at risk=] and
@@ -1451,9 +1451,8 @@ Resolution</a>
 to the `did-url` rule of the
 <a href="https://www.w3.org/TR/did-core/#did-url-syntax">DID
 URL Syntax</a>.
-If not, the DID URL <a>client</a> MUST end 
-without further processing, indicating a failure due to
-an
+If not, the <a>DID-enabled application</a> MUST end 
+<a>DID URL</a> processing, indicating a failure due to an
 <code><a href="#INVALID_DID_URL">https://www.w3.org/ns/did#INVALID_DID_URL</a></code>
             </li>
             <li>
@@ -1470,12 +1469,13 @@ the DID URL `did:ex:abc#key-1` contains the DID `did:ex:abc`.
             </li>
             <li>
 <strong>Prepare</strong> <var><a href="#did-resolution-options">DID resolution
-    options</a></var>. These may be promoted from DID URL query parameters or 
+options</a></var>. These may be promoted from DID URL query parameters or
 determined by the business rules of the context in which the DID URL is being
-dereferenced. It is the business context in which the client is executing the
-algorithm that determines whether or not any given query parameter should be
-promoted to a Resolution option. See the <a href="#resolving-algorithm">resolving algorithm</a> for
-details about resolution options and their meaning.
+dereferenced. It is the business context in which the
+<a>DID-enabled application</a> is executing the algorithm that determines whether
+or not any given query parameter should be promoted to a Resolution option. See the
+<a href="#resolving-algorithm">resolving algorithm</a> for details about resolution
+options and their meaning.
             </li>
           </ol>
         </section>
@@ -1499,11 +1499,12 @@ enough information to do so.
             <li>
 <strong>Repeat</strong> as necessary until the final resolution result is
 returned. In cases when the initial result from resolution is incomplete or
-fails, the client may be able to adjust the resolution parameters and try again,
-based on the context in which dereferencing is occurring. For example, a resolver
-might require more input, or the client might heuristically attempt alternate
-resolver options to find a more appropriate DID document, such as requesting a
-version of the DID document from a particular point in time.
+fails, the <a>DID-enabled application</a> may be able to adjust the resolution
+parameters and try again, based on the context in which dereferencing is
+occurring. For example, a resolver might require more input, or the
+<a>DID-enabled application</a> might heuristically attempt alternate resolver
+options to find a more appropriate DID document, such as requesting a version of
+the DID document from a particular point in time.
             </li>
           </ol>
         </section>
@@ -1628,10 +1629,10 @@ href="#return-did-document-dereferencing-algorithm">Return DID Document</a>.
           <h1>Invoke the Handler</h1>
           <ol>
             <li>
-<strong>Execute</strong> the determined handler strategy using a
-handler that implements that strategy. If the client does not have
-a handler that implements the determined strategy, stop processing
-and raise an error [=DEREFERENCING_ERROR_HANDLER_NOT_FOUND=].
+<strong>Execute</strong> the determined handler strategy using a handler that
+implements that strategy. If the <a>DID-enabled application</a> does not have a
+handler that implements the determined strategy, stop processing and raise an
+error [=DEREFERENCING_ERROR_HANDLER_NOT_FOUND=].
             </li>
           </ol>
         </section>
@@ -1843,8 +1844,8 @@ from Resolve, including any dereferencing errors that may have been raised.
       <section>
         <h1>Dereferencing Errors</h1>
         <p>
-          Dereferencing may produce several distinct errors, described below.
-          Clients SHOULD use these errors when appropriate.
+Dereferencing may produce several distinct errors, described below.
+<a>DID-enabled applications</a> SHOULD use these errors when appropriate.
           <dl>
             <dt><dfn>DEREFERENCING_ERROR_FAILED</dfn></dt>
             <dd>
@@ -2277,7 +2278,7 @@ endpoint.
 Use of an HTTP(S) resolver creates a reliance on a remote party and the privacy
 of the requestor may be reduced through the inclusion of various HTTP headers
 such as `Referer`, `Origin`, `Cookies`, and `Authorization`. Additionally,
-caching by a component between the <a>client</a> and the
+caching by a component between the <a>DID-enabled application</a> and the
 <a>DID resolver</a> may further reduce the privacy of the request.
         </p>
 
@@ -2701,15 +2702,14 @@ properties.
         </p>
 
         <p>
-Resolvers that implement noCache might be more vulnerable to denial of
-service attacks, as malicious clients can bypass caching to force
-expensive network requests and resource consumption. Clients
-requesting resolution with <code>noCache</code> expect that some
-resolvers will reject resolution requests that bypass caching.
-Resolvers that deny resolution without caching MUST respond with a
-<a href="#FEATURE_NOT_SUPPORTED">FEATURE_NOT_SUPPORTED</a> error that makes it clear that
-bypassing the cache was not permitted so the client can attempt to
-resolve without using <code>noCache</code>.
+Resolvers that implement noCache might be more vulnerable to denial of service
+attacks, as malicious <a>DID-enabled applications</a> can bypass caching to
+force expensive network requests and resource consumption. <a>DID-enabled applications</a>
+requesting resolution with <code>noCache</code> expect that some resolvers will reject
+resolution requests that bypass caching. Resolvers that deny resolution without
+caching MUST respond with a <a href="#FEATURE_NOT_SUPPORTED">FEATURE_NOT_SUPPORTED</a>
+error that makes it clear that bypassing the cache was not permitted so the
+<a>DID-enabled application</a> can attempt to resolve without using <code>noCache</code>.
         </p>
       </section>
       <section id="json-ld-integrity">
@@ -2776,14 +2776,14 @@ forks.
         <h2>Dereferencing Cycles</h2>
 
         <p>
-When a <a>DID URL dereferencer</a> client dereferences identifiers
+When a <a>DID-enabled application</a> dereferences identifiers
 and linked resources in a <a>DID document</a> — especially
 fields like <code>verificationMethod</code>, <code>controller</code>,
 or <code>alsoKnownAs</code> — it might encounter a
 dereferencing cycle. These can occur when a
 <a>DID document</a> references another DID (or URL) that
 eventually leads back to a previously dereferenced identifier, forming
-a loop. A <a>DID URL dereferencer</a> can also encounter such a
+a loop. A <a>DID-enabled application</a> can also encounter such a
 situation when dereferencing a <a>DID URL</a> that
 references a [=DID service endpoint=].
         </p>
@@ -2795,11 +2795,9 @@ references a [=DID service endpoint=].
         </div>
 
         <p>
-<strong
-><a>DID URL dereferencers</a> and their clients that perform
+<strong><a>DID-enabled applications</a> that perform
 recursive dereferencing are expected to expect, detect, and handle
-such cycles</strong
->.
+such cycles</strong>.
         </p>
 
         <p>
@@ -2816,8 +2814,8 @@ detected and mitigated, recursive dereferencing could lead to:
 CPU).
           </li>
           <li>
-<strong>Denial-of-service (DoS)</strong> vulnerabilities in clients
-or intermediaries.
+<strong>Denial-of-service (DoS)</strong> vulnerabilities in
+<a>DID-enabled applications</a> or intermediaries.
           </li>
         </ul>
 
@@ -2990,18 +2988,19 @@ before reading this section.
       <section id="profiling-requesters">
         <h2>Profiling of DID Resolution and Dereferencing Requesters</h2>
         <p>
-<a>DID resolvers</a> and <a>DID URL dereferencers</a> will be able
-to log requests to their services for resolution and dereferencing. Over time,
-these logs could be used to track and profile the clients making requests for
-these services. To mitigate this privacy risk, clients should make such requests
-to services they trust, for example, because of an existing business
-relationship or because the service is running on infrastructure they control.
+<a>DID resolvers</a> and <a>DID URL dereferencers</a> provided as services will
+be able to log requests to their services for resolution and dereferencing. Over
+time, these logs could be used to track and profile the <a>DID-enabled applications</a>
+making requests for these services. To mitigate this privacy risk,
+<a>DID-enabled applications</a> should make such requests to services they
+trust, for example, because of an existing business relationship or because the
+service is running on infrastructure they control.
         </p>
         <p>
-Clients can also take steps to obfuscate their requests to a service to decrease
-the possibilities of correlation and profiling. Techniques for obfuscation
-include Oblivious HTTP, using a trusted proxy to execute the resolution
-requests, and using a trusted cache.
+<a>DID-enabled applications</a> can also take steps to obfuscate their requests
+to a service to decrease the possibilities of correlation and profiling.
+Techniques for obfuscation include Oblivious HTTP, using a trusted proxy to
+execute the resolution requests, and using a trusted cache.
         </p>
       </section>
       <section>
