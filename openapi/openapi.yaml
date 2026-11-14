@@ -205,7 +205,7 @@ components:
           type: string
           format: date-time
         deactivated:
-          type: string
+          type: boolean
         nextUpdate:
           type: string
           format: date-time
