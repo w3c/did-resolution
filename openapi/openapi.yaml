@@ -15,7 +15,7 @@ paths:
       description: <p>This endpoint resolves a DID.
         It takes the DID and resolution options as inputs, and
         the output is a DID document plus metadata.</p>
-        <p>See the <a href="<a href="https://www.w3.org/TR/did-resolution/">DID
+        <p>See the <a href="https://www.w3.org/TR/did-resolution/">DID
         Resolution</a> specification for additional details.</p>
       operationId: resolve
       tags:
@@ -63,7 +63,7 @@ paths:
       description: <p>This endpoint resolves a DID.
         It takes the DID and resolution options as inputs, and
         the output is a DID document plus metadata.</p>
-        <p>See the <a href="<a href="https://www.w3.org/TR/did-resolution/">DID
+        <p>See the <a href="https://www.w3.org/TR/did-resolution/">DID
         Resolution</a> specification for additional details.</p>
       operationId: resolvePost
       tags:
