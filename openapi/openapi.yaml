@@ -65,7 +65,7 @@ paths:
         the output is a DID document plus metadata.</p>
         <p>See the <a href="<a href="https://www.w3.org/TR/did-resolution/">DID
         Resolution</a> specification for additional details.</p>
-      operationId: resolve
+      operationId: resolvePost
       tags:
         - Universal Resolver
       parameters:
