@@ -313,7 +313,7 @@ or status.
 For example, to retrieve the state of the DID `did:example:123` at a time in the
 past, a <a>DID-enabled application</a> could resolve the DID with the
 `versionTime` resolution option, as in the following:<br>
-`resolve("did:example:123", {"versionTime":"2021-05-10T17:00:00Z"})` Or a
+`resolve("did:example:123", {"versionTime":"2021-05-10T17:00:00Z"})`. Or a
 <a>DID-enabled application</a> could dereference a DID URL like
 <code>did:example:123?service=files&relativeRef=/resume.pdf</code>
 to fetch a user's resume stored via a service declared in the DID document.
@@ -2704,7 +2704,7 @@ properties.
         <p>
 Resolvers that implement noCache might be more vulnerable to denial of service
 attacks, as malicious <a>DID-enabled applications</a> can bypass caching to
-force expensive network requests and resource consumption. <a>DID-enabled applications</a>
+force expensive network requests and other resource consumption. <a>DID-enabled applications</a>
 requesting resolution with <code>noCache</code> expect that some resolvers will reject
 resolution requests that bypass caching. Resolvers that deny resolution without
 caching MUST respond with a <a href="#FEATURE_NOT_SUPPORTED">FEATURE_NOT_SUPPORTED</a>
@@ -2796,7 +2796,7 @@ references a [=DID service endpoint=].
 
         <p>
 <strong><a>DID-enabled applications</a> that perform
-recursive dereferencing are expected to expect, detect, and handle
+recursive dereferencing ought to expect, detect, and handle
 such cycles</strong>.
         </p>
 
