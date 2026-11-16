@@ -282,10 +282,10 @@ and/or hardware that is able to execute these processes is called a
       </p>
 
       <p>
-This specification defines a standard interface that <a>DID-enabled applications</a>
-can use to execute [=DID resolution=] and <a>DID URL dereferencing</a> requests,
-independent of any specific <a>DID method's</a> "Resolve" operation that a [=DID
-resolver=] supports. Additionally, this specification defines requirements,
+This specification defines how <a>DID-enabled applications</a> perform
+<a>DID URL dereferencing</a>, including a standard interface to execute [=DID resolution=]
+requests, independent of any specific <a>DID method's</a> "Resolve" operation that a
+[=DID resolver=] supports. Additionally, this specification defines requirements,
 algorithms including their inputs and results, architectural options, and
 various security and privacy considerations relevant to implementing a [=DID
 resolver=] or <a>DID URL dereferencer</a>.
@@ -927,9 +927,8 @@ specification gives them (see Section <a href="#errors"></a>).
           <dt>proof</dt>
           <dd>
 					<p>
-Some <a>DID resolvers</a> and <a>DID URL dereferencers</a> use proofs when
-executing the <a>DID Resolution</a> or <a>DID URL Dereferencing</a>
-functions.
+Some <a>DID resolvers</a> use proofs when executing the <a>DID Resolution</a>
+function.
 					</p>
 					<p>
 <a>DID resolution</a> metadata MAY include a <code>proof</code> property.
@@ -1473,7 +1472,7 @@ options</a></var>. These may be promoted from DID URL query parameters or
 determined by the business rules of the context in which the DID URL is being
 dereferenced. It is the business context in which the
 <a>DID-enabled application</a> is executing the algorithm that determines whether
-or not any given query parameter should be promoted to a Resolution option. See the
+or not any given query parameter should be promoted to a resolution option. See the
 <a href="#resolving-algorithm">resolving algorithm</a> for details about resolution
 options and their meaning.
             </li>
@@ -2988,9 +2987,9 @@ before reading this section.
       <section id="profiling-requesters">
         <h2>Profiling of DID Resolution and Dereferencing Requesters</h2>
         <p>
-<a>DID resolvers</a> and <a>DID URL dereferencers</a> provided as services will
-be able to log requests to their services for resolution and dereferencing. Over
-time, these logs could be used to track and profile the <a>DID-enabled applications</a>
+<a>DID resolver</a> and DID URL dereferencing services will
+be able to log requests for resolution and dereferencing. Over time,
+these logs could be used to track and profile the <a>DID-enabled applications</a>
 making requests for these services. To mitigate this privacy risk,
 <a>DID-enabled applications</a> should make such requests to services they
 trust, for example, because of an existing business relationship or because the
