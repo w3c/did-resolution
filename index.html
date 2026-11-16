@@ -1628,9 +1628,9 @@ href="#return-did-document-dereferencing-algorithm">Return DID Document</a>.
           <h1>Invoke the Handler</h1>
           <ol>
             <li>
-<strong>Execute</strong> the determined handler strategy using a
-handler that implements that strategy. If the client does not have
-a handler that implements the determined strategy, stop processing
+<strong>Execute</strong> the determined handler strategy using a handler
+that implements that strategy. If the <a>DID-enabled application</a> does not
+have a handler that implements the determined strategy, stop processing
 and raise an error [=DEREFERENCING_ERROR_HANDLER_NOT_FOUND=].
             <p>
 The handler is provided with the <var>input DID URL</var> (including its path,
@@ -1783,8 +1783,8 @@ the service endpoint URLs the same.
           </li>
           <li>
 <strong>Apply Strategy-Independent Parameters</strong> If the DID URL contains
-strategy-independent parameters that the client supports and that are defined,
-in [[[#did-parameters]]], by a DID parameter extension, or by the
+strategy-independent parameters that the <a>DID-enabled application</a> supports
+and that are defined, in [[[#did-parameters]]], by a DID parameter extension, or by the
 <a>DID method</a>, to modify the `ResourceUrl`, apply them in the order defined
 by their specifications. Any resulting `ResourceUrl` MUST again satisfy the
 check in the <strong>Normalize Path</strong> step.
