@@ -844,16 +844,6 @@ is supported and available. This property is OPTIONAL.
         </dl>
 
         <dl>
-          <dt>expandRelativeUrls</dt>
-          <dd>
-A boolean flag which instructs a <a>DID resolver</a> to expand
-<a data-cite="did-core#relative-did-urls">relative DID URLs</a>
-in the <a>DID document</a> to absolute DID URLs conformant with
-<a data-cite="did-core#did-url-syntax"> DID URL Syntax</a>.
-          </dd>
-        </dl>
-
-        <dl>
           <dt>versionId</dt>
           <dd>See <a href="#did-parameters"></a> for the definition.</dd>
         </dl>
@@ -1287,39 +1277,6 @@ MUST be represented in a <a href="https://www.w3.org/TR/did-core/#representation
             </ol>
           </li>
 
-          <li>
-If the <var>input <a href="#did-resolution-options">DID resolution options</a></var>
-contain the <code>expandRelativeUrls</code> option with a value of
-<code>true</code>:
-						<ol class="algorithm">
-							<li>
-Iterate over all <a data-cite="did-core#services">services</a>,
-<a data-cite="did-core#verification-methods">verification methods</a>,
-<a data-cite="did-core#verification-relationships">verification relationships</a>
-and any extension-defined properties in the
-<var>output <a>DID document</a></var>.
-              </li>
-              <li>
-For each item, if the item is an object and the value of the
-<code>id</code> property is a <a data-cite="did-core#relative-did-urls">relative DID URL</a>,
-or if a <a data-cite="did-core#verification-relationships">verification relationship</a> is a
-<a data-cite="did-core#relative-did-urls">relative DID URL</a>:
-								<ol class="algorithm">
-									<li>
-Resolve the <a data-cite="did-core#relative-did-urls">relative DID URL</a> to an absolute
-<a>DID URL</a> conformant with
-<a data-cite="did-core#did-url-syntax">DID URL Syntax</a>, according to the rules of
-section <a data-cite="did-core#relative-did-urls">Relative DID URLs</a> in [[[DID-CORE]]].
-                  </li>
-                </ol>
-              </li>
-              <li>
-Update the <var>output <a>DID document</a></var> by
-replacing the <a data-cite="did-core#relative-did-urls">relative DID URLs</a> with the resolved
-absolute <a>DID URLs</a>.
-              </li>
-            </ol>
-          </li>
           <li>
 Return the following result:
 						<ol class="algorithm">
