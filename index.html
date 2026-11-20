@@ -475,7 +475,10 @@ function the same way across all <a>DID methods</a>. Support for all
             </td>
             <td>
               Identifies a <a data-cite="did-core#services">service</a> from the
-              <a>DID document</a> by service ID.
+              <a>DID document</a> by service ID. The value is the fragment of
+              the service's <code>id</code>, without the leading <code>#</code>
+              (e.g., <code>files</code> for a service whose <code>id</code> is
+              <code>#files</code> or <code>did:example:1234#files</code>).
             </td>
           </tr>
           <tr>
@@ -1686,17 +1689,11 @@ dereferencing the DID URL.
         <ol>
           <li>
 Select the <a data-cite="did-core#services">service</a>
-from the DID document whose <code>id</code> property matches 
-the value of the <code>service</code> DID query parameter. If either the
-<code>id</code> property or the <code>service</code> DID parameter
-or both contain relative references, the corresponding absolute URIs MUST be
-computed and used for determining
-the match, using the rules specified in <a
-  data-cite="RFC3986#section-5">RFC3986 Section 5:
-  Reference Resolution</a>
-and in section <a
-  data-cite="did-core#relative-did-urls">Relative
-  DID URLs</a> in [[[DID-CORE]]].
+from the DID document whose <code>id</code> property has a fragment
+(without the leading <code>#</code>) that exactly matches the value of the
+<code>service</code> DID query parameter. The <code>id</code> property can be
+an absolute <a>DID URL</a> or a relative reference containing only a fragment
+(e.g., <code>#files</code>).
           </li>
           <li>
 If no service matches, stop further processing and raise an error
