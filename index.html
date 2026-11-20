@@ -315,7 +315,7 @@ past, a <a>DID-enabled application</a> could resolve the DID with the
 `versionTime` resolution option, as in the following:<br>
 `resolve("did:example:123", {"versionTime":"2021-05-10T17:00:00Z"})`. Or a
 <a>DID-enabled application</a> could dereference a DID URL like
-<code>did:example:123?service=files&relativeRef=/resume.pdf</code>
+<code>did:example:123/resume.pdf?service=files</code>
 to fetch a user's resume stored via a service declared in the DID document.
         </p>
         <p>
@@ -437,9 +437,9 @@ did:example:123?versionTime=2021-05-10T17:00:00Z
 
       <pre
         class="example nohighlight"
-        title="A DID URL with a 'service' and a 'relativeRef' DID parameter"
+        title="A DID URL with a path and 'service' DID parameter"
       >
-did:example:123?service=files&amp;relativeRef=/resume.pdf
+did:example:123/resume.pdf?service=files
 			</pre>
 
       <p>
@@ -497,9 +497,12 @@ function the same way across all <a>DID methods</a>. Support for all
             <td>
               A relative <a>URI</a> reference according to
               <a data-cite="RFC3986#section-4.2">RFC3986 Section 4.2</a> that identifies a
-              <a>resource</a> at a [=DID service endpoint=],
-              which is selected from a <a>DID document</a> by using
-              the <code>service</code> parameter.
+              <a>resource</a> at a [=DID service endpoint=]. Handlers that
+              support <code>relativeRef</code> need to take care in applying it,
+              particularly when it comes from a <a>DID URL</a> supplied by an
+              untrusted source, since its value can be used to construct
+              resource URLs outside the intended path of a service endpoint (see
+              <a href="#path-traversal-via-relativeref"></a>).
             </td>
           </tr>
           <tr>
@@ -1615,21 +1618,20 @@ support, and MAY report a warning identifying them.
           <p>
 The final step is to use the result of invoking the handler to
 complete the DID URL dereferencing process in the context in
-which dereferencing was initiated. This might involve 
-            <ol>
-              <li>displaying a returned resource,</li>
-              <li>applying a fragment identifier to a returned resource
-              scrolling it into view within a display,</li>
-              <li>making the result available to the calling process, or </li>
-              <li>producing an error [=DEREFERENCING_ERROR_FAILED=] if dereferencing cannot be completed.</li>
-            </ol>
+which dereferencing was initiated. This might involve:
           </p>
-          <p class="NOTE">
-            A DID URL MAY contain strategy-independent parameters expected to
-            be applied during dereferencing, such as the <a
-            href="https://www.w3.org/TR/did-extensions-resolution/#transformKeys-param">`transformKeys`
-            </a> extension. It is expected that implementations supporting such
-            extensions would apply those extensions at this stage when appropriate.
+          <ol>
+            <li>displaying a returned resource,</li>
+            <li>applying a fragment identifier to a returned resource and
+            scrolling it into view within a display,</li>
+            <li>making the result available to the calling process, or</li>
+            <li>producing an error [=DEREFERENCING_ERROR_FAILED=] if dereferencing cannot be completed.</li>
+          </ol>
+          <p>
+A <a>DID-enabled application</a> MAY apply to the handler result any
+strategy-independent parameters (see [[[#invoke-the-handler]]]) that it
+supports and that the handler did not already apply, such as parameters that
+transform the returned resource.
           </p>
         </section>
       </section>
