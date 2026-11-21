@@ -1513,14 +1513,17 @@ Service Handler</a> Strategy. Otherwise, continue with the
             <li>
               <dfn id="pathhandlers-step">PathHandlers Step</dfn>
               <p>
-If the <a>DID URL</a> contains a non-empty path part, then use
-the <a
-href="#pathHandler-path-matching-algorithm">PathHandler
-Path Matching Algorithm</a> to select a path handler object. If
-no path handler objects are selected, continue to the <a>Document Properties step</a>. If there are multiple handler objects selected,
-raise an error [=DEREFERENCING_ERROR_MULTIPLE_MATCHING_PATH_HANDLERS=] and continue to the <a>Default DID Document Step</a>. If the sole selected path handling object has a
-secondary type that defines a handler strategy, set the strategy
-to that strategy. If it doesn't, raise an error [=DEREFERENCING_ERROR_PATH_HANDLER_HANDLER_NOT_DEFINED=] and continue to the <a>Default DID Document Step</a>. 
+If the <a>DID URL</a> contains a non-empty path part, then use the <a
+href="#pathHandler-path-matching-algorithm">PathHandler Path Matching
+Algorithm</a> to select a path handler object. If no path handler objects are
+selected, continue to the <a>Document Properties step</a>. If there are multiple
+handler objects selected, raise an error
+[=DEREFERENCING_ERROR_MULTIPLE_MATCHING_PATH_HANDLERS=] and continue to the
+<a>Default DID Document Step</a>. If the sole selected path handling object's
+type (such as `service`) or a secondary type defines a handler strategy, set the
+strategy to that strategy. If no handler strategy is defined, raise an error
+[=DEREFERENCING_ERROR_PATH_HANDLER_HANDLER_NOT_DEFINED=] and continue to the
+<a>Default DID Document Step</a>. 
               </p>
             </li>
             <li>
@@ -1685,6 +1688,7 @@ invoked, execute the following algorithm.
         <code>
       service : [{
         "id":"#FileServer",
+        "type":"PathHandler",
         "path":"/",
         "serviceEndpoint": [
           "https://example.com/didimages/",
@@ -1711,11 +1715,16 @@ endpoints fail.
           <li>
 <strong>Determine Resource Path</strong> Construct the resource path by
 extracting the non-matching part of the `DID URL` and appending it to the path
-of the `serviceEndpoint`. First extract the non-matching part of the DID URL
-path as the `pathExtension`. The pathExtension in the above example is
+of the `serviceEndpoint`. First extract the `pathExtension`: the part of the
+DID URL path that remains after removing the leading match with the service's
+`path` value, as determined by the
+<a href="#pathHandler-path-matching-algorithm">PathHandler Path Matching Algorithm</a>.
+If the service was selected by the `service` DID parameter
+rather than by that algorithm, apply the same matching rule to the selected
+service's `path` value. If the service has no `path` property, treat its value
+as "/". The pathExtension in the above example is
 "image.png", after stripping the service's `path` value of "/" from the path
-part of the DID URL
-`/image.png`.
+part of the DID URL `/image.png`.
 
 <pre><code>pathExtension = "image.png";</code></pre>
 
@@ -1753,7 +1762,7 @@ particularly when the DID URL is from an unknown party, need to strictly apply
 the <strong>Normalize Path</strong> check to the resulting `ResourceUrl`,
 after full percent-decoding, since a `relativeRef` value can contain path
 traversal sequences that would otherwise escape the path of the `serviceEndpoint`.
-See <a href="#path-traversal-via-relativeref"></a>.
+See <a href="#path-traversal"></a>.
             </p>
           </li>
           <li>
@@ -1785,26 +1794,27 @@ and the following three PathHandling objects
                 <pre class="example">
 service : [{
   "id":"#PathServiceRoot",
-  "type":["PathHandler", "PathService"],
+  "type":"PathHandler",
   "path":"/"
   ...
 },{
   "id":"#PathServiceImage",
-  "type":["PathHandler", "PathService"],
+  "type":"PathHandler",
   "path":"/image"
   ...
 }],
 linkedResource : [{
   "id":"#SecuredImage",
-  "type":["PathHandler", "LinkedResource"],
+  "type":"PathHandler",
   "path":"/image.png"
   ...
 }]</pre>
 
             <p>
-In this scenario, the linkedResource with id <code>SecuredImage</code> would be
-selected and its handling strategy would be defined by the
-LinkedResource specification.
+In this scenario, the <code>linkedResource</code> object with id
+<code>#SecuredImage</code> would be selected, and the handling strategy
+would be defined by a specification associated with the
+<code>linkedResource</code> object.
             </p>
 
           </li>
@@ -1892,11 +1902,11 @@ href="#services-step">Services Parameter Step</a>)
             <dt><dfn>DEREFERENCING_ERROR_PATH_NORMALIZATION_ERROR</dfn>
             </dt>
             <dd>
-              The DID URL contains a path that normalizes to a URL outside the
-              purview of the selected service endpoint. The DID URL path
-              overwrote the path part of the service endpoint.
-              (<a href="#default-service-handler">Default
-Service Handling Algorithm</a>)
+The DID URL path, or a strategy-independent parameter such as
+`relativeRef`, produced a resource URL whose normalized path is
+outside the path of the selected service endpoint (see
+<a href="#path-traversal"></a>).
+(<a href="#default-service-handler">Default Service Handling Algorithm</a>)
             </dd>
 
             <dt><dfn>DEREFERENCING_ERROR_PATH_HANDLER_HANDLER_NOT_DEFINED</dfn></dt>
@@ -2811,6 +2821,91 @@ to reduce the potential attack surface.
         </p>
       </section>
 
+      <section id="path-traversal" class="informative">
+        <h2>Path Traversal via DID URL Paths and `relativeRef`</h2>
+        <span id="path-traversal-via-relativeref"></span>
+
+        <p>
+When a <a>DID URL</a> is dereferenced through a service, input from the
+<a>DID URL</a> can be combined with the `serviceEndpoint` URL to construct the
+final resource URL. This happens in two ways:
+        </p>
+        <ul>
+          <li>
+the path of the <a>DID URL</a>, which a path handler (see
+<a href="#pathhandlers-step"></a>) uses to create a `pathExtension`, which
+<a href="#default-service-handler"></a> then appends to the path of the
+`serviceEndpoint`; and
+          </li>
+          <li>
+the percent-decoded value of the `relativeRef` DID parameter, which is resolved
+against the `serviceEndpoint` URL as the base URI using the reference
+resolution algorithm defined in
+<a data-cite="RFC3986#section-5">RFC3986 Section 5</a>.
+          </li>
+        </ul>
+        <p>
+In both cases, the <a>DID URL</a> might come from a party the
+<a>DID-enabled application</a> does not trust. If the
+<a>DID URL</a> path or the `relativeRef` value contains path traversal sequences,
+an attacker might be able to make the <a>DID-enabled application</a> construct a
+resource URL outside the path of the service endpoint that was meant to be used.
+        </p>
+
+        <p>
+Path traversal could be attempted using a variety of encodings. The following
+are non-exhaustive examples of sequences an attacker might use:
+        </p>
+        <ul>
+          <li>Literal dot-dot-slash: `../`</li>
+          <li>
+Percent-encoded variants: `%2E%2E%2F`, `%2E%2E/`, `.%2E/`, `%2E./`
+          </li>
+          <li>Doubly-encoded variants: `%252E%252E%252F`</li>
+          <li>
+Platform-specific variants (e.g., `..\` on Windows-derived path libraries)
+          </li>
+        </ul>
+
+        <p>Implementers are encouraged to:</p>
+        <ul>
+          <li>
+Normalize the resulting resource path, after the <a>DID URL</a> path has been
+appended or the `relativeRef` value has been resolved, by removing dot segments
+as defined in <a data-cite="RFC3986#section-5.2.4">RFC3986 Section 5.2.4</a>.
+Then verify that the normalized path starts with the path of the
+`serviceEndpoint` URL.
+          </li>
+          <li>
+Treat any <a>DID URL</a> path or `relativeRef` value that, after normalization,
+would produce a resource URL whose path does not start with the path of the
+`serviceEndpoint` URL as invalid input, and raise a
+[=DEREFERENCING_ERROR_PATH_NORMALIZATION_ERROR=] error (see
+<a href="#errors"></a>).
+          </li>
+          <li>
+Apply normalization and validation after full percent-decoding, to guard against
+encoded traversal variants. Checking only for the literal string `../` is not a
+reliable way to detect traversal.
+          </li>
+          <li>
+Apply the same checks in any path handler other than the
+<a href="#default-service-handler"></a> that builds a URL from the
+<a>DID URL</a> path, and after applying any strategy-independent parameter that
+modifies the resource URL, as required by the
+<strong>Apply Strategy-Independent Parameters</strong> step of the
+<a href="#default-service-handler"></a>.
+          </li>
+        </ul>
+        <p class="note" title="Path Traversal and Resolution Cycles">
+This concern is particularly acute when the service endpoint URL is itself a DID
+URL that will be recursively dereferenced. In such cases, a traversal sequence
+in the <a>DID URL</a> path or in `relativeRef` could affect the resolution of a
+different DID document than intended. See also
+<a href="#security-cycles-dereferencing"></a>.
+        </p>
+      </section>
+
       <section
         id="security-query-string-normalization-and-injection-risks"
         class="informative"
@@ -2824,59 +2919,6 @@ parameters that affect resolution and dereferencing behavior (see
 security implications that implementers are advised to consider carefully.
         </p>
 
-        <section id="path-traversal-via-relativeref">
-          <h3>Path Traversal via `relativeRef`</h3>
-
-          <p>
-The percent-decoded value of the `relativeRef` DID parameter is combined with
-the `serviceEndpoint` URL as the base URI using the reference resolution
-algorithm defined in <a data-cite="RFC3986#section-5">RFC3986 Section 5</a>, to construct a final
-resource URL. If the value of `relativeRef` contains path traversal sequences, an attacker
-might be able to cause the dereferencer to construct a resource URL that escapes the intended
-path scope of the service endpoint.
-          </p>
-
-          <p>
-Path traversal could be attempted using a variety of encodings. The following
-are non-exhaustive examples of sequences an attacker might use:
-          </p>
-          <ul>
-            <li>Literal dot-dot-slash: `../`</li>
-            <li>
-Percent-encoded variants: `%2E%2E%2F`, `%2E%2E/`, .`%2E/`, `%2E./`
-            </li>
-            <li>Doubly-encoded variants: `%252E%252E%252F`</li>
-            <li>
-Platform-specific variants (e.g., `..\` on Windows-derived path libraries)
-            </li>
-          </ul>
-
-          <p>Implementers are encouraged to:</p>
-          <ul>
-            <li>
-Normalize the resolved path after applying the <a data-cite="RFC3986#section-5">RFC3986 Section 5</a>
-Reference Resolution algorithm, and verify that the resulting path does not
-traverse above the base path of the service endpoint URL.
-            </li>
-            <li>
-Treat `relativeRef` values that, after normalization, would produce a resource
-URL whose path is not prefixed by the base path of the `serviceEndpoint` URL as
-invalid inputs, for example by returning an `INVALID_DID_URL` error (see
-<a href="#errors"></a>).
-            </li>
-            <li>
-Apply normalization and validation after full percent-decoding, to guard against
-encoded traversal variants. Superficial string matching (e.g., checking only for
-the literal string `../`) is not a reliable traversal detection mechanism.
-            </li>
-          </ul>
-          <p class="note" title="relativeRef Resolution Cycles">
-This concern is particularly acute when the service endpoint URL is itself a DID
-URL that will be recursively dereferenced. In such cases, a traversal sequence
-in `relativeRef` could affect the resolution of a different DID document than
-intended. See also <a href="#security-cycles-dereferencing"></a>.
-          </p>
-        </section>
         <section id="normalization-inconsistency-cache-bypass">
           <h3>Normalization Inconsistency as a Cache Bypass Vector</h3>
 
@@ -3094,6 +3136,9 @@ the section related to the <a data-cite="DID#acknowledgements">history of DIDs</
           and examples.</li>
         <li><strong>Removed expandRelativeURLs</strong>: The input option 
           expandRelativeURLs has been removed as explicit option.</li>
+        <li><strong>Adjust Path Traversal Security Consideration</strong>: Extended
+          the security considerations around path traversal, previously limited to
+          the <code>relativeRef</code> query parameter, to also cover the DID URL path.</li>
       </ul>
       <p>Changes since the First Public Working Draft include:</p>
       <ul>
