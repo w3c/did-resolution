@@ -325,7 +325,7 @@ particular <a>verification method</a> from the <a>DID document</a>.
 Implementers are encouraged to validate their resolver against the
 <a href="https://github.com/w3c/did-resolution-test-suite">DID Resolution Test Suite</a>
 which exercises normative MUSTs and error conditions (such as invalid DIDs,
-deactivated DIDs, unsupported methods, relative URL expansion, etc.) so that
+deactivated DIDs, unsupported methods, etc.) so that
 <a>DID-enabled applications</a> can reliably depend on correct resolution
 behavior across different DID methods.
         </p>
@@ -3165,8 +3165,9 @@ the section related to the <a data-cite="DID#acknowledgements">history of DIDs</
           specification. It covered method architectures, resolver architectures
           (multiple methods, proxied resolution and client-side dereferencing)
           and examples.</li>
-        <li><strong>Removed expandRelativeURLs</strong>: The input option 
-          expandRelativeURLs has been removed as explicit option.</li>
+        <li><strong>Removed <code>expandRelativeUrls</code></strong>: The
+          DID resolution option <code>expandRelativeUrls</code> has been
+          removed.</li>
         <li><strong>Adjust Path Traversal Security Consideration</strong>: Extended
           the security considerations around path traversal, previously limited to
           the <code>relativeRef</code> query parameter, to also cover the DID URL path.</li>
