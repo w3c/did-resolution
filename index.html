@@ -545,12 +545,13 @@ The <a>DID resolution</a> and the
 <a>DID URL dereferencing</a> functions can be influenced by passing
 <a href="#did-resolution-options">DID resolution options</a> to a
 <a>DID resolver</a>. Such options are not part of the <a>DID</a> or
-<a>DID URL</a>. This is comparable to HTTP, where
-certain parameters could either be included in an HTTP URL, or
-alternatively passed as HTTP headers. When a <a>DID URL</a> is dereferenced,
-the <a>DID-enabled application</a> determines which DID parameters, such as
-`versionId` and `versionTime`, to pass to the <a>DID resolver</a> as
-resolution options (see <a href="#prepare-for-resolution"></a>).
+<a>DID URL</a>. This is comparable to HTTP, where certain parameters could
+either be included in an HTTP URL, or alternatively passed as HTTP headers. When
+a <a>DID URL</a> is dereferenced, the <a>DID-enabled application</a> determines
+which DID parameters, such as `versionId` and `versionTime`, to pass to the
+<a>DID resolver</a> as resolution options (see <a
+href="#prepare-for-resolution"></a>). DID-enabled applications are advised to
+not pass DID parameters they do not understand to a <a>DID Resolver</a>.
       </p>
 
       <section id="datetime">
