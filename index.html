@@ -545,9 +545,13 @@ The <a>DID resolution</a> and the
 <a>DID URL dereferencing</a> functions can be influenced by passing
 <a href="#did-resolution-options">DID resolution options</a> to a
 <a>DID resolver</a>. Such options are not part of the <a>DID</a> or
-<a>DID URL</a>. This is comparable to HTTP, where
-certain parameters could either be included in an HTTP URL, or
-alternatively passed as HTTP headers.
+<a>DID URL</a>. This is comparable to HTTP, where certain parameters could
+either be included in an HTTP URL, or alternatively passed as HTTP headers. When
+a <a>DID URL</a> is dereferenced, the <a>DID-enabled application</a> determines
+which DID parameters, such as `versionId` and `versionTime`, to pass to the
+<a>DID resolver</a> as resolution options (see <a
+href="#prepare-for-resolution"></a>). DID-enabled applications are advised to
+not pass DID parameters they do not understand to a <a>DID Resolver</a>.
       </p>
 
       <section id="datetime">
@@ -580,9 +584,8 @@ method specification authors are encouraged to address explicitly.
 The guidance in this section concerns how a DID URL query string is normalized
 for the purposes of parsing, comparison, and forwarding. It is distinct from the
 question of which parameters are passed as resolution options as opposed to
-being embedded in the <a>DID URL</a>, which is addressed at the
-end of <a href="#did-parameters"></a> in the note on the distinction between DID
-parameters and resolution options.
+being embedded in the <a>DID URL</a>, which is addressed in the last paragraph
+of <a href="#did-parameters"></a> and in <a href="#prepare-for-resolution"></a>.
         </p>
 
         <section id="percent-encoding-normalization" class="informative">
@@ -1357,7 +1360,7 @@ of this specification.
       </p>
       <p>
 All conforming <a>DID-enabled applications</a> MUST allow <a>DID URL Users</a>
-to set specific resolvers to be used for any specific <a>DID Method</a>.
+to set the resolvers they trust to be used for any specific <a>DID Method</a>.
 Similarly, conforming <a>DID-enabled applications</a> SHOULD allow <a>DID URL
 Users</a> to set the handlers to be used for any specific handling strategy. How
 these settings are exposed to the user is outside the scope of this
@@ -1419,11 +1422,8 @@ If not, the <a>DID-enabled application</a> MUST end
             </li>
             <li>
 <strong>Select</strong> a resolver that is capable of
-handling the DID's method. Implementers MUST enable users to choose the
-resolvers they trust for specific DID methods. It is expected 
-that implementations will provide this through some configuration 
-mechanism, the details of which are out of scope for this 
-specification.
+handling the DID's method, using the resolvers that the <a>DID URL User</a> has
+set for that method (see <a href="#dereferencing"></a>).
             </li>
             <li>
 <strong>Extract the <a>DID</a></strong> from the <a>DID URL</a>, e.g.,
@@ -1499,21 +1499,16 @@ determined. End processing as soon as a strategy is set.
             <li>
               <dfn id="services-step">Services Step</dfn> 
               <p>
-If `service` is present as a DID query Parameter,
-first check whether multiple service parameters are present in the
-<a>DID URL</a>. If there are, raise an error
-[=DEREFERENCING_ERROR_MULTIPLE_SERVICE_PARAMETERS=] and continue to 
-the <a>Default DID Document step</a>. If there is just
-one service parameter, use the <a
-href="#service-selection-algorithm">service
-selection algorithm</a> to select the appropriate service
-object. Then, if there is no matching service object, raise an
-error [=DEREFERENCING_ERROR_SERVICE_NOT_FOUND=] and continue to the <a>Default DID Document Step</a>. If
-the selected object's service type has defined a handling
-strategy, set the strategy to that. If the service type does not
-define a handling strategy, set strategy to the <a href="#default-service-handler">Default
-Service Handler</a> Strategy. Otherwise, continue with the
-<a>PathHandlers Step</a>. 
+If the <a>DID URL</a> does not contain a `service` DID parameter, continue with
+the <a>PathHandlers Step</a>. If it contains more than one `service` parameter,
+raise an error [=DEREFERENCING_ERROR_MULTIPLE_SERVICE_PARAMETERS=] and continue
+to the <a>Default DID Document Step</a>. Otherwise, use the <a
+href="#service-selection-algorithm">Service Selection Algorithm</a> to select a
+service. If that algorithm raises an error, continue to the <a>Default DID
+Document Step</a>. If one of the selected service's types, other than
+`PathHandler`, defines a handling strategy, set the strategy to that strategy.
+Otherwise, set the strategy to the <a href="#default-service-handler">Default
+Service Handler</a> strategy.
               </p>
             </li>
             <li>
@@ -1525,11 +1520,15 @@ Algorithm</a> to select a path handler object. If no path handler objects are
 selected, continue to the <a>Document Properties step</a>. If there are multiple
 handler objects selected, raise an error
 [=DEREFERENCING_ERROR_MULTIPLE_MATCHING_PATH_HANDLERS=] and continue to the
-<a>Default DID Document Step</a>. If the sole selected path handling object's
-type (such as `service`) or a secondary type defines a handler strategy, set the
-strategy to that strategy. If no handler strategy is defined, raise an error
+<a>Default DID Document Step</a>. If a secondary type of the selected object
+(a type other than `PathHandler`) defines a handling strategy, set the strategy
+to that strategy. Otherwise, if the <a>DID document</a> property that contains
+the selected object defines a handling strategy for it, set the strategy to that
+strategy. For an object in the `service` property, that is the
+<a href="#default-service-handler">Default Service Handler</a> strategy.
+Otherwise, raise an error
 [=DEREFERENCING_ERROR_PATH_HANDLER_HANDLER_NOT_DEFINED=] and continue to the
-<a>Default DID Document Step</a>. 
+<a>Default DID Document Step</a>.
               </p>
             </li>
             <li>
@@ -1566,8 +1565,11 @@ query parameter, set the strategy to that defined by the query parameter
 specification. Otherwise, continue with the <a>Metadata Step</a>. 
 </p>
 <p class="NOTE">Not all query parameters will change the handling strategy. For
-example, `versionTime` and `versionId` only change the resolution result, but
-do not impact the dereferencing step.</p>
+example, `versionTime` and `versionId` affect the resolution result when they
+are passed as resolution options (see <a href="#prepare-for-resolution"></a>),
+but do not change the handling strategy. Similarly, strategy-independent
+parameters do not select a handling strategy, but can be applied by the handler
+once one is chosen (see <a href="#invoke-the-handler"></a>).</p>
               
             </li>
             <li>
@@ -1658,17 +1660,19 @@ an absolute <a>DID URL</a> or a relative reference containing only a fragment
 (e.g., <code>#files</code>).
           </li>
           <li>
-If no service matches, stop further processing and raise an error
-[=DEREFERENCING_ERROR_SERVICE_NOT_FOUND=];
-no service is selected.
+If no service matches, raise an error
+[=DEREFERENCING_ERROR_SERVICE_NOT_FOUND=]; no service is selected.
           </li>
           <li>
-If more than one service matches, stop further processing and raise an error
-[=DEREFERENCING_ERROR_MULTIPLE_MATCHING_SERVICES=];
-no service is selected.
+If more than one service matches, raise an error
+[=DEREFERENCING_ERROR_MULTIPLE_MATCHING_SERVICES=]; no service is selected.
           </li>
           <li>
-If a single service matches, that service is selected. Continue with the <a href="#services-step">Services Step</a>.
+If a single service matches, that service is selected.
+          </li>
+          <li>
+Return the selected service, or the error raised, to the
+<a>Services Step</a>.
           </li>
         </ol>
       </section>
@@ -1721,44 +1725,54 @@ DID URL path that remains after removing the leading match with the service's
 If the service was selected by the `service` DID parameter
 rather than by that algorithm, apply the same matching rule to the selected
 service's `path` value. If the service has no `path` property, treat its value
-as "/". The pathExtension in the above example is
+as "/". If the DID URL has an empty path, the `pathExtension` is empty. If the
+DID URL has a non-empty path that does not begin with the service's `path`
+value, stop processing and raise an error
+[=DEREFERENCING_ERROR_SERVICE_PATH_MISMATCH=]. The `pathExtension` in the above example is
 "image.png", after stripping the service's `path` value of "/" from the path
 part of the DID URL `/image.png`.
 
 <pre><code>pathExtension = "image.png";</code></pre>
 
-Append the pathExtension to the path part of the `serviceEndpoint` to
-define the <code>resourcePath</code>.
+Append the `pathExtension` to the path part of the `serviceEndpoint` to
+define the `resourcePath`.
 <pre><code>resourcePath = /didimages/image.png</code></pre>
           </li>
           <li>
-<strong>Normalize Path</strong> Normalize the resulting `ResourcePath` to create
-a `NormalizedResourcePath` by removing dot segments, as defined in
-[[RFC3986]] Section 5.2.4 Remove Path Segments. Then test the resulting
-`NormalizedResourcePath` to see if the leftmost characters of the
-`NormalizedResourcePath` match the leftmost characters of the path part of the
-`serviceEndpoint`. If they do not match, raise an error
+<strong>Normalize Path</strong> Normalize the `resourcePath` to create
+a `normalizedResourcePath` by removing dot segments, as defined in
+<a data-cite="RFC3986#section-5.2.4">RFC3986 Section 5.2.4</a>. Then test
+whether the leftmost characters of the `normalizedResourcePath` match the path
+part of the `serviceEndpoint`. If they do not match, raise an error
 [=DEREFERENCING_ERROR_PATH_NORMALIZATION_ERROR=].
           </li>
           <li>
-<strong>Construct Resource URLs</strong> Replace the path part in the selected
-serviceEndpoint with the Normalized Resource Path, leaving all other elements of
-the service endpoint URLs the same.
-            <pre><code>ResourceUrl = https://example.com/didimages/image.png</code></pre>
+<strong>Construct Resource URL</strong> Replace the path part of the selected
+`serviceEndpoint` with the `normalizedResourcePath`, leaving all other parts of
+the `serviceEndpoint` URL unchanged. The result is the
+<dfn>resource URL</dfn>.
+            <pre><code>resource URL = https://example.com/didimages/image.png</code></pre>
+            <p>
+The query parameters and fragment of the <a>DID URL</a> are not copied to the
+[=resource URL=]. A query parameter changes the [=resource URL=] only when it is
+applied in the <strong>Apply Strategy-Independent Parameters</strong> step. The
+handler applies the fragment, if any, to the retrieved resource, as described in
+<a href="#use-the-handler-result"></a>.
+            </p>
           </li>
           <li>
 <strong>Apply Strategy-Independent Parameters</strong> If the DID URL contains
 strategy-independent parameters that the <a>DID-enabled application</a> supports
 and that are defined, in [[[#did-parameters]]], by a DID parameter extension, or by the
-<a>DID method</a>, to modify the `ResourceUrl`, apply them in the order defined
-by their specifications. Any resulting `ResourceUrl` MUST again satisfy the
+<a>DID method</a>, to modify the [=resource URL=], apply them in the order defined
+by their specifications. Any resulting [=resource URL=] MUST again satisfy the
 check in the <strong>Normalize Path</strong> step.
             <p class="note" title="relativeRef as a strategy-independent parameter">
 The `relativeRef` DID parameter defined in [[[#did-parameters]]] fits the
 definition of a strategy-independent parameter. Implementers can choose not to
 support `relativeRef` at all. Implementers that choose to apply it in this step,
 particularly when the DID URL is from an unknown party, need to strictly apply
-the <strong>Normalize Path</strong> check to the resulting `ResourceUrl`,
+the <strong>Normalize Path</strong> check to the resulting [=resource URL=],
 after full percent-decoding, since a `relativeRef` value can contain path
 traversal sequences that would otherwise escape the path of the `serviceEndpoint`.
 See <a href="#path-traversal"></a>.
@@ -1766,7 +1780,7 @@ See <a href="#path-traversal"></a>.
           </li>
           <li>
 <strong>Dereference Resource URL</strong> Dereference the resulting
-`ResourceUrl` according to its scheme. For example, for an `https`
+[=resource URL=] according to its scheme. For example, for an `https`
 URL, perform a GET operation on that URL.
           </li>
         </ol>
@@ -1818,8 +1832,9 @@ would be defined by a specification associated with the
 
           </li>
           <li>
-If two or more objects have the same length match, stop processing
-and return an error [=DEREFERENCING_ERROR_MULTIPLE_MATCHING_PATH_HANDLERS=].
+If two or more objects have the same length match, raise an error
+[=DEREFERENCING_ERROR_MULTIPLE_MATCHING_PATH_HANDLERS=]; no object is selected.
+Return the selected object, or the error raised, to the <a>PathHandlers Step</a>.
           </li>
         </ol>
 
@@ -1828,8 +1843,12 @@ and return an error [=DEREFERENCING_ERROR_MULTIPLE_MATCHING_PATH_HANDLERS=].
       <section id="return-did-document-dereferencing-algorithm">
         <h1>Return DID Document</h1>
         <p>
-When invoking this handler, simply return the DID Document retrieved
-from Resolve, including any dereferencing errors that may have been raised.
+When invoking this handler, return the <a>DID document</a> retrieved from
+Resolve. If this strategy was set by the <a>Default DID Document Step</a> after
+an earlier step of <a href="#determine-handling-strategy"></a> raised an error,
+the <a>DID-enabled application</a> MUST make those errors available, along with
+the <a>DID document</a>, to the context in which dereferencing was initiated.
+How it does so is outside the scope of this specification.
         </p>
       </section>
       <section>
@@ -1837,6 +1856,11 @@ from Resolve, including any dereferencing errors that may have been raised.
         <p>
 Dereferencing may produce several distinct errors, described below.
 <a>DID-enabled applications</a> SHOULD use these errors when appropriate.
+An error raised in <a href="#determine-handling-strategy"></a> does not end
+dereferencing: processing continues with the <a>Default DID Document Step</a>,
+and the error is reported with the returned <a>DID document</a> (see
+<a href="#return-did-document-dereferencing-algorithm"></a>). Any other error
+ends dereferencing.
           <dl>
             <dt><dfn>DEREFERENCING_ERROR_FAILED</dfn></dt>
             <dd>
@@ -1880,7 +1904,7 @@ href="#query-parameters-step">Query Parameters Step</a>)
             <dt><dfn>DEREFERENCING_ERROR_MULTIPLE_SERVICE_PARAMETERS</dfn></dt>
             <dd>
 The DID URL contains multiple service parameters. (<a
-href="#services-step">Services Parameter Step</a>)
+href="#services-step">Services Step</a>)
             </dd>
 
             <dt><dfn>DEREFERENCING_ERROR_MULTIPLE_MATCHING_SERVICES</dfn></dt>
@@ -1902,7 +1926,7 @@ href="#services-step">Services Parameter Step</a>)
             </dt>
             <dd>
 The DID URL path, or a strategy-independent parameter such as
-`relativeRef`, produced a resource URL whose normalized path is
+`relativeRef`, produced a [=resource URL=] whose normalized path is
 outside the path of the selected service endpoint (see
 <a href="#path-traversal"></a>).
 (<a href="#default-service-handler">Default Service Handling Algorithm</a>)
@@ -1929,7 +1953,15 @@ outside the path of the selected service endpoint (see
   The specific service referenced during the dereferencing process
   (e.g., via a <code>service</code> query parameter) was not found
   in the resolved document.
-  (<a href="#services-step">Services Step</a>)
+  (<a href="#services-step">Services Step</a>, <a href="#service-selection-algorithm">Service Selection Algorithm</a>)
+            </dd>
+
+            <dt><dfn>DEREFERENCING_ERROR_SERVICE_PATH_MISMATCH</dfn></dt>
+            <dd>
+  The service was selected by the <code>service</code> DID parameter, and the
+  DID URL has a path that does not begin with the service's <code>path</code>
+  value.
+  (<a href="#default-service-handler">Default Service Handler</a>)
             </dd>
           </dl> 
         </p>
@@ -2827,7 +2859,7 @@ to reduce the potential attack surface.
         <p>
 When a <a>DID URL</a> is dereferenced through a service, input from the
 <a>DID URL</a> can be combined with the `serviceEndpoint` URL to construct the
-final resource URL. This happens in two ways:
+final [=resource URL=]. This happens in two ways:
         </p>
         <ul>
           <li>
@@ -2848,7 +2880,7 @@ In both cases, the <a>DID URL</a> might come from a party the
 <a>DID-enabled application</a> does not trust. If the
 <a>DID URL</a> path or the `relativeRef` value contains path traversal sequences,
 an attacker might be able to make the <a>DID-enabled application</a> construct a
-resource URL outside the path of the service endpoint that was meant to be used.
+[=resource URL=] outside the path of the service endpoint that was meant to be used.
         </p>
 
         <p>
@@ -2877,7 +2909,7 @@ Then verify that the normalized path starts with the path of the
           </li>
           <li>
 Treat any <a>DID URL</a> path or `relativeRef` value that, after normalization,
-would produce a resource URL whose path does not start with the path of the
+would produce a [=resource URL=] whose path does not start with the path of the
 `serviceEndpoint` URL as invalid input, and raise a
 [=DEREFERENCING_ERROR_PATH_NORMALIZATION_ERROR=] error (see
 <a href="#errors"></a>).
@@ -2891,7 +2923,7 @@ reliable way to detect traversal.
 Apply the same checks in any path handler other than the
 <a href="#default-service-handler"></a> that builds a URL from the
 <a>DID URL</a> path, and after applying any strategy-independent parameter that
-modifies the resource URL, as required by the
+modifies the [=resource URL=], as required by the
 <strong>Apply Strategy-Independent Parameters</strong> step of the
 <a href="#default-service-handler"></a>.
           </li>
