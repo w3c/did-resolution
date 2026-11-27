@@ -502,7 +502,7 @@ function the same way across all <a>DID methods</a>. Support for all
               particularly when it comes from a <a>DID URL</a> supplied by an
               untrusted source, since its value can be used to construct
               resource URLs outside the intended path of a service endpoint (see
-              <a href="#path-traversal-via-relativeref"></a>).
+              <a href="#path-traversal"></a>).
             </td>
           </tr>
           <tr>
@@ -2864,7 +2864,7 @@ final [=resource URL=]. This happens in two ways:
         <ul>
           <li>
 the path of the <a>DID URL</a>, which a path handler (see
-<a href="#pathhandlers-step"></a>) uses to create a `pathExtension`, which
+<a href="#pathhandlers-step">PathHandlers Step</a>) uses to create a `pathExtension`, which
 <a href="#default-service-handler"></a> then appends to the path of the
 `serviceEndpoint`; and
           </li>
