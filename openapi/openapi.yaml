@@ -169,8 +169,6 @@ components:
       description: The DID resolution options. See https://www.w3.org/TR/did-resolution/#did-resolution-options
       type: object
       properties:
-        expandRelativeUrls:
-          type: boolean
         versionId:
           type: string
         versionTime:
